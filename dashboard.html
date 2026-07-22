@@ -83,88 +83,21 @@
     .form-label { display: block; font-size: 11px; font-weight: 600; color: var(--txm); margin-bottom: 6px; text-transform: uppercase; }
     .form-input { width: 100%; padding: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 13px; outline: none; }
   </style>
-</head>
-<body>
-
-  <div class="app">
-    <!-- TOP NAVBAR -->
-    <div class="navbar">
-      <a href="index.html" class="brand">MAJORKA BOT</a>
-      
-      <div class="topbar-right">
-        <div class="balance-badge">💰 <span id="balVal" style="color:var(--g)">0 ₽</span></div>
-        <button class="btn-topup" onclick="window.openPayModal()">💳 ПОПОЛНИТЬ 6 490 ₽</button>
-      </div>
-    </div>
-
-    <!-- TABS BAR -->
-    <div class="tabs-bar">
-      <div class="nav-tabs">
-        <button class="tab-btn active" id="tab-overview" onclick="window.nav('overview')">📊 Обзор</button>
-        <button class="tab-btn" id="tab-bots" onclick="window.nav('bots')">🤖 Мои боты</button>
-        <button class="tab-btn" id="tab-create" onclick="window.nav('create')">➕ Создать бота</button>
-        <button class="tab-btn" id="tab-dialogs" onclick="window.nav('dialogs')">💬 Диалоги</button>
-      </div>
-      <a href="index.html" style="color:var(--txm);font-size:11px;text-decoration:none;white-space:nowrap">🌐 О сервисе</a>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div class="content" id="mainContent">
-      <div class="cards-row">
-        <div class="card"><div class="card-lbl">Баланс</div><div class="card-val" id="cardBal">0 ₽</div></div>
-        <div class="card"><div class="card-lbl">Активных ботов</div><div class="card-val" id="cardBots">0</div></div>
-        <div class="card"><div class="card-lbl">Всего диалогов</div><div class="card-val">0</div></div>
-        <div class="card"><div class="card-lbl">Экономия времени</div><div class="card-val">0ч</div></div>
-      </div>
-      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center">
-        <h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>
-        <p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          <button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>
-          <button onclick="window.openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- PAYMENT MODAL -->
-  <div class="modal-bg" id="payModal" style="display:none">
-    <div class="modal-box">
-      <button class="modal-close" onclick="window.closePayModal()">✕</button>
-      <div style="color:var(--g);font-size:11px;font-weight:700;margin-bottom:8px;text-transform:uppercase">💰 Пополнение баланса</div>
-      <div class="serif" style="font-size:24px;color:#fff;margin-bottom:4px">Пополнение на 6 490 ₽</div>
-      <div style="font-size:11px;color:var(--txm);margin-bottom:20px">Хватает для запуска 1 Авито-бота на 1 месяц</div>
-
-      <div style="background:rgba(201,168,76,0.08);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px">
-        <div style="font-size:10px;font-weight:700;color:var(--g);text-transform:uppercase;margin-bottom:8px">⚡ Перевод по СБП (0% комиссии):</div>
-        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px">
-          <span style="color:var(--txm)">Номер СБП:</span>
-          <strong style="color:#fff">+7 (923) 451-10-89</strong>
-        </div>
-        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12px">
-          <span style="color:var(--txm)">Банк:</span>
-          <strong style="color:#ffe082">🟡 Т-Банк (Тинькофф)</strong>
-        </div>
-      </div>
-
-      <button type="button" onclick="window.confirmTopup()" class="btn-primary" style="margin-bottom:10px">✅ Я перевёл (Подтвердить 6 490 ₽)</button>
-      
-      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" onsubmit="setTimeout(function(){ window.confirmTopup(); }, 1000)">
-        <input type="hidden" name="receiver" value="4100119556996975">
-        <input type="hidden" name="quickpay-form" value="shop">
-        <input type="hidden" name="targets" value="Пополнение баланса MAJORKA BOT">
-        <input type="hidden" name="paymentType" value="AC">
-        <input type="hidden" name="sum" value="6490">
-        <button type="submit" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px;font-size:11px;border-radius:6px;cursor:pointer">💳 Оплатить картой через ЮMoney</button>
-      </form>
-    </div>
-  </div>
 
   <script>
-    // GLOBALLY SCOPED EXPLICIT WINDOW FUNCTIONS
-    window.USER_BALANCE = parseInt(localStorage.getItem('majorka_user_balance') || '0');
+    // DEFINE GLOBAL FUNCTIONS BEFORE BODY PARSING SO ONCLICK HANDLERS NEVER FAIL!
+    window.USER_BALANCE = 0;
     window.BOTS = [];
-    try { window.BOTS = JSON.parse(localStorage.getItem('majorka_bots') || '[]'); } catch(e){ window.BOTS = []; }
+
+    try {
+      var savedBal = localStorage.getItem('majorka_user_balance');
+      if (savedBal) window.USER_BALANCE = parseInt(savedBal) || 0;
+    } catch(e) { window.USER_BALANCE = 0; }
+
+    try {
+      var savedBots = localStorage.getItem('majorka_bots');
+      if (savedBots) window.BOTS = JSON.parse(savedBots) || [];
+    } catch(e) { window.BOTS = []; }
 
     window.updateBalanceUI = function() {
       var balEl = document.getElementById('balVal');
@@ -177,8 +110,8 @@
     };
 
     window.saveState = function() {
-      localStorage.setItem('majorka_user_balance', window.USER_BALANCE.toString());
-      localStorage.setItem('majorka_bots', JSON.stringify(window.BOTS));
+      try { localStorage.setItem('majorka_user_balance', window.USER_BALANCE.toString()); } catch(e){}
+      try { localStorage.setItem('majorka_bots', JSON.stringify(window.BOTS)); } catch(e){}
       window.updateBalanceUI();
     };
 
@@ -346,7 +279,85 @@
       window.closePayModal();
       alert('🎉 Баланс пополнен на 6 490 ₽! Теперь вы можете запустить бота.');
     };
+  </script>
+</head>
+<body>
 
+  <div class="app">
+    <!-- TOP NAVBAR -->
+    <div class="navbar">
+      <a href="index.html" class="brand">MAJORKA BOT</a>
+      
+      <div class="topbar-right">
+        <div class="balance-badge">💰 <span id="balVal" style="color:var(--g)">0 ₽</span></div>
+        <button class="btn-topup" onclick="window.openPayModal()">💳 ПОПОЛНИТЬ 6 490 ₽</button>
+      </div>
+    </div>
+
+    <!-- TABS BAR -->
+    <div class="tabs-bar">
+      <div class="nav-tabs">
+        <button class="tab-btn active" id="tab-overview" onclick="window.nav('overview')">📊 Обзор</button>
+        <button class="tab-btn" id="tab-bots" onclick="window.nav('bots')">🤖 Мои боты</button>
+        <button class="tab-btn" id="tab-create" onclick="window.nav('create')">➕ Создать бота</button>
+        <button class="tab-btn" id="tab-dialogs" onclick="window.nav('dialogs')">💬 Диалоги</button>
+      </div>
+      <a href="index.html" style="color:var(--txm);font-size:11px;text-decoration:none;white-space:nowrap">🌐 О сервисе</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="content" id="mainContent">
+      <div class="cards-row">
+        <div class="card"><div class="card-lbl">Баланс</div><div class="card-val" id="cardBal">0 ₽</div></div>
+        <div class="card"><div class="card-lbl">Активных ботов</div><div class="card-val" id="cardBots">0</div></div>
+        <div class="card"><div class="card-lbl">Всего диалогов</div><div class="card-val">0</div></div>
+        <div class="card"><div class="card-lbl">Экономия времени</div><div class="card-val">0ч</div></div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center">
+        <h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>
+        <p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>
+          <button onclick="window.openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-bg" id="payModal" style="display:none">
+    <div class="modal-box">
+      <button class="modal-close" onclick="window.closePayModal()">✕</button>
+      <div style="color:var(--g);font-size:11px;font-weight:700;margin-bottom:8px;text-transform:uppercase">💰 Пополнение баланса</div>
+      <div class="serif" style="font-size:24px;color:#fff;margin-bottom:4px">Пополнение на 6 490 ₽</div>
+      <div style="font-size:11px;color:var(--txm);margin-bottom:20px">Хватает для запуска 1 Авито-бота на 1 месяц</div>
+
+      <div style="background:rgba(201,168,76,0.08);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px">
+        <div style="font-size:10px;font-weight:700;color:var(--g);text-transform:uppercase;margin-bottom:8px">⚡ Перевод по СБП (0% комиссии):</div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:12px">
+          <span style="color:var(--txm)">Номер СБП:</span>
+          <strong style="color:#fff">+7 (923) 451-10-89</strong>
+        </div>
+        <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12px">
+          <span style="color:var(--txm)">Банк:</span>
+          <strong style="color:#ffe082">🟡 Т-Банк (Тинькофф)</strong>
+        </div>
+      </div>
+
+      <button type="button" onclick="window.confirmTopup()" class="btn-primary" style="margin-bottom:10px">✅ Я перевёл (Подтвердить 6 490 ₽)</button>
+      
+      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" onsubmit="setTimeout(function(){ window.confirmTopup(); }, 1000)">
+        <input type="hidden" name="receiver" value="4100119556996975">
+        <input type="hidden" name="quickpay-form" value="shop">
+        <input type="hidden" name="targets" value="Пополнение баланса MAJORKA BOT">
+        <input type="hidden" name="paymentType" value="AC">
+        <input type="hidden" name="sum" value="6490">
+        <button type="submit" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:10px;font-size:11px;border-radius:6px;cursor:pointer">💳 Оплатить картой через ЮMoney</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
     window.updateBalanceUI();
   </script>
 </body>
