@@ -6,7 +6,7 @@
   <title>MAJORKA BOT — Панель Управления</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <style>
@@ -23,9 +23,11 @@
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
     body { background-color: var(--bg); color: var(--tx); min-height: 100vh; overflow-x: hidden; }
 
+    .serif { font-family: 'Cormorant Garamond', serif; }
+
     .app { display: flex; flex-direction: column; min-height: 100vh; }
     
-    /* TOP NAVIGATION BAR */
+    /* TOP NAVBAR */
     .navbar { 
       height: 60px; 
       background: #0f0f12; 
@@ -43,10 +45,10 @@
     
     .topbar-right { display: flex; align-items: center; gap: 10px; }
     .balance-badge { font-size: 11px; font-weight: 700; background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.35); padding: 6px 12px; border-radius: 16px; color: #fff; white-space: nowrap; }
-    .btn-topup { padding: 7px 16px; border-radius: 16px; background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%); color: #000; font-weight: 800; font-size: 11px; cursor: pointer; border: none; white-space: nowrap; transition: 0.2s; }
+    .btn-topup { padding: 8px 16px; border-radius: 16px; background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%); color: #000; font-weight: 800; font-size: 11px; cursor: pointer; border: none; white-space: nowrap; transition: 0.2s; }
     .btn-topup:hover { opacity: 0.9; transform: scale(1.02); }
 
-    /* SECONDARY TABS BAR */
+    /* TABS BAR */
     .tabs-bar {
       background: #0b0b0e;
       border-bottom: 1px solid rgba(255,255,255,0.05);
@@ -58,7 +60,7 @@
     }
 
     .nav-tabs { display: flex; gap: 6px; overflow-x: auto; padding: 2px 0; }
-    .tab-btn { padding: 8px 14px; border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--txm); font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; user-select: none; }
+    .tab-btn { padding: 8px 14px; border-radius: 8px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--txm); font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; display: flex; align-items: center; gap: 6px; user-select: none; border: 1px solid transparent; }
     .tab-btn.active, .tab-btn:hover { background: rgba(201,168,76,0.15); border-color: var(--g); color: #fff; }
 
     /* CONTENT BODY */
@@ -91,33 +93,47 @@
       
       <div class="topbar-right">
         <div class="balance-badge">💰 <span id="balVal" style="color:var(--g)">0 ₽</span></div>
-        <button class="btn-topup" id="btnTopupMain">💳 ПОПОЛНИТЬ 6 490 ₽</button>
+        <button class="btn-topup" onclick="openPayModal()">💳 ПОПОЛНИТЬ 6 490 ₽</button>
       </div>
     </div>
 
     <!-- TABS BAR -->
     <div class="tabs-bar">
       <div class="nav-tabs">
-        <button class="tab-btn active" id="tab-overview">📊 Обзор</button>
-        <button class="tab-btn" id="tab-bots">🤖 Мои боты</button>
-        <button class="tab-btn" id="tab-create">➕ Создать бота</button>
-        <button class="tab-btn" id="tab-dialogs">💬 Диалоги</button>
+        <button class="tab-btn active" id="tab-overview" onclick="nav('overview')">📊 Обзор</button>
+        <button class="tab-btn" id="tab-bots" onclick="nav('bots')">🤖 Мои боты</button>
+        <button class="tab-btn" id="tab-create" onclick="nav('create')">➕ Создать бота</button>
+        <button class="tab-btn" id="tab-dialogs" onclick="nav('dialogs')">💬 Диалоги</button>
       </div>
       <a href="index.html" style="color:var(--txm);font-size:11px;text-decoration:none;white-space:nowrap">🌐 О сервисе</a>
     </div>
 
     <!-- MAIN CONTENT -->
     <div class="content" id="mainContent">
-      <!-- RENDERED BY JS -->
+      <!-- DEFAULT HTML CONTENT FOR INSTANT RENDERING -->
+      <div class="cards-row">
+        <div class="card"><div class="card-lbl">Баланс</div><div class="card-val" id="cardBal">0 ₽</div></div>
+        <div class="card"><div class="card-lbl">Активных ботов</div><div class="card-val" id="cardBots">0</div></div>
+        <div class="card"><div class="card-lbl">Всего диалогов</div><div class="card-val">0</div></div>
+        <div class="card"><div class="card-lbl">Экономия времени</div><div class="card-val">0ч</div></div>
+      </div>
+      <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center">
+        <h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>
+        <p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <button onclick="nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>
+          <button onclick="openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- PAYMENT MODAL -->
   <div class="modal-bg" id="payModal" style="display:none">
     <div class="modal-box">
-      <button class="modal-close" id="btnPayClose">✕</button>
+      <button class="modal-close" onclick="closePayModal()">✕</button>
       <div style="color:var(--g);font-size:11px;font-weight:700;margin-bottom:8px;text-transform:uppercase">💰 Пополнение баланса</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#fff;margin-bottom:4px">Пополнение на 6 490 ₽</div>
+      <div class="serif" style="font-size:24px;color:#fff;margin-bottom:4px">Пополнение на 6 490 ₽</div>
       <div style="font-size:11px;color:var(--txm);margin-bottom:20px">Хватает для запуска 1 Авито-бота на 1 месяц</div>
 
       <div style="background:rgba(201,168,76,0.08);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px">
@@ -132,9 +148,9 @@
         </div>
       </div>
 
-      <button type="button" id="btnConfirmPay" class="btn-primary" style="margin-bottom:10px">✅ Я перевёл (Подтвердить 6 490 ₽)</button>
+      <button type="button" onclick="confirmTopup()" class="btn-primary" style="margin-bottom:10px">✅ Я перевёл (Подтвердить 6 490 ₽)</button>
       
-      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yooForm">
+      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" onsubmit="setTimeout(confirmTopup, 1000)">
         <input type="hidden" name="receiver" value="4100119556996975">
         <input type="hidden" name="quickpay-form" value="shop">
         <input type="hidden" name="targets" value="Пополнение баланса MAJORKA BOT">
@@ -146,14 +162,18 @@
   </div>
 
   <script>
-    // --- STATE ---
     var USER_BALANCE = parseInt(localStorage.getItem('majorka_user_balance') || '0');
     var BOTS = [];
     try { BOTS = JSON.parse(localStorage.getItem('majorka_bots') || '[]'); } catch(e){ BOTS = []; }
 
     function updateBalanceUI() {
       var balEl = document.getElementById('balVal');
-      if (balEl) balEl.textContent = USER_BALANCE.toLocaleString('ru-RU') + ' ₽';
+      var cardBalEl = document.getElementById('cardBal');
+      var txt = USER_BALANCE.toLocaleString('ru-RU') + ' ₽';
+      if (balEl) balEl.textContent = txt;
+      if (cardBalEl) cardBalEl.textContent = txt;
+      var cardBotsEl = document.getElementById('cardBots');
+      if (cardBotsEl) cardBotsEl.textContent = BOTS.filter(function(b){ return b.status==='active'; }).length;
     }
 
     function saveState() {
@@ -162,14 +182,11 @@
       updateBalanceUI();
     }
 
-    function setTabActive(screen) {
-      document.querySelectorAll('.tab-btn').forEach(function(btn){ btn.classList.remove('active'); });
-      var t = document.getElementById('tab-' + screen);
-      if (t) t.classList.add('active');
-    }
-
     function nav(screen) {
-      setTabActive(screen);
+      document.querySelectorAll('.tab-btn').forEach(function(btn){ btn.classList.remove('active'); });
+      var activeTab = document.getElementById('tab-' + screen);
+      if (activeTab) activeTab.classList.add('active');
+
       if (screen === 'overview') renderOverview();
       else if (screen === 'bots') renderBots();
       else if (screen === 'create') renderCreateWiz();
@@ -177,7 +194,6 @@
     }
 
     function renderOverview() {
-      setTabActive('overview');
       var activeBots = BOTS.filter(function(b){ return b.status === 'active'; }).length;
       var c = document.getElementById('mainContent');
       if (!c) return;
@@ -190,24 +206,16 @@
           '<div class="card"><div class="card-lbl">Экономия времени</div><div class="card-val">' + (activeBots * 3) + 'ч</div></div>' +
         '</div>' +
         '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center">' +
-          '<h3 style="font-family:'Cormorant Garamond',serif;font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>' +
+          '<h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>' +
           '<p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>' +
           '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">' +
-            '<button id="btnCreateWizOverview" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>' +
-            '<button id="btnPayModalOverview" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>' +
+            '<button onclick="nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>' +
+            '<button onclick="openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>' +
           '</div>' +
         '</div>';
-
-      // Bind inner buttons
-      var b1 = document.getElementById('btnCreateWizOverview');
-      if (b1) b1.onclick = function() { nav('create'); };
-
-      var b2 = document.getElementById('btnPayModalOverview');
-      if (b2) b2.onclick = function() { openPayModal(); };
     }
 
     function renderBots() {
-      setTabActive('bots');
       var c = document.getElementById('mainContent');
       if (!c) return;
 
@@ -215,13 +223,10 @@
         c.innerHTML = 
           '<div style="text-align:center;padding:48px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px">' +
             '<div style="font-size:40px;margin-bottom:12px">🤖</div>' +
-            '<h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#fff;margin-bottom:8px">Ботов пока нет</h3>' +
+            '<h3 class="serif" style="font-size:22px;color:#fff;margin-bottom:8px">Ботов пока нет</h3>' +
             '<p style="font-size:12px;color:var(--txm);margin-bottom:20px">Создайте вашего первого авто-продавца</p>' +
-            '<button id="btnCreateWizEmpty" class="btn-topup" style="padding:10px 24px">➕ Создать бота</button>' +
+            '<button onclick="nav('create')" class="btn-topup" style="padding:10px 24px">➕ Создать бота</button>' +
           '</div>';
-
-        var b = document.getElementById('btnCreateWizEmpty');
-        if (b) b.onclick = function() { nav('create'); };
         return;
       }
 
@@ -230,36 +235,23 @@
           BOTS.map(function(b) {
             return '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px">' +
               '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">' +
-                '<div style="font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff;font-weight:600">' + b.name + '</div>' +
+                '<div class="serif" style="font-size:20px;color:#fff;font-weight:600">' + b.name + '</div>' +
                 '<div style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(67,160,71,0.15);color:#81c784">АКТИВЕН</div>' +
               '</div>' +
               '<div style="font-size:11px;color:var(--txm);margin-bottom:16px">Ниша: ' + (b.niche || 'Авито') + '</div>' +
-              '<button class="btn-del-bot" data-id="' + b.id + '" style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);color:#ef5350;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer">🗑️ Удалить бота</button>' +
+              '<button onclick="deleteBot('' + b.id + '')" style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);color:#ef5350;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer">🗑️ Удалить бота</button>' +
             '</div>';
           }).join('') +
         '</div>';
-
-      // Bind delete buttons
-      document.querySelectorAll('.btn-del-bot').forEach(function(btn){
-        btn.onclick = function() {
-          var id = this.getAttribute('data-id');
-          if (confirm('Вы действительно хотите удалить этого бота?')) {
-            BOTS = BOTS.filter(function(x){ return x.id !== id; });
-            saveState();
-            renderBots();
-          }
-        };
-      });
     }
 
     function renderCreateWiz() {
-      setTabActive('create');
       var c = document.getElementById('mainContent');
       if (!c) return;
 
       c.innerHTML = 
         '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;max-width:520px;margin:0 auto">' +
-          '<h2 style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#fff;margin-bottom:6px">Новый Авито-бот</h2>' +
+          '<h2 class="serif" style="font-size:26px;color:#fff;margin-bottom:6px">Новый Авито-бот</h2>' +
           '<p style="font-size:12px;color:var(--txm);margin-bottom:20px">Укажите параметры подключения</p>' +
           '<div class="form-group">' +
             '<label class="form-label">Название бота / Аккаунта</label>' +
@@ -269,21 +261,17 @@
             '<label class="form-label">Ваша Ниша / Товар</label>' +
             '<input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти, Электроника">' +
           '</div>' +
-          '<button id="btnSubmitWiz" class="btn-primary">Запустить бота 🚀</button>' +
+          '<button onclick="submitWiz()" class="btn-primary">Запустить бота 🚀</button>' +
         '</div>';
-
-      var btn = document.getElementById('btnSubmitWiz');
-      if (btn) btn.onclick = submitWiz;
     }
 
     function renderDialogs() {
-      setTabActive('dialogs');
       var c = document.getElementById('mainContent');
       if (!c) return;
 
       c.innerHTML = 
         '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px">' +
-          '<h3 style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#fff;margin-bottom:12px">💬 Диалоги и Ответы Бота</h3>' +
+          '<h3 class="serif" style="font-size:22px;color:#fff;margin-bottom:12px">💬 Диалоги и Ответы Бота</h3>' +
           '<p style="font-size:12px;color:var(--txm);margin-bottom:20px">Здесь отображается переписка авто-продавцов с покупателями в реальном времени.</p>' +
           (BOTS.length === 0 ? 
             '<div style="text-align:center;padding:32px;color:var(--txm);font-size:12px">Ботов пока нет. Создайте бота, чтобы получать диалоги.</div>' :
@@ -324,16 +312,21 @@
         c.innerHTML = 
           '<div style="text-align:center;padding:36px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px">' +
             '<div style="font-size:56px;margin-bottom:12px">✅</div>' +
-            '<h2 style="font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--g);margin-bottom:10px">Спасибо за выбор компании MAJORKA!</h2>' +
+            '<h2 class="serif" style="font-size:28px;color:var(--g);margin-bottom:10px">Спасибо за выбор компании MAJORKA!</h2>' +
             '<p style="font-size:13px;color:var(--tx);max-width:440px;margin:0 auto 20px;line-height:1.5">' +
               'Ваш Авито-бот <strong>"' + name + '"</strong> запущен в работу!<br>' +
               'Списано с баланса: <strong style="color:var(--g)">6 490 ₽</strong>.' +
             '</p>' +
-            '<button id="btnGoToBots" class="btn-topup" style="padding:10px 24px">📱 Перейти к ботам</button>' +
+            '<button onclick="nav('bots')" class="btn-topup" style="padding:10px 24px">📱 Перейти к ботам</button>' +
           '</div>';
+      }
+    }
 
-        var b = document.getElementById('btnGoToBots');
-        if (b) b.onclick = function() { nav('bots'); };
+    function deleteBot(id) {
+      if (confirm('Вы действительно хотите удалить этого бота?')) {
+        BOTS = BOTS.filter(function(b) { return b.id !== id; });
+        saveState();
+        renderBots();
       }
     }
 
@@ -354,44 +347,7 @@
       alert('🎉 Баланс пополнен на 6 490 ₽! Теперь вы можете запустить бота.');
     }
 
-    // BIND GLOBAL EVENT LISTENERS ON LOAD
-    window.addEventListener('DOMContentLoaded', function() {
-      updateBalanceUI();
-      
-      // Bind tabs
-      var tOverview = document.getElementById('tab-overview');
-      if (tOverview) tOverview.onclick = function(){ nav('overview'); };
-      
-      var tBots = document.getElementById('tab-bots');
-      if (tBots) tBots.onclick = function(){ nav('bots'); };
-      
-      var tCreate = document.getElementById('tab-create');
-      if (tCreate) tCreate.onclick = function(){ nav('create'); };
-      
-      var tDialogs = document.getElementById('tab-dialogs');
-      if (tDialogs) tDialogs.onclick = function(){ nav('dialogs'); };
-
-      // Bind topbar topup
-      var btnTopup = document.getElementById('btnTopupMain');
-      if (btnTopup) btnTopup.onclick = openPayModal;
-
-      // Bind modal buttons
-      var btnClose = document.getElementById('btnPayClose');
-      if (btnClose) btnClose.onclick = closePayModal;
-
-      var btnConfirm = document.getElementById('btnConfirmPay');
-      if (btnConfirm) btnConfirm.onclick = confirmTopup;
-
-      var yooForm = document.getElementById('yooForm');
-      if (yooForm) {
-        yooForm.onsubmit = function() {
-          setTimeout(confirmTopup, 1000);
-        };
-      }
-
-      // Render initial screen
-      renderOverview();
-    });
+    updateBalanceUI();
   </script>
 </body>
 </html>
