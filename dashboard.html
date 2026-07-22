@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <!-- Disable caching completely -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -111,7 +110,7 @@
       if (balEl) balEl.textContent = txt;
       if (cardBalEl) cardBalEl.textContent = txt;
       var cardBotsEl = document.getElementById('cardBots');
-      if (cardBotsEl) cardBotsEl.textContent = window.BOTS.filter(function(b){ return b.status==='active'; }).length;
+      if (cardBotsEl) cardBotsEl.textContent = window.BOTS.filter(function(b){ return b.status === 'active'; }).length;
     };
 
     window.saveState = function() {
@@ -136,21 +135,22 @@
       var c = document.getElementById('mainContent');
       if (!c) return;
 
-      c.innerHTML = 
-        '<div class="cards-row">' +
-          '<div class="card"><div class="card-lbl">Баланс</div><div class="card-val">' + window.USER_BALANCE.toLocaleString('ru-RU') + ' ₽</div></div>' +
-          '<div class="card"><div class="card-lbl">Активных ботов</div><div class="card-val">' + activeBots + '</div></div>' +
-          '<div class="card"><div class="card-lbl">Всего диалогов</div><div class="card-val">' + (activeBots * 14) + '</div></div>' +
-          '<div class="card"><div class="card-lbl">Экономия времени</div><div class="card-val">' + (activeBots * 3) + 'ч</div></div>' +
-        '</div>' +
-        '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center">' +
-          '<h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>' +
-          '<p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>' +
-          '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">' +
-            '<button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>' +
-            '<button onclick="window.openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>' +
-          '</div>' +
-        '</div>';
+      c.innerHTML = `
+        <div class="cards-row">
+          <div class="card"><div class="card-lbl">Баланс</div><div class="card-val">${window.USER_BALANCE.toLocaleString('ru-RU')} ₽</div></div>
+          <div class="card"><div class="card-lbl">Активных ботов</div><div class="card-val">${activeBots}</div></div>
+          <div class="card"><div class="card-lbl">Всего диалогов</div><div class="card-val">${activeBots * 14}</div></div>
+          <div class="card"><div class="card-lbl">Экономия времени</div><div class="card-val">${activeBots * 3}ч</div></div>
+        </div>
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center">
+          <h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>
+          <p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>
+          <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+            <button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>
+            <button onclick="window.openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>
+          </div>
+        </div>
+      `;
     };
 
     window.renderBots = function() {
@@ -158,68 +158,75 @@
       if (!c) return;
 
       if (window.BOTS.length === 0) {
-        c.innerHTML = 
-          '<div style="text-align:center;padding:48px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px">' +
-            '<div style="font-size:40px;margin-bottom:12px">🤖</div>' +
-            '<h3 class="serif" style="font-size:22px;color:#fff;margin-bottom:8px">Ботов пока нет</h3>' +
-            '<p style="font-size:12px;color:var(--txm);margin-bottom:20px">Создайте вашего первого авто-продавца</p>' +
-            '<button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px">➕ Создать бота</button>' +
-          '</div>';
+        c.innerHTML = `
+          <div style="text-align:center;padding:48px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px">
+            <div style="font-size:40px;margin-bottom:12px">🤖</div>
+            <h3 class="serif" style="font-size:22px;color:#fff;margin-bottom:8px">Ботов пока нет</h3>
+            <p style="font-size:12px;color:var(--txm);margin-bottom:20px">Создайте вашего первого авто-продавца</p>
+            <button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px">➕ Создать бота</button>
+          </div>
+        `;
         return;
       }
 
-      c.innerHTML = 
-        '<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:16px">' +
-          window.BOTS.map(function(b) {
-            return '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px">' +
-              '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">' +
-                '<div class="serif" style="font-size:20px;color:#fff;font-weight:600">' + b.name + '</div>' +
-                '<div style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(67,160,71,0.15);color:#81c784">АКТИВЕН</div>' +
-              '</div>' +
-              '<div style="font-size:11px;color:var(--txm);margin-bottom:16px">Ниша: ' + (b.niche || 'Авито') + '</div>' +
-              '<button onclick="window.deleteBot('' + b.id + '')" style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);color:#ef5350;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer">🗑️ Удалить бота</button>' +
-            '</div>';
-          }).join('') +
-        '</div>';
+      var html = '<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:16px">';
+      for (var i = 0; i < window.BOTS.length; i++) {
+        var b = window.BOTS[i];
+        html += `
+          <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+              <div class="serif" style="font-size:20px;color:#fff;font-weight:600">${b.name}</div>
+              <div style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(67,160,71,0.15);color:#81c784">АКТИВЕН</div>
+            </div>
+            <div style="font-size:11px;color:var(--txm);margin-bottom:16px">Ниша: ${b.niche || 'Авито'}</div>
+            <button onclick="window.deleteBot('${b.id}')" style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);color:#ef5350;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer">🗑️ Удалить бота</button>
+          </div>
+        `;
+      }
+      html += '</div>';
+      c.innerHTML = html;
     };
 
     window.renderCreateWiz = function() {
       var c = document.getElementById('mainContent');
       if (!c) return;
 
-      c.innerHTML = 
-        '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;max-width:520px;margin:0 auto">' +
-          '<h2 class="serif" style="font-size:26px;color:#fff;margin-bottom:6px">Новый Авито-бот</h2>' +
-          '<p style="font-size:12px;color:var(--txm);margin-bottom:20px">Укажите параметры подключения</p>' +
-          '<div class="form-group">' +
-            '<label class="form-label">Название бота / Аккаунта</label>' +
-            '<input type="text" id="wName" class="form-input" placeholder="Мой магазин Авито">' +
-          '</div>' +
-          '<div class="form-group">' +
-            '<label class="form-label">Ваша Ниша / Товар</label>' +
-            '<input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти, Электроника">' +
-          '</div>' +
-          '<button onclick="window.submitWiz()" class="btn-primary">Запустить бота 🚀</button>' +
-        '</div>';
+      c.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;max-width:520px;margin:0 auto">
+          <h2 class="serif" style="font-size:26px;color:#fff;margin-bottom:6px">Новый Авито-бот</h2>
+          <p style="font-size:12px;color:var(--txm);margin-bottom:20px">Укажите параметры подключения</p>
+          <div class="form-group">
+            <label class="form-label">Название бота / Аккаунта</label>
+            <input type="text" id="wName" class="form-input" placeholder="Мой магазин Авито">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Ваша Ниша / Товар</label>
+            <input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти, Электроника">
+          </div>
+          <button onclick="window.submitWiz()" class="btn-primary">Запустить бота 🚀</button>
+        </div>
+      `;
     };
 
     window.renderDialogs = function() {
       var c = document.getElementById('mainContent');
       if (!c) return;
 
-      c.innerHTML = 
-        '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px">' +
-          '<h3 class="serif" style="font-size:22px;color:#fff;margin-bottom:12px">💬 Диалоги и Ответы Бота</h3>' +
-          '<p style="font-size:12px;color:var(--txm);margin-bottom:20px">Здесь отображается переписка авто-продавцов с покупателями в реальном времени.</p>' +
-          (window.BOTS.length === 0 ? 
+      var hasBots = window.BOTS.length > 0;
+      c.innerHTML = `
+        <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px">
+          <h3 class="serif" style="font-size:22px;color:#fff;margin-bottom:12px">💬 Диалоги и Ответы Бота</h3>
+          <p style="font-size:12px;color:var(--txm);margin-bottom:20px">Здесь отображается переписка авто-продавцов с покупателями в реальном времени.</p>
+          ${!hasBots ? 
             '<div style="text-align:center;padding:32px;color:var(--txm);font-size:12px">Ботов пока нет. Создайте бота, чтобы получать диалоги.</div>' :
-            '<div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:12px;color:#d0c8b8">' +
-              '🟢 <strong>' + window.BOTS[0].name + '</strong> (Авито):<br>' +
-              '<span style="color:var(--txm)">Покупатель: Здравствуйте, товар в наличии?</span><br>' +
-              '<span style="color:var(--g)">Бот: Здравствуйте! Да, в наличии. В каком городе находитесь?</span>' +
-            '</div>'
-          ) +
-        '</div>';
+            `<div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:12px;color:#d0c8b8">
+              "🟢 <strong>${window.BOTS[0].name}</strong> (Авито):<br>
+              <span style="color:var(--txm)">Покупатель: Здравствуйте, товар в наличии?</span><br>
+              <span style="color:var(--g)">Бот: Здравствуйте! Да, в наличии. В каком городе находитесь?</span>"
+            </div>`
+          }
+        </div>
+      `;
     };
 
     window.submitWiz = function() {
@@ -247,16 +254,17 @@
 
       var c = document.getElementById('mainContent');
       if (c) {
-        c.innerHTML = 
-          '<div style="text-align:center;padding:36px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px">' +
-            '<div style="font-size:56px;margin-bottom:12px">✅</div>' +
-            '<h2 class="serif" style="font-size:28px;color:var(--g);margin-bottom:10px">Спасибо за выбор компании MAJORKA!</h2>' +
-            '<p style="font-size:13px;color:var(--tx);max-width:440px;margin:0 auto 20px;line-height:1.5">' +
-              'Ваш Авито-бот <strong>"' + name + '"</strong> запущен в работу!<br>' +
-              'Списано с баланса: <strong style="color:var(--g)">6 490 ₽</strong>.' +
-            '</p>' +
-            '<button onclick="window.nav('bots')" class="btn-topup" style="padding:10px 24px">📱 Перейти к ботам</button>' +
-          '</div>';
+        c.innerHTML = `
+          <div style="text-align:center;padding:36px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px">
+            <div style="font-size:56px;margin-bottom:12px">✅</div>
+            <h2 class="serif" style="font-size:28px;color:var(--g);margin-bottom:10px">Спасибо за выбор компании MAJORKA!</h2>
+            <p style="font-size:13px;color:var(--tx);max-width:440px;margin:0 auto 20px;line-height:1.5">
+              Ваш Авито-бот <strong>"${name}"</strong> запущен в работу!<br>
+              Списано с баланса: <strong style="color:var(--g)">6 490 ₽</strong>.
+            </p>
+            <button onclick="window.nav('bots')" class="btn-topup" style="padding:10px 24px">📱 Перейти к ботам</button>
+          </div>
+        `;
       }
     };
 
@@ -363,7 +371,6 @@
   </div>
 
   <script>
-    // Ensure initial render updates static elements and binds active class
     window.updateBalanceUI();
     window.nav('overview');
   </script>
