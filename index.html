@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>MAJORKA BOT | Авто-продажи на Авито 24/7</title>
+<meta name="description" content="Авито-бот MAJORKA BOT. Авто-продавец отвечает за вас 24/7, экономит 2 часа в день. Единый тариф: 6 490 руб/мес со скидкой 50%.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--g:#c9a84c;--gl:#e8c97a;--gd:rgba(201,168,76,.13);--dk:#0a0a0a;--dk2:#111;--dk3:#181818;--tx:#e8e0d0;--txm:#7a7060}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--dk);color:var(--tx);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 40px;background:rgba(10,10,10,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,.15)}
+.logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:3px;color:var(--g);text-transform:uppercase;display:flex;align-items:center;gap:12px}
+.nav-links{display:flex;gap:20px;list-style:none;align-items:center}
+.nav-links a{color:var(--txm);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--g)}
+.btn-back-menu{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:var(--g);padding:8px 14px;font-size:11px;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-radius:4px;transition:all .3s}
+.btn-back-menu:hover{background:var(--g);color:#000}
+.btn-cab{display:inline-flex;align-items:center;gap:6px;background:var(--gd);border:1px solid rgba(201,168,76,.35);color:var(--g);padding:8px 16px;font-size:11px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-cab:hover{background:var(--g);color:#000}
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,#0a0a0a 0%,#0d170d 50%,#0a0a0a 100%)}
+.hero-img{position:absolute;right:0;top:0;bottom:0;width:52%;object-fit:cover;opacity:.18;filter:blur(1px)}
+.hero-fade{position:absolute;inset:0;background:linear-gradient(90deg,#0a0a0a 45%,transparent 100%)}
+.hero-body{position:relative;z-index:2;padding:120px 60px 80px;max-width:680px}
+.ey{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:20px}
+.h1{font-family:'Cormorant Garamond',serif;font-size:clamp(40px,6vw,80px);font-weight:300;line-height:1.05;color:#fff;margin-bottom:24px}
+.h1 em{font-style:normal;color:var(--g);display:block}
+.sub{font-size:15px;line-height:1.8;color:#a09080;max-width:480px;margin-bottom:36px}
+.cta-group{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.cta{display:inline-flex;align-items:center;justify-content:center;gap:12px;background:var(--g);color:#000;padding:17px 36px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;text-decoration:none}
+.cta:hover{background:var(--gl);transform:translateY(-2px);box-shadow:0 20px 50px rgba(201,168,76,.25)}
+.cta-sec{display:inline-flex;align-items:center;gap:10px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.35);color:var(--g);padding:16px 28px;font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.cta-sec:hover{background:var(--g);color:#000}
+.hstats{position:absolute;bottom:40px;right:60px;display:flex;gap:40px;z-index:10}
+.snum{font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:300;color:var(--g);line-height:1}
+.slbl{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--txm);margin-top:4px}
+.tstrip{background:var(--g);padding:20px 40px;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;text-align:center}
+.tstrip-big{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;color:#000}
+.tstrip-txt{font-size:14px;font-weight:600;color:#000}
+
+#product{padding:80px 60px;background:var(--dk)}
+.product-single-wrap{max-width:960px;margin:0 auto;background:var(--dk2);border:1px solid rgba(201,168,76,.25);display:grid;grid-template-columns:1fr 1fr;position:relative;overflow:hidden}
+.t-img-box{position:relative}
+.t-img{width:100%;height:100%;object-fit:cover;min-height:380px}
+.t-content{padding:40px;display:flex;flex-direction:column;justify-content:center}
+.t-badge{display:inline-block;background:var(--g);color:#000;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;margin-bottom:16px;align-self:flex-start}
+.t-title{font-family:'Cormorant Garamond',serif;font-size:32px;color:#fff;margin-bottom:12px;line-height:1.15}
+.t-desc{font-size:13px;color:#a09080;line-height:1.75;margin-bottom:24px}
+.t-price-box{display:flex;align-items:baseline;gap:14px;margin-bottom:24px;padding:14px 18px;background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.15)}
+.t-price-old{font-size:15px;color:var(--txm);text-decoration:line-through}
+.t-price-new{font-family:'Cormorant Garamond',serif;font-size:40px;color:var(--g);font-weight:600}
+.t-price-per{font-size:12px;color:var(--txm)}
+.t-discount{background:#e53935;color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:2px;margin-left:auto}
+
+.finansist-banner{max-width:960px;margin:36px auto 0;background:linear-gradient(135deg,rgba(201,168,76,.12) 0%,rgba(10,10,10,.95) 100%);border:1px solid rgba(201,168,76,.3);padding:30px 36px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.fb-icon{font-size:38px}
+.fb-text{flex:1;min-width:240px}
+.fb-title{font-family:'Cormorant Garamond',serif;font-size:24px;color:var(--g);margin-bottom:6px}
+.fb-desc{font-size:12px;color:#a09080;line-height:1.65}
+.btn-finansist{display:inline-flex;align-items:center;gap:10px;background:var(--g);color:#000;padding:12px 24px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-finansist:hover{background:var(--gl)}
+
+.feats{background:var(--dk3);border-top:1px solid rgba(201,168,76,.1);border-bottom:1px solid rgba(201,168,76,.1);padding:50px 60px;display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.fi2{font-size:28px;margin-bottom:12px}
+.ft{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--g);margin-bottom:6px}
+.fx{font-size:12px;color:var(--txm);line-height:1.7}
+
+.sh{text-align:center;padding:70px 30px 30px}
+.sh-e{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:14px}
+.sh-h{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4.5vw,54px);font-weight:300;color:#fff;line-height:1.15}
+
+.awrap{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;max-width:1200px;margin:0 auto;padding:70px 60px}
+.aib{position:relative}
+.aimg{width:100%;height:460px;object-fit:cover;display:block}
+.ah2{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:300;color:#fff;line-height:1.15;margin-bottom:20px}
+.ap{font-size:13px;color:#a09080;line-height:1.8;margin-bottom:16px}
+.alist{list-style:none;margin-top:20px}
+.alist li{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid rgba(201,168,76,.07);font-size:13px;color:#c8c0b0}
+.alist li::before{content:'◆';color:var(--g);font-size:8px;margin-top:4px;flex-shrink:0}
+
+#how{background:var(--dk3);padding:80px 60px;text-align:center}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:960px;margin:40px auto 0}
+.stn{font-family:'Cormorant Garamond',serif;font-size:60px;font-weight:300;color:rgba(201,168,76,.15);line-height:1;margin-bottom:10px}
+.stt{font-family:'Cormorant Garamond',serif;font-size:20px;color:var(--g);margin-bottom:8px}
+.stx{font-size:12px;color:var(--txm);line-height:1.75}
+
+.cwrap{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1100px;margin:0 auto;padding:70px 60px;align-items:center}
+.ch2{font-family:'Cormorant Garamond',serif;font-size:44px;font-weight:300;color:#fff;margin-bottom:18px;line-height:1.15}
+.cp{font-size:13px;color:#a09080;line-height:1.8;margin-bottom:24px}
+.clink{display:flex;align-items:center;gap:12px;color:var(--tx);text-decoration:none;font-size:13px;padding:12px 0;border-bottom:1px solid rgba(201,168,76,.08);transition:color .3s}
+.clink:hover{color:var(--g)}
+.cli{width:36px;height:36px;border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+footer{background:var(--dk2);border-top:1px solid rgba(201,168,76,.1);padding:30px 60px;display:flex;align-items:center;justify-content:space-between}
+.flo{font-family:'Cormorant Garamond',serif;font-size:16px;letter-spacing:3px;color:var(--g);text-transform:uppercase}
+.fco{font-size:11px;color:var(--txm)}
+
+/* ──────── INLINE PAYMENT MODAL (СБП / КАРТА) ──────── */
+.obg{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:400;display:none;align-items:center;justify-content:center;padding:16px}
+.obg.on{display:flex}
+.obox{background:var(--dk2);max-width:480px;width:100%;padding:36px 30px;position:relative;border:1px solid rgba(201,168,76,.3);max-height:92vh;overflow-y:auto}
+.ocl{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--txm);font-size:22px;cursor:pointer}
+.otit{font-family:'Cormorant Garamond',serif;font-size:28px;color:#fff;margin-bottom:4px}
+.osub{font-size:12px;color:var(--txm);margin-bottom:20px}
+
+/* Pay Method Tabs */
+.pay-methods{display:flex;gap:8px;margin-bottom:20px}
+.pm-tab{flex:1;padding:12px 8px;text-align:center;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:1px solid rgba(201,168,76,.2);color:var(--txm);background:rgba(255,255,255,.02);transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px}
+.pm-tab.active{background:var(--gd);border-color:var(--g);color:var(--g)}
+
+.fg{margin-bottom:14px}
+.fl{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--txm);margin-bottom:6px}
+.fi{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.2);color:#fff;padding:12px 14px;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color .3s}
+.fi:focus{border-color:var(--g);background:rgba(201,168,76,.04)}
+
+/* SBP Box */
+.sbp-box{background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);padding:20px;text-align:center;margin-bottom:16px}
+.sbp-qr{width:150px;height:150px;background:#fff;padding:10px;margin:0 auto 12px;border-radius:4px;display:flex;align-items:center;justify-content:center}
+.sbp-qr img{width:100%;height:100%;object-fit:contain}
+.sbp-txt{font-size:12px;color:var(--txs);line-height:1.6}
+
+.btn-send{width:100%;background:var(--g);color:#000;border:none;padding:16px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .3s;margin-top:10px}
+.btn-send:hover{background:var(--gl)}
+
+.succ{display:none;text-align:center;padding:16px 0}
+.succ.on{display:block}
+.si{font-size:52px;margin-bottom:16px}
+.st{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--g);margin-bottom:8px}
+.sx{font-size:13px;color:var(--txm);line-height:1.7;max-width:340px;margin:0 auto 20px}
+.btn-tg{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--g);color:#000;padding:14px 28px;font-size:11px;font-weight:700;text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:all .3s}
+.btn-tg:hover{background:var(--gl)}
+
+/* ──────── MOBILE RESPONSIVE CSS (768px) ──────── */
+@media (max-width: 768px) {
+  nav { padding: 12px 16px; flex-wrap: wrap; gap: 8px; }
+  .logo { font-size: 16px; }
+  .nav-links { gap: 12px; }
+  .nav-links a { font-size: 10px; }
+  .btn-back-menu, .btn-cab { padding: 6px 10px; font-size: 10px; }
+  
+  .hero { min-height: auto; padding-top: 70px; }
+  .hero-body { padding: 40px 20px 30px; max-width: 100%; text-align: left; }
+  .hero-img { position: relative; width: 100%; height: 200px; opacity: 0.3; object-fit: cover; }
+  .hero-fade { background: linear-gradient(180deg,#0a0a0a 0%,rgba(10,10,10,0.8) 100%); }
+  .h1 { font-size: clamp(34px, 8vw, 48px); margin-bottom: 16px; }
+  .sub { font-size: 13px; margin-bottom: 24px; }
+  .cta-group { flex-direction: column; width: 100%; }
+  .cta, .cta-sec { width: 100%; text-align: center; justify-content: center; }
+  .hstats { position: relative; bottom: 0; right: 0; margin-top: 30px; padding: 0 20px; justify-content: space-between; gap: 10px; }
+  .snum { font-size: 28px; }
+  
+  #product { padding: 40px 16px; }
+  .product-single-wrap { grid-template-columns: 1fr; }
+  .t-img { height: 220px; min-height: auto; }
+  .t-content { padding: 24px 18px; }
+  .t-title { font-size: 26px; }
+  .t-price-new { font-size: 32px; }
+  
+  .finansist-banner { padding: 20px; flex-direction: column; text-align: center; }
+  .btn-finansist { width: 100%; justify-content: center; }
+  
+  .feats { grid-template-columns: 1fr 1fr; padding: 30px 16px; gap: 18px; }
+  .awrap { grid-template-columns: 1fr; padding: 40px 16px; gap: 30px; }
+  .aimg { height: 240px; }
+  .ah2 { font-size: 30px; }
+  
+  #how { padding: 40px 16px; }
+  .steps { grid-template-columns: 1fr; gap: 20px; }
+  
+  .cwrap { grid-template-columns: 1fr; padding: 40px 16px; gap: 30px; }
+  .ch2 { font-size: 32px; }
+  
+  footer { padding: 20px 16px; flex-direction: column; gap: 10px; text-align: center; }
+}
+
+/* Luxury Nav Pay Button */
+.btn-nav-pay {
+  background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%);
+  color: #000;
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(201, 168, 76, 0.3);
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.btn-nav-pay:hover {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 6px 25px rgba(201, 168, 76, 0.5);
+  background: linear-gradient(135deg, #e8c97a 0%, #fff 100%);
+}
+
+/* Premium Fintech Payment Modal */
+.obox {
+  background: rgba(18, 18, 20, 0.96) !important;
+  backdrop-filter: blur(25px) !important;
+  border: 1px solid rgba(201, 168, 76, 0.35) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.8), 0 0 40px rgba(201, 168, 76, 0.15) !important;
+  padding: 40px 32px !important;
+}
+
+.pay-header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(201, 168, 76, 0.12);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  color: #c9a84c;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.privacy-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  font-size: 11px;
+  color: #a09080;
+  line-height: 1.5;
+}
+.privacy-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.pay-btn-main {
+  width: 100%;
+  background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%);
+  color: #000;
+  border: none;
+  padding: 18px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 10px 30px rgba(201, 168, 76, 0.3);
+  transition: all 0.3s ease;
+  margin-top: 14px;
+}
+.pay-btn-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 40px rgba(201, 168, 76, 0.5);
+  background: linear-gradient(135deg, #e8c97a 0%, #fff 100%);
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <a href="https://t.me/avito_deployer_bot" class="btn-back-menu" title="Вернуться в главное меню">↩ Главное меню</a>
+    <span>❖ MAJORKA BOT</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#product">Продукт</a></li>
+    <li><a href="#about">О системе</a></li>
+    <li><a href="#how">Как работает</a></li>
+    <li><a href="dashboard.html" class="btn-cab" style="padding:10px 22px;background:linear-gradient(135deg,#c9a84c 0%,#e8c97a 100%);color:#000;font-weight:800;border-radius:20px;text-decoration:none">🔐 ВОЙТИ В КАБИНЕТ</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <img src="img_dash.png" alt="" class="hero-img">
+  <div class="hero-fade"></div>
+  <div class="hero-body">
+    <p class="ey">Авто-продажи на Авито 24/7</p>
+    <h1 class="h1">Продаёт<em>пока вы</em>отдыхаете</h1>
+    <p class="sub">Авто-продавец отвечает вашим клиентам круглосуточно. Экономия — от <strong style="color:var(--g)">2 часов каждый день</strong>. Без банов, без задержек.</p>
+    <div class="cta-group">
+      <button class="cta" onclick="window.location.href='dashboard.html'">
+        Перейти в Кабинет ➔
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <a href="dashboard.html" class="cta-sec">🔐 Личный Кабинет</a>
+    </div>
+  </div>
+  <div class="hstats">
+    <div><div class="snum">24/7</div><div class="slbl">Онлайн</div></div>
+    <div><div class="snum">2ч+</div><div class="slbl">Экономия/день</div></div>
+    <div><div class="snum">50%</div><div class="slbl">Скидка сегодня</div></div>
+  </div>
+</section>
+
+<div class="tstrip">
+  <div class="tstrip-big">⏱ 2 часа</div>
+  <div class="tstrip-txt">— столько вы тратите на ответы клиентам каждый день. Бот делает это за вас.</div>
+</div>
+
+<section id="product">
+  <div class="sh">
+    <p class="sh-e">Единое решение для Авито</p>
+    <h2 class="sh-h">MAJORKA BOT Автопилот</h2>
+  </div>
+
+  <div class="product-single-wrap">
+    <div class="t-img-box">
+      <img src="img_chat.png" alt="Авито Бот" class="t-img">
+    </div>
+    <div class="t-content">
+      <div class="t-badge">🔥 Скидка 50% Действует Сегодня</div>
+      <div class="t-title">Полный автопилот Авито</div>
+      <div class="t-desc">
+        Авто-менеджер для ответов на Авито 24/7. Ведёт диалог по технике SPIN-продаж, квалифицирует клиентов, отвечает за 3 секунды и закрывает сделки. Вход по QR-коду или SMS за 2 минуты.
+      </div>
+      <div class="t-price-box">
+        <div>
+          <div class="t-price-old">12 990 ₽</div>
+          <div class="t-price-new">6 490 <span class="t-price-per">₽/мес</span></div>
+        </div>
+        <div class="t-discount">-50%</div>
+      </div>
+      <button class="cta" onclick="window.location.href='dashboard.html'">Открыть Личный Кабинет ➔</button>
+    </div>
+  </div>
+
+  <div class="finansist-banner">
+    <div class="fb-icon">📊</div>
+    <div class="fb-text">
+      <div class="fb-title">БОНУС: Бот «Финансист» в подарок!</div>
+      <div class="fb-desc">Управляйте доходами, расходами и чистой прибылью прямо в Telegram. Авто-учёт всех продаж с Авито в один клик.</div>
+    </div>
+    <a href="https://t.me/avito_deployer_bot?start=finansist" target="_blank" class="btn-finansist">💰 Забрать финансиста</a>
+  </div>
+</section>
+
+<div class="feats">
+  <div><div class="fi2">🤖</div><div class="ft">Смарт-алгоритм 24/7</div><div class="fx">Понимает вопросы, ведёт диалог и закрывает клиента на покупку</div></div>
+  <div><div class="fi2">⚡</div><div class="ft">Ответ за 3 секунды</div><div class="fx">Клиент не ждёт — бот отвечает мгновенно в любое время суток</div></div>
+  <div><div class="fi2">🔒</div><div class="ft">Без банов</div><div class="fx">Работает через реальный Android-эмулятор — Авито не видит разницы</div></div>
+  <div><div class="fi2">📊</div><div class="ft">Аналитика в кабинете</div><div class="fx">Отчёты и отслеживание в вашем личном кабинете</div></div>
+</div>
+
+<section>
+  <div class="awrap">
+    <div class="aib">
+      <img src="img_chat.png" alt="Авито бот" class="aimg">
+    </div>
+    <div id="about">
+      <p class="ey">О системе</p>
+      <h2 class="ah2">Реальный эмулятор.<br>Безопасно для Авито.</h2>
+      <p class="ap">В отличие от браузерных скриптов, наш бот работает через настоящий Android-эмулятор (LDPlayer). Авито видит стандартный мобильный телефон и живого человека.</p>
+      <ul class="alist">
+        <li>Авто-импорт товаров с Авито по одной ссылке</li>
+        <li>Генерация уникального SPIN-скрипта под вашу нишу</li>
+        <li>Авторизация в Авито через QR-код или SMS за 2 минуты</li>
+        <li>Персональная настройка ответа и стоп-слов</li>
+        <li>Экономия от 2 часов в день — 60 часов в месяц</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="sh"><p class="sh-e">Простой запуск</p><h2 class="sh-h">Три шага<br>до автопродаж</h2></div>
+  <div class="steps">
+    <div>
+      <div class="stn">01</div>
+      <div class="stt">Опишите бизнес</div>
+      <div class="stx">Укажите нишу и преимущества — Автопилот сам составит скрипт продажи</div>
+    </div>
+    <div>
+      <div class="stn">02</div>
+      <div class="stt">Войдите в аккаунт</div>
+      <div class="stx">Авторизуйтесь через QR-код или SMS за 2 минуты</div>
+    </div>
+    <div>
+      <div class="stn">03</div>
+      <div class="stt">Получайте клиентов</div>
+      <div class="stx">Бот отвечает мгновенно. Вся статистика — в Личном Кабинете</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="cwrap" id="contacts">
+    <div>
+      <h2 class="ch2">Есть<br>вопросы?</h2>
+      <p class="cp">Напишите нам — ответим за час, поможем с запуском и проконсультируем по вашей нише.</p>
+      <a href="https://t.me/chc332" target="_blank" class="clink"><div class="cli">✈️</div>Написать менеджеру @chc332</a>
+      <a href="https://t.me/ai_manager_pr" target="_blank" class="clink"><div class="cli">📢</div>Telegram-канал @ai_manager_pr</a>
+      <a href="https://t.me/avito_deployer_bot" target="_blank" class="clink"><div class="cli">🤖</div>Telegram Bot @avito_deployer_bot</a>
+    </div>
+    <img src="img_dash.png" alt="Аналитика" style="width:100%;height:320px;object-fit:cover">
+  </div>
+</section>
+
+<footer>
+  <div class="flo">❖ MAJORKA BOT</div>
+  <div class="fco">© 2026 MAJORKA BOT — Авто-продажи на Авито</div>
+</footer>
+
+<!-- INLINE PAYMENT MODAL (СБП / КАРТА) -->
+<!-- INLINE PREMIUM FINTECH PAYMENT MODAL -->
+<!-- INLINE PREMIUM FINTECH PAYMENT MODAL -->
+<!-- INLINE PREMIUM FINTECH PAYMENT MODAL -->
+<!-- INLINE PREMIUM FINTECH PAYMENT MODAL -->
+
+
+      <!-- OPTION 1: Direct SBP Transfer 0% Fee -->
+      <div id="boxSbpPhone">
+        <div style="background:linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(255,255,255,0.02) 100%);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:20px;margin-bottom:20px;text-align:left">
+          <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--g);margin-bottom:12px;display:flex;align-items:center;gap:6px">
+            <span>⚡ Прямой перевод по СБП без комиссии (0%)</span>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:13px">
+            <span style="color:#a09080">Номер телефона СБП:</span>
+            <strong style="color:#fff;font-size:16px;letter-spacing:1px">+7 (923) 451-10-89</strong>
+          </div>
+          
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:13px">
+            <span style="color:#a09080">Банк получателя:</span>
+            <strong style="color:#ffe082">🟡 Т-Банк (Тинькофф)</strong>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;font-size:13px">
+            <span style="color:#a09080">Сумма к переводу:</span>
+            <strong style="color:var(--g);font-size:18px">6 490 ₽</strong>
+          </div>
+        </div>
+
+        <div class="fg">
+          <label class="fl">Укажите ваш Telegram @username (для подтверждения перевода)</label>
+          <input class="fi" id="sbpTg" placeholder="@username" style="border-radius:8px">
+        </div>
+
+        <div style="font-size:11px;color:#a09080;line-height:1.5;margin-bottom:16px;background:rgba(255,255,255,0.02);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.05)">
+          💡 <strong>Инструкция:</strong> Переведите 6 490 ₽ из приложения любого вашего банка (Сбер, Т-Банк, ВТБ, Альфа) по номеру телефона в Т-Банк. В комментарии укажите ваш @username.
+        </div>
+
+        <button type="button" class="pay-btn-main" onclick="confirmSbpTransfer()">✅ Я перевёл(а) 6 490 ₽ через СБП</button>
+      </div>
+
+      <!-- OPTION 2: YooMoney / Bank Card Form -->
+      <div id="boxCardYoo" style="display:none">
+        <form id="yooForm" action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank">
+          <input type="hidden" name="receiver" value="4100119556996975">
+          <input type="hidden" name="quickpay-form" value="shop">
+          <input type="hidden" name="targets" value="Оплата MAJORKA BOT (1 месяц)">
+          <input type="hidden" name="paymentType" value="AC">
+          <input type="hidden" name="sum" value="6490">
+          <input type="hidden" name="label" id="yooLabel" value="">
+
+          <div class="fg">
+            <label class="fl">Ваш Telegram @username (для привязки оплаты)</label>
+            <input class="fi" id="oTg" name="comment" placeholder="@username" required onchange="document.getElementById('yooLabel').value=this.value" style="border-radius:8px">
+          </div>
+
+          <button type="submit" class="pay-btn-main" style="background:linear-gradient(135deg, #e53935 0%, #ff6f61 100%);color:#fff">💳 Оплатить картой через ЮMoney</button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="succ" id="succBox">
+      <div class="si">🎉</div>
+      <div class="st">Заявка на перевод принята!</div>
+      <div class="sx">После проверки зачисления 6 490 ₽ подписка активируется автоматически. Переходим в ваш Личный Кабинет...</div>
+      <a id="btnToCab" href="dashboard.html" class="btn-tg" style="border-radius:8px">🔐 Перейти в Кабинет</a>
+    </div>
+  </div>
+</div>
+
+      <!-- YooMoney / Bank Card Form -->
+      <form id="yooForm" action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank">
+        <input type="hidden" name="receiver" value="4100119556996975">
+        <input type="hidden" name="quickpay-form" value="shop">
+        <input type="hidden" name="targets" value="Оплата MAJORKA BOT (1 месяц)">
+        <input type="hidden" name="paymentType" id="yooPaymentType" value="SB">
+        <input type="hidden" name="sum" value="6490">
+        <input type="hidden" name="label" id="yooLabel" value="">
+
+        <div class="fg">
+          <label class="fl">Ваш Telegram @username (для привязки оплаты)</label>
+          <input class="fi" id="oTg" name="comment" placeholder="@username" required onchange="document.getElementById('yooLabel').value=this.value" style="border-radius:8px">
+        </div>
+
+        <div class="pay-methods" style="display:flex;gap:10px;margin-bottom:20px">
+          <div class="pm-tab active" id="pmSbp" onclick="setYooMethod('SB')" style="flex:1;padding:12px;text-align:center;border-radius:8px;cursor:pointer;background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.3);color:var(--g);font-size:11px;font-weight:700">⚡ СБП (Все банки РФ)</div>
+          <div class="pm-tab" id="pmCard" onclick="setYooMethod('AC')" style="flex:1;padding:12px;text-align:center;border-radius:8px;cursor:pointer;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);color:#a09080;font-size:11px;font-weight:700">💳 Карта РФ / ЮMoney</div>
+        </div>
+
+        <button type="submit" class="pay-btn-main">⚡ Оплатить 6 490 ₽ через ЮMoney</button>
+      </form>
+    </div>
+    
+    <div class="succ" id="succBox">
+      <div class="si">🎉</div>
+      <div class="st">Оплата перенаправлена!</div>
+      <div class="sx">После оплаты подписка активируется автоматически. Переходим в ваш Личный Кабинет...</div>
+      <a id="btnToCab" href="dashboard.html" class="btn-tg" style="border-radius:8px">🔐 Перейти в Кабинет</a>
+    </div>
+  </div>
+</div>
+      
+      <!-- SBP Direct Transfer Card -->
+      <div style="background:linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(255,255,255,0.02) 100%);border:1px solid rgba(201,168,76,0.35);border-radius:12px;padding:20px;margin-bottom:20px;text-align:left">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--g);margin-bottom:12px;display:flex;align-items:center;gap:8px">
+          <span>⚡ Мгновенный перевод по СБП (0% комиссии)</span>
+        </div>
+        
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px">
+          <span style="color:#a09080">Номер телефона СБП:</span>
+          <strong style="color:#fff;font-size:15px;letter-spacing:1px">+7 (923) 451-10-89</strong>
+        </div>
+        
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.06);font-size:13px">
+          <span style="color:#a09080">Банк получателя:</span>
+          <strong style="color:#ffe082">🟡 Т-Банк (Тинькофф)</strong>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px">
+          <span style="color:#a09080">Сумма к переводу:</span>
+          <strong style="color:var(--g);font-size:16px">6 490 ₽</strong>
+        </div>
+      </div>
+
+      <!-- YooMoney / Bank Card Form -->
+      <form id="yooForm" action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank">
+        <input type="hidden" name="receiver" value="4100119556996975">
+        <input type="hidden" name="quickpay-form" value="shop">
+        <input type="hidden" name="targets" value="Оплата MAJORKA BOT (1 месяц)">
+        <input type="hidden" name="paymentType" id="yooPaymentType" value="SB">
+        <input type="hidden" name="sum" value="6490">
+        <input type="hidden" name="label" id="yooLabel" value="">
+
+        <div class="fg">
+          <label class="fl">Ваш Telegram @username (для привязки оплаты)</label>
+          <input class="fi" id="oTg" name="comment" placeholder="@username" required onchange="document.getElementById('yooLabel').value=this.value" style="border-radius:8px">
+        </div>
+
+        <button type="submit" class="pay-btn-main">💳 Оплатить картой или через Эквайринг</button>
+      </form>
+    </div>
+    
+    <div class="succ" id="succBox">
+      <div class="si">🎉</div>
+      <div class="st">Оплата перенаправлена!</div>
+      <div class="sx">После перевода подписка активируется автоматически. Переходим в ваш Личный Кабинет...</div>
+      <a id="btnToCab" href="dashboard.html" class="btn-tg" style="border-radius:8px">🔐 Перейти в Кабинет</a>
+    </div>
+  </div>
+</div>
+      
+      <!-- ЮMoney / СБП / Карты Form -->
+      <form id="yooForm" action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank">
+        <input type="hidden" name="receiver" value="4100119556996975">
+        <input type="hidden" name="quickpay-form" value="shop">
+        <input type="hidden" name="targets" value="Оплата MAJORKA BOT (1 месяц)">
+        <input type="hidden" name="paymentType" id="yooPaymentType" value="SB">
+        <input type="hidden" name="sum" value="6490">
+        <input type="hidden" name="label" id="yooLabel" value="">
+
+        <div class="fg">
+          <label class="fl">Ваш Telegram @username (для привязки подписки)</label>
+          <input class="fi" id="oTg" name="comment" placeholder="@username" required onchange="document.getElementById('yooLabel').value=this.value" style="border-radius:8px">
+        </div>
+
+        <div class="pay-methods">
+          <div class="pm-tab active" id="pmSbp" onclick="setYooMethod('SB')" style="border-radius:8px">⚡ СБП (Все банки РФ)</div>
+          <div class="pm-tab" id="pmCard" onclick="setYooMethod('AC')" style="border-radius:8px">💳 Карта РФ</div>
+        </div>
+
+        <button type="submit" class="pay-btn-main">⚡ Оплата 6 490 ₽ (СБП / Карта)</button>
+      </form>
+    </div>
+    
+    <div class="succ" id="succBox">
+      <div class="si">🎉</div>
+      <div class="st">Оплата прошла успешно!</div>
+      <div class="sx">Подписка активирована. Переходим в ваш Личный Кабинет для запуска бота...</div>
+      <a id="btnToCab" href="dashboard.html" class="btn-tg" style="border-radius:8px">🔐 Перейти в Кабинет</a>
+    </div>
+  </div>
+</div>
+
+        <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);padding:16px;border-radius:6px;margin-bottom:16px;text-align:center;font-size:12px;color:#e8e0d0;line-height:1.6">
+          <div style="font-weight:700;color:var(--g);margin-bottom:6px;font-size:13px">⚡ Оплата по СБП и картам РФ</div>
+          Перевод осуществляется напрямую на счёт ЮMoney № <strong>4100119556996975</strong>.<br>
+          Поддерживаются любые банки РФ (Сбер, Т-Банк, ВТБ, Альфа через СБП).
+        </div>
+
+        <button type="submit" class="btn-send" style="background:#e53935;color:#fff">⚡ Оплатить 6 490 ₽ через СБП / Карту</button>
+      </form>
+
+</div>
+<div class="succ" id="succBox">
+      <div class="si">🎉</div>
+      <div class="st">Оплата прошла успешно!</div>
+      <div class="sx">Подписка активирована. Переходим в ваш Личный Кабинет для запуска бота...</div>
+      <a id="btnToCab" href="dashboard.html" class="btn-tg">🔐 Передать в Кабинет</a>
+    </div>
+  </div>
+</div>
+
+<script>
+let currentPayMethod = 'sbp';
+
+function openOrder(){
+  document.getElementById('obg').classList.add('on');
+}
+function closeOrder(){
+  document.getElementById('obg').classList.remove('on');
+  document.getElementById('succBox').classList.remove('on');
+  document.getElementById('oForm').style.display='block';
+}
+document.getElementById('obg').addEventListener('click',e=>{if(e.target===e.currentTarget)closeOrder();});
+
+function setPayMethod(m){
+  currentPayMethod = m;
+  document.getElementById('pmSbp').className = 'pm-tab ' + (m==='sbp'?'active':'');
+  document.getElementById('pmCard').className = 'pm-tab ' + (m==='card'?'active':'');
+  document.getElementById('blockSbp').style.display = m==='sbp' ? 'block' : 'none';
+  document.getElementById('blockCard').style.display = m==='card' ? 'block' : 'none';
+}
+
+function sendOrder(){
+  const tg = document.getElementById('oTg').value.trim();
+  if(!tg){ alert('Укажите ваш Telegram @username'); return; }
+  
+  const userParam = encodeURIComponent(tg);
+  const cabUrl = `dashboard.html?login=${userParam}&paid=true`;
+  document.getElementById('btnToCab').href = cabUrl;
+  
+  document.getElementById('oForm').style.display = 'none';
+  document.getElementById('succBox').classList.add('on');
+  
+  setTimeout(() => {
+    window.location.href = cabUrl;
+  }, 1200);
+}
+
+function setYooMethod(m){
+  document.getElementById('yooPaymentType').value = m;
+  document.getElementById('pmSbp').className = 'pm-tab ' + (m==='SB'?'active':'');
+  document.getElementById('pmCard').className = 'pm-tab ' + (m==='AC'?'active':'');
+  if (m === 'SB') {
+    document.getElementById('pmSbp').style.background = 'rgba(201,168,76,0.12)';
+    document.getElementById('pmSbp').style.borderColor = 'rgba(201,168,76,0.4)';
+    document.getElementById('pmSbp').style.color = 'var(--g)';
+    document.getElementById('pmCard').style.background = 'rgba(255,255,255,0.03)';
+    document.getElementById('pmCard').style.borderColor = 'rgba(255,255,255,0.1)';
+    document.getElementById('pmCard').style.color = '#a09080';
+  } else {
+    document.getElementById('pmCard').style.background = 'rgba(201,168,76,0.12)';
+    document.getElementById('pmCard').style.borderColor = 'rgba(201,168,76,0.4)';
+    document.getElementById('pmCard').style.color = 'var(--g)';
+    document.getElementById('pmSbp').style.background = 'rgba(255,255,255,0.03)';
+    document.getElementById('pmSbp').style.borderColor = 'rgba(255,255,255,0.1)';
+    document.getElementById('pmSbp').style.color = '#a09080';
+  }
+}
+
+
+function switchPayTab(tab) {
+  const isSbp = tab === 'sbpPhone';
+  document.getElementById('boxSbpPhone').style.display = isSbp ? 'block' : 'none';
+  document.getElementById('boxCardYoo').style.display = isSbp ? 'none' : 'block';
+  
+  const tabSbp = document.getElementById('tabSbpPhone');
+  const tabCard = document.getElementById('tabCardYoo');
+  
+  if (isSbp) {
+    tabSbp.style.background = 'rgba(201,168,76,0.15)';
+    tabSbp.style.borderColor = 'rgba(201,168,76,0.4)';
+    tabSbp.style.color = 'var(--g)';
+    tabCard.style.background = 'rgba(255,255,255,0.03)';
+    tabCard.style.borderColor = 'rgba(255,255,255,0.1)';
+    tabCard.style.color = '#a09080';
+  } else {
+    tabCard.style.background = 'rgba(201,168,76,0.15)';
+    tabCard.style.borderColor = 'rgba(201,168,76,0.4)';
+    tabCard.style.color = 'var(--g)';
+    tabSbp.style.background = 'rgba(255,255,255,0.03)';
+    tabSbp.style.borderColor = 'rgba(255,255,255,0.1)';
+    tabSbp.style.color = '#a09080';
+  }
+}
+
+function confirmSbpTransfer() {
+  const tg = document.getElementById('sbpTg').value.trim();
+  if(!tg){ alert('Пожалуйста, укажите ваш Telegram @username'); return; }
+  
+  document.getElementById('oForm').style.display = 'none';
+  document.getElementById('succBox').classList.add('on');
+  
+  const userParam = encodeURIComponent(tg);
+  const cabUrl = `dashboard.html?login=${userParam}&paid=true`;
+  document.getElementById('btnToCab').href = cabUrl;
+  
+  setTimeout(() => {
+    window.location.href = cabUrl;
+  }, 1500);
+}
+
+</script>
+</body>
+</html>

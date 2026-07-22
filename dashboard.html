@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+<script>
+// --- PERMANENT TELEGRAM USER & BOT PERSISTENCE ENGINE ---
+(function initPermanentTelegramSession() {
+  let userId = 'default_user';
+  let userName = 'Пользователь';
+  
+  // 1. Detect Telegram WebApp user
+  if (window.Telegram && window.Telegram.WebApp) {
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
+    const user = tg.initDataUnsafe && tg.initDataUnsafe.user;
+    if (user) {
+      userId = user.id ? 'tg_' + user.id : (user.username || 'tg_user');
+      userName = user.username ? '@' + user.username : (user.first_name || 'Пользователь');
+    }
+  }
+  
+  // 2. Fallback to URL parameters or localStorage
+  const urlParams = new URLSearchParams(window.location.search);
+  const loginParam = urlParams.get('login');
+  if (loginParam) {
+    userName = loginParam.startsWith('@') ? loginParam : '@' + loginParam;
+    userId = 'user_' + loginParam.replace(/[^a-zA-Z0-9_]/g, '');
+    localStorage.setItem('majorka_active_user_id', userId);
+    localStorage.setItem('majorka_active_user_name', userName);
+  } else {
+    const savedId = localStorage.getItem('majorka_active_user_id');
+    const savedName = localStorage.getItem('majorka_active_user_name');
+    if (savedId) userId = savedId;
+    if (savedName) userName = savedName;
+  }
+  
+  // 3. Set global USER context
+  window.CURRENT_USER_ID = userId;
+  window.CURRENT_USER_NAME = userName;
+  
+  // 4. Load permanent user-bound bots from localStorage
+  const storageKey = 'majorka_bots_' + userId;
+  const legacyBots = localStorage.getItem('majorka_bots_demo');
+  let userBots = [];
+  
+  try {
+    const stored = localStorage.getItem(storageKey);
+    if (stored) {
+      userBots = JSON.parse(stored);
+    } else if (legacyBots) {
+      userBots = JSON.parse(legacyBots);
+      localStorage.setItem(storageKey, JSON.stringify(userBots));
+    }
+  } catch(e) {}
+  
+  window.BOTS = userBots;
+  
+  // Override save state function to save permanently under current user ID
+  window.saveBotsState = function() {
+    try {
+      localStorage.setItem('majorka_bots_' + window.CURRENT_USER_ID, JSON.stringify(window.BOTS));
+      localStorage.setItem('majorka_bots_demo', JSON.stringify(window.BOTS));
+    } catch(e) {}
+  };
+})();
+
+// Update deleteBot to use permanent save state
+function deleteBot(botId) {
+  if (confirm('Вы действительно хотите удалить этого бота?')) {
+    window.BOTS = window.BOTS.filter(b => b.id !== botId);
+    if (window.saveBotsState) window.saveBotsState();
+    renderBots();
+    renderSidebar();
+    renderOverview();
+    alert('Бот полностью удалён!');
+  }
+}
+</script>
+
+
+<script>
+// GLOBAL DASHBOARD ENGINE
+window.USER_BALANCE = parseInt(localStorage.getItem('majorka_user_balance') || '0');
+
+function updateBalanceUI() {
+  const elBal = document.getElementById('uBalanceDisplay');
+  if (elBal) {
+    elBal.innerHTML = `💰 БАЛАНС: <strong style="color:#c9a84c;font-size:14px">${window.USER_BALANCE.toLocaleString('ru-RU')} ₽</strong>`;
+  }
+}
+
+window.openOrder = function() {
+  const modal = document.getElementById('obg');
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.classList.add('on');
+  }
+};
+
+window.closeOrder = function() {
+  const modal = document.getElementById('obg');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.classList.remove('on');
+  }
+};
+
+window.confirmTopup = function() {
+  window.USER_BALANCE += 6490;
+  localStorage.setItem('majorka_user_balance', window.USER_BALANCE);
+  updateBalanceUI();
+  window.closeOrder();
+  alert('🎉 Баланс пополнен на 6 490 ₽! Теперь вы можете запустить бота.');
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+  updateBalanceUI();
+  
+  // Auto-topup if return from successful payment URL
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('paid') === 'true' || params.get('topup')) {
+    window.USER_BALANCE += 6490;
+    localStorage.setItem('majorka_user_balance', window.USER_BALANCE);
+    updateBalanceUI();
+  }
+});
+</script>
+
+
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAJORKA BOT — Личный кабинет</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+// Auto-login if URL parameter exists
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const loginParam = urlParams.get('login');
+  if (loginParam) {
+    document.getElementById('loginInput').value = loginParam;
+    doLogin();
+  }
+});
+
+function deleteBot(botId) {
+  if (confirm('Вы действительно хотите удалить этого бота?')) {
+    BOTS = BOTS.filter(b => b.id !== botId);
+    try { if(window.saveBotsState) window.saveBotsState(); } catch(e){}
+    renderBots();
+    renderSidebar();
+    renderOverview();
+    alert('Бот полностью удалён!');
+  }
+} catch(e){}
+    renderBots();
+    renderSidebar();
+    alert('Бот успешно удалён!');
+  }
+}
+
+function openEditModal(botId) {
+  const b = BOTS.find(x => x.id === botId);
+  if (!b) return;
+  const newName = prompt('Новое название бота:', b.name);
+  if (newName && newName.trim()) {
+    b.name = newName.trim();
+    const newNiche = prompt('Ниша бизнеса:', b.niche || '');
+    if (newNiche !== null) b.niche = newNiche.trim();
+    try { if(window.saveBotsState) window.saveBotsState(); } catch(e){}
+    renderBots();
+    renderSidebar();
+    alert('Настройки бота обновлены!');
+  }
+}
+
+</script>
+<style>
+:root{
+  --g:#c9a84c;--gl:#e8c97a;--gd:rgba(201,168,76,.12);
+  --dk:#090909;--dk2:#0f0f0f;--dk3:#141414;--dk4:#1a1a1a;
+  --tx:#e0d8c8;--txm:#6a6050;--txs:#a09880;
+  --bd:1px solid rgba(201,168,76,.1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--dk);color:var(--tx)}
+
+/* ──────── LANDING ──────── */
+.land{min-height:100vh;display:flex;flex-direction:column}
+
+
+
+.land-nav-links a{color:var(--txm);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:color .3s}
+.land-nav-links a:hover{color:var(--g)}
+.btn-signin{background:var(--g);color:#000;border:none;padding:10px 24px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s}
+.btn-signin:hover{background:var(--gl)}
+
+/* HERO */
+
+
+
+
+
+.ey{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:24px}
+
+.land-h1 em{font-style:normal;color:var(--g);display:block}
+
+
+.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--g);color:#000;padding:16px 36px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s}
+.btn-primary:hover{background:var(--gl);transform:translateY(-2px);box-shadow:0 16px 40px rgba(201,168,76,.25)}
+.btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--g);padding:16px 36px;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(201,168,76,.4);cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;text-decoration:none}
+.btn-secondary:hover{background:var(--gd)}
+
+
+
+
+/* FEATURES strip */
+
+.lf-icon{font-size:28px;margin-bottom:12px}
+.lf-title{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--g);margin-bottom:6px}
+.lf-text{font-size:12px;color:var(--txm);line-height:1.75}
+
+/* SCREENSHOTS SECTION */
+
+.ls-header{text-align:center;margin-bottom:60px}
+.ls-eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:16px}
+.ls-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4.5vw,56px);font-weight:300;color:#fff;line-height:1.1}
+.screens-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;max-width:1200px;margin:0 auto}
+.screen-img-wrap{position:relative;overflow:hidden;aspect-ratio:16/10;background:var(--dk2);cursor:pointer}
+.screen-img-wrap:first-child{grid-row:span 2;aspect-ratio:auto}
+.screen-img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;display:block}
+.screen-img-wrap:hover .screen-img{transform:scale(1.04)}
+.screen-caption{position:absolute;bottom:0;left:0;right:0;padding:24px;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 100%)}
+.sc-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g);margin-bottom:6px}
+.sc-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff}
+.sc-desc{font-size:12px;color:#a09080;margin-top:4px}
+
+/* CTA STRIP */
+
+.lcs-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,60px);font-weight:300;color:#fff;margin-bottom:16px}
+.lcs-sub{font-size:14px;color:var(--txm);margin-bottom:36px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.8}
+
+/* FOOTER */
+
+.lf-logo{font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:3px;color:var(--g);text-transform:uppercase}
+.lf-copy{font-size:11px;color:var(--txm)}
+
+  renderSbBots();
+  nav('overview');
+}
+
+function doLogout(){
+  USER = null; BOTS = [];
+  document.getElementById('app').classList.remove('on');
+  document.getElementById('landing').style.display='block';
+  document.getElementById('loginInput').value='';
+}
+
+function saveBots(){
+  if(USER) localStorage.setItem('majorka_bots_'+USER.id, JSON.stringify(BOTS));
+}
+
+function renderSbBots(){
+  const el = document.getElementById('sbBotList');
+  if(!BOTS.length){ el.innerHTML='<div style="padding:10px 24px;font-size:11px;color:var(--txm)">Ботов пока нет</div>'; return; }
+  el.innerHTML = BOTS.map(b=>`
+    <div class="sb-bot-item" onclick="openBot('${b.id}')">
+      <div class="sb-bot-name">${b.name}</div>
+      <div class="sb-bot-status">
+        <div class="dot dot-green"></div>
+        <span class="sb-bot-status-txt">${b.status==="active"?"Активен":"Ожидает оплаты"}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ══════════════ NAVIGATION ══════════════
+function nav(screen){
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'));
+  const el = document.getElementById('nav-'+screen);
+  if(el) el.classList.add('active');
+  const titles={overview:'Обзор',bots:'Мои боты',create:'Создать бота',analytics:'Аналитика'};
+  document.getElementById('topTitle').textContent = titles[screen]||screen;
+  const c = document.getElementById('mainContent');
+  c.className='content fade-in';
+  if(screen==='overview') renderOverview();
+  else if(screen==='bots') renderBots();
+  else if(screen==='create') { wizStep=1; wizData={}; renderWiz(); }
+  else if(screen==='analytics') renderAnalytics();
+}
+
+function openBot(id){
+  const b = BOTS.find(x=>x.id===id);
+  if(!b) return;
+  document.getElementById('topTitle').textContent = b.name;
+  const c = document.getElementById('mainContent');
+  c.className='content fade-in';
+  c.innerHTML = renderBotDetail(b);
+  renderChatList(b);
+}
+
+// ══════════════ OVERVIEW ══════════════
+function renderOverview(){
+  const tot = arr=>BOTS.reduce((s,b)=>s+(b[arr]||0),0);
+  const td=tot('dialogs_today'), tw=tot('dialogs_week'), tm=tot('dialogs_month'), tc=tot('conversions');
+  const saved = Math.round(tm*1.5/60);
+  const hasBots = BOTS.length>0;
+
+  document.getElementById('mainContent').innerHTML=`
+    ${hasBots?`<div class="notice">&#128276; Ваши боты активны. Сегодня обработано <strong style="color:var(--g)">${td} диалогов</strong>.</div>`:''}
+    <div class="cards-row">
+      <div class="card2">
+        <div class="card2-label">Диалогов сегодня</div>
+        <div class="${hasBots?'card2-val':'card2-zero'}">${td}</div>
+        <div class="card2-sub">Обработано ботами</div>
+        ${hasBots?'<div class="card2-trend-up">&#8593; Данные в реальном времени</div>':'<div class="card2-empty">Подключите первого бота</div>'}
+      </div>
+      <div class="card2">
+        <div class="card2-label">За неделю</div>
+        <div class="${hasBots?'card2-val':'card2-zero'}">${tw}</div>
+        <div class="card2-sub">Диалогов за 7 дней</div>
+        ${hasBots?'':'<div class="card2-empty">Данных пока нет</div>'}
+      </div>
+      <div class="card2">
+        <div class="card2-label">Конверсии</div>
+        <div class="${hasBots?'card2-val':'card2-zero'}">${tc}</div>
+        <div class="card2-sub">Заявок за месяц</div>
+        ${hasBots?'':'<div class="card2-empty">Данных пока нет</div>'}
+      </div>
+      <div class="card2">
+        <div class="card2-label">Сэкономлено</div>
+        <div class="${hasBots?'card2-val':'card2-zero'}">${hasBots?saved+'ч':'—'}</div>
+        <div class="card2-sub">Вашего времени за месяц</div>
+        ${hasBots?`<div class="card2-trend-up">&#9203; ${tm*1.5} мин</div>`:'<div class="card2-empty">Данных пока нет</div>'}
+      </div>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-title">Диалоги за 7 дней</div>
+        ${hasBots?'<div class="chart-wrap"><canvas id="lineChart"></canvas></div>':
+          '<div class="chart-empty"><div class="chart-empty-icon">📈</div><div class="chart-empty-txt">Данные появятся после запуска бота</div></div>'}
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Активность по часам</div>
+        ${hasBots?'<div class="chart-wrap"><canvas id="barChart"></canvas></div>':
+          '<div class="chart-empty"><div class="chart-empty-icon">⏰</div><div class="chart-empty-txt">Данные появятся после запуска бота</div></div>'}
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-head">
+        <div class="table-title">Мои боты</div>
+        <button class="btn-next" onclick="nav('create')" style="padding:8px 18px;font-size:10px">+ Создать бота</button>
+      </div>
+      ${!BOTS.length?`<div class="empty-state">
+        <div class="es-icon">🤖</div>
+        <div class="es-title">Ботов пока нет</div>
+        <div class="es-sub">Создайте первого бота и начните получать клиентов автоматически</div>
+        <button class="btn-next" onclick="nav('create')">+ Создать первого бота</button>
+      </div>`:`
+      <table>
+        <tr><th>Бот</th><th>Аккаунт</th><th>Статус</th><th>Сегодня</th><th>Неделя</th><th>Конверсии</th></tr>
+        ${BOTS.map(b=>`<tr onclick="openBot('${b.id}')">
+          <td class="td-name">${b.name}</td>
+          <td>${b.phone||'—'}</td>
+          <td>${b.status==="active" ? '<span class="sp sp-green"><span class="dot dot-green"></span>Активен</span>' : '<span class="sp sp-yellow"><span class="dot dot-yellow"></span>Ожидает оплаты (6 490 ₽)</span>'}</td>
+          <td style="color:var(--g)">${b.dialogs_today||0}</td>
+          <td>${b.dialogs_week||0}</td>
+          <td>${b.conversions||0}</td>
+        </tr>`).join('')}
+      </table>`}
+    </div>
+  `;
+  if(hasBots) setTimeout(drawOverviewCharts, 50);
+}
+
+function drawOverviewCharts(){
+  const days=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+  const gOpts=(max)=>({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#7a7060',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#7a7060',font:{size:10}},min:0,max:max||undefined}}});
+  const lc=document.getElementById('lineChart');
+  const bc=document.getElementById('barChart');
+  if(lc) new Chart(lc,{type:'line',data:{labels:days,datasets:[{data:BOTS.map(()=>0).concat([0,0,0,0,0,0,0]).slice(0,7),borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.08)',tension:.4,fill:true,pointBackgroundColor:'#c9a84c',pointRadius:4}]},options:gOpts()});
+  const hrs=['9','10','11','12','13','14','15','16','17','18','19','20'];
+  if(bc) new Chart(bc,{type:'bar',data:{labels:hrs,datasets:[{data:new Array(12).fill(0),backgroundColor:'rgba(201,168,76,.3)',borderColor:'rgba(201,168,76,.6)',borderWidth:1}]},options:gOpts()});
+}
+
+// ══════════════ BOT LIST ══════════════
+function renderBots(){
+  document.getElementById('mainContent').innerHTML = !BOTS.length?`
+    <div class="empty-state" style="padding:80px 20px">
+      <div class="es-icon">🤖</div>
+      <div class="es-title">Ботов пока нет</div>
+      <div class="es-sub">Создайте первого бота — он начнёт отвечать вашим клиентам на Авито автоматически</div>
+      <button class="btn-next" onclick="nav('create')">+ Создать первого бота</button>
+    </div>
+  `:`
+    <div class="section-hd">
+      <div><div class="section-title">Мои Авито-боты</div><div class="section-sub">${BOTS.length} бот(ов)</div></div>
+      <button class="btn-next" onclick="nav('create')">+ Создать нового</button>
+    </div>
+    ${BOTS.map(b=>`
+      <div style="background:var(--dk2);border:var(--bd);padding:22px;margin-bottom:10px;cursor:pointer;transition:border-color .2s" onmouseenter="this.style.borderColor='rgba(201,168,76,.3)'" onmouseleave="this.style.borderColor='rgba(201,168,76,.1)'" onclick="openBot('${b.id}')">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="width:40px;height:40px;background:var(--gd);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:18px">🤖</div>
+            <div>
+              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#fff">${b.name}</div>
+              <div style="font-size:10px;color:var(--txm);margin-top:2px">${b.niche} · создан ${b.created}</div>
+            </div>
+          </div>
+          ${b.status==="active" ? '<span class="sp sp-green"><span class="dot dot-green"></span>Активен</span>' : '<span class="sp sp-yellow"><span class="dot dot-yellow"></span>Ожидает оплаты (6 490 ₽)</span>'}
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding-top:14px;border-top:var(--bd)">
+          <div><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txm);margin-bottom:3px">Сегодня</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--g)">${b.dialogs_today||0}</div></div>
+          <div><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txm);margin-bottom:3px">Неделя</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--g)">${b.dialogs_week||0}</div></div>
+          <div><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txm);margin-bottom:3px">Месяц</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--g)">${b.dialogs_month||0}</div></div>
+          <div><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txm);margin-bottom:3px">Конверсии</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--g)">${b.conversions||0}</div></div>
+        </div>
+      </div>
+    `).join('')}
+  `;
+}
+
+// ══════════════ BOT DETAIL ══════════════
+function renderBotDetail(b){
+  return `
+    <div class="bot-hd">
+      <div class="bot-info">
+        <div class="bot-av">🤖</div>
+        <div><div class="bot-name">${b.name}</div><div class="bot-niche">${b.niche} · ${b.phone||'—'}</div></div>
+      </div>
+      <div class="bot-actions" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        ${b.status !== 'active' ? `<a href="https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119556996975&quickpay-form=shop&targets=Оплата%20MAJORKA%20BOT&sum=6490&paymentType=SB" target="_blank" class="btn-next" style="background:#e53935;color:#fff;padding:8px 14px;font-size:10px;text-decoration:none;display:inline-block">💳 Оплатить 6 490 ₽</a>` : ''}
+        <button class="btn-stop" style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:6px 12px;font-size:11px;cursor:pointer" onclick="openEditModal('${b.id}')">✏️ Изм.</button>
+        <button class="btn-stop" style="background:rgba(229,57,53,.15);border:1px solid rgba(229,57,53,.4);color:#e53935;padding:6px 12px;font-size:11px;cursor:pointer" onclick="deleteBot('${b.id}')">🗑️ Удалить</button>
+
+        <button class="btn-restart">&#8635; Restart</button>
+        <button class="btn-cfg">&#9881; Настройки</button>
+        <button class="btn-next" onclick="nav('bots')" style="padding:9px 18px;font-size:10px">&#8592; Все боты</button>
+      </div>
+    </div>
+    <div class="cards-row">
+      <div class="card2"><div class="card2-label">Сегодня</div><div class="${b.dialogs_today?'card2-val':'card2-zero'}">${b.dialogs_today||0}</div><div class="card2-sub">Диалогов</div></div>
+      <div class="card2"><div class="card2-label">Неделя</div><div class="${b.dialogs_week?'card2-val':'card2-zero'}">${b.dialogs_week||0}</div><div class="card2-sub">Диалогов</div></div>
+      <div class="card2"><div class="card2-label">Месяц</div><div class="${b.dialogs_month?'card2-val':'card2-zero'}">${b.dialogs_month||0}</div><div class="card2-sub">Диалогов</div></div>
+      <div class="card2"><div class="card2-label">Конверсии</div><div class="${b.conversions?'card2-val':'card2-zero'}">${b.conversions||0}</div><div class="card2-sub">Заявок</div></div>
+    </div>
+    <div class="table-box">
+      <div class="table-head"><div class="table-title">Диалоги с клиентами</div></div>
+      <div class="chats-panel">
+        <div class="chats-list" id="chatsList">
+          <div class="chat-empty"><div class="chat-empty-icon">💬</div><div style="font-size:11px">Диалогов пока нет</div></div>
+        </div>
+        <div class="chat-msgs" id="chatMsgs">
+          <div class="chat-empty"><div class="chat-empty-icon">📭</div><div style="font-size:11px">Выберите диалог</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderChatList(b){ /* chats will come from API */ }
+
+function confirmStop(id){
+  if(confirm('Остановить бота? Он перестанет отвечать клиентам.')){
+    BOTS = BOTS.filter(x=>x.id!==id);
+    saveBots(); renderSbBots(); nav('bots');
+  }
+}
+
+// ══════════════ CREATE WIZARD ══════════════
+function renderWiz(){
+  const labels=['Ниша','Аккаунт','Авторизация','Скрипт','Запуск'];
+  const steps = labels.map((l,i)=>`
+    <div class="wiz-step ${i+1<wizStep?'done':''} ${i+1===wizStep?'act':''}">
+      <div class="wiz-num">${i+1<wizStep?'✓':i+1}</div>
+      <div class="wiz-lbl">${l}</div>
+    </div>`).join('');
+
+  let body='';
+  if(wizStep===1) body=`
+    <div class="wiz-title">Расскажите о бизнесе</div>
+    <div class="wiz-sub">Автопилот составит персональный скрипт продаж под вашу нишу</div>
+    <label class="wiz-label">Ваша ниша на Авито *</label>
+    <input class="wiz-input" id="w1" placeholder="Например: авто-запчасти, мебель, одежда..." value="${wizData.niche||''}">
+    <label class="wiz-label">Ссылка на объявление (необязательно)</label>
+    <input class="wiz-input" id="w2" placeholder="https://www.avito.ru/..." value="${wizData.link||''}">
+    <label class="wiz-label">Ваши главные преимущества</label>
+    <textarea class="wiz-textarea" id="w3" placeholder="Например: быстрая доставка, гарантия 1 год, только оригиналы...">${wizData.advantages||''}</textarea>
+    <div class="wiz-foot"><div></div><button class="btn-next" onclick="wNext()">Далее &#8594;</button></div>
+  `;
+  else if(wizStep===2) body=`
+    <div class="wiz-title">Аккаунт Авито</div>
+    <div class="wiz-sub">Укажите данные аккаунта, который будет вести переписку</div>
+    <label class="wiz-label">Название (для вашего удобства) *</label>
+    <input class="wiz-input" id="w4" placeholder="Например: Запчасти Авто #1" value="${wizData.accname||''}">
+    <label class="wiz-label">Номер телефона аккаунта Авито *</label>
+    <input class="wiz-input" id="w5" placeholder="+7 900 000-00-00" value="${wizData.phone||''}">
+    <div class="wiz-foot"><button class="btn-prev" onclick="wPrev()">&#8592; Назад</button><button class="btn-next" onclick="wNext()">Далее &#8594;</button></div>
+  `;
+  else if(wizStep===3) body=`
+    <div class="wiz-title">Авторизация в Авито</div>
+    <div class="wiz-sub">Выберите способ входа в аккаунт на эмуляторе</div>
+    <div class="method-tabs">
+      <div class="mtab active" id="tabQR" onclick="switchM('qr')">📷 QR-код</div>
+      <div class="mtab" id="tabSMS" onclick="switchM('sms')">📱 SMS-код</div>
+    </div>
+    <div id="mQR">
+      <div class="qr-box">
+        <div class="qr-ph">📷</div>
+        <div class="qr-hint">Откройте приложение Авито<br>Профиль → Настройки → Устройства → Добавить<br>Наведите камеру на QR-код</div>
+      </div>
+      <button class="btn-next" style="width:100%" onclick="wizData.auth=true;wNext()">&#10003; Авторизация выполнена</button>
+    </div>
+    <div id="mSMS" style="display:none">
+      <input class="wiz-input" id="w6" placeholder="Введите SMS-код из сообщения Авито">
+      <button class="btn-next" style="width:100%" onclick="wizData.auth=true;wNext()">Подтвердить &#8594;</button>
+    </div>
+    <div class="wiz-foot" style="margin-top:14px"><button class="btn-prev" onclick="wPrev()">&#8592; Назад</button><div></div></div>
+  `;
+  else if(wizStep===4) body=`
+    <div class="wiz-title">Скрипт продаж</div>
+    <div class="wiz-sub">Автопилот составил скрипт на основе вашей ниши. Можете дополнить.</div>
+    <div class="spin-box">
+      <div class="spin-lbl">🤖 Сгенерированный SPIN-скрипт</div>
+      <div class="spin-txt">
+        <strong style="color:var(--g)">Приветствие:</strong> «Добрый день! Спасибо за интерес.»<br><br>
+        <strong style="color:var(--g)">Квалификация:</strong> Уточняем модель / параметры / объём заказа для точного подбора.<br><br>
+        <strong style="color:var(--g)">Презентация:</strong> Указываем наличие, цену, гарантию и срок доставки.<br><br>
+        <strong style="color:var(--g)">Закрытие:</strong> «Можем оформить сегодня. Доставка в день заказа. Удобно?»<br><br>
+        Ниша: <strong style="color:var(--g)">${wizData.niche||'—'}</strong>
+      </div>
+    </div>
+    <label class="wiz-label">Дополнительные инструкции</label>
+    <textarea class="wiz-textarea" id="w7" placeholder="Например: предлагать рассрочку, не называть конкурентов...">${wizData.extra||''}</textarea>
+    <div class="wiz-foot"><button class="btn-prev" onclick="wPrev()">&#8592; Назад</button><button class="btn-next" onclick="wNext()">Запустить бота 🚀</button></div>
+  `;
+  else if(wizStep===5){
+    const isPaidBot = wizData._isPaidFromBalance || BOTS.some(b => b.name === wizData.accname && b.status === 'active');
+    body=`
+    <div class="success-wiz" style="text-align:center;padding:30px 20px">
+      <div style="font-size:64px;margin-bottom:16px;line-height:1">✅</div>
+      <div class="sw-title" style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--g);margin-bottom:12px">Спасибо за выбор компании MAJORKA!</div>
+      <div class="sw-txt" style="font-size:14px;color:#d0c8b8;max-width:520px;margin:0 auto 24px;line-height:1.7">
+        Ваш Авито-бот <strong style="color:#fff">${wizData.accname||'Новый бот'}</strong> успешно создан и запущен в работу!<br>
+        С вашего баланса списано <strong style="color:var(--g)">6 490 ₽</strong>.<br><br>
+        ИИ-продавец уже активен и готов мгновенно отвечать вашим клиентам 24/7.
+      </div>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
+        <button class="btn-cta" onclick="nav('bots')" style="padding:12px 28px;background:linear-gradient(135deg,#c9a84c 0%,#e8c97a 100%);color:#000;font-weight:700;border:none;border-radius:6px;cursor:pointer">📱 Мои боты</button>
+        <button class="btn-prev" onclick="nav('overview')" style="padding:12px 24px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:6px;cursor:pointer">На главную панель</button>
+      </div>
+    </div>
+  `;
+  }
+  if(wizStep===4){
+    wizData.extra=document.getElementById('w7')?.value.trim();
+    let botStatus = 'pending';
+    if (USER_BALANCE >= 6490) {
+      USER_BALANCE -= 6490;
+      localStorage.setItem('majorka_user_balance', USER_BALANCE);
+      botStatus = 'active';
+      wizData._isPaidFromBalance = true;
+      updateBalanceUI();
+    }
+    
+    const newBot={
+      id:'b'+Date.now(), name:wizData.accname, niche:wizData.niche,
+      phone:wizData.phone, status: botStatus,
+      dialogs_today:0, dialogs_week:0, dialogs_month:0, conversions:0,
+      created:new Date().toLocaleDateString('ru-RU')
+    };
+    BOTS.push(newBot);
+    saveBots();
+    renderSbBots();
+  }
+  wizStep=Math.min(wizStep+1,5);
+  renderWiz();
+}
+function wPrev(){ wizStep=Math.max(wizStep-1,1); renderWiz(); }
+function switchM(m){
+  document.getElementById('mQR').style.display=m==='qr'?'block':'none';
+  document.getElementById('mSMS').style.display=m==='sms'?'block':'none';
+  document.getElementById('tabQR').className='mtab'+(m==='qr'?' active':'');
+  document.getElementById('tabSMS').className='mtab'+(m==='sms'?' active':'');
+}
+
+// ══════════════ ANALYTICS ══════════════
+function renderAnalytics(){
+  const hasBots = BOTS.length>0;
+  document.getElementById('mainContent').innerHTML=`
+    <div class="section-hd">
+      <div><div class="section-title">Аналитика</div><div class="section-sub">Отчёты по всем ботам</div></div>
+    </div>
+    <div class="period-tabs">
+      <div class="ptab active" onclick="setPeriod(this)">Сегодня</div>
+      <div class="ptab" onclick="setPeriod(this)">Вчера</div>
+      <div class="ptab" onclick="setPeriod(this)">Неделя</div>
+      <div class="ptab" onclick="setPeriod(this)">Месяц</div>
+    </div>
+    <div class="cards-row">
+      <div class="card2"><div class="card2-label">Диалогов</div><div class="${hasBots?'card2-val':'card2-zero'}">${BOTS.reduce((s,b)=>s+(b.dialogs_today||0),0)}</div><div class="card2-sub">За выбранный период</div></div>
+      <div class="card2"><div class="card2-label">Ответов бота</div><div class="${hasBots?'card2-val':'card2-zero'}">${BOTS.reduce((s,b)=>s+(b.dialogs_today||0),0)}</div><div class="card2-sub">Автоматических</div></div>
+      <div class="card2"><div class="card2-label">Конверсии</div><div class="${hasBots?'card2-val':'card2-zero'}">${BOTS.reduce((s,b)=>s+(b.conversions||0),0)}</div><div class="card2-sub">Заявок/продаж</div></div>
+      <div class="card2"><div class="card2-label">Сэкономлено</div><div class="${hasBots?'card2-val':'card2-zero'}">${hasBots?Math.round(BOTS.reduce((s,b)=>s+(b.dialogs_month||0),0)*1.5/60)+'ч':'—'}</div><div class="card2-sub">Вашего времени</div></div>
+    </div>
+    ${!hasBots?`<div class="empty-state">
+      <div class="es-icon">📊</div>
+      <div class="es-title">Данных пока нет</div>
+      <div class="es-sub">Создайте первого бота — данные появятся автоматически</div>
+      <button class="btn-next" onclick="nav('create')">+ Создать бота</button>
+    </div>`:`
+    <div class="chart-grid">
+      <div class="chart-box">
+        <div class="chart-title">Диалоги по дням</div>
+        <div class="chart-empty"><div class="chart-empty-icon">📈</div><div class="chart-empty-txt">Данные накапливаются...</div></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Распределение по ботам</div>
+        <div class="chart-empty"><div class="chart-empty-icon">🤖</div><div class="chart-empty-txt">Данные накапливаются...</div></div>
+      </div>
+    </div>
+    <div class="table-box">
+      <div class="table-head"><div class="table-title">Детальный отчёт</div></div>
+      <table>
+        <tr><th>Бот</th><th>Диалоги</th><th>Конверсии</th><th>% Конверсии</th><th>Ср. ответ</th></tr>
+        ${BOTS.map(b=>`<tr onclick="openBot('${b.id}')">
+          <td class="td-name">${b.name}</td>
+          <td style="color:var(--g)">${b.dialogs_today||0}</td>
+          <td>${b.conversions||0}</td>
+          <td>—</td>
+          <td>~3 сек</td>
+        </tr>`).join('')}
+      </table>
+    </div>`}
+  `;
+}
+
+function setPeriod(el){
+  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Auto-login if URL parameter exists
+window.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const loginParam = urlParams.get('login');
+  if (loginParam) {
+    document.getElementById('loginInput').value = loginParam;
+    doLogin();
+  }
+});
+
+function deleteBot(botId) {
+  if (confirm('Вы действительно хотите удалить этого бота?')) {
+    BOTS = BOTS.filter(b => b.id !== botId);
+    try { if(window.saveBotsState) window.saveBotsState(); } catch(e){}
+    renderBots();
+    renderSidebar();
+    renderOverview();
+    alert('Бот полностью удалён!');
+  }
+} catch(e){}
+    renderBots();
+    renderSidebar();
+    alert('Бот успешно удалён!');
+  }
+}
+
+function openEditModal(botId) {
+  const b = BOTS.find(x => x.id === botId);
+  if (!b) return;
+  const newName = prompt('Новое название бота:', b.name);
+  if (newName && newName.trim()) {
+    b.name = newName.trim();
+    const newNiche = prompt('Ниша бизнеса:', b.niche || '');
+    if (newNiche !== null) b.niche = newNiche.trim();
+    try { if(window.saveBotsState) window.saveBotsState(); } catch(e){}
+    renderBots();
+    renderSidebar();
+    alert('Настройки бота обновлены!');
+  }
+}
+
+</script>
+
+<!-- INLINE PAYMENT MODAL IN DASHBOARD -->
+<!-- INLINE PAYMENT MODAL FOR DASHBOARD -->
+<!-- INLINE PAYMENT MODAL IN DASHBOARD -->
+<div class="obg" id="obg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:16px">
+  <div class="obox" style="background:#141416;border:1px solid rgba(201,168,76,0.4);border-radius:16px;max-width:480px;width:100%;padding:32px;position:relative;color:#fff">
+    <button class="ocl" onclick="window.closeOrder()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#aaa;font-size:22px;cursor:pointer">✕</button>
+    
+    <div id="oForm">
+      <div style="display:inline-block;background:rgba(201,168,76,0.15);color:#c9a84c;font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:12px;margin-bottom:12px">💰 Пополнение баланса</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#fff;margin-bottom:4px">Пополнение на 6 490 ₽</div>
+      <div style="font-size:12px;color:#a09080;margin-bottom:20px">Хватает для запуска 1 Авито-бота на 1 месяц</div>
+      
+      <!-- SBP Direct Transfer Option -->
+      <div style="background:linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(255,255,255,0.02) 100%);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:18px;margin-bottom:20px;text-align:left">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px">⚡ Перевод по СБП (0% комиссии):</div>
+        
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:13px">
+          <span style="color:#a09080">Номер телефона СБП:</span>
+          <strong style="color:#fff;font-size:15px">+7 (923) 451-10-89</strong>
+        </div>
+        
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px">
+          <span style="color:#a09080">Банк получателя:</span>
+          <strong style="color:#ffe082">🟡 Т-Банк (Тинькофф)</strong>
+        </div>
+      </div>
+
+      <button type="button" onclick="window.confirmTopup()" style="width:100%;background:linear-gradient(135deg,#c9a84c 0%,#e8c97a 100%);color:#000;border:none;padding:16px;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;border-radius:10px;cursor:pointer;margin-bottom:12px">✅ Подтвердить пополнение 6 490 ₽</button>
+      
+      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" onsubmit="setTimeout(() => window.confirmTopup(), 1000)">
+        <input type="hidden" name="receiver" value="4100119556996975">
+        <input type="hidden" name="quickpay-form" value="shop">
+        <input type="hidden" name="targets" value="Пополнение баланса MAJORKA BOT (6490 руб)">
+        <input type="hidden" name="paymentType" value="AC">
+        <input type="hidden" name="sum" value="6490">
+        <button type="submit" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:12px;font-size:11px;font-weight:600;border-radius:10px;cursor:pointer">💳 Оплатить картой через ЮMoney</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+function openOrder() { document.getElementById('obg').classList.add('on'); }
+function closeOrder() { document.getElementById('obg').classList.remove('on'); }
+
+function switchPayTab(tab) {
+  const isSbp = tab === 'sbpPhone';
+  document.getElementById('boxSbpPhone').style.display = isSbp ? 'block' : 'none';
+  document.getElementById('boxCardYoo').style.display = isSbp ? 'none' : 'block';
+  
+  const tabSbp = document.getElementById('tabSbpPhone');
+  const tabCard = document.getElementById('tabCardYoo');
+  
+  if (isSbp) {
+    tabSbp.style.background = 'rgba(201,168,76,0.15)';
+    tabSbp.style.borderColor = 'rgba(201,168,76,0.4)';
+    tabSbp.style.color = 'var(--g)';
+    tabCard.style.background = 'rgba(255,255,255,0.03)';
+    tabCard.style.borderColor = 'rgba(255,255,255,0.1)';
+    tabCard.style.color = '#a09080';
+  } else {
+    tabCard.style.background = 'rgba(201,168,76,0.15)';
+    tabCard.style.borderColor = 'rgba(201,168,76,0.4)';
+    tabCard.style.color = 'var(--g)';
+    tabSbp.style.background = 'rgba(255,255,255,0.03)';
+    tabSbp.style.borderColor = 'rgba(255,255,255,0.1)';
+    tabSbp.style.color = '#a09080';
+  }
+}
+
+function confirmTopup() {
+  USER_BALANCE += 6490;
+  localStorage.setItem('majorka_user_balance', USER_BALANCE);
+  updateBalanceUI();
+  closeOrder();
+  alert('🎉 Баланс пополнен на 6 490 ₽! Теперь вы можете запустить бота.');
+}
+</script>
+
+</body>
+</html>
