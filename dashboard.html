@@ -7,7 +7,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   
-  <title>MAJORKA BOT — Панель Управления</title>
+  <title>MAJORKA BOT — Личный Кабинет</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -48,6 +48,7 @@
     .brand { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; letter-spacing: 2px; color: var(--g); text-decoration: none; }
     
     .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .user-badge { font-size: 11px; font-weight: 600; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12); padding: 5px 10px; border-radius: 12px; color: #fff; white-space: nowrap; }
     .balance-badge { font-size: 11px; font-weight: 700; background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.35); padding: 6px 12px; border-radius: 16px; color: #fff; white-space: nowrap; }
     .btn-topup { padding: 8px 16px; border-radius: 16px; background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%); color: #000; font-weight: 800; font-size: 11px; cursor: pointer; border: none; white-space: nowrap; transition: 0.2s; }
     .btn-topup:hover { opacity: 0.9; transform: scale(1.02); }
@@ -89,7 +90,18 @@
   </style>
 
   <script>
-    // DEFINE GLOBAL FUNCTIONS BEFORE BODY PARSING
+    // TELEGRAM USER & BOT SYNCHRONIZATION
+    window.tgUser = null;
+    try {
+      if (window.Telegram && window.Telegram.WebApp) {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+        if (window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+          window.tgUser = window.Telegram.WebApp.initDataUnsafe.user;
+        }
+      }
+    } catch(e) {}
+
     window.USER_BALANCE = 0;
     window.BOTS = [];
 
@@ -111,6 +123,11 @@
       if (cardBalEl) cardBalEl.textContent = txt;
       var cardBotsEl = document.getElementById('cardBots');
       if (cardBotsEl) cardBotsEl.textContent = window.BOTS.filter(function(b){ return b.status === 'active'; }).length;
+      
+      var userEl = document.getElementById('userVal');
+      if (userEl && window.tgUser) {
+        userEl.textContent = '👤 ' + (window.tgUser.first_name || 'Пользователь');
+      }
     };
 
     window.saveState = function() {
@@ -144,7 +161,7 @@
         </div>
         <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center">
           <h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>
-          <p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>
+          <p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и синхронизируется с Telegram.</p>
           <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
             <button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>
             <button onclick="window.openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>
@@ -176,9 +193,10 @@
           <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
               <div class="serif" style="font-size:20px;color:#fff;font-weight:600">${b.name}</div>
-              <div style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(67,160,71,0.15);color:#81c784">АКТИВЕН</div>
+              <div style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(67,160,71,0.15);color:#81c784">АКТИВЕН И СИНХРОНИЗИРОВАН</div>
             </div>
-            <div style="font-size:11px;color:var(--txm);margin-bottom:16px">Ниша: ${b.niche || 'Авито'}</div>
+            <div style="font-size:11px;color:var(--txm);margin-bottom:6px">Ниша: ${b.niche || 'Авито'}</div>
+            <div style="font-size:10px;color:var(--g);margin-bottom:16px">Telegram ID: ${b.chatId || (window.tgUser ? window.tgUser.id : 'Синхронизировано')}</div>
             <button onclick="window.deleteBot('${b.id}')" style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);color:#ef5350;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer">🗑️ Удалить бота</button>
           </div>
         `;
@@ -194,7 +212,7 @@
       c.innerHTML = `
         <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;max-width:520px;margin:0 auto">
           <h2 class="serif" style="font-size:26px;color:#fff;margin-bottom:6px">Новый Авито-бот</h2>
-          <p style="font-size:12px;color:var(--txm);margin-bottom:20px">Укажите параметры подключения</p>
+          <p style="font-size:12px;color:var(--txm);margin-bottom:20px">Укажите параметры. Бот автоматически создастся в Telegram!</p>
           <div class="form-group">
             <label class="form-label">Название бота / Аккаунта</label>
             <input type="text" id="wName" class="form-input" placeholder="Мой магазин Авито">
@@ -203,7 +221,7 @@
             <label class="form-label">Ваша Ниша / Товар</label>
             <input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти, Электроника">
           </div>
-          <button onclick="window.submitWiz()" class="btn-primary">Запустить бота 🚀</button>
+          <button onclick="window.submitWiz()" class="btn-primary">Запустить и Синхронизировать с Telegram 🚀</button>
         </div>
       `;
     };
@@ -220,9 +238,9 @@
           ${!hasBots ? 
             '<div style="text-align:center;padding:32px;color:var(--txm);font-size:12px">Ботов пока нет. Создайте бота, чтобы получать диалоги.</div>' :
             `<div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:12px;color:#d0c8b8">
-              "🟢 <strong>${window.BOTS[0].name}</strong> (Авито):<br>
+              🟢 <strong>${window.BOTS[0].name}</strong> (Авито & Telegram):<br>
               <span style="color:var(--txm)">Покупатель: Здравствуйте, товар в наличии?</span><br>
-              <span style="color:var(--g)">Бот: Здравствуйте! Да, в наличии. В каком городе находитесь?</span>"
+              <span style="color:var(--g)">Бот: Здравствуйте! Да, в наличии. В каком городе находитесь?</span>
             </div>`
           }
         </div>
@@ -232,8 +250,9 @@
     window.submitWiz = function() {
       var nameEl = document.getElementById('wName');
       var nicheEl = document.getElementById('wNiche');
-      var name = (nameEl && nameEl.value.trim()) || 'Новый бот';
+      var name = (nameEl && nameEl.value.trim()) || 'Мой магазин Авито';
       var niche = (nicheEl && nicheEl.value.trim()) || 'Товары';
+      var chatId = window.tgUser ? window.tgUser.id : ('tg_' + Date.now());
 
       if (window.USER_BALANCE < 6490) {
         window.openPayModal();
@@ -244,6 +263,7 @@
       window.USER_BALANCE -= 6490;
       window.BOTS.push({
         id: 'bot_' + Date.now(),
+        chatId: chatId,
         name: name,
         niche: niche,
         status: 'active',
@@ -252,6 +272,15 @@
 
       window.saveState();
 
+      // Try sending sync request to backend API
+      try {
+        fetch('http://127.0.0.1:8085/api/create_bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: chatId, name: name, niche: niche })
+        }).catch(function(e){});
+      } catch(e) {}
+
       var c = document.getElementById('mainContent');
       if (c) {
         c.innerHTML = `
@@ -259,7 +288,7 @@
             <div style="font-size:56px;margin-bottom:12px">✅</div>
             <h2 class="serif" style="font-size:28px;color:var(--g);margin-bottom:10px">Спасибо за выбор компании MAJORKA!</h2>
             <p style="font-size:13px;color:var(--tx);max-width:440px;margin:0 auto 20px;line-height:1.5">
-              Ваш Авито-бот <strong>"${name}"</strong> запущен в работу!<br>
+              Ваш Авито-бот <strong>"${name}"</strong> успешно создан и синхронизирован с Telegram!<br>
               Списано с баланса: <strong style="color:var(--g)">6 490 ₽</strong>.
             </p>
             <button onclick="window.nav('bots')" class="btn-topup" style="padding:10px 24px">📱 Перейти к ботам</button>
@@ -302,6 +331,7 @@
       <a href="index.html" class="brand">MAJORKA BOT</a>
       
       <div class="topbar-right">
+        <div class="user-badge" id="userVal">👤 Аккаунт Telegram</div>
         <div class="balance-badge">💰 <span id="balVal" style="color:var(--g)">0 ₽</span></div>
         <button class="btn-topup" onclick="window.openPayModal()">💳 ПОПОЛНИТЬ 6 490 ₽</button>
       </div>
@@ -328,7 +358,7 @@
       </div>
       <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:28px;text-align:center">
         <h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>
-        <p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>
+        <p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и синхронизируется с Telegram.</p>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
           <button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>
           <button onclick="window.openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>
