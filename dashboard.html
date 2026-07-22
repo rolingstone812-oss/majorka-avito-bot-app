@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <!-- Disable caching completely -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  
   <title>MAJORKA BOT — Панель Управления</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,7 +90,7 @@
   </style>
 
   <script>
-    // DEFINE GLOBAL FUNCTIONS BEFORE BODY PARSING SO ONCLICK HANDLERS NEVER FAIL!
+    // DEFINE GLOBAL FUNCTIONS BEFORE BODY PARSING
     window.USER_BALANCE = 0;
     window.BOTS = [];
 
@@ -358,7 +363,9 @@
   </div>
 
   <script>
+    // Ensure initial render updates static elements and binds active class
     window.updateBalanceUI();
+    window.nav('overview');
   </script>
 </body>
 </html>
