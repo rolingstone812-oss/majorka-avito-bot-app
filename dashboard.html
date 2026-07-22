@@ -93,24 +93,23 @@
       
       <div class="topbar-right">
         <div class="balance-badge">💰 <span id="balVal" style="color:var(--g)">0 ₽</span></div>
-        <button class="btn-topup" onclick="openPayModal()">💳 ПОПОЛНИТЬ 6 490 ₽</button>
+        <button class="btn-topup" onclick="window.openPayModal()">💳 ПОПОЛНИТЬ 6 490 ₽</button>
       </div>
     </div>
 
     <!-- TABS BAR -->
     <div class="tabs-bar">
       <div class="nav-tabs">
-        <button class="tab-btn active" id="tab-overview" onclick="nav('overview')">📊 Обзор</button>
-        <button class="tab-btn" id="tab-bots" onclick="nav('bots')">🤖 Мои боты</button>
-        <button class="tab-btn" id="tab-create" onclick="nav('create')">➕ Создать бота</button>
-        <button class="tab-btn" id="tab-dialogs" onclick="nav('dialogs')">💬 Диалоги</button>
+        <button class="tab-btn active" id="tab-overview" onclick="window.nav('overview')">📊 Обзор</button>
+        <button class="tab-btn" id="tab-bots" onclick="window.nav('bots')">🤖 Мои боты</button>
+        <button class="tab-btn" id="tab-create" onclick="window.nav('create')">➕ Создать бота</button>
+        <button class="tab-btn" id="tab-dialogs" onclick="window.nav('dialogs')">💬 Диалоги</button>
       </div>
       <a href="index.html" style="color:var(--txm);font-size:11px;text-decoration:none;white-space:nowrap">🌐 О сервисе</a>
     </div>
 
     <!-- MAIN CONTENT -->
     <div class="content" id="mainContent">
-      <!-- DEFAULT HTML CONTENT FOR INSTANT RENDERING -->
       <div class="cards-row">
         <div class="card"><div class="card-lbl">Баланс</div><div class="card-val" id="cardBal">0 ₽</div></div>
         <div class="card"><div class="card-lbl">Активных ботов</div><div class="card-val" id="cardBots">0</div></div>
@@ -121,8 +120,8 @@
         <h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>
         <p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          <button onclick="nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>
-          <button onclick="openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>
+          <button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>
+          <button onclick="window.openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>
         </div>
       </div>
     </div>
@@ -131,7 +130,7 @@
   <!-- PAYMENT MODAL -->
   <div class="modal-bg" id="payModal" style="display:none">
     <div class="modal-box">
-      <button class="modal-close" onclick="closePayModal()">✕</button>
+      <button class="modal-close" onclick="window.closePayModal()">✕</button>
       <div style="color:var(--g);font-size:11px;font-weight:700;margin-bottom:8px;text-transform:uppercase">💰 Пополнение баланса</div>
       <div class="serif" style="font-size:24px;color:#fff;margin-bottom:4px">Пополнение на 6 490 ₽</div>
       <div style="font-size:11px;color:var(--txm);margin-bottom:20px">Хватает для запуска 1 Авито-бота на 1 месяц</div>
@@ -148,9 +147,9 @@
         </div>
       </div>
 
-      <button type="button" onclick="confirmTopup()" class="btn-primary" style="margin-bottom:10px">✅ Я перевёл (Подтвердить 6 490 ₽)</button>
+      <button type="button" onclick="window.confirmTopup()" class="btn-primary" style="margin-bottom:10px">✅ Я перевёл (Подтвердить 6 490 ₽)</button>
       
-      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" onsubmit="setTimeout(confirmTopup, 1000)">
+      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" onsubmit="setTimeout(function(){ window.confirmTopup(); }, 1000)">
         <input type="hidden" name="receiver" value="4100119556996975">
         <input type="hidden" name="quickpay-form" value="shop">
         <input type="hidden" name="targets" value="Пополнение баланса MAJORKA BOT">
@@ -162,45 +161,46 @@
   </div>
 
   <script>
-    var USER_BALANCE = parseInt(localStorage.getItem('majorka_user_balance') || '0');
-    var BOTS = [];
-    try { BOTS = JSON.parse(localStorage.getItem('majorka_bots') || '[]'); } catch(e){ BOTS = []; }
+    // GLOBALLY SCOPED EXPLICIT WINDOW FUNCTIONS
+    window.USER_BALANCE = parseInt(localStorage.getItem('majorka_user_balance') || '0');
+    window.BOTS = [];
+    try { window.BOTS = JSON.parse(localStorage.getItem('majorka_bots') || '[]'); } catch(e){ window.BOTS = []; }
 
-    function updateBalanceUI() {
+    window.updateBalanceUI = function() {
       var balEl = document.getElementById('balVal');
       var cardBalEl = document.getElementById('cardBal');
-      var txt = USER_BALANCE.toLocaleString('ru-RU') + ' ₽';
+      var txt = window.USER_BALANCE.toLocaleString('ru-RU') + ' ₽';
       if (balEl) balEl.textContent = txt;
       if (cardBalEl) cardBalEl.textContent = txt;
       var cardBotsEl = document.getElementById('cardBots');
-      if (cardBotsEl) cardBotsEl.textContent = BOTS.filter(function(b){ return b.status==='active'; }).length;
-    }
+      if (cardBotsEl) cardBotsEl.textContent = window.BOTS.filter(function(b){ return b.status==='active'; }).length;
+    };
 
-    function saveState() {
-      localStorage.setItem('majorka_user_balance', USER_BALANCE.toString());
-      localStorage.setItem('majorka_bots', JSON.stringify(BOTS));
-      updateBalanceUI();
-    }
+    window.saveState = function() {
+      localStorage.setItem('majorka_user_balance', window.USER_BALANCE.toString());
+      localStorage.setItem('majorka_bots', JSON.stringify(window.BOTS));
+      window.updateBalanceUI();
+    };
 
-    function nav(screen) {
+    window.nav = function(screen) {
       document.querySelectorAll('.tab-btn').forEach(function(btn){ btn.classList.remove('active'); });
       var activeTab = document.getElementById('tab-' + screen);
       if (activeTab) activeTab.classList.add('active');
 
-      if (screen === 'overview') renderOverview();
-      else if (screen === 'bots') renderBots();
-      else if (screen === 'create') renderCreateWiz();
-      else if (screen === 'dialogs') renderDialogs();
-    }
+      if (screen === 'overview') window.renderOverview();
+      else if (screen === 'bots') window.renderBots();
+      else if (screen === 'create') window.renderCreateWiz();
+      else if (screen === 'dialogs') window.renderDialogs();
+    };
 
-    function renderOverview() {
-      var activeBots = BOTS.filter(function(b){ return b.status === 'active'; }).length;
+    window.renderOverview = function() {
+      var activeBots = window.BOTS.filter(function(b){ return b.status === 'active'; }).length;
       var c = document.getElementById('mainContent');
       if (!c) return;
 
       c.innerHTML = 
         '<div class="cards-row">' +
-          '<div class="card"><div class="card-lbl">Баланс</div><div class="card-val">' + USER_BALANCE.toLocaleString('ru-RU') + ' ₽</div></div>' +
+          '<div class="card"><div class="card-lbl">Баланс</div><div class="card-val">' + window.USER_BALANCE.toLocaleString('ru-RU') + ' ₽</div></div>' +
           '<div class="card"><div class="card-lbl">Активных ботов</div><div class="card-val">' + activeBots + '</div></div>' +
           '<div class="card"><div class="card-lbl">Всего диалогов</div><div class="card-val">' + (activeBots * 14) + '</div></div>' +
           '<div class="card"><div class="card-lbl">Экономия времени</div><div class="card-val">' + (activeBots * 3) + 'ч</div></div>' +
@@ -209,43 +209,43 @@
           '<h3 class="serif" style="font-size:24px;color:#fff;margin-bottom:10px">Панель Управления MAJORKA BOT</h3>' +
           '<p style="font-size:13px;color:var(--txm);max-width:480px;margin:0 auto 20px">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и увеличивает конверсию.</p>' +
           '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">' +
-            '<button onclick="nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>' +
-            '<button onclick="openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>' +
+            '<button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px;font-size:12px">➕ Создать бота</button>' +
+            '<button onclick="window.openPayModal()" class="tab-btn" style="padding:10px 20px;font-size:12px">💳 Пополнить баланс (6 490 ₽)</button>' +
           '</div>' +
         '</div>';
-    }
+    };
 
-    function renderBots() {
+    window.renderBots = function() {
       var c = document.getElementById('mainContent');
       if (!c) return;
 
-      if (BOTS.length === 0) {
+      if (window.BOTS.length === 0) {
         c.innerHTML = 
           '<div style="text-align:center;padding:48px 20px;background:var(--bg-card);border:1px solid var(--border);border-radius:14px">' +
             '<div style="font-size:40px;margin-bottom:12px">🤖</div>' +
             '<h3 class="serif" style="font-size:22px;color:#fff;margin-bottom:8px">Ботов пока нет</h3>' +
             '<p style="font-size:12px;color:var(--txm);margin-bottom:20px">Создайте вашего первого авто-продавца</p>' +
-            '<button onclick="nav('create')" class="btn-topup" style="padding:10px 24px">➕ Создать бота</button>' +
+            '<button onclick="window.nav('create')" class="btn-topup" style="padding:10px 24px">➕ Создать бота</button>' +
           '</div>';
         return;
       }
 
       c.innerHTML = 
         '<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(260px, 1fr));gap:16px">' +
-          BOTS.map(function(b) {
+          window.BOTS.map(function(b) {
             return '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:20px">' +
               '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">' +
                 '<div class="serif" style="font-size:20px;color:#fff;font-weight:600">' + b.name + '</div>' +
                 '<div style="font-size:10px;font-weight:700;padding:3px 8px;border-radius:10px;background:rgba(67,160,71,0.15);color:#81c784">АКТИВЕН</div>' +
               '</div>' +
               '<div style="font-size:11px;color:var(--txm);margin-bottom:16px">Ниша: ' + (b.niche || 'Авито') + '</div>' +
-              '<button onclick="deleteBot('' + b.id + '')" style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);color:#ef5350;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer">🗑️ Удалить бота</button>' +
+              '<button onclick="window.deleteBot('' + b.id + '')" style="background:rgba(229,57,53,0.15);border:1px solid rgba(229,57,53,0.3);color:#ef5350;padding:6px 12px;border-radius:6px;font-size:11px;cursor:pointer">🗑️ Удалить бота</button>' +
             '</div>';
           }).join('') +
         '</div>';
-    }
+    };
 
-    function renderCreateWiz() {
+    window.renderCreateWiz = function() {
       var c = document.getElementById('mainContent');
       if (!c) return;
 
@@ -261,11 +261,11 @@
             '<label class="form-label">Ваша Ниша / Товар</label>' +
             '<input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти, Электроника">' +
           '</div>' +
-          '<button onclick="submitWiz()" class="btn-primary">Запустить бота 🚀</button>' +
+          '<button onclick="window.submitWiz()" class="btn-primary">Запустить бота 🚀</button>' +
         '</div>';
-    }
+    };
 
-    function renderDialogs() {
+    window.renderDialogs = function() {
       var c = document.getElementById('mainContent');
       if (!c) return;
 
@@ -273,31 +273,31 @@
         '<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:14px;padding:24px">' +
           '<h3 class="serif" style="font-size:22px;color:#fff;margin-bottom:12px">💬 Диалоги и Ответы Бота</h3>' +
           '<p style="font-size:12px;color:var(--txm);margin-bottom:20px">Здесь отображается переписка авто-продавцов с покупателями в реальном времени.</p>' +
-          (BOTS.length === 0 ? 
+          (window.BOTS.length === 0 ? 
             '<div style="text-align:center;padding:32px;color:var(--txm);font-size:12px">Ботов пока нет. Создайте бота, чтобы получать диалоги.</div>' :
             '<div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:8px;padding:16px;font-size:12px;color:#d0c8b8">' +
-              '🟢 <strong>' + BOTS[0].name + '</strong> (Авито):<br>' +
+              '🟢 <strong>' + window.BOTS[0].name + '</strong> (Авито):<br>' +
               '<span style="color:var(--txm)">Покупатель: Здравствуйте, товар в наличии?</span><br>' +
               '<span style="color:var(--g)">Бот: Здравствуйте! Да, в наличии. В каком городе находитесь?</span>' +
             '</div>'
           ) +
         '</div>';
-    }
+    };
 
-    function submitWiz() {
+    window.submitWiz = function() {
       var nameEl = document.getElementById('wName');
       var nicheEl = document.getElementById('wNiche');
       var name = (nameEl && nameEl.value.trim()) || 'Новый бот';
       var niche = (nicheEl && nicheEl.value.trim()) || 'Товары';
 
-      if (USER_BALANCE < 6490) {
-        openPayModal();
+      if (window.USER_BALANCE < 6490) {
+        window.openPayModal();
         alert('Для запуска бота пополните баланс на 6 490 ₽.');
         return;
       }
 
-      USER_BALANCE -= 6490;
-      BOTS.push({
+      window.USER_BALANCE -= 6490;
+      window.BOTS.push({
         id: 'bot_' + Date.now(),
         name: name,
         niche: niche,
@@ -305,7 +305,7 @@
         created: new Date().toLocaleDateString('ru-RU')
       });
 
-      saveState();
+      window.saveState();
 
       var c = document.getElementById('mainContent');
       if (c) {
@@ -317,37 +317,37 @@
               'Ваш Авито-бот <strong>"' + name + '"</strong> запущен в работу!<br>' +
               'Списано с баланса: <strong style="color:var(--g)">6 490 ₽</strong>.' +
             '</p>' +
-            '<button onclick="nav('bots')" class="btn-topup" style="padding:10px 24px">📱 Перейти к ботам</button>' +
+            '<button onclick="window.nav('bots')" class="btn-topup" style="padding:10px 24px">📱 Перейти к ботам</button>' +
           '</div>';
       }
-    }
+    };
 
-    function deleteBot(id) {
+    window.deleteBot = function(id) {
       if (confirm('Вы действительно хотите удалить этого бота?')) {
-        BOTS = BOTS.filter(function(b) { return b.id !== id; });
-        saveState();
-        renderBots();
+        window.BOTS = window.BOTS.filter(function(b) { return b.id !== id; });
+        window.saveState();
+        window.renderBots();
       }
-    }
+    };
 
-    function openPayModal() {
+    window.openPayModal = function() {
       var m = document.getElementById('payModal');
       if (m) m.style.display = 'flex';
-    }
+    };
 
-    function closePayModal() {
+    window.closePayModal = function() {
       var m = document.getElementById('payModal');
       if (m) m.style.display = 'none';
-    }
+    };
 
-    function confirmTopup() {
-      USER_BALANCE += 6490;
-      saveState();
-      closePayModal();
+    window.confirmTopup = function() {
+      window.USER_BALANCE += 6490;
+      window.saveState();
+      window.closePayModal();
       alert('🎉 Баланс пополнен на 6 490 ₽! Теперь вы можете запустить бота.');
-    }
+    };
 
-    updateBalanceUI();
+    window.updateBalanceUI();
   </script>
 </body>
 </html>
