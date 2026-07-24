@@ -52,10 +52,6 @@
     
     .payment-block { background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.02) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
     .payment-title { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
-    .payment-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .payment-row:last-child { border-bottom: none; }
-    .payment-label { color: var(--text-muted); }
-    .payment-value { color: #fff; font-weight: 600; }
     
     .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
     .section-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #fff; margin-bottom: 16px; }
@@ -138,9 +134,9 @@
       <div style="color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:8px;">💰 Пополнение баланса</div>
       <div class="serif" style="font-size:24px; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</div>
       
-      <div style="background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:12px; padding:16px; margin-bottom:16px;">
-        <div style="font-size:11px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Вариант 1: ЮMoney (Мгновенно)</div>
-        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Оплата картой онлайн с автоматическим зачислением на аккаунт.</p>
+      <div style="background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:12px; padding:18px; margin-bottom:16px;">
+        <div style="font-size:12px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Онлайн-оплата картой / ЮMoney (Мгновенно)</div>
+        <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Безопасная оплата. Баланс и подписка зачисляются автоматически сразу после перевода.</p>
         <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yoomoneyForm">
           <input type="hidden" name="receiver" value="4100119556996975">
           <input type="hidden" name="quickpay-form" value="button">
@@ -148,17 +144,11 @@
           <input type="hidden" name="paymentType" value="AC">
           <input type="hidden" name="sum" value="6490">
           <input type="hidden" name="label" id="ymLabel" value="">
-          <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽ через ЮMoney</button>
+          <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽</button>
         </form>
       </div>
 
-      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:10px; padding:16px; margin-bottom:16px;">
-        <div style="font-size:10px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">⚡ Вариант 2: СБП (0% комиссии)</div>
-        <div class="payment-row"><span class="payment-label">Номер СБП:</span><strong class="payment-value">+7 (923) 451-10-89</strong></div>
-        <div class="payment-row"><span class="payment-label">Банк:</span><strong class="payment-value">🟡 Т-Банк</strong></div>
-      </div>
-      
-      <button class="btn-secondary" style="width:100%;" onclick="confirmTopup()">✅ Я перевёл (Подтвердить вручную)</button>
+      <button class="btn-secondary" style="width:100%;" onclick="closePayModal()">Закрыть</button>
     </div>
   </div>
 
@@ -225,17 +215,17 @@
         </div>
 
         <div class="payment-block">
-          <div class="payment-title">💳 Оплата подписки через ЮMoney</div>
-          <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" style="margin-bottom:10px;">
+          <div class="payment-title">💳 Быстрая оплата подписки (ЮMoney)</div>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Оплата банковской картой или кошельком. Мгновенное авто-зачисление.</p>
+          <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" style="margin-bottom:6px;">
             <input type="hidden" name="receiver" value="4100119556996975">
             <input type="hidden" name="quickpay-form" value="button">
             <input type="hidden" name="targets" value="Оплата подписки MAJORKA BOT">
             <input type="hidden" name="paymentType" value="AC">
             <input type="hidden" name="sum" value="6490">
             <input type="hidden" name="label" value="${userLabel}">
-            <button type="submit" class="btn-primary" style="width:100%;">Оплатить 6 490 ₽ через ЮMoney</button>
+            <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽ через ЮMoney</button>
           </form>
-          <div style="font-size:11px; color:var(--text-muted); text-align:center;">СБП перевод: +7 (923) 451-10-89 (Т-Банк)</div>
         </div>
 
         <div class="section">
@@ -363,7 +353,7 @@
       const hours = document.getElementById('wHours').value.trim() || '09:00 - 21:00';
       
       if (balance < 6490) {
-        alert('Недостаточно средств на балансе. Пожалуйста, пополните его.');
+        alert('Недостаточно средств на балансе. Пожалуйста, пополните его через ЮMoney.');
         openPayModal();
         return;
       }
@@ -396,26 +386,6 @@
 
     function openPayModal() { document.getElementById('payModal').classList.add('active'); }
     function closePayModal() { document.getElementById('payModal').classList.remove('active'); }
-    
-    function confirmTopup() {
-      try {
-        fetch(API_URL + '/api/manual_payment_request', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel })
-        }).catch(() => {});
-      } catch(e) {}
-      
-      closePayModal();
-      alert('⏳ Заявка на проверку перевода по СБП принята!\nМенеджер подтвердит зачисление баланса в течение 2-5 минут.');
-      try {
-        if (window.Telegram?.WebApp) {
-          window.Telegram.WebApp.openTelegramLink('https://t.me/chc332');
-        } else {
-          window.open('https://t.me/chc332', '_blank');
-        }
-      } catch(e) {}
-    }
 
     function syncWithServer() {
       fetch(API_URL + '/api/stats?chatId=' + userLabel)
