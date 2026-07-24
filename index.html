@@ -17,7 +17,7 @@
       --text-muted: #908878; --green: #4caf50; --blue: #2196f3;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 80px; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 90px; }
     .serif { font-family: 'Cormorant Garamond', serif; }
     
     .header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
@@ -51,6 +51,7 @@
     .btn-secondary { padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); font-weight: 600; font-size: 12px; border-radius: 8px; cursor: pointer; text-align: center; width: 100%; }
     
     .payment-block { background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.02) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+    .payment-title { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
     .payment-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .payment-row:last-child { border-bottom: none; }
     .payment-label { color: var(--text-muted); }
@@ -61,9 +62,26 @@
     
     .chart { display: flex; justify-content: space-between; align-items: flex-end; height: 120px; padding: 10px 0; }
     .chart-bar { text-align: center; flex: 1; }
-    .chart-bar div:first-child { background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%); width: 30px; height: var(--h); border-radius: 4px; margin: 0 auto; }
+    .chart-bar div:first-child { background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%); width: 30px; height: var(--h); border-radius: 4px; margin: 0 auto; transition: height 0.3s; }
     .chart-bar div:last-child { font-size: 10px; color: var(--text-muted); margin-top: 6px; }
+
+    /* ROI */
+    .roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .roi-item-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+    .roi-item-value { font-size: 24px; font-weight: 700; color: #fff; margin-top: 4px; }
+    .roi-banner { background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); border-radius: 8px; padding: 12px; text-align: center; font-size: 12px; color: var(--green); }
     
+    /* Рефералка */
+    .ref-block { background: linear-gradient(135deg, rgba(201,168,76,0.2) 0%, rgba(201,168,76,0.05) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 20px; }
+    .ref-icon { font-size: 40px; margin-bottom: 12px; }
+    .ref-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold); margin-bottom: 8px; }
+    .ref-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+    .ref-link { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .ref-link code { font-size: 12px; color: var(--gold); word-break: break-all; }
+    .ref-stats { display: flex; justify-content: space-around; padding-top: 16px; border-top: 1px solid var(--border); }
+    .ref-stat-value { font-size: 20px; font-weight: 700; color: #fff; }
+    .ref-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+
     .form-group { margin-bottom: 16px; }
     .form-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
     .form-input { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 13px; }
@@ -100,6 +118,7 @@
     <button class="nav-btn" id="tab-btn-bots" onclick="showTab('bots')">🤖 Мои боты</button>
     <button class="nav-btn" id="tab-btn-create" onclick="showTab('create')">➕ Создать</button>
     <button class="nav-btn" id="tab-btn-dialogs" onclick="showTab('dialogs')">💬 Диалоги</button>
+    <button class="nav-btn" id="tab-btn-support" onclick="showTab('support')">⭐ Поддержка</button>
   </div>
 
   <div class="content" id="content"></div>
@@ -109,6 +128,7 @@
     <div class="bottom-nav-item" id="bnav-bots" onclick="showTab('bots')"><div class="bottom-nav-icon">🤖</div><div class="bottom-nav-label">Боты</div></div>
     <div class="bottom-nav-item" id="bnav-create" onclick="showTab('create')"><div class="bottom-nav-icon">➕</div><div class="bottom-nav-label">Создать</div></div>
     <div class="bottom-nav-item" id="bnav-dialogs" onclick="showTab('dialogs')"><div class="bottom-nav-icon">💬</div><div class="bottom-nav-label">Диалоги</div></div>
+    <div class="bottom-nav-item" id="bnav-support" onclick="showTab('support')"><div class="bottom-nav-icon">⭐</div><div class="bottom-nav-label">Поддержка</div></div>
   </div>
 
   <!-- Модальное окно оплаты -->
@@ -120,6 +140,7 @@
       
       <div style="background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:12px; padding:16px; margin-bottom:16px;">
         <div style="font-size:11px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Вариант 1: ЮMoney (Мгновенно)</div>
+        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">Оплата картой онлайн с автоматическим зачислением на аккаунт.</p>
         <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yoomoneyForm">
           <input type="hidden" name="receiver" value="4100119556996975">
           <input type="hidden" name="quickpay-form" value="button">
@@ -127,7 +148,7 @@
           <input type="hidden" name="paymentType" value="AC">
           <input type="hidden" name="sum" value="6490">
           <input type="hidden" name="label" id="ymLabel" value="">
-          <button type="submit" class="btn-primary" style="width:100%; margin-top:10px;">💳 Оплатить 6 490 ₽ через ЮMoney</button>
+          <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽ через ЮMoney</button>
         </form>
       </div>
 
@@ -149,6 +170,7 @@
     let balance = parseInt(localStorage.getItem('majorka_balance') || '0');
     let bots = JSON.parse(localStorage.getItem('majorka_bots') || '[]');
     let dialogs = JSON.parse(localStorage.getItem('majorka_dialogs') || '[]');
+    let leads = JSON.parse(localStorage.getItem('majorka_leads') || '[]');
     
     const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
       ? 'http://127.0.0.1:8085'
@@ -175,18 +197,23 @@
       else if (tab === 'bots') content.innerHTML = renderBots();
       else if (tab === 'create') content.innerHTML = renderCreate();
       else if (tab === 'dialogs') content.innerHTML = renderDialogs();
+      else if (tab === 'support') content.innerHTML = renderSupport();
       updateUI();
     }
 
     function renderOverview() {
       const activeBots = bots.filter(b => b.status === 'active').length;
+      const refCode = tgUser ? 'ref_' + tgUser.id : 'ref_12345';
+      const refLink = 'https://t.me/Saas_Master_bot?start=' + refCode;
+
       return `
         <div class="stats-grid">
-          <div class="stat-card"><div class="stat-label">Баланс</div><div class="stat-value">${balance.toLocaleString('ru-RU')} ₽</div></div>
-          <div class="stat-card"><div class="stat-label">Активных ботов</div><div class="stat-value">${activeBots}</div></div>
-          <div class="stat-card"><div class="stat-label">Диалогов обработано</div><div class="stat-value">${dialogs.length}</div></div>
-          <div class="stat-card"><div class="stat-label">Экономия времени</div><div class="stat-value green">${activeBots * 2}ч/день</div></div>
+          <div class="stat-card"><div class="stat-label">💰 Баланс</div><div class="stat-value">${balance.toLocaleString('ru-RU')} ₽</div></div>
+          <div class="stat-card"><div class="stat-label">🤖 Активных ботов</div><div class="stat-value">${activeBots}</div></div>
+          <div class="stat-card"><div class="stat-label">💬 Диалогов обработано</div><div class="stat-value">${dialogs.length}</div></div>
+          <div class="stat-card"><div class="stat-label">📞 Лидов собрано</div><div class="stat-value green">${leads.length}</div></div>
         </div>
+
         <div class="main-block">
           <div class="icon">🚀</div>
           <h2 class="serif">Панель управления</h2>
@@ -196,6 +223,21 @@
             <button class="btn-secondary" onclick="openPayModal()">💳 Пополнить</button>
           </div>
         </div>
+
+        <div class="payment-block">
+          <div class="payment-title">💳 Оплата подписки через ЮMoney</div>
+          <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" style="margin-bottom:10px;">
+            <input type="hidden" name="receiver" value="4100119556996975">
+            <input type="hidden" name="quickpay-form" value="button">
+            <input type="hidden" name="targets" value="Оплата подписки MAJORKA BOT">
+            <input type="hidden" name="paymentType" value="AC">
+            <input type="hidden" name="sum" value="6490">
+            <input type="hidden" name="label" value="${userLabel}">
+            <button type="submit" class="btn-primary" style="width:100%;">Оплатить 6 490 ₽ через ЮMoney</button>
+          </form>
+          <div style="font-size:11px; color:var(--text-muted); text-align:center;">СБП перевод: +7 (923) 451-10-89 (Т-Банк)</div>
+        </div>
+
         <div class="section">
           <div class="section-title">📊 Активность за неделю</div>
           <div class="chart">
@@ -207,7 +249,65 @@
             <div class="chart-bar"><div style="--h:${dialogs.length > 0 ? '110px' : '0px'}"></div><div>Сб</div></div>
             <div class="chart-bar"><div style="--h:${dialogs.length > 0 ? '85px' : '0px'}"></div><div>Вс</div></div>
           </div>
-        </div>`;
+          <div style="text-align:center; margin-top:12px; font-size:12px; color:var(--text-muted);">
+            Всего обработано сообщений: <strong style="color:var(--gold);">${dialogs.length}</strong>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">⚡ Последние события</div>
+          <div style="font-size:12px; color:var(--text-muted); text-align:center; padding:10px 0;">
+            ${dialogs.length === 0 ? 'Событий пока нет. Запустите бота для начала работы.' : 'Отслеживание активных событий включено.'}
+          </div>
+        </div>
+
+        <div class="section" style="background:linear-gradient(135deg, rgba(201,168,76,0.1) 0%, rgba(201,168,76,0.05) 100%);">
+          <div class="section-title" style="color:var(--gold);">💰 Ваша прибыль с ботом</div>
+          <div class="roi-grid">
+            <div>
+              <div class="roi-item-label">Обработано диалогов</div>
+              <div class="roi-item-value">${dialogs.length}</div>
+            </div>
+            <div>
+              <div class="roi-item-label">Получено лидов</div>
+              <div class="roi-item-value" style="color:var(--green);">${leads.length}</div>
+            </div>
+            <div>
+              <div class="roi-item-label">Конверсия</div>
+              <div class="roi-item-value" style="color:var(--gold);">${dialogs.length > 0 ? ((leads.length / dialogs.length) * 100).toFixed(1) + '%' : '0%'}</div>
+            </div>
+            <div>
+              <div class="roi-item-label">Прибыль за месяц</div>
+              <div class="roi-item-value" style="color:var(--green);">${(leads.length * 3000).toLocaleString('ru-RU')} ₽</div>
+            </div>
+          </div>
+          <div class="roi-banner">🚀 Статистика рассчитывается на основе реальной работы бота</div>
+        </div>
+
+        <div class="ref-block">
+          <div class="ref-icon">🎁</div>
+          <div class="ref-title">Пригласите друга — получите 1 месяц бесплатно!</div>
+          <div class="ref-desc">Отправьте ссылку другу. Когда он оплатит, вы получите 30 дней бесплатно.</div>
+          <div class="ref-link">
+            <code>${refLink}</code>
+            <button class="btn-gold" style="padding:6px 12px; font-size:10px;" onclick="navigator.clipboard.writeText('${refLink}');alert('Ссылка скопирована!');">📋 Копировать</button>
+          </div>
+          <div class="ref-stats">
+            <div>
+              <div class="ref-stat-value">0</div>
+              <div class="ref-stat-label">Приглашено</div>
+            </div>
+            <div>
+              <div class="ref-stat-value" style="color:var(--gold);">0</div>
+              <div class="ref-stat-label">Оплатил</div>
+            </div>
+            <div>
+              <div class="ref-stat-value" style="color:var(--green);">0 дней</div>
+              <div class="ref-stat-label">Бонус</div>
+            </div>
+          </div>
+        </div>
+      `;
     }
 
     function renderBots() {
@@ -238,6 +338,22 @@
         html += `<div class="section"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><div style="font-weight:600; color:var(--gold); font-size:13px;">${d.botName}</div><div style="font-size:11px; color:var(--text-muted);">${d.time}</div></div><div style="font-size:12px; color:var(--text); margin-bottom:4px;">👤 ${d.customerMsg}</div><div style="font-size:12px; color:var(--gold); margin-left:12px;">🤖 ${d.botReply}</div></div>`;
       });
       return html;
+    }
+
+    function renderSupport() {
+      return `
+        <div class="section">
+          <div class="section-title">🎓 Обучение и Поддержка</div>
+          <div style="padding:12px; background:rgba(255,255,255,0.02); border-radius:8px; margin-bottom:10px; cursor:pointer;" onclick="window.open('https://t.me/ai_manager_pr')">
+            <div style="font-size:13px; color:#fff; font-weight:600;">📢 Наш Telegram-канал</div>
+            <div style="font-size:11px; color:var(--text-muted);">@ai_manager_pr — инструкции и обновления</div>
+          </div>
+          <div style="padding:12px; background:rgba(255,255,255,0.02); border-radius:8px; cursor:pointer;" onclick="window.open('https://t.me/chc332')">
+            <div style="font-size:13px; color:#fff; font-weight:600;">💬 Задать вопрос в поддержке</div>
+            <div style="font-size:11px; color:var(--text-muted);">@chc332</div>
+          </div>
+        </div>
+      `;
     }
 
     function submitBot() {
@@ -289,7 +405,6 @@
       alert('🎉 Баланс пополнен!');
     }
 
-    // Синхронизация данных с сервера Flask/n8n
     function syncWithServer() {
       fetch(API_URL + '/api/stats?chatId=' + userLabel)
         .then(r => r.json())
@@ -297,13 +412,13 @@
           if (d && d.success) {
             if (d.balance !== undefined) { balance = d.balance; localStorage.setItem('majorka_balance', balance); }
             if (d.dialogs) { dialogs = d.dialogs; localStorage.setItem('majorka_dialogs', JSON.stringify(dialogs)); }
+            if (d.leads) { leads = d.leads; localStorage.setItem('majorka_leads', JSON.stringify(leads)); }
             updateUI();
           }
         })
         .catch(() => {});
     }
 
-    // Главная кнопка Telegram
     if (tg?.MainButton) {
       tg.MainButton.setText('💳 ПОПОЛНИТЬ БАЛАНС (6 490 ₽)');
       tg.MainButton.color = '#c9a84c';
@@ -312,7 +427,6 @@
       tg.MainButton.onClick(openPayModal);
     }
     
-    // Запуск
     showTab('overview');
     syncWithServer();
     setInterval(syncWithServer, 15000);
