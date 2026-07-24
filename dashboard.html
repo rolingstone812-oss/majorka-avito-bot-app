@@ -5,6 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <title>MAJORKA BOT — Личный Кабинет</title>
+  <style>
+    @keyframes countUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .stat-val.updated { animation: countUp 0.4s ease forwards; }
+    .live-dot {
+      display: inline-block;
+      width: 7px; height: 7px;
+      background: #3ad389;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #3ad389;
+      margin-right: 5px;
+      animation: livePulse 2s infinite;
+    }
+    @keyframes livePulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:.4; transform:scale(1.4); }
+    }
+  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -571,6 +591,15 @@
       const c = document.getElementById('mainContent');
       const active = window.BOTS.filter(b => b.status === 'active').length;
       c.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <span style="font-size:12px;color:var(--tx2);font-weight:600;">
+            <span class="live-dot"></span>Статистика в реальном времени
+          </span>
+          <span style="font-size:11px;color:var(--tx3);font-family:monospace;">
+            обновлено: <span id="lastUpdated">—</span>
+          </span>
+        </div>
+
         <div class="stats-grid">
           <div class="stat-card stat-card-gold">
             <div class="stat-label">💰 Баланс</div>
@@ -614,17 +643,62 @@
         .then(r => r.json())
         .then(d => {
           if (d?.success) {
-            const el = id => document.getElementById(id);
-            if (el('statMsgs')) el('statMsgs').textContent = d.total_messages ?? 0;
-            if (el('statLeads')) el('statLeads').textContent = d.total_leads ?? 0;
+            window._animateStat('statMsgs',  d.total_messages ?? 0);
+            window._animateStat('statLeads', d.total_leads    ?? 0);
+            window._animateStat('cardBots',  window.BOTS.filter(b=>b.status==='active').length);
           }
         })
         .catch(() => {
-          const el = id => document.getElementById(id);
-          if (el('statMsgs')) el('statMsgs').textContent = '0';
-          if (el('statLeads')) el('statLeads').textContent = '0';
+          window._animateStat('statMsgs',  0);
+          window._animateStat('statLeads', 0);
         });
     };
+
+    /* ── Animate stat value change ── */
+    window._animateStat = function(id, newVal) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const display = typeof newVal === 'number'
+        ? (id === 'cardBal' ? newVal.toLocaleString('ru-RU') + ' ₽' : newVal)
+        : newVal;
+      if (String(el.textContent).trim() !== String(display)) {
+        el.textContent = display;
+        el.classList.remove('updated');
+        void el.offsetWidth; // reflow
+        el.classList.add('updated');
+      }
+    };
+
+    /* ── Auto-polling every 30s ── */
+    window._pollStats = function() {
+      fetch(window.API_BASE_URL + '/api/stats')
+        .then(r => r.json())
+        .then(d => {
+          if (!d?.success) return;
+          window._animateStat('statMsgs',  d.total_messages ?? 0);
+          window._animateStat('statLeads', d.total_leads    ?? 0);
+          // Sync balance from server if provided
+          if (d.balance !== undefined) {
+            window.USER_BALANCE = d.balance;
+            window._animateStat('cardBal', window.USER_BALANCE);
+            window._animateStat('balVal',  window.USER_BALANCE.toLocaleString('ru-RU') + ' ₽');
+          }
+          // Update last-updated time
+          const ts = document.getElementById('lastUpdated');
+          if (ts) {
+            const t = new Date();
+            ts.textContent = t.getHours().toString().padStart(2,'0') + ':' + t.getMinutes().toString().padStart(2,'0') + ':' + t.getSeconds().toString().padStart(2,'0');
+          }
+        })
+        .catch(() => {});
+    };
+
+    // Start polling after page loads
+    setTimeout(() => {
+      window._pollStats();
+      setInterval(window._pollStats, 30000);
+    }, 2000);
+
 
     window.renderBots = function() {
       const c = document.getElementById('mainContent');
