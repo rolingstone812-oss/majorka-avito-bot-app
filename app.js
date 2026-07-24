@@ -939,3 +939,42 @@ function shakeElement(el) {
   el.style.animation = 'shake 0.4s ease';
   setTimeout(() => { el.style.animation = ''; }, 400);
 }
+
+/* ── Cabinet (Dashboard) ── */
+function openCabinetPayModal() {
+  // Reuse billing view for payment
+  switchView('billing');
+}
+
+function loadCabinetStats() {
+  // Sync balance & bots from local state
+  try {
+    const bal = parseInt(localStorage.getItem('majorka_user_balance')) || 0;
+    const bots = JSON.parse(localStorage.getItem('majorka_bots') || '[]');
+    const active = bots.filter(b => b.status === 'active').length;
+    const el = id => document.getElementById(id);
+    if (el('cabBalance')) el('cabBalance').textContent = bal.toLocaleString('ru-RU') + ' ₽';
+    if (el('cabBots')) el('cabBots').textContent = active;
+  } catch(e) {}
+
+  // Load messages & leads from API
+  const N8N_BASE = window.N8N_WEBHOOK_BASE || '';
+  if (!N8N_BASE) return;
+  fetch(N8N_BASE + '/api/stats')
+    .then(r => r.json())
+    .then(data => {
+      if (data && data.success) {
+        const el = id => document.getElementById(id);
+        if (el('cabMsgs')) el('cabMsgs').textContent = data.total_messages || 0;
+        if (el('cabLeads')) el('cabLeads').textContent = data.total_leads || 0;
+      }
+    })
+    .catch(() => {});
+}
+
+// Hook into switchView to load cabinet stats when needed
+const _origSwitchView = switchView;
+switchView = function(view) {
+  _origSwitchView(view);
+  if (view === 'cabinet') loadCabinetStats();
+};
