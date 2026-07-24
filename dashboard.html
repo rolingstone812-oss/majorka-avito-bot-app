@@ -353,32 +353,23 @@
         <div class="section">
           <div class="section-title">📊 Активность за неделю</div>
           <div class="chart">
-            <div class="chart-bar"><div style="--h:60px"></div><div>Пн</div></div>
-            <div class="chart-bar"><div style="--h:80px"></div><div>Вт</div></div>
-            <div class="chart-bar"><div style="--h:45px"></div><div>Ср</div></div>
-            <div class="chart-bar"><div style="--h:95px"></div><div>Чт</div></div>
-            <div class="chart-bar"><div style="--h:70px"></div><div>Пт</div></div>
-            <div class="chart-bar"><div style="--h:110px"></div><div>Сб</div></div>
-            <div class="chart-bar"><div style="--h:85px"></div><div>Вс</div></div>
+            <div class="chart-bar"><div style="--h:0px"></div><div>Пн</div></div>
+            <div class="chart-bar"><div style="--h:0px"></div><div>Вт</div></div>
+            <div class="chart-bar"><div style="--h:0px"></div><div>Ср</div></div>
+            <div class="chart-bar"><div style="--h:0px"></div><div>Чт</div></div>
+            <div class="chart-bar"><div style="--h:0px"></div><div>Пт</div></div>
+            <div class="chart-bar"><div style="--h:0px"></div><div>Сб</div></div>
+            <div class="chart-bar"><div style="--h:0px"></div><div>Вс</div></div>
           </div>
           <div style="text-align:center; margin-top:12px; font-size:12px; color:var(--text-muted);">
-            Всего обработано сообщений: <strong style="color:var(--gold);">${totalDialogs > 0 ? totalDialogs : 445}</strong>
+            Всего обработано сообщений: <strong style="color:var(--gold);">${totalDialogs}</strong>
           </div>
         </div>
 
         <div class="section">
           <div class="section-title">⚡ Последние события</div>
-          <div class="event">
-            <div class="event-title">Новое сообщение от покупателя</div>
-            <div class="event-time">"Здравствуйте, есть в наличии?" • 2 мин назад</div>
-          </div>
-          <div class="event green">
-            <div class="event-title">Бот отправил ответ</div>
-            <div class="event-time">"Да, товар в наличии. В каком городе?" • 1 мин назад</div>
-          </div>
-          <div class="event blue">
-            <div class="event-title">Получен номер телефона</div>
-            <div class="event-time">+7 (999) 123-45-67 • 5 мин назад</div>
+          <div style="font-size:12px; color:var(--text-muted); text-align:center; padding:10px 0;">
+            ${totalDialogs === 0 ? 'Событий пока нет. Запустите бота для начала работы.' : 'Отслеживание активных событий включено.'}
           </div>
         </div>
 
@@ -387,22 +378,22 @@
           <div class="roi-grid">
             <div>
               <div class="roi-item-label">Обработано диалогов</div>
-              <div class="roi-item-value">${totalDialogs > 0 ? totalDialogs : 142}</div>
+              <div class="roi-item-value">${totalDialogs}</div>
             </div>
             <div>
               <div class="roi-item-label">Получено лидов</div>
-              <div class="roi-item-value" style="color:var(--green);">${totalLeads > 0 ? totalLeads : 28}</div>
+              <div class="roi-item-value" style="color:var(--green);">${totalLeads}</div>
             </div>
             <div>
               <div class="roi-item-label">Конверсия</div>
-              <div class="roi-item-value" style="color:var(--gold);">19.7%</div>
+              <div class="roi-item-value" style="color:var(--gold);">${totalDialogs > 0 ? ((totalLeads / totalDialogs) * 100).toFixed(1) + '%' : '0%'}</div>
             </div>
             <div>
               <div class="roi-item-label">Прибыль за месяц</div>
-              <div class="roi-item-value" style="color:var(--green);">+84 000 ₽</div>
+              <div class="roi-item-value" style="color:var(--green);">${(totalLeads * 3000).toLocaleString('ru-RU')} ₽</div>
             </div>
           </div>
-          <div class="roi-banner">🚀 Окупили подписку в 13 раз за первый месяц!</div>
+          <div class="roi-banner">🚀 Начните работу — статистика расчитывается автоматически!</div>
         </div>
 
         <div class="ref-block">
@@ -415,15 +406,15 @@
           </div>
           <div class="ref-stats">
             <div>
-              <div class="ref-stat-value">3</div>
+              <div class="ref-stat-value">0</div>
               <div class="ref-stat-label">Приглашено</div>
             </div>
             <div>
-              <div class="ref-stat-value" style="color:var(--gold);">1</div>
+              <div class="ref-stat-value" style="color:var(--gold);">0</div>
               <div class="ref-stat-label">Оплатил</div>
             </div>
             <div>
-              <div class="ref-stat-value" style="color:var(--green);">30 дней</div>
+              <div class="ref-stat-value" style="color:var(--green);">0 дней</div>
               <div class="ref-stat-label">Бонус</div>
             </div>
           </div>
