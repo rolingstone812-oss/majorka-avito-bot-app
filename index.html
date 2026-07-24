@@ -328,11 +328,36 @@
     function renderCreate() {
       return `<div class="section">
         <h2 class="serif" style="font-size:26px; color:#fff; margin-bottom:6px;">Новый Авито-бот</h2>
-        <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Заполните данные, и бот заступит на дежурство в эмуляторе и Telegram за 2 минуты</p>
-        <div class="form-group"><label class="form-label">Название бота</label><input type="text" id="wName" class="form-input" placeholder="Мой магазин Авито" value="Мой магазин Авито"></div>
-        <div class="form-group"><label class="form-label">Ниша / Товар</label><input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти, Электроника" value="Автозапчасти"></div>
-        <div class="form-group"><label class="form-label">Город</label><input type="text" id="wCity" class="form-input" value="Москва"></div>
-        <div class="form-group"><label class="form-label">Часы работы</label><input type="text" id="wHours" class="form-input" value="09:00 - 21:00"></div>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Заполните параметры 1-в-1 как в Telegram, и бот начнет авто-продажи 24/7</p>
+        
+        <div class="form-group">
+          <label class="form-label">1. Название магазина / бота</label>
+          <input type="text" id="wName" class="form-input" placeholder="Мой магазин Авито" value="Мой магазин Авито">
+        </div>
+        <div class="form-group">
+          <label class="form-label">2. Ниша и ассортимент товаров</label>
+          <input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти б/у и новые, OEM детали" value="Автозапчасти">
+        </div>
+        <div class="form-group">
+          <label class="form-label">3. Способ продаж и условия доставки</label>
+          <input type="text" id="wSales" class="form-input" placeholder="Авито Доставка, СДЭК, Самовывоз" value="Авито Доставка, СДЭК, Самовывоз">
+        </div>
+        <div class="form-group">
+          <label class="form-label">4. Телефон для связи и приема лидов</label>
+          <input type="text" id="wPhone" class="form-input" placeholder="+7 (999) 000-00-00" value="+7 (923) 451-10-89">
+        </div>
+        <div class="form-group">
+          <label class="form-label">5. Город и адрес склада</label>
+          <input type="text" id="wCity" class="form-input" placeholder="Москва, ул. Ленина 10" value="Москва">
+        </div>
+        <div class="form-group">
+          <label class="form-label">6. Режим работы</label>
+          <input type="text" id="wHours" class="form-input" placeholder="09:00 - 21:00" value="09:00 - 21:00">
+        </div>
+        <div class="form-group">
+          <label class="form-label">7. Ссылка на профиль или объявления Авито</label>
+          <input type="text" id="wAvitoLink" class="form-input" placeholder="https://avito.ru/profile" value="https://avito.ru">
+        </div>
         
         <button class="btn-primary" onclick="submitBot()" style="margin-bottom:10px;">🚀 Запустить бота (6 490 ₽)</button>
         <button class="btn-secondary" onclick="fastTestLaunch()" style="background:rgba(201,168,76,0.12); border-color:var(--gold); color:var(--gold-light); font-weight:700;">⚡ Мгновенный тест-запуск (Бесплатно + Синхронизация с Telegram)</button>
@@ -374,15 +399,15 @@
     }
 
     function submitBot() {
-      const nameEl = document.getElementById('wName');
-      const nicheEl = document.getElementById('wNiche');
-      const cityEl = document.getElementById('wCity');
-      const hoursEl = document.getElementById('wHours');
+      const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
 
-      const name = (nameEl ? nameEl.value : '').trim() || 'Мой магазин';
-      const niche = (nicheEl ? nicheEl.value : '').trim() || 'Товары';
-      const city = (cityEl ? cityEl.value : '').trim() || 'Москва';
-      const hours = (hoursEl ? hoursEl.value : '').trim() || '09:00 - 21:00';
+      const name = g('wName') || 'Мой магазин Авито';
+      const niche = g('wNiche') || 'Автозапчасти';
+      const sales_method = g('wSales') || 'Авито Доставка, СДЭК, Самовывоз';
+      const phone = g('wPhone') || '+7 (923) 451-10-89';
+      const city = g('wCity') || 'Москва';
+      const hours = g('wHours') || '09:00 - 21:00';
+      const avito_link = g('wAvitoLink') || 'https://avito.ru';
       
       // Начисляем тестовый баланс если 0, чтобы всегда создавалось мгновенно
       if (balance < 6490) {
@@ -392,7 +417,7 @@
       }
       
       balance -= 6490;
-      const newBot = { id: 'bot_' + Date.now(), name, niche, city, hours, status: 'active' };
+      const newBot = { id: 'bot_' + Date.now(), name, niche, sales_method, phone, city, hours, avito_link, status: 'active' };
       bots.push(newBot);
       localStorage.setItem('majorka_balance', balance);
       localStorage.setItem('majorka_bots', JSON.stringify(bots));
@@ -401,7 +426,7 @@
         fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name, niche, city, hours })
+          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link })
         }).catch(err => console.log('API error:', err));
       } catch(e) {}
       
