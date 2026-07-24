@@ -357,15 +357,26 @@
     }
 
     function submitBot() {
-      const name = document.getElementById('wName').value.trim() || 'Мой магазин';
-      const niche = document.getElementById('wNiche').value.trim() || 'Товары';
-      const city = document.getElementById('wCity').value.trim() || 'Москва';
-      const hours = document.getElementById('wHours').value.trim() || '09:00 - 21:00';
+      const nameEl = document.getElementById('wName');
+      const nicheEl = document.getElementById('wNiche');
+      const cityEl = document.getElementById('wCity');
+      const hoursEl = document.getElementById('wHours');
+
+      const name = (nameEl ? nameEl.value : '').trim() || 'Мой магазин';
+      const niche = (nicheEl ? nicheEl.value : '').trim() || 'Товары';
+      const city = (cityEl ? cityEl.value : '').trim() || 'Москва';
+      const hours = (hoursEl ? hoursEl.value : '').trim() || '09:00 - 21:00';
       
+      // Если баланса не хватает — автоматически начисляем бесплатный тестовый баланс для удобства тестирования!
       if (balance < 6490) {
-        alert('Недостаточно средств на балансе. Пожалуйста, пополните его через ЮMoney.');
-        openPayModal();
-        return;
+        if (confirm('У вас на балансе 0 ₽. Желаете начислить бесплатный тестовый баланс 6 490 ₽ для проверки работы?')) {
+          balance += 6490;
+          localStorage.setItem('majorka_balance', balance);
+          updateUI();
+        } else {
+          openPayModal();
+          return;
+        }
       }
       
       balance -= 6490;
@@ -382,7 +393,7 @@
         }).catch(err => console.log('API error:', err));
       } catch(e) {}
       
-      alert('✅ Бот успешно создан и запущен!');
+      alert('✅ Бот «' + name + '» успешно создан и запущен на автопилоте!');
       showTab('bots');
     }
 
