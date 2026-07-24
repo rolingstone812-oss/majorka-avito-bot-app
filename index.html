@@ -148,6 +148,16 @@
         </form>
       </div>
 
+      <!-- Бесплатное пополнение по промокоду для теста -->
+      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:16px;">
+        <div style="font-size:11px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">🎁 Промокод для бесплатного тестирования</div>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="promoInput" class="form-input" placeholder="Введите промокод (например: TEST)" style="text-transform:uppercase;">
+          <button onclick="applyPromoCode()" class="btn-primary" style="width:auto; padding:10px 16px; white-space:nowrap;">Активировать</button>
+        </div>
+        <div style="font-size:10px; color:var(--text-muted); margin-top:6px;">Тестовые промокоды: <strong style="color:var(--gold);">TEST</strong> или <strong style="color:var(--gold);">MAJORKA</strong></div>
+      </div>
+
       <button class="btn-secondary" style="width:100%;" onclick="closePayModal()">Закрыть</button>
     </div>
   </div>
@@ -386,6 +396,20 @@
 
     function openPayModal() { document.getElementById('payModal').classList.add('active'); }
     function closePayModal() { document.getElementById('payModal').classList.remove('active'); }
+
+    function applyPromoCode() {
+      const codeInput = document.getElementById('promoInput');
+      const code = (codeInput ? codeInput.value : '').trim().toUpperCase();
+      if (code === 'TEST' || code === 'MAJORKA' || code === 'FREE' || code === '12345') {
+        balance += 6490;
+        localStorage.setItem('majorka_balance', balance);
+        updateUI();
+        closePayModal();
+        alert('🎉 Промокод «' + code + '» активирован!\nНа ваш баланс зачислено 6 490 ₽ для бесплатного тестирования.');
+      } else {
+        alert('❌ Неверный промокод. Используйте тестовый промокод: TEST или MAJORKA');
+      }
+    }
 
     function syncWithServer() {
       fetch(API_URL + '/api/stats?chatId=' + userLabel)
