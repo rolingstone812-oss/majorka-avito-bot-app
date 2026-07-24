@@ -398,11 +398,23 @@
     function closePayModal() { document.getElementById('payModal').classList.remove('active'); }
     
     function confirmTopup() {
-      balance += 6490;
-      localStorage.setItem('majorka_balance', balance);
+      try {
+        fetch(API_URL + '/api/manual_payment_request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: userLabel })
+        }).catch(() => {});
+      } catch(e) {}
+      
       closePayModal();
-      updateUI();
-      alert('🎉 Баланс пополнен!');
+      alert('⏳ Заявка на проверку перевода по СБП принята!\nМенеджер подтвердит зачисление баланса в течение 2-5 минут.');
+      try {
+        if (window.Telegram?.WebApp) {
+          window.Telegram.WebApp.openTelegramLink('https://t.me/chc332');
+        } else {
+          window.open('https://t.me/chc332', '_blank');
+        }
+      } catch(e) {}
     }
 
     function syncWithServer() {
