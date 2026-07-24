@@ -3,894 +3,543 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <title>MAJORKA BOT — Личный Кабинет</title>
-  <style>
-    @keyframes countUp {
-      from { opacity: 0; transform: translateY(6px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .stat-val.updated { animation: countUp 0.4s ease forwards; }
-    .live-dot {
-      display: inline-block;
-      width: 7px; height: 7px;
-      background: #3ad389;
-      border-radius: 50%;
-      box-shadow: 0 0 6px #3ad389;
-      margin-right: 5px;
-      animation: livePulse 2s infinite;
-    }
-    @keyframes livePulse {
-      0%,100% { opacity:1; transform:scale(1); }
-      50%      { opacity:.4; transform:scale(1.4); }
-    }
-  </style>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <title>MAJORKA BOT — Личный кабинет</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg: #080808;
-      --bg2: #0f0f0f;
-      --bg3: #141414;
-      --gold: #c9a84c;
-      --gold-light: #e8c97a;
-      --gold-dim: rgba(201,168,76,0.15);
-      --gold-border: rgba(201,168,76,0.28);
-      --tx: #f0ede6;
-      --tx2: #908878;
-      --tx3: #4a4540;
+      --bg:    #080809;
+      --bg2:   #111113;
+      --bg3:   #18181c;
+      --gold:  #c9a84c;
+      --goldl: #e8c97a;
+      --goldb: rgba(201,168,76,.28);
+      --goldd: rgba(201,168,76,.10);
+      --tx:    #f0ede6;
+      --tx2:   #908878;
+      --tx3:   #3a3830;
       --green: #3ad389;
-      --red: #ff6b6b;
-      --violet: #9281f7;
+      --red:   #ff6b6b;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+    @keyframes goldPulse{ 0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.3)} 50%{box-shadow:0 0 16px 4px rgba(201,168,76,.12)} }
+    @keyframes liveDot  { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.35;transform:scale(1.5)} }
+    @keyframes numUp    { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+    .num-anim { animation: numUp .35s ease forwards; }
+
+    * { box-sizing:border-box; margin:0; padding:0; }
+    html,body { height:100%; }
     body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--tx);
-      min-height: 100vh;
-      overflow-x: hidden;
-      padding-bottom: 80px;
+      font-family:'Inter',sans-serif;
+      background:var(--bg);
+      color:var(--tx);
+      min-height:100vh;
+      overflow-x:hidden;
+      padding-bottom:88px;
     }
 
-    /* ── HEADER ── */
-    .header {
-      background: linear-gradient(180deg, #0c0c0c 0%, #080808 100%);
-      border-bottom: 1px solid var(--gold-border);
-      padding: 0 16px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    .header-top {
-      height: 58px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    /* ─── HEADER ─── */
+    .hdr {
+      position:sticky; top:0; z-index:50;
+      background:rgba(8,8,9,.96);
+      backdrop-filter:blur(14px);
+      -webkit-backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--goldb);
+      padding:0 16px;
+      display:flex; align-items:center; justify-content:space-between;
+      height:56px;
     }
     .brand {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 60%, #a07830 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      text-shadow: none;
+      font-family:'Cormorant Garamond',serif;
+      font-size:21px; font-weight:700; letter-spacing:3px;
+      background:linear-gradient(120deg,#f5e199 0%,var(--goldl) 40%,var(--gold) 80%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
     }
-    .header-right {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    .hdr-r { display:flex; align-items:center; gap:8px; }
+    .chip {
+      border-radius:20px; font-size:11px; font-weight:700;
+      padding:5px 11px; white-space:nowrap;
     }
-    .user-chip {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--tx);
-    }
-    .bal-chip {
-      background: var(--gold-dim);
-      border: 1px solid var(--gold-border);
-      padding: 5px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--gold-light);
-    }
+    .chip-user { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); color:var(--tx); }
+    .chip-bal  { background:var(--goldd); border:1px solid var(--goldb); color:var(--goldl); }
     .btn-pay {
-      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
-      color: #000;
-      border: none;
-      padding: 7px 14px;
-      border-radius: 20px;
-      font-weight: 800;
-      font-size: 11px;
-      cursor: pointer;
-      letter-spacing: 0.02em;
-      transition: opacity 0.2s, transform 0.15s;
+      background:linear-gradient(135deg,var(--goldl),var(--gold));
+      color:#000; border:none; padding:7px 14px; border-radius:18px;
+      font-weight:800; font-size:11px; letter-spacing:.03em; cursor:pointer;
+      transition:opacity .2s,transform .15s;
     }
-    .btn-pay:active { opacity: 0.85; transform: scale(0.97); }
+    .btn-pay:active { opacity:.85; transform:scale(.97); }
 
-    /* ── HERO STRIPE ── */
+    /* ─── HERO ─── */
     .hero {
-      padding: 20px 16px 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
+      text-align:center;
+      padding:24px 16px 8px;
+      position:relative;
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 50%;
-      transform: translateX(-50%);
-      width: 300px; height: 120px;
-      background: radial-gradient(ellipse at center, rgba(201,168,76,0.12) 0%, transparent 70%);
-      pointer-events: none;
+    .hero::after {
+      content:'';
+      position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+      width:120px; height:1px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
     }
-    .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: 4px;
-      background: linear-gradient(135deg, #f5e199 0%, var(--gold-light) 40%, var(--gold) 70%, #8a6020 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.1;
-      margin-bottom: 6px;
+    .hero-t {
+      font-family:'Cormorant Garamond',serif;
+      font-size:34px; font-weight:700; letter-spacing:4px; line-height:1;
+      background:linear-gradient(130deg,#fff5cc 0%,var(--goldl) 35%,var(--gold) 65%,#7a5010 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+      margin-bottom:5px;
     }
-    .hero-sub {
-      font-size: 12px;
-      color: var(--tx2);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .hero-line {
-      width: 60px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-      margin: 12px auto 0;
+    .hero-s {
+      font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+      color:var(--tx2);
     }
 
-    /* ── TABS ── */
-    .tabs-bar {
-      padding: 12px 16px 0;
-      background: var(--bg);
+    /* ─── LIVE BAR ─── */
+    .live-bar {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:10px 16px 0;
+      font-size:11px; color:var(--tx2);
     }
-    .tabs {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      padding-bottom: 12px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-    }
-    .tabs::-webkit-scrollbar { display: none; }
-    .tab {
-      flex-shrink: 0;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: 600;
-      border: 1px solid rgba(255,255,255,0.07);
-      background: rgba(255,255,255,0.03);
-      color: var(--tx2);
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .tab.active {
-      background: linear-gradient(135deg, rgba(201,168,76,0.18), rgba(201,168,76,0.06));
-      border-color: var(--gold-border);
-      color: var(--gold-light);
-    }
-    .tab-divider {
-      width: 1px;
-      background: rgba(255,255,255,0.07);
-      flex-shrink: 0;
-      margin: 4px 0;
+    .live-dot {
+      display:inline-block; width:7px; height:7px;
+      background:var(--green); border-radius:50%;
+      box-shadow:0 0 6px var(--green);
+      margin-right:5px;
+      animation:liveDot 2s infinite;
     }
 
-    /* ── CONTENT ── */
-    .content {
-      padding: 20px 16px;
-      max-width: 640px;
-      margin: 0 auto;
+    /* ─── CONTENT ─── */
+    .wrap { padding:14px 16px; max-width:640px; margin:0 auto; }
+
+    /* ─── STAT GRID ─── */
+    .stats { display:grid; grid-template-columns:1fr 1fr; gap:11px; margin-bottom:18px; }
+    .s-card {
+      background:var(--bg2); border-radius:16px; padding:18px 16px;
+      position:relative; overflow:hidden;
+      border:1px solid rgba(255,255,255,.06);
+      animation:fadeUp .4s ease both;
+    }
+    .s-card.gold   { border-color:var(--goldb); animation:goldPulse 3s infinite; }
+    .s-card.green  { border-color:rgba(58,211,137,.2); }
+    .s-card.violet { border-color:rgba(146,129,247,.2); }
+    .s-card.gold::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:2px;
+      background:linear-gradient(90deg,transparent,var(--gold),transparent);
+    }
+    .s-lbl { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--tx2); margin-bottom:7px; }
+    .s-val { font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:700; line-height:1; }
+    .s-val.c-gold   { color:var(--gold); }
+    .s-val.c-white  { color:var(--tx); }
+    .s-val.c-green  { color:var(--green); }
+    .s-val.c-violet { color:#9281f7; }
+
+    /* ─── SECTION ─── */
+    .section { margin-bottom:18px; }
+    .sec-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:20px; font-weight:700; color:var(--tx);
+      margin-bottom:12px;
+      display:flex; align-items:center; gap:8px;
     }
 
-    /* ── STAT CARDS ── */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-    .stat-card {
-      background: var(--bg2);
-      border-radius: 16px;
-      padding: 18px 16px;
-      position: relative;
-      overflow: hidden;
-    }
-    .stat-card-gold {
-      border: 1px solid var(--gold-border);
-    }
-    .stat-card-gold::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    }
-    .stat-card-violet { border: 1px solid rgba(146,129,247,0.2); }
-    .stat-card-green { border: 1px solid rgba(58,211,137,0.2); }
-    .stat-card-default { border: 1px solid rgba(255,255,255,0.07); }
-    .stat-label {
-      font-size: 10px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--tx2);
-      margin-bottom: 8px;
-    }
-    .stat-val {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 30px;
-      font-weight: 700;
-      line-height: 1;
-    }
-    .stat-val-gold { color: var(--gold); }
-    .stat-val-white { color: var(--tx); }
-    .stat-val-green { color: var(--green); }
-    .stat-val-violet { color: var(--violet); }
-
-    /* ── PANEL CARD ── */
+    /* ─── PANEL ─── */
     .panel {
-      background: var(--bg2);
-      border-radius: 20px;
-      padding: 24px;
-      margin-bottom: 16px;
+      background:var(--bg2); border-radius:18px; padding:22px;
+      margin-bottom:14px;
     }
-    .panel-gold { border: 1px solid var(--gold-border); }
-    .panel-default { border: 1px solid rgba(255,255,255,0.07); }
-    .panel-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 700;
-      color: var(--tx);
-      margin-bottom: 6px;
+    .panel.gold   { border:1px solid var(--goldb); }
+    .panel.subtle { border:1px solid rgba(255,255,255,.06); }
+    .panel-t { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:700; color:var(--tx); margin-bottom:6px; }
+    .panel-d { font-size:13px; color:var(--tx2); line-height:1.6; margin-bottom:18px; }
+
+    /* ─── BUTTONS ─── */
+    .btn-g {
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      width:100%; padding:13px;
+      background:linear-gradient(135deg,var(--goldl),var(--gold));
+      color:#000; border:none; border-radius:12px;
+      font-weight:800; font-size:13px; cursor:pointer;
+      transition:opacity .2s,transform .15s; margin-bottom:10px;
     }
-    .panel-desc {
-      font-size: 13px;
-      color: var(--tx2);
-      line-height: 1.6;
-      margin-bottom: 20px;
+    .btn-g:active { opacity:.85; transform:scale(.98); }
+    .btn-o {
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      width:100%; padding:12px;
+      background:transparent; border:1px solid var(--goldb); border-radius:12px;
+      color:var(--goldl); font-weight:600; font-size:13px; cursor:pointer;
+      transition:background .2s; text-decoration:none;
+    }
+    .btn-o:hover { background:var(--goldd); }
+    .btn-d {
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      width:100%; padding:12px;
+      background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); border-radius:12px;
+      color:var(--tx2); font-weight:600; font-size:13px; cursor:pointer;
+      transition:background .2s; text-decoration:none;
+    }
+    .btn-d:hover { background:rgba(255,255,255,.08); color:var(--tx); }
+    .row2 { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+
+    /* ─── SBP ─── */
+    .sbp { background:rgba(201,168,76,.07); border:1px solid var(--goldb); border-radius:13px; padding:16px; margin-bottom:14px; }
+    .sbp-lbl { font-size:10px; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; }
+    .sbp-row { display:flex; justify-content:space-between; padding:7px 0; font-size:13px; border-bottom:1px solid rgba(255,255,255,.04); }
+    .sbp-row:last-child { border-bottom:none; }
+    .sbp-k { color:var(--tx2); }
+    .sbp-v { font-weight:600; color:var(--tx); }
+
+    /* ─── BOT CARD ─── */
+    .bot-item {
+      background:var(--bg2); border:1px solid rgba(255,255,255,.07);
+      border-radius:14px; padding:16px;
+      display:flex; justify-content:space-between; align-items:center;
+      margin-bottom:10px; animation:fadeUp .3s ease both;
+    }
+    .bot-n { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:700; color:var(--tx); }
+    .bot-s { font-size:11px; color:var(--tx2); margin-top:3px; }
+    .badge-on {
+      background:rgba(58,211,137,.1); border:1px solid rgba(58,211,137,.25);
+      color:var(--green); font-size:9px; font-weight:700;
+      padding:4px 10px; border-radius:20px; text-transform:uppercase;
+      letter-spacing:.05em;
     }
 
-    /* ── ROW ── */
-    .row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      font-size: 13px;
+    /* ─── DIALOG CARD ─── */
+    .dlg-item {
+      background:var(--bg2); border:1px solid rgba(255,255,255,.06);
+      border-radius:14px; padding:16px; margin-bottom:10px;
+      animation:fadeUp .3s ease both;
     }
-    .row:last-child { border-bottom: none; }
-    .row-label { color: var(--tx2); }
-    .row-val { font-weight: 600; color: var(--tx); }
+    .dlg-hd { display:flex; justify-content:space-between; margin-bottom:10px; }
+    .dlg-bot { font-weight:700; color:var(--gold); font-size:13px; }
+    .dlg-time { font-size:11px; color:var(--tx3); }
+    .msg { font-size:12px; line-height:1.6; margin-bottom:5px; padding:8px 11px; border-radius:10px; }
+    .msg.user { background:rgba(255,255,255,.04); color:var(--tx2); }
+    .msg.bot  { background:rgba(201,168,76,.07); color:var(--tx); font-style:italic; }
 
-    /* ── BUTTONS ── */
-    .btn-gold {
-      display: block;
-      width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 100%);
-      color: #000;
-      border: none;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 13px;
-      letter-spacing: 0.05em;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.15s;
-      text-align: center;
-    }
-    .btn-gold:active { opacity: 0.85; transform: scale(0.98); }
-    .btn-outline {
-      display: block;
-      width: 100%;
-      padding: 13px;
-      background: transparent;
-      border: 1px solid var(--gold-border);
-      border-radius: 12px;
-      color: var(--gold-light);
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      transition: background 0.2s;
-      text-align: center;
-      text-decoration: none;
-    }
-    .btn-outline:hover { background: var(--gold-dim); }
-    .btn-dark {
-      display: block;
-      width: 100%;
-      padding: 13px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      color: var(--tx2);
-      font-weight: 600;
-      font-size: 13px;
-      cursor: pointer;
-      transition: background 0.2s;
-      text-align: center;
-      text-decoration: none;
-    }
-    .btn-dark:hover { background: rgba(255,255,255,0.08); color: var(--tx); }
-    .btns-row { display: flex; gap: 10px; }
-    .btns-row .btn-gold, .btns-row .btn-outline, .btns-row .btn-dark { flex: 1; }
+    /* ─── EMPTY ─── */
+    .empty { text-align:center; padding:36px 20px; background:var(--bg2); border:1px solid rgba(255,255,255,.06); border-radius:16px; }
+    .empty-ico { font-size:38px; margin-bottom:10px; }
+    .empty-t { font-family:'Cormorant Garamond',serif; font-size:20px; color:var(--tx); margin-bottom:6px; }
+    .empty-d { font-size:12px; color:var(--tx2); }
 
-    /* ── FORM ── */
-    .form-group { margin-bottom: 16px; }
-    .form-label {
-      display: block;
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--tx2);
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      margin-bottom: 7px;
+    /* ─── BOTTOM NAV ─── */
+    .bot-nav {
+      position:fixed; bottom:0; left:0; right:0;
+      background:rgba(8,8,9,.97); backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      border-top:1px solid var(--goldb);
+      display:flex; justify-content:space-around;
+      padding:8px 0 calc(8px + env(safe-area-inset-bottom));
+      z-index:90;
     }
-    .form-input {
-      width: 100%;
-      padding: 12px 14px;
-      background: var(--bg);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 10px;
-      color: var(--tx);
-      font-size: 14px;
-      font-family: 'Inter', sans-serif;
-      outline: none;
-      transition: border-color 0.2s;
+    .nav-i {
+      display:flex; flex-direction:column; align-items:center; gap:2px;
+      flex:1; padding:4px 0;
+      font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.04em;
+      color:var(--tx3); cursor:pointer; text-decoration:none;
+      transition:color .2s;
     }
-    .form-input:focus { border-color: var(--gold-border); }
+    .nav-i.active,.nav-i:hover { color:var(--gold); }
+    .nav-ico { font-size:20px; }
 
-    /* ── BOT CARD ── */
-    .bot-card {
-      background: var(--bg2);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px;
-      padding: 18px;
-      margin-bottom: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .bot-name { font-family: 'Cormorant Garamond', serif; font-size: 18px; font-weight: 700; color: var(--tx); }
-    .bot-niche { font-size: 11px; color: var(--tx2); margin-top: 3px; }
-    .badge-active {
-      background: rgba(58,211,137,0.1);
-      border: 1px solid rgba(58,211,137,0.25);
-      color: var(--green);
-      font-size: 10px;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── EMPTY STATE ── */
-    .empty {
-      text-align: center;
-      padding: 48px 24px;
-      background: var(--bg2);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 20px;
-    }
-    .empty-icon { font-size: 48px; margin-bottom: 14px; }
-    .empty-title { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--tx); margin-bottom: 8px; }
-    .empty-desc { font-size: 13px; color: var(--tx2); margin-bottom: 20px; }
-
-    /* ── MODAL ── */
+    /* ─── MODAL ─── */
     .modal-bg {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.85);
-      backdrop-filter: blur(4px);
-      z-index: 9999;
-      display: flex;
-      align-items: flex-end;
-      padding: 16px;
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.88); backdrop-filter:blur(6px);
+      z-index:9999; display:flex; align-items:flex-end; padding:12px;
     }
     .modal-box {
-      background: var(--bg3);
-      border: 1px solid var(--gold-border);
-      border-radius: 24px 24px 16px 16px;
-      width: 100%;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 28px 24px;
-      position: relative;
-    }
-    .modal-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--tx);
-      margin-bottom: 4px;
-    }
-    .modal-sub {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 20px;
+      background:var(--bg3); border:1px solid var(--goldb);
+      border-radius:24px 24px 18px 18px;
+      width:100%; max-width:480px; margin:0 auto; padding:28px 22px;
+      position:relative;
     }
     .modal-close {
-      position: absolute;
-      top: 20px; right: 20px;
-      background: rgba(255,255,255,0.07);
-      border: none;
-      color: var(--tx2);
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
+      position:absolute; top:18px; right:18px;
+      background:rgba(255,255,255,.07); border:none;
+      color:var(--tx2); width:30px; height:30px; border-radius:50%;
+      font-size:15px; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
     }
-
-    /* ── SBP BLOCK ── */
-    .sbp-block {
-      background: rgba(201,168,76,0.06);
-      border: 1px solid var(--gold-border);
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 16px;
-    }
-    .sbp-label {
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 12px;
-    }
-
-    /* ── BOTTOM NAV ── */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      background: rgba(8,8,8,0.96);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-top: 1px solid var(--gold-border);
-      display: flex;
-      justify-content: space-around;
-      padding: 8px 0 calc(8px + env(safe-area-inset-bottom));
-      z-index: 90;
-    }
-    .nav-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      flex: 1;
-      padding: 6px 0;
-      color: var(--tx3);
-      font-size: 10px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      cursor: pointer;
-      transition: color 0.2s;
-      text-decoration: none;
-    }
-    .nav-item.active { color: var(--gold); }
-    .nav-icon { font-size: 21px; }
-
-    /* ── DIALOG PREVIEW ── */
-    .dialog-bubble {
-      border-radius: 14px;
-      padding: 12px 16px;
-      font-size: 13px;
-      line-height: 1.6;
-      margin-bottom: 10px;
-      max-width: 90%;
-    }
-    .bubble-user {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.07);
-      color: var(--tx2);
-    }
-    .bubble-bot {
-      background: rgba(201,168,76,0.08);
-      border: 1px solid rgba(201,168,76,0.2);
-      color: var(--tx);
-      font-style: italic;
-      margin-left: auto;
-    }
+    .modal-sub { font-size:10px; font-weight:700; color:var(--gold); text-transform:uppercase; letter-spacing:.09em; margin-bottom:4px; }
+    .modal-t   { font-family:'Cormorant Garamond',serif; font-size:26px; font-weight:700; color:var(--tx); margin-bottom:18px; }
   </style>
-
-  <script>
-    window.API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-      ? 'http://127.0.0.1:8085'
-      : 'https://immensurable-paleaceous-marcella.ngrok-free.dev';
-
-    window.tgUser = null;
-    try {
-      if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-        if (typeof window.Telegram.WebApp.requestFullscreen === 'function')
-          window.Telegram.WebApp.requestFullscreen();
-        if (window.Telegram.WebApp.initDataUnsafe?.user)
-          window.tgUser = window.Telegram.WebApp.initDataUnsafe.user;
-
-        if (window.Telegram.WebApp.MainButton) {
-          window.Telegram.WebApp.MainButton.setText('💳 ПОПОЛНИТЬ БАЛАНС — 6 490 ₽');
-          window.Telegram.WebApp.MainButton.setParams({ color: '#c9a84c', text_color: '#000000' });
-          window.Telegram.WebApp.MainButton.show();
-          window.Telegram.WebApp.MainButton.onClick(() => window.openPayModal());
-        }
-      }
-    } catch(e) {}
-
-    window.USER_BALANCE = 0;
-    window.BOTS = [];
-    try { const b = localStorage.getItem('majorka_user_balance'); if (b) window.USER_BALANCE = parseInt(b)||0; } catch(e){}
-    try { const b = localStorage.getItem('majorka_bots'); if (b) window.BOTS = JSON.parse(b)||[]; } catch(e){}
-
-    window.saveState = function() {
-      try { localStorage.setItem('majorka_user_balance', String(window.USER_BALANCE)); } catch(e){}
-      try { localStorage.setItem('majorka_bots', JSON.stringify(window.BOTS)); } catch(e){}
-      window.refreshUI();
-    };
-
-    window.refreshUI = function() {
-      const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
-      const el = id => document.getElementById(id);
-      const active = window.BOTS.filter(b => b.status === 'active').length;
-      if (el('balVal')) el('balVal').textContent = fmt(window.USER_BALANCE);
-      if (el('cardBal')) el('cardBal').textContent = fmt(window.USER_BALANCE);
-      if (el('cardBots')) el('cardBots').textContent = active;
-      if (el('userVal')) el('userVal').textContent = window.tgUser ? window.tgUser.first_name : 'Аккаунт';
-    };
-
-    window.nav = function(screen) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
-      const tab = document.getElementById('tab-' + screen);
-      const navItem = document.getElementById('nav-' + screen);
-      if (tab) tab.classList.add('active');
-      if (navItem) navItem.classList.add('active');
-      if (screen === 'overview') window.renderOverview();
-      else if (screen === 'bots') window.renderBots();
-      else if (screen === 'create') window.renderCreate();
-      else if (screen === 'dialogs') window.renderDialogs();
-    };
-
-    window.renderOverview = function() {
-      const c = document.getElementById('mainContent');
-      const active = window.BOTS.filter(b => b.status === 'active').length;
-      c.innerHTML = `
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-          <span style="font-size:12px;color:var(--tx2);font-weight:600;">
-            <span class="live-dot"></span>Статистика в реальном времени
-          </span>
-          <span style="font-size:11px;color:var(--tx3);font-family:monospace;">
-            обновлено: <span id="lastUpdated">—</span>
-          </span>
-        </div>
-
-        <div class="stats-grid">
-          <div class="stat-card stat-card-gold">
-            <div class="stat-label">💰 Баланс</div>
-            <div class="stat-val stat-val-gold" id="cardBal">${window.USER_BALANCE.toLocaleString('ru-RU')} ₽</div>
-          </div>
-          <div class="stat-card stat-card-violet">
-            <div class="stat-label">🤖 Активных ботов</div>
-            <div class="stat-val stat-val-white" id="cardBots">${active}</div>
-          </div>
-          <div class="stat-card stat-card-default">
-            <div class="stat-label">💬 Диалогов</div>
-            <div class="stat-val stat-val-white" id="statMsgs">...</div>
-          </div>
-          <div class="stat-card stat-card-green">
-            <div class="stat-label">📥 Лидов собрано</div>
-            <div class="stat-val stat-val-green" id="statLeads">...</div>
-          </div>
-        </div>
-
-        <div class="panel panel-gold" style="text-align:center;">
-          <div style="font-size:36px;margin-bottom:12px;">🤖</div>
-          <div class="panel-title">Панель управления</div>
-          <div class="panel-desc">Авто-продавец для Авито отвечает вашим клиентам 24/7 и синхронизируется с Telegram.</div>
-          <div class="btns-row">
-            <button onclick="window.nav('create')" class="btn-gold">➕ Создать бота</button>
-            <button onclick="window.openPayModal()" class="btn-outline">💳 Пополнить</button>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="sbp-block">
-            <div class="sbp-label">⚡ СБП — без комиссии</div>
-            <div class="row"><span class="row-label">Номер СБП:</span><strong class="row-val">+7 (923) 451-10-89</strong></div>
-            <div class="row"><span class="row-label">Банк:</span><strong style="color:#ffe082;">🟡 Т-Банк</strong></div>
-          </div>
-          <button onclick="window.openPayModal()" class="btn-gold">✅ Я перевёл — подтвердить 6 490 ₽</button>
-        </div>
-      `;
-
-      fetch(window.API_BASE_URL + '/api/stats')
-        .then(r => r.json())
-        .then(d => {
-          if (d?.success) {
-            window._animateStat('statMsgs',  d.total_messages ?? 0);
-            window._animateStat('statLeads', d.total_leads    ?? 0);
-            window._animateStat('cardBots',  window.BOTS.filter(b=>b.status==='active').length);
-          }
-        })
-        .catch(() => {
-          window._animateStat('statMsgs',  0);
-          window._animateStat('statLeads', 0);
-        });
-    };
-
-    /* ── Animate stat value change ── */
-    window._animateStat = function(id, newVal) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const display = typeof newVal === 'number'
-        ? (id === 'cardBal' ? newVal.toLocaleString('ru-RU') + ' ₽' : newVal)
-        : newVal;
-      if (String(el.textContent).trim() !== String(display)) {
-        el.textContent = display;
-        el.classList.remove('updated');
-        void el.offsetWidth; // reflow
-        el.classList.add('updated');
-      }
-    };
-
-    /* ── Auto-polling every 30s ── */
-    window._pollStats = function() {
-      fetch(window.API_BASE_URL + '/api/stats')
-        .then(r => r.json())
-        .then(d => {
-          if (!d?.success) return;
-          window._animateStat('statMsgs',  d.total_messages ?? 0);
-          window._animateStat('statLeads', d.total_leads    ?? 0);
-          // Sync balance from server if provided
-          if (d.balance !== undefined) {
-            window.USER_BALANCE = d.balance;
-            window._animateStat('cardBal', window.USER_BALANCE);
-            window._animateStat('balVal',  window.USER_BALANCE.toLocaleString('ru-RU') + ' ₽');
-          }
-          // Update last-updated time
-          const ts = document.getElementById('lastUpdated');
-          if (ts) {
-            const t = new Date();
-            ts.textContent = t.getHours().toString().padStart(2,'0') + ':' + t.getMinutes().toString().padStart(2,'0') + ':' + t.getSeconds().toString().padStart(2,'0');
-          }
-        })
-        .catch(() => {});
-    };
-
-    // Start polling after page loads
-    setTimeout(() => {
-      window._pollStats();
-      setInterval(window._pollStats, 30000);
-    }, 2000);
-
-
-    window.renderBots = function() {
-      const c = document.getElementById('mainContent');
-      if (!window.BOTS.length) {
-        c.innerHTML = `
-          <div class="empty">
-            <div class="empty-icon">🤖</div>
-            <div class="empty-title">Ботов пока нет</div>
-            <div class="empty-desc">Создайте первого робота-продавца для вашего магазина на Авито.</div>
-            <button onclick="window.nav('create')" class="btn-gold">➕ Создать бота</button>
-          </div>`;
-        return;
-      }
-      c.innerHTML = window.BOTS.map(b => `
-        <div class="bot-card">
-          <div>
-            <div class="bot-name">${b.name}</div>
-            <div class="bot-niche">${b.niche || 'Авито'}</div>
-          </div>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
-            <span class="badge-active">● Активен</span>
-            <button onclick="window.deleteBot('${b.id}')" style="background:rgba(255,107,107,0.1);border:1px solid rgba(255,107,107,0.25);color:#ff6b6b;padding:5px 12px;border-radius:8px;font-size:11px;cursor:pointer;">🗑️ Удалить</button>
-          </div>
-        </div>`).join('');
-    };
-
-    window.renderCreate = function() {
-      const c = document.getElementById('mainContent');
-      c.innerHTML = `
-        <div class="panel panel-gold">
-          <div class="panel-title">Новый Авито-бот</div>
-          <div class="panel-desc">Настройте автопилота под ваш магазин</div>
-          <div class="form-group">
-            <label class="form-label">Название бота / аккаунта</label>
-            <input type="text" id="wName" class="form-input" placeholder="Мой магазин Авито">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Ниша / товар</label>
-            <input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти, Электроника...">
-          </div>
-          <button id="btnCreate" onclick="window.submitWiz()" class="btn-gold">Запустить автопилот 🚀</button>
-        </div>`;
-    };
-
-    window.renderDialogs = function() {
-      const c = document.getElementById('mainContent');
-      const hasBots = window.BOTS.length > 0;
-      c.innerHTML = `
-        <div class="panel panel-default">
-          <div class="panel-title">💬 Диалоги и ответы</div>
-          ${!hasBots
-            ? '<div style="text-align:center;padding:32px;color:var(--tx2);font-size:13px;">Создайте бота, чтобы начать диалоги</div>'
-            : `<div class="dialog-bubble bubble-user">Здравствуйте! Товар в наличии? Какая цена?</div>
-               <div class="dialog-bubble bubble-bot">Здравствуйте! Да, в наличии. В каком городе находитесь? Могу рассчитать стоимость доставки.</div>`
-          }
-        </div>`;
-    };
-
-    window.submitWiz = function() {
-      const name = document.getElementById('wName')?.value.trim() || 'Мой магазин';
-      const niche = document.getElementById('wNiche')?.value.trim() || 'Товары';
-      const chatId = window.tgUser ? String(window.tgUser.id) : 'tg_' + Date.now();
-
-      if (window.USER_BALANCE < 6490) { window.openPayModal(); return; }
-
-      const btn = document.getElementById('btnCreate');
-      if (btn) { btn.textContent = '⌛ Обработка...'; btn.disabled = true; }
-
-      fetch(window.API_BASE_URL + '/api/create_bot', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ chatId, name, niche })
-      })
-      .then(r => r.json())
-      .then(d => {
-        if (d?.success) {
-          window.USER_BALANCE -= 6490;
-          window.BOTS.push({ id: 'bot_' + Date.now(), chatId, name, niche, status: 'active' });
-          window.saveState();
-          window.nav('bots');
-        } else {
-          alert('Ошибка: ' + (d?.error || 'Неизвестная ошибка'));
-          if (btn) { btn.textContent = 'Запустить автопилот 🚀'; btn.disabled = false; }
-        }
-      })
-      .catch(() => {
-        window.USER_BALANCE -= 6490;
-        window.BOTS.push({ id: 'bot_' + Date.now(), chatId, name, niche, status: 'active' });
-        window.saveState();
-        window.nav('bots');
-      });
-    };
-
-    window.deleteBot = function(id) {
-      if (confirm('Удалить этого бота?')) {
-        window.BOTS = window.BOTS.filter(b => b.id !== id);
-        window.saveState();
-        window.renderBots();
-      }
-    };
-
-    window.openPayModal = function() {
-      document.getElementById('payModal').style.display = 'flex';
-    };
-    window.closePayModal = function() {
-      document.getElementById('payModal').style.display = 'none';
-    };
-    window.confirmTopup = function() {
-      window.USER_BALANCE += 6490;
-      window.saveState();
-      window.closePayModal();
-      alert('🎉 Баланс пополнен на 6 490 ₽!');
-    };
-  </script>
 </head>
 <body>
 
-  <!-- ── HEADER ── -->
-  <header class="header">
-    <div class="header-top">
-      <div class="brand">MAJORKA BOT</div>
-      <div class="header-right">
-        <div class="user-chip">👤 <span id="userVal">Аккаунт</span></div>
-        <div class="bal-chip">💰 <span id="balVal">0 ₽</span></div>
-        <button class="btn-pay" onclick="window.openPayModal()">💳 ПОПОЛНИТЬ</button>
+<!-- HEADER -->
+<header class="hdr">
+  <div class="brand">MAJORKA BOT</div>
+  <div class="hdr-r">
+    <div class="chip chip-user">👤 <span id="uName">Аккаунт</span></div>
+    <div class="chip chip-bal">💰 <span id="uBal">0 ₽</span></div>
+    <button class="btn-pay" onclick="openModal()">💳 ПОПОЛНИТЬ</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-t">MAJORKA BOT</div>
+  <div class="hero-s">Автопилот продаж на Авито</div>
+</div>
+
+<!-- LIVE BAR -->
+<div class="live-bar">
+  <span><span class="live-dot"></span>Статистика в реальном времени</span>
+  <span style="font-family:monospace;color:var(--tx3);">обновлено: <span id="tsUpd">—</span></span>
+</div>
+
+<!-- CONTENT -->
+<div class="wrap">
+
+  <!-- STATS -->
+  <div class="stats" style="margin-top:14px;">
+    <div class="s-card gold">
+      <div class="s-lbl">💰 Баланс</div>
+      <div class="s-val c-gold" id="sBal">0 ₽</div>
+    </div>
+    <div class="s-card violet">
+      <div class="s-lbl">🤖 Активных ботов</div>
+      <div class="s-val c-violet" id="sBots">0</div>
+    </div>
+    <div class="s-card subtle">
+      <div class="s-lbl">💬 Всего диалогов</div>
+      <div class="s-val c-white" id="sDlg">0</div>
+    </div>
+    <div class="s-card green">
+      <div class="s-lbl">⏳ Экономия времени</div>
+      <div class="s-val c-green" id="sTime">0ч</div>
+    </div>
+  </div>
+
+  <!-- MAIN PANEL -->
+  <div class="panel gold" style="text-align:center;margin-bottom:18px;">
+    <div style="font-size:40px;margin-bottom:10px;">🤖</div>
+    <div class="panel-t">Панель управления</div>
+    <div class="panel-d">Авто-продавец для Авито отвечает вашим клиентам 24/7, экономит 2+ часа в день и синхронизируется с Telegram.</div>
+    <button class="btn-g" onclick="createBot()">➕ Создать бота</button>
+    <button class="btn-o" onclick="openModal()">💳 Пополнить баланс (6 490 ₽)</button>
+  </div>
+
+  <!-- SBP QUICK -->
+  <div class="panel subtle" style="margin-bottom:18px;">
+    <div class="sbp">
+      <div class="sbp-lbl">⚡ СБП — 0% комиссии</div>
+      <div class="sbp-row"><span class="sbp-k">Номер СБП:</span><strong class="sbp-v">+7 (923) 451-10-89</strong></div>
+      <div class="sbp-row"><span class="sbp-k">Банк:</span><strong style="color:#ffe082;">🟡 Т-Банк (Тинькофф)</strong></div>
+    </div>
+    <button class="btn-g" onclick="openModal()">✅ Я перевёл — подтвердить 6 490 ₽</button>
+  </div>
+
+  <!-- BOTS LIST -->
+  <div class="section">
+    <div class="sec-title">🤖 Мои боты</div>
+    <div id="botsList">
+      <div class="empty">
+        <div class="empty-ico">🤖</div>
+        <div class="empty-t">Ботов пока нет</div>
+        <div class="empty-d">Нажмите «Создать бота» выше чтобы запустить автопилота</div>
       </div>
     </div>
-  </header>
-
-  <!-- ── HERO ── -->
-  <div class="hero">
-    <div class="hero-title">MAJORKA BOT</div>
-    <div class="hero-sub">Автопилот продаж на Авито</div>
-    <div class="hero-line"></div>
   </div>
 
-  <!-- ── TABS ── -->
-  <div class="tabs-bar">
-    <div class="tabs">
-      <div class="tab active" id="tab-overview" onclick="window.nav('overview')">📊 Обзор</div>
-      <div class="tab-divider"></div>
-      <div class="tab" id="tab-bots" onclick="window.nav('bots')">🤖 Мои боты</div>
-      <div class="tab-divider"></div>
-      <div class="tab" id="tab-create" onclick="window.nav('create')">➕ Создать</div>
-      <div class="tab-divider"></div>
-      <div class="tab" id="tab-dialogs" onclick="window.nav('dialogs')">💬 Диалоги</div>
-    </div>
-  </div>
-
-  <!-- ── CONTENT ── -->
-  <div class="content" id="mainContent"></div>
-
-  <!-- ── BOTTOM NAV ── -->
-  <nav class="bottom-nav">
-    <div class="nav-item active" id="nav-overview" onclick="window.nav('overview')">
-      <span class="nav-icon">📊</span>Обзор
-    </div>
-    <div class="nav-item" id="nav-bots" onclick="window.nav('bots')">
-      <span class="nav-icon">🤖</span>Боты
-    </div>
-    <div class="nav-item" id="nav-create" onclick="window.nav('create')">
-      <span class="nav-icon">➕</span>Создать
-    </div>
-    <div class="nav-item" id="nav-dialogs" onclick="window.nav('dialogs')">
-      <span class="nav-icon">💬</span>Диалоги
-    </div>
-    <a href="https://t.me/chc332" target="_blank" class="nav-item" style="color:var(--gold);">
-      <span class="nav-icon">⭐</span>Поддержка
-    </a>
-  </nav>
-
-  <!-- ── PAY MODAL ── -->
-  <div id="payModal" class="modal-bg" style="display:none;">
-    <div class="modal-box">
-      <button class="modal-close" onclick="window.closePayModal()">✕</button>
-      <div class="modal-sub">💰 Пополнение баланса</div>
-      <div class="modal-title">6 490 ₽</div>
-      <p style="font-size:13px;color:var(--tx2);margin:8px 0 20px;">Переведите сумму по СБП и нажмите подтвердить</p>
-      <div class="sbp-block" style="margin-bottom:16px;">
-        <div class="sbp-label">⚡ СБП — 0% комиссии</div>
-        <div class="row"><span class="row-label">Номер:</span><strong class="row-val">+7 (923) 451-10-89</strong></div>
-        <div class="row"><span class="row-label">Банк:</span><strong style="color:#ffe082;">🟡 Т-Банк (Тинькофф)</strong></div>
-        <div class="row"><span class="row-label">Сумма:</span><strong class="row-val" style="color:var(--gold);">6 490 ₽</strong></div>
+  <!-- DIALOGS LIST -->
+  <div class="section">
+    <div class="sec-title">💬 Последние диалоги</div>
+    <div id="dlgsList">
+      <div class="empty">
+        <div class="empty-ico">💬</div>
+        <div class="empty-t">Диалогов пока нет</div>
+        <div class="empty-d">Появятся когда бот ответит первому покупателю</div>
       </div>
-      <button onclick="window.confirmTopup()" class="btn-gold" style="margin-bottom:10px;">✅ Я перевёл — подтвердить</button>
-      <button onclick="window.closePayModal()" class="btn-dark">Отмена</button>
     </div>
   </div>
 
-  <script>
-    window.refreshUI();
-    window.nav('overview');
-  </script>
+  <!-- LINKS -->
+  <div class="row2" style="margin-bottom:12px;">
+    <a href="https://t.me/ai_manager_pr" target="_blank" class="btn-o">📢 Наш канал</a>
+    <a href="https://t.me/chc332" target="_blank" class="btn-d">💬 Поддержка</a>
+  </div>
+
+</div><!-- /wrap -->
+
+<!-- BOTTOM NAV -->
+<nav class="bot-nav">
+  <div class="nav-i active" onclick="scrollToTop()">
+    <span class="nav-ico">📊</span>Обзор
+  </div>
+  <div class="nav-i" onclick="scrollToBots()">
+    <span class="nav-ico">🤖</span>Боты
+  </div>
+  <div class="nav-i" onclick="createBot()">
+    <span class="nav-ico">➕</span>Создать
+  </div>
+  <div class="nav-i" onclick="scrollToDlgs()">
+    <span class="nav-ico">💬</span>Диалоги
+  </div>
+  <a href="https://t.me/chc332" target="_blank" class="nav-i" style="color:var(--gold);">
+    <span class="nav-ico">⭐</span>Поддержка
+  </a>
+</nav>
+
+<!-- PAY MODAL -->
+<div id="payModal" class="modal-bg" style="display:none;">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-sub">💰 Пополнение баланса</div>
+    <div class="modal-t">6 490 ₽</div>
+    <div class="sbp" style="margin-bottom:14px;">
+      <div class="sbp-lbl">⚡ СБП — без комиссии</div>
+      <div class="sbp-row"><span class="sbp-k">Номер:</span><strong class="sbp-v">+7 (923) 451-10-89</strong></div>
+      <div class="sbp-row"><span class="sbp-k">Банк:</span><strong style="color:#ffe082;">🟡 Т-Банк</strong></div>
+      <div class="sbp-row"><span class="sbp-k">Сумма:</span><strong style="color:var(--gold);">6 490 ₽</strong></div>
+    </div>
+    <button class="btn-g" onclick="confirmTopup()" style="margin-bottom:10px;">✅ Я перевёл — подтвердить</button>
+    <button class="btn-d" onclick="closeModal()">Закрыть</button>
+  </div>
+</div>
+
+<script>
+  // ─── Telegram Init ───
+  const tg = window.Telegram?.WebApp;
+  try { tg?.ready(); tg?.expand(); if(tg?.requestFullscreen) tg.requestFullscreen(); } catch(e){}
+  const tgUser = tg?.initDataUnsafe?.user;
+
+  const API = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    ? 'http://127.0.0.1:8085'
+    : 'https://immensurable-paleaceous-marcella.ngrok-free.dev';
+
+  // ─── State ───
+  let balance = parseInt(localStorage.getItem('majorka_balance') || '0');
+  let bots    = JSON.parse(localStorage.getItem('majorka_bots')    || '[]');
+  let dialogs = JSON.parse(localStorage.getItem('majorka_dialogs') || '[]');
+
+  // ─── Helpers ───
+  const $ = id => document.getElementById(id);
+  function animSet(id, val) {
+    const el = $(id); if(!el) return;
+    if(el.textContent !== String(val)) {
+      el.textContent = val;
+      el.classList.remove('num-anim');
+      void el.offsetWidth;
+      el.classList.add('num-anim');
+    }
+  }
+  function save() {
+    localStorage.setItem('majorka_balance', balance);
+    localStorage.setItem('majorka_bots',    JSON.stringify(bots));
+    localStorage.setItem('majorka_dialogs', JSON.stringify(dialogs));
+  }
+
+  // ─── Update UI ───
+  function updateUI() {
+    const fmt = n => n.toLocaleString('ru-RU') + ' ₽';
+    const active = bots.filter(b => b.status === 'active').length;
+
+    if($('uName')) $('uName').textContent = tgUser ? tgUser.first_name : 'Аккаунт';
+    animSet('uBal', fmt(balance));
+    animSet('sBal', fmt(balance));
+    animSet('sBots', active);
+    animSet('sTime', (active * 2) + 'ч');
+
+    // Bots list
+    const bl = $('botsList');
+    if(bl) bl.innerHTML = bots.length === 0
+      ? `<div class="empty"><div class="empty-ico">🤖</div><div class="empty-t">Ботов пока нет</div><div class="empty-d">Нажмите «Создать бота» выше</div></div>`
+      : bots.map(b => `
+        <div class="bot-item">
+          <div>
+            <div class="bot-n">${b.name}</div>
+            <div class="bot-s">${b.niche || 'Авито'}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+            <span class="badge-on">● Активен</span>
+            <button onclick="delBot('${b.id}')" style="background:rgba(255,107,107,.1);border:1px solid rgba(255,107,107,.25);color:var(--red);padding:4px 10px;border-radius:8px;font-size:10px;cursor:pointer;">🗑️ Удалить</button>
+          </div>
+        </div>`).join('');
+
+    // Dialogs list
+    const dl = $('dlgsList');
+    if(dl) dl.innerHTML = dialogs.length === 0
+      ? `<div class="empty"><div class="empty-ico">💬</div><div class="empty-t">Диалогов пока нет</div><div class="empty-d">Появятся когда бот ответит первому покупателю</div></div>`
+      : dialogs.slice(0,10).map(d => `
+        <div class="dlg-item">
+          <div class="dlg-hd">
+            <div class="dlg-bot">${d.botName}</div>
+            <div class="dlg-time">${d.time}</div>
+          </div>
+          <div class="msg user">👤 ${d.customerMsg}</div>
+          <div class="msg bot">🤖 ${d.botReply}</div>
+        </div>`).join('');
+  }
+
+  // ─── Create Bot ───
+  function createBot() {
+    if(balance < 6490) { openModal(); return; }
+    const name  = prompt('Название бота / аккаунта Авито:');
+    if(!name) return;
+    const niche = prompt('Ниша (например: Автозапчасти, Цемент):') || 'Товары';
+    balance -= 6490;
+    bots.push({ id: 'b' + Date.now(), name, niche, status: 'active' });
+    save(); updateUI();
+    alert('✅ Бот «' + name + '» запущен!');
+  }
+  function delBot(id) {
+    if(!confirm('Удалить бота?')) return;
+    bots = bots.filter(b => b.id !== id);
+    save(); updateUI();
+  }
+
+  // ─── Modal ───
+  function openModal()  { $('payModal').style.display = 'flex'; }
+  function closeModal() { $('payModal').style.display = 'none'; }
+  function confirmTopup() {
+    balance += 6490; save(); updateUI(); closeModal();
+    alert('🎉 Баланс пополнен на 6 490 ₽!');
+  }
+
+  // ─── Scroll helpers ───
+  function scrollToTop()  { window.scrollTo({top:0,behavior:'smooth'}); }
+  function scrollToBots() { $('botsList')?.scrollIntoView({behavior:'smooth',block:'start'}); }
+  function scrollToDlgs() { $('dlgsList')?.scrollIntoView({behavior:'smooth',block:'start'}); }
+
+  // ─── API polling ───
+  function pollStats() {
+    fetch(API + '/api/stats')
+      .then(r => r.json())
+      .then(d => {
+        if(!d?.success) return;
+        animSet('sDlg', d.total_messages ?? 0);
+        if(d.total_leads !== undefined) {
+          // show leads somewhere if needed
+        }
+        if(d.balance !== undefined) { balance = d.balance; save(); }
+        const t = new Date();
+        const ts = [t.getHours(),t.getMinutes(),t.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
+        if($('tsUpd')) $('tsUpd').textContent = ts;
+        updateUI();
+      })
+      .catch(() => {});
+  }
+
+  // ─── Telegram Main Button ───
+  try {
+    if(tg?.MainButton) {
+      tg.MainButton.setText('💳 ПОПОЛНИТЬ БАЛАНС (6 490 ₽)');
+      tg.MainButton.setParams({ color:'#c9a84c', text_color:'#000000' });
+      tg.MainButton.show();
+      tg.MainButton.onClick(openModal);
+    }
+  } catch(e){}
+
+  // ─── Start ───
+  updateUI();
+  setTimeout(() => { pollStats(); setInterval(pollStats, 30000); }, 1500);
+</script>
 </body>
 </html>
