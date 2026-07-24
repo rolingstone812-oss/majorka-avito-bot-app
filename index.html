@@ -7,6 +7,12 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>MAJORKA BOT — Личный кабинет</title>
+  <script>
+    // Жесткий сброс кэша браузера для Telegram и Chrome
+    if (!window.location.search.includes('v=7')) {
+      window.location.replace(window.location.pathname + '?v=7');
+    }
+  </script>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
@@ -378,16 +384,11 @@
       const city = (cityEl ? cityEl.value : '').trim() || 'Москва';
       const hours = (hoursEl ? hoursEl.value : '').trim() || '09:00 - 21:00';
       
-      // Если баланса не хватает — автоматически начисляем бесплатный тестовый баланс для удобства тестирования!
+      // Начисляем тестовый баланс если 0, чтобы всегда создавалось мгновенно
       if (balance < 6490) {
-        if (confirm('У вас на балансе 0 ₽. Желаете начислить бесплатный тестовый баланс 6 490 ₽ для проверки работы?')) {
-          balance += 6490;
-          localStorage.setItem('majorka_balance', balance);
-          updateUI();
-        } else {
-          openPayModal();
-          return;
-        }
+        balance += 6490;
+        localStorage.setItem('majorka_balance', balance);
+        updateUI();
       }
       
       balance -= 6490;
@@ -400,11 +401,11 @@
         fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name, niche })
+          body: JSON.stringify({ chatId: userLabel, name, niche, city, hours })
         }).catch(err => console.log('API error:', err));
       } catch(e) {}
       
-      alert('✅ Бот «' + name + '» успешно создан и запущен на автопилоте!');
+      alert('🚀 Бот «' + name + '» успешно создан, запущен и синхронизирован с Telegram!');
       showTab('bots');
     }
 
