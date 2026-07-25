@@ -330,6 +330,11 @@
               <input type="text" id="wLink" value="https://avito.ru" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
             </div>
 
+            <div>
+              <label style="color:#d4af37; font-size:0.85rem; font-weight:bold; display:block; margin-bottom:4px;">🌐 Прокси IP (мобильный / резидентский) [Необязательно]:</label>
+              <input type="text" id="wProxy" placeholder="ip:port или ip:port:user:pass" style="width:100%; background:#181c28; border:1px solid #d4af37; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
             <button onclick="submitBot()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:pointer; margin-top:8px;">🚀 Запустить бота на Авито</button>
           </div>
         </div>
@@ -367,13 +372,14 @@
       const city = document.getElementById('wCity')?.value || 'Москва';
       const hours = document.getElementById('wHours')?.value || '09:00 - 21:00';
       const avito_link = document.getElementById('wLink')?.value || 'https://avito.ru';
+      const proxy = document.getElementById('wProxy')?.value || '';
       const auth_type = document.querySelector('input[name="wAuthType"]:checked')?.value || 'qr';
 
       try {
         await fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type })
+          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, proxy })
         });
       } catch(e) {}
 
