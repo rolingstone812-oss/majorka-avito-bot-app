@@ -174,9 +174,11 @@
     
     const tgUser = tg?.initDataUnsafe?.user;
     let balance = parseInt(localStorage.getItem('majorka_balance') || '0');
-    let rawBots = JSON.parse(localStorage.getItem('majorka_bots') || '[]');
-    let bots = rawBots.filter(b => b.id !== 'demo1' && b.name !== 'Мой магазин Авито' && b.name !== 'Мой бот');
-    localStorage.setItem('majorka_bots', JSON.stringify(bots));
+    
+    // Always sync state cleanly from server
+    localStorage.removeItem('majorka_bots');
+    let bots = [];
+
     let dialogs = JSON.parse(localStorage.getItem('majorka_dialogs') || '[]');
     let leads = JSON.parse(localStorage.getItem('majorka_leads') || '[]');
     
@@ -497,7 +499,7 @@
     }
 
     function syncWithServer() {
-      fetch(API_URL + '/api/bots?chatId=' + userLabel)
+      fetch(API_URL + '/api/bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
         .then(d => {
           if (d && d.success && Array.isArray(d.bots)) {
@@ -508,7 +510,7 @@
         })
         .catch(() => {});
 
-      fetch(API_URL + '/api/stats?chatId=' + userLabel)
+      fetch(API_URL + '/api/stats?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
         .then(d => {
           if (d && d.success) {
