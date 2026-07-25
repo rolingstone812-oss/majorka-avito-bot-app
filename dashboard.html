@@ -9,8 +9,8 @@
   <title>MAJORKA BOT — Личный кабинет</title>
   <script>
     // Мгновенный сброс кэша Chrome и Telegram
-    if (!window.location.search.includes('v=888')) {
-      window.location.replace(window.location.pathname + '?v=888');
+    if (!window.location.search.includes('v=9999')) {
+      window.location.replace(window.location.pathname + '?v=9999');
     }
   </script>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
@@ -174,7 +174,9 @@
     
     const tgUser = tg?.initDataUnsafe?.user;
     let balance = parseInt(localStorage.getItem('majorka_balance') || '0');
-    let bots = JSON.parse(localStorage.getItem('majorka_bots') || '[]');
+    let rawBots = JSON.parse(localStorage.getItem('majorka_bots') || '[]');
+    let bots = rawBots.filter(b => b.id !== 'demo1' && b.name !== 'Мой магазин Авито' && b.name !== 'Мой бот');
+    localStorage.setItem('majorka_bots', JSON.stringify(bots));
     let dialogs = JSON.parse(localStorage.getItem('majorka_dialogs') || '[]');
     let leads = JSON.parse(localStorage.getItem('majorka_leads') || '[]');
     
@@ -182,7 +184,7 @@
       ? 'http://127.0.0.1:8085'
       : 'https://immensurable-paleaceous-marcella.ngrok-free.dev';
 
-    const userLabel = tgUser ? 'tg_' + tgUser.id : 'usr_' + Date.now();
+    const userLabel = tgUser ? tgUser.id.toString() : '';
     const ymLabelInput = document.getElementById('ymLabel');
     if (ymLabelInput) ymLabelInput.value = userLabel;
     
@@ -327,40 +329,63 @@
 
     function renderCreate() {
       return `<div class="section">
-        <h2 class="serif" style="font-size:26px; color:#fff; margin-bottom:6px;">Новый Авито-бот</h2>
-        <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Заполните параметры 1-в-1 как в Telegram, и бот начнет авто-продажи 24/7</p>
-        
+        <h2 class="serif" style="font-size:26px; color:#fff; margin-bottom:6px;">Запуск Авито-бота</h2>
+        <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Автоматическая привязка к эмулятору LDPlayer и продажам 24/7</p>
+
+        <div class="form-group" style="background:rgba(201,168,76,0.15); padding:16px; border-radius:12px; border:2px solid var(--gold); margin-bottom:20px;">
+          <label class="form-label" style="color:var(--gold-light); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; display:block;">
+            🔑 1. ВХОД В АККАУНТ АВИТО (СПОСОБ АВТОРИЗАЦИИ В LDPLAYER)
+          </label>
+          <select id="wAuthType" class="form-input" style="background:#0a0a0c; color:#fff; border-color:var(--gold); font-size:14px; font-weight:600; padding:12px;" onchange="toggleAuthFields()">
+            <option value="qr">📷 Вход по QR-коду (Авто-генерация в LDPlayer)</option>
+            <option value="phone">📲 Вход по номеру телефона аккаунта и СМС</option>
+            <option value="api">🔑 Официальный API Авито (Client ID / Secret)</option>
+          </select>
+
+          <div id="authPhoneBlock" style="display:none; margin-top:12px;">
+            <label class="form-label" style="color:var(--text-muted);">Номер телефона аккаунта Авито для входа (СМС):</label>
+            <input type="text" id="wAvitoPhone" class="form-input" placeholder="+7 (999) 000-00-00">
+          </div>
+
+          <div id="authApiBlock" style="display:none; margin-top:12px;">
+            <label class="form-label" style="color:var(--text-muted);">Client ID Авито:</label>
+            <input type="text" id="wClientId" class="form-input" placeholder="Client ID">
+            <label class="form-label" style="color:var(--text-muted); margin-top:8px;">Client Secret Авито:</label>
+            <input type="text" id="wClientSecret" class="form-input" placeholder="Client Secret">
+          </div>
+        </div>
+
         <div class="form-group">
-          <label class="form-label">1. Название магазина / бота</label>
+          <label class="form-label">2. Название магазина / бота</label>
           <input type="text" id="wName" class="form-input" placeholder="Мой магазин Авито" value="Мой магазин Авито">
         </div>
         <div class="form-group">
-          <label class="form-label">2. Ниша и ассортимент товаров</label>
-          <input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти б/у и новые, OEM детали" value="Автозапчасти">
+          <label class="form-label">3. Ниша и ассортимент товаров</label>
+          <input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти, OEM детали" value="Автозапчасти">
         </div>
         <div class="form-group">
-          <label class="form-label">3. Способ продаж и условия доставки</label>
+          <label class="form-label">4. Способ продаж и условия доставки</label>
           <input type="text" id="wSales" class="form-input" placeholder="Авито Доставка, СДЭК, Самовывоз" value="Авито Доставка, СДЭК, Самовывоз">
         </div>
         <div class="form-group">
-          <label class="form-label">4. Телефон для связи и приема лидов</label>
+          <label class="form-label">5. Телефон для приема лидов</label>
           <input type="text" id="wPhone" class="form-input" placeholder="+7 (999) 000-00-00" value="+7 (923) 451-10-89">
         </div>
         <div class="form-group">
-          <label class="form-label">5. Город и адрес склада</label>
-          <input type="text" id="wCity" class="form-input" placeholder="Москва, ул. Ленина 10" value="Москва">
+          <label class="form-label">6. Город и адрес склада</label>
+          <input type="text" id="wCity" class="form-input" placeholder="Москва" value="Москва">
         </div>
         <div class="form-group">
-          <label class="form-label">6. Режим работы</label>
+          <label class="form-label">7. Режим работы</label>
           <input type="text" id="wHours" class="form-input" placeholder="09:00 - 21:00" value="09:00 - 21:00">
         </div>
         <div class="form-group">
-          <label class="form-label">7. Ссылка на профиль или объявления Авито</label>
+          <label class="form-label">8. Ссылка на профиль Авито</label>
           <input type="text" id="wAvitoLink" class="form-input" placeholder="https://avito.ru/profile" value="https://avito.ru">
         </div>
-        
-        <button class="btn-primary" onclick="submitBot()" style="margin-bottom:10px;">🚀 Запустить бота (6 490 ₽)</button>
-        <button class="btn-secondary" onclick="fastTestLaunch()" style="background:rgba(201,168,76,0.12); border-color:var(--gold); color:var(--gold-light); font-weight:700;">⚡ Мгновенный тест-запуск (Бесплатно + Синхронизация с Telegram)</button>
+
+        <button class="btn-primary" onclick="submitBot()" style="margin-bottom:10px;">🚀 Привязать эмулятор и запустить бота (6 490 ₽)</button>
+        <button class="btn-secondary" onclick="fastTestLaunch()" style="background:rgba(201,168,76,0.12); border-color:var(--gold); color:var(--gold-light); font-weight:700;">⚡ Бесплатный демо-запуск с эмулятором LDPlayer</button>
       </div>`;
     }
 
@@ -423,10 +448,15 @@
       localStorage.setItem('majorka_bots', JSON.stringify(bots));
       
       try {
+        const auth_type = g('wAuthType') || 'qr';
+        const avito_phone = g('wAvitoPhone');
+        const client_id = g('wClientId');
+        const client_secret = g('wClientSecret');
+
         fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link })
+          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, avito_phone, client_id, client_secret })
         }).catch(err => console.log('API error:', err));
       } catch(e) {}
       
@@ -436,9 +466,16 @@
 
     function deleteBot(id) {
       if (confirm('Вы уверены, что хотите удалить этого бота?')) {
+        const targetBot = bots.find(b => b.id === id);
         bots = bots.filter(b => b.id !== id);
         localStorage.setItem('majorka_bots', JSON.stringify(bots));
         showTab('bots');
+
+        fetch(API_URL + '/api/delete_bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: userLabel, session_name: targetBot ? targetBot.name : '', id: id })
+        }).catch(err => console.log('Delete API error:', err));
       }
     }
 
@@ -460,6 +497,17 @@
     }
 
     function syncWithServer() {
+      fetch(API_URL + '/api/bots?chatId=' + userLabel)
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.success && Array.isArray(d.bots)) {
+            bots = d.bots;
+            localStorage.setItem('majorka_bots', JSON.stringify(bots));
+            updateUI();
+          }
+        })
+        .catch(() => {});
+
       fetch(API_URL + '/api/stats?chatId=' + userLabel)
         .then(r => r.json())
         .then(d => {
