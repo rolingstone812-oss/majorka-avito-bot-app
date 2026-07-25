@@ -466,17 +466,18 @@
       showTab('bots');
     }
 
-    function deleteBot(id) {
-      if (confirm('Вы уверены, что хотите удалить этого бота?')) {
-        const targetBot = bots.find(b => b.id === id);
-        bots = bots.filter(b => b.id !== id);
-        localStorage.setItem('majorka_bots', JSON.stringify(bots));
-        showTab('bots');
-
-        fetch(API_URL + '/api/delete_bot', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, session_name: targetBot ? targetBot.name : '', id: id })
+    async function deleteBot(name) {
+  if(!confirm('Удалить этого бота?')) return;
+  try {
+    await fetch(API_URL + '/api/delete_bot', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
+      body: JSON.stringify({ chatId: userLabel, name: name, session_name: name })
+    });
+  } catch(e) {}
+  localStorage.removeItem('majorka_bots');
+  await syncWithServer();
+})
         }).catch(err => console.log('Delete API error:', err));
       }
     }
