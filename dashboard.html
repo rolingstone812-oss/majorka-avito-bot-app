@@ -171,6 +171,7 @@
     const userLabel = tg?.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : '6940082004';
     var balance = 0;
     var bots = [];
+    var currentTab = 'overview';
 
     function updateUI() {
       const bVal = (typeof balance !== 'undefined' ? Number(balance) : 0).toFixed(2) + ' ₽';
@@ -181,39 +182,164 @@
       balBadges.forEach(b => { if(b) b.innerText = bVal; });
     }
 
+    function showTab(tabId) {
+      currentTab = tabId;
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+
+      const topNavBtn = document.getElementById('tab-btn-' + tabId);
+      if (topNavBtn) topNavBtn.classList.add('active');
+
+      const bNavBtn = document.getElementById('bnav-' + tabId);
+      if (bNavBtn) bNavBtn.classList.add('active');
+
+      if (tabId === 'overview') renderOverview();
+      else if (tabId === 'bots') renderBots();
+      else if (tabId === 'create') renderCreate();
+      else if (tabId === 'dialogs') renderDialogs();
+      else if (tabId === 'support') renderSupport();
+    }
+
+    function renderOverview() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      c.innerHTML = `
+        <div style="padding:16px;">
+          <div style="background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; border-radius:16px; padding:20px; margin-bottom:16px; text-align:center;">
+            <h2 style="color:#d4af37; margin:0 0 8px 0; font-size:1.4rem;">MAJORKA BOT</h2>
+            <p style="color:#94a3b8; margin:0; font-size:0.9rem;">Автопилот продаж на Авито 24/7</p>
+            <button class="btn btn-gold" style="margin-top:15px; width:100%; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px; border-radius:10px; cursor:pointer;" onclick="showTab('create')">+ Создать нового бота</button>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+            <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:0.8rem; color:#94a3b8;">Всего ботов</div>
+              <div id="statBots" style="font-size:1.6rem; font-weight:bold; color:#fff; margin-top:4px;">0</div>
+            </div>
+            <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:0.8rem; color:#94a3b8;">Сообщений</div>
+              <div id="statMsgs" style="font-size:1.6rem; font-weight:bold; color:#10b981; margin-top:4px;">0</div>
+            </div>
+          </div>
+
+          <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; text-align:center;">
+            <div style="font-size:0.85rem; color:#94a3b8;">Собрано горячих лидов (телефонов)</div>
+            <div id="statLeads" style="font-size:2rem; font-weight:bold; color:#d4af37; margin-top:4px;">0</div>
+          </div>
+        </div>
+      `;
+      syncWithServer();
+    }
+
     function renderBots() {
-      const container = document.getElementById('botsList');
-      if (!container) return;
+      const c = document.getElementById('content');
+      if (!c) return;
       if (!bots || bots.length === 0) {
-        container.innerHTML = `
-          <div style="text-align:center; padding:40px 20px;">
-            <div style="font-size:3rem; margin-bottom:10px;">🤖</div>
-            <h3>Ботов пока нет</h3>
-            <button class="btn btn-gold" style="margin-top:15px;" onclick="showTab('create')">+ Создать первого бота</button>
+        c.innerHTML = `
+          <div style="text-align:center; padding:50px 20px;">
+            <div style="font-size:3.5rem; margin-bottom:10px;">🤖</div>
+            <h3 style="color:#fff;">Ботов пока нет</h3>
+            <p style="color:#94a3b8; font-size:0.9rem;">Создайте первого ИИ-продавца для ваших объявлений на Авито!</p>
+            <button style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px 24px; border-radius:10px; cursor:pointer; margin-top:10px;" onclick="showTab('create')">+ Создать первого бота</button>
           </div>`;
         return;
       }
-      container.innerHTML = bots.map(b => `
+      c.innerHTML = '<div style="padding:16px;">' + bots.map(b => `
         <div class="bot-card" style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; margin-bottom:12px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <h4 style="margin:0; color:#fff;">${b.name}</h4>
-            <span class="badge" style="background:${b.is_paid ? '#10b981' : '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:2px 8px; border-radius:10px;">${b.is_paid ? 'АКТИВЕН' : 'НЕ ОПЛАЧЕН'}</span>
+            <h4 style="margin:0; color:#fff; font-size:1.1rem;">${b.name}</h4>
+            <span class="badge" style="background:${b.is_paid ? '#10b981' : '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.is_paid ? 'АКТИВЕН' : 'НЕ ОПЛАЧЕН'}</span>
           </div>
           <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Автозапчасти'} | Город: ${b.city || 'Москва'}</p>
           <div style="display:flex; gap:8px;">
-            <button class="btn btn-danger btn-sm" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
+            <button style="background:#ef4444; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
           </div>
         </div>
-      `).join('');
+      `).join('') + '</div>';
     }
 
-    function showTab(tabId) {
-      document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
-      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-      const activeTab = document.getElementById(tabId + 'Tab');
-      if (activeTab) activeTab.style.display = 'block';
-      const activeNav = document.getElementById('nav-' + tabId);
-      if (activeNav) activeNav.classList.add('active');
+    function renderCreate() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      c.innerHTML = `
+        <div style="padding:16px; max-width:480px; margin:0 auto;">
+          <h3 style="color:#d4af37; margin-top:0;">🚀 Создание нового ИИ-продавца</h3>
+          
+          <div style="background:rgba(212,175,55,0.1); border:1px solid #d4af37; border-radius:12px; padding:14px; margin-bottom:16px;">
+            <label style="color:#d4af37; font-weight:bold; display:block; margin-bottom:8px;">🔑 1. Способ авторизации в Авито (LDPlayer):</label>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="qr" checked> 📷 Вход по QR-коду (Авто-генерация)</label>
+              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="phone"> 📲 Вход по номеру телефона аккаунта и СМС</label>
+              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="api"> 🔑 Официальный API Авито (Client ID/Secret)</label>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Название бота / магазина:</label>
+              <input type="text" id="wName" value="Мой магазин Авито" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ниша бизнеса и преимущества:</label>
+              <input type="text" id="wNiche" value="Автозапчасти, OEM диски" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Способ продаж:</label>
+              <select id="wSalesMethod" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+                <option value="Переводить на созвон">📞 Переводить на созвон (получать номер телефона)</option>
+                <option value="Продавать прямо в чате">💬 Продавать прямо в чате</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Телефон перевода / поддержки:</label>
+              <input type="text" id="wPhone" value="+7 (923) 451-10-89" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Город и адрес склада/офиса:</label>
+              <input type="text" id="wCity" value="Красноярск" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Режим работы:</label>
+              <input type="text" id="wHours" value="09:00 - 21:00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ссылка на объявление или профиль Авито:</label>
+              <input type="text" id="wLink" value="https://avito.ru" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <button onclick="submitBot()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:pointer; margin-top:8px;">🚀 Запустить бота на Авито</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDialogs() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      c.innerHTML = `
+        <div style="padding:16px; text-align:center;">
+          <h3 style="color:#fff;">💬 Чаты и Лиды клиентов</h3>
+          <p style="color:#94a3b8; font-size:0.9rem;">Все поступившие номера телефонов и диалоги с Авито отображаются здесь и передаются в ваш Телеграм-бот!</p>
+        </div>
+      `;
+    }
+
+    function renderSupport() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      c.innerHTML = `
+        <div style="padding:16px; text-align:center;">
+          <h3 style="color:#d4af37;">⭐ Служба поддержки</h3>
+          <p style="color:#94a3b8; font-size:0.9rem;">Есть вопросы по настройке эмулятора LDPlayer или оплат?</p>
+          <a href="https://t.me/chc332" target="_blank" style="display:inline-block; background:#10b981; color:#fff; text-decoration:none; font-weight:bold; padding:12px 24px; border-radius:10px; margin-top:10px;">💬 Написать менеджеру (@chc332)</a>
+        </div>
+      `;
     }
 
     async function submitBot() {
@@ -225,19 +351,16 @@
       const hours = document.getElementById('wHours')?.value || '09:00 - 21:00';
       const avito_link = document.getElementById('wLink')?.value || 'https://avito.ru';
       const auth_type = document.querySelector('input[name="wAuthType"]:checked')?.value || 'qr';
-      const avito_phone = document.getElementById('wAvitoPhone')?.value || '';
-      const client_id = document.getElementById('wClientId')?.value || '';
-      const client_secret = document.getElementById('wClientSecret')?.value || '';
 
       try {
         await fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, avito_phone, client_id, client_secret })
+          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type })
         });
       } catch(e) {}
 
-      alert('Бот ' + name + ' успешно создан! Зайдите в Телеграм-бота!');
+      alert('Бот «' + name + '» успешно создан! Переходим к списку ботов.');
       showTab('bots');
       await syncWithServer();
     }
@@ -271,7 +394,7 @@
           if (d && d.success && Array.isArray(d.bots)) {
             bots = d.bots;
             localStorage.setItem('majorka_bots', JSON.stringify(bots));
-            renderBots();
+            if (currentTab === 'bots') renderBots();
           }
         })
         .catch(() => {});
@@ -297,7 +420,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      syncWithServer();
+      showTab('overview');
       setInterval(syncWithServer, 10000);
     });
 </script>
