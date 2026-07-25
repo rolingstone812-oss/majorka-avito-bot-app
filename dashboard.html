@@ -187,6 +187,12 @@
     
     function updateUI() {
       const balEl = document.getElementById('balance');
+      if (balEl) balEl.innerText = (typeof balance !== 'undefined' ? Number(balance) : 0).toFixed(2) + ' ₽';
+      
+      const balBadges = document.querySelectorAll('.balance-badge span, .user-balance');
+      balBadges.forEach(b => b.innerText = (typeof balance !== 'undefined' ? Number(balance) : 0).toFixed(2) + ' ₽');
+
+      const balEl = document.getElementById('balance');
       if (balEl) balEl.textContent = balance.toLocaleString('ru-RU') + ' ₽';
     }
     
