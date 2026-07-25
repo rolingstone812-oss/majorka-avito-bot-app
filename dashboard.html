@@ -164,337 +164,104 @@
   </div>
 
   <script>
-    const tg = window.Telegram?.WebApp;
-    if (tg) { try { tg.ready(); tg.expand(); } catch(e) {} }
-    
-    const tgUser = tg?.initDataUnsafe?.user;
-    let balance = parseInt(localStorage.getItem('majorka_balance') || '0');
-    
-    // Always sync state cleanly from server
-    localStorage.removeItem('majorka_bots');
-    let bots = [];
+    const API_URL = 'http://127.0.0.1:8085';
+    let tg = window.Telegram?.WebApp;
+    if (tg) { tg.expand(); }
 
-    let dialogs = JSON.parse(localStorage.getItem('majorka_dialogs') || '[]');
-    let leads = JSON.parse(localStorage.getItem('majorka_leads') || '[]');
-    
-    const API_URL = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
-      ? 'http://127.0.0.1:8085'
-      : 'https://immensurable-paleaceous-marcella.ngrok-free.dev';
+    const userLabel = tg?.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : '6940082004';
+    var balance = 0;
+    var bots = [];
 
-    const userLabel = tgUser ? tgUser.id.toString() : '';
-    const ymLabelInput = document.getElementById('ymLabel');
-    if (ymLabelInput) ymLabelInput.value = userLabel;
-    
     function updateUI() {
-      const balEl = document.getElementById('balance');
-      if (balEl) balEl.innerText = (typeof balance !== 'undefined' ? Number(balance) : 0).toFixed(2) + ' ₽';
+      const bVal = (typeof balance !== 'undefined' ? Number(balance) : 0).toFixed(2) + ' ₽';
+      const topBalEl = document.getElementById('balance');
+      if (topBalEl) topBalEl.innerText = bVal;
       
       const balBadges = document.querySelectorAll('.balance-badge span, .user-balance');
-      balBadges.forEach(b => b.innerText = (typeof balance !== 'undefined' ? Number(balance) : 0).toFixed(2) + ' ₽');
-
-      const balEl = document.getElementById('balance');
-      if (balEl) balEl.textContent = balance.toLocaleString('ru-RU') + ' ₽';
-    }
-    
-    function showTab(tab) {
-      document.querySelectorAll('.nav-btn, .bottom-nav-item').forEach(b => b.classList.remove('active'));
-      const btnTab = document.getElementById('tab-btn-' + tab);
-      const bnavTab = document.getElementById('bnav-' + tab);
-      if (btnTab) btnTab.classList.add('active');
-      if (bnavTab) bnavTab.classList.add('active');
-      
-      const content = document.getElementById('content');
-      if (tab === 'overview') content.innerHTML = renderOverview();
-      else if (tab === 'bots') content.innerHTML = renderBots();
-      else if (tab === 'create') content.innerHTML = renderCreate();
-      else if (tab === 'dialogs') content.innerHTML = renderDialogs();
-      else if (tab === 'support') content.innerHTML = renderSupport();
-      updateUI();
-    }
-
-    function renderOverview() {
-      const activeBots = bots.filter(b => b.status === 'active').length;
-      const refCode = tgUser ? 'ref_' + tgUser.id : 'ref_12345';
-      const refLink = 'https://t.me/Saas_Master_bot?start=' + refCode;
-
-      return `
-        <div class="stats-grid">
-          <div class="stat-card"><div class="stat-label">💰 Баланс</div><div class="stat-value">${balance.toLocaleString('ru-RU')} ₽</div></div>
-          <div class="stat-card"><div class="stat-label">🤖 Активных ботов</div><div class="stat-value">${activeBots}</div></div>
-          <div class="stat-card"><div class="stat-label">💬 Диалогов обработано</div><div class="stat-value">${dialogs.length}</div></div>
-          <div class="stat-card"><div class="stat-label">📞 Лидов собрано</div><div class="stat-value green">${leads.length}</div></div>
-        </div>
-
-        <div class="main-block">
-          <div class="icon">🚀</div>
-          <h2 class="serif">Панель управления</h2>
-          <p>Ваш авто-продавец готов к работе. Создайте бота, чтобы начать получать заявки 24/7.</p>
-          <div class="btn-row">
-            <button class="btn-primary" onclick="showTab('create')">➕ Создать бота</button>
-            <button class="btn-secondary" onclick="openPayModal()">💳 Пополнить</button>
-          </div>
-        </div>
-
-        <div class="payment-block">
-          <div class="payment-title">💳 Быстрая оплата подписки (ЮMoney)</div>
-          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Оплата банковской картой или кошельком. Мгновенное авто-зачисление.</p>
-          <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" style="margin-bottom:6px;">
-            <input type="hidden" name="receiver" value="4100119556996975">
-            <input type="hidden" name="quickpay-form" value="button">
-            <input type="hidden" name="targets" value="Оплата подписки MAJORKA BOT">
-            <input type="hidden" name="paymentType" value="AC">
-            <input type="hidden" name="sum" value="6490">
-            <input type="hidden" name="label" value="${userLabel}">
-            <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽ через ЮMoney</button>
-          </form>
-        </div>
-
-        <div class="section">
-          <div class="section-title">📊 Активность за неделю</div>
-          <div class="chart">
-            <div class="chart-bar"><div style="--h:${dialogs.length > 0 ? '40px' : '0px'}"></div><div>Пн</div></div>
-            <div class="chart-bar"><div style="--h:${dialogs.length > 0 ? '65px' : '0px'}"></div><div>Вт</div></div>
-            <div class="chart-bar"><div style="--h:${dialogs.length > 0 ? '50px' : '0px'}"></div><div>Ср</div></div>
-            <div class="chart-bar"><div style="--h:${dialogs.length > 0 ? '90px' : '0px'}"></div><div>Чт</div></div>
-            <div class="chart-bar"><div style="--h:${dialogs.length > 0 ? '75px' : '0px'}"></div><div>Пт</div></div>
-            <div class="chart-bar"><div style="--h:${dialogs.length > 0 ? '110px' : '0px'}"></div><div>Сб</div></div>
-            <div class="chart-bar"><div style="--h:${dialogs.length > 0 ? '85px' : '0px'}"></div><div>Вс</div></div>
-          </div>
-          <div style="text-align:center; margin-top:12px; font-size:12px; color:var(--text-muted);">
-            Всего обработано сообщений: <strong style="color:var(--gold);">${dialogs.length}</strong>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">⚡ Последние события</div>
-          <div style="font-size:12px; color:var(--text-muted); text-align:center; padding:10px 0;">
-            ${dialogs.length === 0 ? 'Событий пока нет. Запустите бота для начала работы.' : 'Отслеживание активных событий включено.'}
-          </div>
-        </div>
-
-        <div class="section" style="background:linear-gradient(135deg, rgba(201,168,76,0.1) 0%, rgba(201,168,76,0.05) 100%);">
-          <div class="section-title" style="color:var(--gold);">💰 Ваша прибыль с ботом</div>
-          <div class="roi-grid">
-            <div>
-              <div class="roi-item-label">Обработано диалогов</div>
-              <div class="roi-item-value">${dialogs.length}</div>
-            </div>
-            <div>
-              <div class="roi-item-label">Получено лидов</div>
-              <div class="roi-item-value" style="color:var(--green);">${leads.length}</div>
-            </div>
-            <div>
-              <div class="roi-item-label">Конверсия</div>
-              <div class="roi-item-value" style="color:var(--gold);">${dialogs.length > 0 ? ((leads.length / dialogs.length) * 100).toFixed(1) + '%' : '0%'}</div>
-            </div>
-            <div>
-              <div class="roi-item-label">Прибыль за месяц</div>
-              <div class="roi-item-value" style="color:var(--green);">${(leads.length * 3000).toLocaleString('ru-RU')} ₽</div>
-            </div>
-          </div>
-          <div class="roi-banner">🚀 Статистика рассчитывается на основе реальной работы бота</div>
-        </div>
-
-        <div class="ref-block">
-          <div class="ref-icon">🎁</div>
-          <div class="ref-title">Пригласите друга — получите 1 месяц бесплатно!</div>
-          <div class="ref-desc">Отправьте ссылку другу. Когда он оплатит, вы получите 30 дней бесплатно.</div>
-          <div class="ref-link">
-            <code>${refLink}</code>
-            <button class="btn-gold" style="padding:6px 12px; font-size:10px;" onclick="navigator.clipboard.writeText('${refLink}');alert('Ссылка скопирована!');">📋 Копировать</button>
-          </div>
-          <div class="ref-stats">
-            <div>
-              <div class="ref-stat-value">0</div>
-              <div class="ref-stat-label">Приглашено</div>
-            </div>
-            <div>
-              <div class="ref-stat-value" style="color:var(--gold);">0</div>
-              <div class="ref-stat-label">Оплатил</div>
-            </div>
-            <div>
-              <div class="ref-stat-value" style="color:var(--green);">0 дней</div>
-              <div class="ref-stat-label">Бонус</div>
-            </div>
-          </div>
-        </div>
-      `;
+      balBadges.forEach(b => { if(b) b.innerText = bVal; });
     }
 
     function renderBots() {
-      if (bots.length === 0) return `<div class="section" style="text-align:center; padding:40px 20px;"><div style="font-size:40px; margin-bottom:12px;">🤖</div><h3 class="serif" style="color:#fff; margin-bottom:8px;">Ботов пока нет</h3><button class="btn-primary" onclick="showTab('create')" style="margin-top:16px;">➕ Создать первого бота</button></div>`;
-      let html = '<div class="section-title">🤖 Мои боты</div>';
-      bots.forEach(b => {
-        html += `<div class="section"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;"><div class="serif" style="font-size:20px; color:#fff;">${b.name}</div><div style="font-size:10px; font-weight:700; padding:3px 8px; border-radius:10px; background:rgba(76,175,80,0.15); color:#81c784;">АКТИВЕН</div></div><div style="font-size:12px; color:var(--text-muted);">Ниша: ${b.niche} | Город: ${b.city}</div><button class="btn-secondary" style="width:100%; margin-top:12px; color:#ef5350; border-color:rgba(229,57,53,0.3);" onclick="deleteBot('${b.id}')">🗑️ Удалить</button></div>`;
-      });
-      return html;
-    }
-
-    function renderCreate() {
-      return `<div class="section">
-        <h2 class="serif" style="font-size:26px; color:#fff; margin-bottom:6px;">Запуск Авито-бота</h2>
-        <p style="font-size:13px; color:var(--text-muted); margin-bottom:20px;">Автоматическая привязка к эмулятору LDPlayer и продажам 24/7</p>
-
-        <div class="form-group" style="background:rgba(201,168,76,0.15); padding:16px; border-radius:12px; border:2px solid var(--gold); margin-bottom:20px;">
-          <label class="form-label" style="color:var(--gold-light); font-size:12px; font-weight:800; text-transform:uppercase; letter-spacing:1px; margin-bottom:8px; display:block;">
-            🔑 1. ВХОД В АККАУНТ АВИТО (СПОСОБ АВТОРИЗАЦИИ В LDPLAYER)
-          </label>
-          <select id="wAuthType" class="form-input" style="background:#0a0a0c; color:#fff; border-color:var(--gold); font-size:14px; font-weight:600; padding:12px;" onchange="toggleAuthFields()">
-            <option value="qr">📷 Вход по QR-коду (Авто-генерация в LDPlayer)</option>
-            <option value="phone">📲 Вход по номеру телефона аккаунта и СМС</option>
-            <option value="api">🔑 Официальный API Авито (Client ID / Secret)</option>
-          </select>
-
-          <div id="authPhoneBlock" style="display:none; margin-top:12px;">
-            <label class="form-label" style="color:var(--text-muted);">Номер телефона аккаунта Авито для входа (СМС):</label>
-            <input type="text" id="wAvitoPhone" class="form-input" placeholder="+7 (999) 000-00-00">
-          </div>
-
-          <div id="authApiBlock" style="display:none; margin-top:12px;">
-            <label class="form-label" style="color:var(--text-muted);">Client ID Авито:</label>
-            <input type="text" id="wClientId" class="form-input" placeholder="Client ID">
-            <label class="form-label" style="color:var(--text-muted); margin-top:8px;">Client Secret Авито:</label>
-            <input type="text" id="wClientSecret" class="form-input" placeholder="Client Secret">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">2. Название магазина / бота</label>
-          <input type="text" id="wName" class="form-input" placeholder="Мой магазин Авито" value="Мой магазин Авито">
-        </div>
-        <div class="form-group">
-          <label class="form-label">3. Ниша и ассортимент товаров</label>
-          <input type="text" id="wNiche" class="form-input" placeholder="Автозапчасти, OEM детали" value="Автозапчасти">
-        </div>
-        <div class="form-group">
-          <label class="form-label">4. Способ продаж и условия доставки</label>
-          <input type="text" id="wSales" class="form-input" placeholder="Авито Доставка, СДЭК, Самовывоз" value="Авито Доставка, СДЭК, Самовывоз">
-        </div>
-        <div class="form-group">
-          <label class="form-label">5. Телефон для приема лидов</label>
-          <input type="text" id="wPhone" class="form-input" placeholder="+7 (999) 000-00-00" value="+7 (923) 451-10-89">
-        </div>
-        <div class="form-group">
-          <label class="form-label">6. Город и адрес склада</label>
-          <input type="text" id="wCity" class="form-input" placeholder="Москва" value="Москва">
-        </div>
-        <div class="form-group">
-          <label class="form-label">7. Режим работы</label>
-          <input type="text" id="wHours" class="form-input" placeholder="09:00 - 21:00" value="09:00 - 21:00">
-        </div>
-        <div class="form-group">
-          <label class="form-label">8. Ссылка на профиль Авито</label>
-          <input type="text" id="wAvitoLink" class="form-input" placeholder="https://avito.ru/profile" value="https://avito.ru">
-        </div>
-
-        <button class="btn-primary" onclick="submitBot()" style="margin-bottom:10px;">🚀 Привязать эмулятор и запустить бота (6 490 ₽)</button>
-        <button class="btn-secondary" onclick="fastTestLaunch()" style="background:rgba(201,168,76,0.12); border-color:var(--gold); color:var(--gold-light); font-weight:700;">⚡ Бесплатный демо-запуск с эмулятором LDPlayer</button>
-      </div>`;
-    }
-
-    function renderDialogs() {
-      if (dialogs.length === 0) return `<div class="section" style="text-align:center; padding:40px 20px;"><div style="font-size:40px; margin-bottom:12px;">💬</div><h3 class="serif" style="color:#fff;">Диалогов пока нет</h3><p style="color:var(--text-muted); font-size:13px; margin-top:8px;">Они появятся после первого сообщения покупателя</p></div>`;
-      let html = '<div class="section-title">💬 Последние диалоги</div>';
-      dialogs.slice(0, 10).forEach(d => {
-        html += `<div class="section"><div style="display:flex; justify-content:space-between; margin-bottom:8px;"><div style="font-weight:600; color:var(--gold); font-size:13px;">${d.botName}</div><div style="font-size:11px; color:var(--text-muted);">${d.time}</div></div><div style="font-size:12px; color:var(--text); margin-bottom:4px;">👤 ${d.customerMsg}</div><div style="font-size:12px; color:var(--gold); margin-left:12px;">🤖 ${d.botReply}</div></div>`;
-      });
-      return html;
-    }
-
-    function renderSupport() {
-      return `
-        <div class="section">
-          <div class="section-title">🎓 Обучение и Поддержка</div>
-          <div style="padding:12px; background:rgba(255,255,255,0.02); border-radius:8px; margin-bottom:10px; cursor:pointer;" onclick="window.open('https://t.me/ai_manager_pr')">
-            <div style="font-size:13px; color:#fff; font-weight:600;">📢 Наш Telegram-канал</div>
-            <div style="font-size:11px; color:var(--text-muted);">@ai_manager_pr — инструкции и обновления</div>
-          </div>
-          <div style="padding:12px; background:rgba(255,255,255,0.02); border-radius:8px; cursor:pointer;" onclick="window.open('https://t.me/chc332')">
-            <div style="font-size:13px; color:#fff; font-weight:600;">💬 Задать вопрос в поддержке</div>
-            <div style="font-size:11px; color:var(--text-muted);">@chc332</div>
-          </div>
-        </div>
-      `;
-    }
-
-    function fastTestLaunch() {
-      if (balance < 6490) {
-        balance += 6490;
-        localStorage.setItem('majorka_balance', balance);
-        updateUI();
+      const container = document.getElementById('botsList');
+      if (!container) return;
+      if (!bots || bots.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center; padding:40px 20px;">
+            <div style="font-size:3rem; margin-bottom:10px;">🤖</div>
+            <h3>Ботов пока нет</h3>
+            <button class="btn btn-gold" style="margin-top:15px;" onclick="showTab('create')">+ Создать первого бота</button>
+          </div>`;
+        return;
       }
-      submitBot();
+      container.innerHTML = bots.map(b => `
+        <div class="bot-card" style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <h4 style="margin:0; color:#fff;">${b.name}</h4>
+            <span class="badge" style="background:${b.is_paid ? '#10b981' : '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:2px 8px; border-radius:10px;">${b.is_paid ? 'АКТИВЕН' : 'НЕ ОПЛАЧЕН'}</span>
+          </div>
+          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Автозапчасти'} | Город: ${b.city || 'Москва'}</p>
+          <div style="display:flex; gap:8px;">
+            <button class="btn btn-danger btn-sm" style="background:#ef4444; color:#fff; border:none; padding:6px 12px; border-radius:6px; cursor:pointer;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
+          </div>
+        </div>
+      `).join('');
     }
 
-    function submitBot() {
-      const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+    function showTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      const activeTab = document.getElementById(tabId + 'Tab');
+      if (activeTab) activeTab.style.display = 'block';
+      const activeNav = document.getElementById('nav-' + tabId);
+      if (activeNav) activeNav.classList.add('active');
+    }
 
-      const name = g('wName') || 'Мой магазин Авито';
-      const niche = g('wNiche') || 'Автозапчасти';
-      const sales_method = g('wSales') || 'Авито Доставка, СДЭК, Самовывоз';
-      const phone = g('wPhone') || '+7 (923) 451-10-89';
-      const city = g('wCity') || 'Москва';
-      const hours = g('wHours') || '09:00 - 21:00';
-      const avito_link = g('wAvitoLink') || 'https://avito.ru';
-      
-      // Начисляем тестовый баланс если 0, чтобы всегда создавалось мгновенно
-      if (balance < 6490) {
-        balance += 6490;
-        localStorage.setItem('majorka_balance', balance);
-        updateUI();
-      }
-      
-      balance -= 6490;
-      const newBot = { id: 'bot_' + Date.now(), name, niche, sales_method, phone, city, hours, avito_link, status: 'active' };
-      bots.push(newBot);
-      localStorage.setItem('majorka_balance', balance);
-      localStorage.setItem('majorka_bots', JSON.stringify(bots));
-      
+    async function submitBot() {
+      const name = document.getElementById('wName')?.value || 'Мой магазин Авито';
+      const niche = document.getElementById('wNiche')?.value || 'Автозапчасти';
+      const sales_method = document.getElementById('wSalesMethod')?.value || 'Переводить на созвон';
+      const phone = document.getElementById('wPhone')?.value || '+7 (999) 000-00-00';
+      const city = document.getElementById('wCity')?.value || 'Москва';
+      const hours = document.getElementById('wHours')?.value || '09:00 - 21:00';
+      const avito_link = document.getElementById('wLink')?.value || 'https://avito.ru';
+      const auth_type = document.querySelector('input[name="wAuthType"]:checked')?.value || 'qr';
+      const avito_phone = document.getElementById('wAvitoPhone')?.value || '';
+      const client_id = document.getElementById('wClientId')?.value || '';
+      const client_secret = document.getElementById('wClientSecret')?.value || '';
+
       try {
-        const auth_type = g('wAuthType') || 'qr';
-        const avito_phone = g('wAvitoPhone');
-        const client_id = g('wClientId');
-        const client_secret = g('wClientSecret');
-
-        fetch(API_URL + '/api/create_bot', {
+        await fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, avito_phone, client_id, client_secret })
-        }).catch(err => console.log('API error:', err));
+        });
       } catch(e) {}
-      
-      alert('🚀 Бот «' + name + '» успешно создан, запущен и синхронизирован с Telegram!');
+
+      alert('Бот ' + name + ' успешно создан! Зайдите в Телеграм-бота!');
       showTab('bots');
+      await syncWithServer();
     }
 
     async function deleteBot(name) {
-  if(!confirm('Удалить этого бота?')) return;
-  try {
-    await fetch(API_URL + '/api/delete_bot', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
-      body: JSON.stringify({ chatId: userLabel, name: name, session_name: name })
-    });
-  } catch(e) {}
-  localStorage.removeItem('majorka_bots');
-  await syncWithServer();
-})
-        }).catch(err => console.log('Delete API error:', err));
-      }
+      if(!confirm('Удалить этого бота?')) return;
+      try {
+        await fetch(API_URL + '/api/delete_bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: userLabel, name: name, session_name: name })
+        });
+      } catch(e) {}
+      localStorage.removeItem('majorka_bots');
+      await syncWithServer();
     }
 
-    function openPayModal() { document.getElementById('payModal').classList.add('active'); }
-    function closePayModal() { document.getElementById('payModal').classList.remove('active'); }
-
-      const codeInput = document.getElementById('promoInput');
-      const code = (codeInput ? codeInput.value : '').trim().toUpperCase();
-      if (code === 'TEST' || code === 'MAJORKA' || code === 'FREE' || code === '12345') {
-        balance += 6490;
-        localStorage.setItem('majorka_balance', balance);
-        updateUI();
-        closePayModal();
-      } else {
-      }
+    function openPayModal() {
+      const payModal = document.getElementById('payModal');
+      if (payModal) payModal.classList.add('active');
+    }
+    function closePayModal() {
+      const payModal = document.getElementById('payModal');
+      if (payModal) payModal.classList.remove('active');
     }
 
     function syncWithServer() {
@@ -504,7 +271,7 @@
           if (d && d.success && Array.isArray(d.bots)) {
             bots = d.bots;
             localStorage.setItem('majorka_bots', JSON.stringify(bots));
-            updateUI();
+            renderBots();
           }
         })
         .catch(() => {});
@@ -514,26 +281,26 @@
         .then(d => {
           if (d && d.success) {
             if (d.balance !== undefined) { balance = d.balance; localStorage.setItem('majorka_balance', balance); }
-            if (d.dialogs) { dialogs = d.dialogs; localStorage.setItem('majorka_dialogs', JSON.stringify(dialogs)); }
-            if (d.leads) { leads = d.leads; localStorage.setItem('majorka_leads', JSON.stringify(leads)); }
+            if (d.user && d.user.balance !== undefined) { balance = d.user.balance; localStorage.setItem('majorka_balance', balance); }
+            
             updateUI();
+            
+            const pVal = d.current_price || (d.user ? d.user.current_price : 6490);
+            const discVal = d.discount || (d.user ? d.user.discount : 0);
+            const pText = pVal ? (pVal + ' ₽' + (discVal ? ' [Скидка ' + discVal + '%]' : '')) : '6 490 ₽';
+            
+            const bottomBtn = document.querySelector('.bottom-pay-btn, button[onclick*="openPayModal"]');
+            if (bottomBtn) bottomBtn.innerText = '💳 ПОПОЛНИТЬ БАЛАНС (' + pText + ')';
           }
         })
         .catch(() => {});
     }
 
-    if (tg?.MainButton) {
-      tg.MainButton.setText('💳 ПОПОЛНИТЬ БАЛАНС (6 490 ₽)');
-      tg.MainButton.color = '#c9a84c';
-      tg.MainButton.textColor = '#000000';
-      tg.MainButton.show();
-      tg.MainButton.onClick(openPayModal);
-    }
-    
-    showTab('overview');
-    syncWithServer();
-    setInterval(syncWithServer, 15000);
-  </script>
+    document.addEventListener('DOMContentLoaded', () => {
+      syncWithServer();
+      setInterval(syncWithServer, 10000);
+    });
+</script>
 
 
 
