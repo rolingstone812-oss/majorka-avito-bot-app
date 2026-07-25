@@ -455,7 +455,7 @@
         const client_id = g('wClientId');
         const client_secret = g('wClientSecret');
 
-        fetch(API_URL + '/api/create_bot', {
+        fetch(API_URL + '/create-bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, avito_phone, client_id, client_secret })
@@ -469,7 +469,7 @@
     async function deleteBot(name) {
   if(!confirm('Удалить этого бота?')) return;
   try {
-    await fetch(API_URL + '/api/delete_bot', {
+    await fetch(API_URL + '/delete-bot', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' },
       body: JSON.stringify({ chatId: userLabel, name: name, session_name: name })
@@ -500,7 +500,7 @@
     }
 
     function syncWithServer() {
-      fetch(API_URL + '/api/bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
+      fetch(API_URL + '/my-bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
         .then(d => {
           if (d && d.success && Array.isArray(d.bots)) {
@@ -511,7 +511,7 @@
         })
         .catch(() => {});
 
-      fetch(API_URL + '/api/stats?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
+      fetch(API_URL + '/stats?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
         .then(d => {
           if (d && d.success) {
