@@ -285,14 +285,26 @@
         <div class="bot-card" style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; margin-bottom:12px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <h4 style="margin:0; color:#fff; font-size:1.1rem;">${b.name}</h4>
-            <span class="badge" style="background:${b.is_paid ? '#10b981' : '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.is_paid ? 'АКТИВЕН' : 'НЕ ОПЛАЧЕН'}</span>
+            <span class="badge" style="background:${b.status_color || '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.status || 'ТРЕБУЕТСЯ ВХОД 🔑'}</span>
           </div>
-          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Автозапчасти'} | Город: ${b.city || 'Москва'}</p>
-          <div style="display:flex; gap:8px;">
+          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Товарка'} | Город: ${b.city || 'Красноярск'}</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            ${b.step !== 'start' ? `<button style="background:linear-gradient(135deg, #d4af37, #aa820a); color:#000; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="requestAuthQR('${b.name}', '${b.emulator_index}')">🔑 Войти по QR в ТГ</button>` : ''}
             <button style="background:#ef4444; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
           </div>
         </div>
       `).join('') + '</div>';
+    }
+
+    async function requestAuthQR(name, emuIndex) {
+      showToast('Запрашиваем QR-код авторизации в Телеграм...');
+      try {
+        await fetch(API_URL + '/api/create_bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: userLabel, name: name, auth_type: 'qr' })
+        });
+      } catch(e) {}
     }
 
     function renderCreate() {
