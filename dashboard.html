@@ -98,7 +98,27 @@
     .modal.active { display: flex; }
     .modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; max-width: 440px; width: 100%; padding: 24px; position: relative; }
     .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #888; font-size: 20px; cursor: pointer; }
-  </style>
+  
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100% !important;
+      background: #181c28 !important;
+      border: 1px solid #2a3142 !important;
+      color: #ffffff !important;
+      font-size: 15px !important;
+      padding: 12px 14px !important;
+      border-radius: 8px !important;
+      box-sizing: border-box !important;
+      outline: none !important;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      pointer-events: auto !important;
+      opacity: 1 !important;
+    }
+    input[type="text"]:focus, select:focus {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 8px rgba(212,175,55,0.3) !important;
+    }
+</style>
 </head>
 <body>
 
@@ -294,12 +314,12 @@
           <div style="display:flex; flex-direction:column; gap:12px;">
             <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Название бота / магазина:</label>
-              <input type="text" id="wName" value="Мой магазин Авито" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <input type="text" id="wName" placeholder="Например: Автозапчасти Авито" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
             </div>
 
             <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ниша бизнеса и преимущества:</label>
-              <input type="text" id="wNiche" value="Автозапчасти, OEM диски" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <input type="text" id="wNiche" placeholder="Например: Запчасти для авто" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
             </div>
 
             <div>
@@ -312,22 +332,22 @@
 
             <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Телефон перевода / поддержки:</label>
-              <input type="text" id="wPhone" value="+7 (923) 451-10-89" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <input type="text" id="wPhone" placeholder="+7 (999) 000-00-00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
             </div>
 
             <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Город и адрес склада/офиса:</label>
-              <input type="text" id="wCity" value="Красноярск" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <input type="text" id="wCity" placeholder="Например: Москва" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
             </div>
 
             <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Режим работы:</label>
-              <input type="text" id="wHours" value="09:00 - 21:00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <input type="text" id="wHours" placeholder="09:00 - 21:00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
             </div>
 
             <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ссылка на объявление или профиль Авито:</label>
-              <input type="text" id="wLink" value="https://avito.ru" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <input type="text" id="wLink" placeholder="https://avito.ru/..." style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
             </div>
 
             <div>
