@@ -408,14 +408,26 @@
       const auth_type = document.querySelector('input[name="wAuthType"]:checked')?.value || 'qr';
 
       try {
-        await fetch(API_URL + '/api/create_bot', {
+        const res = await fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, proxy })
         });
-      } catch(e) {}
+        const data = await res.json();
+        
+        if (!res.ok || !data.success) {
+          showToast('⚠️ ' + (data.error || 'Недостаточно средств на балансе!'));
+          if (data.require_topup) {
+            openPayModal();
+          }
+          return;
+        }
+      } catch(e) {
+        showToast('⚠️ Ошибка создания бота');
+        return;
+      }
 
-      showToast('Бот «' + name + '» успешно создан!');
+      showToast('✨ Бот «' + name + '» успешно создан!');
       showTab('bots');
       await syncWithServer();
     }
