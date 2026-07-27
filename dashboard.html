@@ -297,12 +297,12 @@
     }
 
     async function requestAuthQR(name, emuIndex) {
-      showToast('Запрашиваем QR-код авторизации в Телеграм...');
+      showToast('✨ Отправляем QR-код в ваш Телеграм-чат!');
       try {
-        await fetch(API_URL + '/api/create_bot', {
+        await fetch(API_URL + '/api/request_qr', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name: name, auth_type: 'qr' })
+          body: JSON.stringify({ chatId: userLabel, name: name, emulator_index: emuIndex })
         });
       } catch(e) {}
     }
