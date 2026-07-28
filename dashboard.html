@@ -208,6 +208,22 @@
     var bots = [];
     var currentTab = 'overview';
 
+        function refreshBalanceClick() {
+      showToast('🔄 Обновление баланса...');
+      syncWithServer();
+    }
+
+    function validateProxyInput(proxyStr) {
+      if (!proxyStr || !proxyStr.trim()) return true;
+      const clean = proxyStr.trim();
+      const parts = clean.split(':');
+      if (parts.length < 2 || parts.length > 4) {
+        showToast('⚠️ Формат прокси: IP:PORT или IP:PORT:USER:PASS');
+        return false;
+      }
+      return true;
+    }
+
     function showToast(msg) {
       let toast = document.getElementById('customToast');
       if (!toast) {
