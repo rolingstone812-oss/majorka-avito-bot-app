@@ -59,6 +59,7 @@
     <button class="tab-btn" id="tab-create" onclick="showTab('create')">➕ Создать</button>
     <button class="tab-btn" id="tab-stats" onclick="showTab('stats')">📈 Статистика</button>
     <button class="tab-btn" id="tab-instruction" onclick="showTab('instruction')">📚 Инструкция</button>
+    <button class="tab-btn" id="tab-terms" onclick="showTab('terms')">📜 Соглашение</button>
     <button class="tab-btn" id="tab-support" onclick="showTab('support')">⭐ Поддержка</button>
   </div>
 
@@ -300,6 +301,40 @@
       setTimeout(() => { window.location.reload(); }, 400);
     }
 
+        function renderTermsTab() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      c.innerHTML = `
+        <div style="padding:10px; max-width:600px; margin:0 auto; color:#fff;">
+          <h2 style="color:#d4af37; font-size:1.2rem; margin-bottom:12px; text-align:center;">📜 Лицензионное Соглашение и Регламент</h2>
+          
+          <div style="background:#141824; border:1px solid #262c40; border-radius:12px; padding:18px; color:#cbd5e1; font-size:0.85rem; line-height:1.6; max-height:65vh; overflow-y:auto; margin-bottom:16px;">
+            <h4 style="color:#fff; margin-top:0; font-size:0.95rem;">1. Общие положения</h4>
+            <p style="margin-bottom:10px;">1.1. Настоящий документ регулирует условия предоставления доступа к функционалу платформы MAJORKA BOT, обеспечивающей автоматизацию коммуникаций в аккаунтах пользователя.</p>
+            <p style="margin-bottom:10px;">1.2. Использование сервиса означает полное согласие Пользователя с настоящим регламентом.</p>
+
+            <h4 style="color:#fff; font-size:0.95rem; margin-top:12px;">2. Серверные слоты и подключение</h4>
+            <p style="margin-bottom:10px;">2.1. Сервис предоставляет изолированные цифровые слоты обработки данных.</p>
+            <p style="margin-bottom:10px;">2.2. Пользователь самостоятельно подключает персональные прокси-серверы и настраивает параметры целевых объявлений.</p>
+
+            <h4 style="color:#fff; font-size:0.95rem; margin-top:12px;">3. Разграничение ответственности</h4>
+            <p style="margin-bottom:10px;">3.1. Сервис функционирует независимо и не является аффилированным продуктом платформы Avito.ru.</p>
+            <p style="margin-bottom:10px;">3.2. Все автоматизированные действия считаются совершенными непосредственно Пользователем.</p>
+            <p style="margin-bottom:10px;">3.3. Пользователь осведомлен о специфике работы модерации внешних площадок и самостоятельно несет ответственность за соблюдение правил ресурсов, качество прокси-серверов и сохранность аккаунтов. Администрация Сервиса не несет ответственности за любые ограничения или блокировки со стороны сторонних платформ.</p>
+
+            <h4 style="color:#fff; font-size:0.95rem; margin-top:12px;">4. Финансовые условия</h4>
+            <p>4.1. Подписка предоставляет право использования одного изолированного слота на срок 30 календарных дней.</p>
+          </div>
+
+          <div style="text-align:center;">
+            <button onclick="openTermsAgain()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:0.9rem; padding:12px 24px; border-radius:10px; cursor:pointer;">
+              📜 Открыть во всплывающем окне
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
     function showToast(msg) {
       const box = document.getElementById('toastBox');
       if (!box) return;
@@ -330,6 +365,7 @@
       else if (tabName === 'create') renderCreateForm();
       else if (tabName === 'stats') renderStats();
       else if (tabName === 'instruction') renderDocs();
+      else if (tabName === 'terms') renderTermsTab();
       else if (tabName === 'support') renderSupport();
     }
 
