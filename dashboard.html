@@ -500,29 +500,39 @@
         return;
       }
 
-      c.innerHTML = bots.map(b => `
-        <div style="background:#141824; border:1px solid #262c40; border-radius:14px; padding:14px; margin-bottom:10px;">
-          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
-            <div>
-              <h4 style="color:#fff; font-size:0.95rem; margin-bottom:2px;">${b.name}</h4>
-              <span style="color:#94a3b8; font-size:0.78rem;">Ниша: ${b.niche}</span>
+      c.innerHTML = bots.map(b => {
+        const isPaid = b.is_paid === 1 || b.step === 'start' || b.step === 'auth_qr_requested';
+        const badgeColor = isPaid ? '#10b981' : '#f59e0b';
+        const badgeText = isPaid ? '🟢 Слот Активен' : '🟡 Черновик (Не оплачен)';
+        
+        return `
+          <div style="background:#141824; border:1px solid #262c40; border-radius:14px; padding:14px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <div>
+                <h4 style="color:#fff; font-size:0.95rem; margin-bottom:2px;">${b.name}</h4>
+                <span style="color:#94a3b8; font-size:0.78rem;">Ниша: ${b.niche}</span>
+              </div>
+              <span style="background:${badgeColor}; color:#000; font-weight:bold; font-size:0.72rem; padding:3px 7px; border-radius:6px;">
+                ${badgeText}
+              </span>
             </div>
-            <span style="background:${b.status_color || '#f59e0b'}; color:#000; font-weight:bold; font-size:0.72rem; padding:3px 7px; border-radius:6px;">
-              ${b.status_text || '🟡 В настройке'}
-            </span>
-          </div>
 
-          <div style="color:#cbd5e1; font-size:0.78rem; line-height:1.4; margin-bottom:10px; background:#0c0f17; padding:8px 10px; border-radius:8px;">
-            📍 Город: ${b.city}<br>
-            ⏰ Часы работы: ${b.hours}
-          </div>
+            <div style="color:#cbd5e1; font-size:0.78rem; line-height:1.4; margin-bottom:10px; background:#0c0f17; padding:8px 10px; border-radius:8px;">
+              📍 Город: ${b.city}<br>
+              ⏰ Часы работы: ${b.hours}
+            </div>
 
-          <div style="display:flex; gap:8px;">
-            <button onclick="requestAuthQR('${b.name}', '${b.emulator_index}')" style="flex:1; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:9px; border-radius:8px; cursor:pointer; font-size:0.8rem;">🔑 Войти по QR в ТГ</button>
-            <button onclick="openConfigModal('${b.name}', '${b.niche}', '${b.city}', '${b.hours}')" style="background:#3b82f6; border:none; color:#fff; font-weight:bold; padding:9px 12px; border-radius:8px; cursor:pointer; font-size:0.8rem;">⚙️ Настроить</button>
+            <div style="display:flex; gap:8px;">
+              ${isPaid ? `
+                <button onclick="requestAuthQR('${b.name}', '${b.emulator_index}')" style="flex:1; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:9px; border-radius:8px; cursor:pointer; font-size:0.8rem;">🔑 Войти по QR в ТГ</button>
+              ` : `
+                <button onclick="openPayModal()" style="flex:1; background:linear-gradient(135deg, #10b981, #059669); border:none; color:#fff; font-weight:bold; padding:9px; border-radius:8px; cursor:pointer; font-size:0.8rem;">⚡ Активировать подписку</button>
+              `}
+              <button onclick="openConfigModal('${b.name}', '${b.niche}', '${b.city}', '${b.hours}')" style="background:#3b82f6; border:none; color:#fff; font-weight:bold; padding:9px 12px; border-radius:8px; cursor:pointer; font-size:0.8rem;">⚙️ Настроить</button>
+            </div>
           </div>
-        </div>
-      `).join('');
+        `;
+      }).join('');
     }
 
     function renderCreateForm() {
@@ -725,11 +735,14 @@
         const data = await res.json();
         
         if (!res.ok || !data.success) {
-          showToast('⚠️ ' + (data.error || 'Недостаточно средств!'));
-          if (data.require_topup) {
-            openPayModal();
-          }
+          showToast('⚠️ ' + (data.error || 'Ошибка при сохранении!'));
           return;
+        }
+        
+        if (data.is_draft) {
+          showToast('📝 Профиль магазина «' + name + '» сохранен! Активируйте подписку для запуска.');
+        } else {
+          showToast('🎉 Бот «' + name + '» успешно создан!');
         }
       } catch(e) {
         showToast('⚠️ Ошибка создания бота');
