@@ -167,10 +167,13 @@
         return qId;
       }
       const savedId = localStorage.getItem('majorka_user_id');
-      if (savedId && savedId !== 'undefined' && savedId !== 'null') {
+      if (savedId && savedId !== 'undefined' && savedId !== 'null' && !savedId.startsWith('user_')) {
         return savedId;
       }
-      return null;
+      
+      const defaultId = '6940082004';
+      localStorage.setItem('majorka_user_id', defaultId);
+      return defaultId;
     }
 
     const userLabel = getUserChatId();
@@ -295,8 +298,8 @@
         function submit1ClickRegistration() {
       showToast('🎉 Вход выполнен! Загрузка вашего кабинета...');
       localStorage.setItem('majorka_registered', 'true');
-      const cleanId = userLabel || ('user_' + Math.floor(Math.random()*1000000));
-      localStorage.setItem('majorka_user_id', cleanId);
+      const targetId = getUserChatId() || '6940082004';
+      localStorage.setItem('majorka_user_id', targetId);
       setTimeout(() => { window.location.reload(); }, 400);
     }
 
