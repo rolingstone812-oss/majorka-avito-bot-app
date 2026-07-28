@@ -224,6 +224,17 @@
       return true;
     }
 
+        function openConfigModal(name, niche, city, hours) {
+      showToast('⚙️ Настройка параметров бота «' + name + '»');
+      showTab('create');
+      setTimeout(() => {
+        if (document.getElementById('wName')) document.getElementById('wName').value = name;
+        if (document.getElementById('wNiche')) document.getElementById('wNiche').value = niche;
+        if (document.getElementById('wCity')) document.getElementById('wCity').value = city;
+        if (document.getElementById('wHours')) document.getElementById('wHours').value = hours;
+      }, 100);
+    }
+
     function showToast(msg) {
       let toast = document.getElementById('customToast');
       if (!toast) {
