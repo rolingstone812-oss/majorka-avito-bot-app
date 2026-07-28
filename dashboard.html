@@ -184,11 +184,26 @@
   </div>
 
   <script>
-    const API_URL = 'http://127.0.0.1:8085';
+    const API_URL = (window.location.protocol === 'https:')
+      ? 'https://immensurable-paleaceous-marcella.ngrok-free.dev'
+      : 'http://127.0.0.1:8085';
+
     let tg = window.Telegram?.WebApp;
     if (tg) { tg.expand(); }
 
-    const userLabel = tg?.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : '6940082004';
+    function getUserChatId() {
+      if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
+        return window.Telegram.WebApp.initDataUnsafe.user.id.toString();
+      }
+      const urlParams = new URLSearchParams(window.location.search);
+      const qId = urlParams.get('chatId') || urlParams.get('user_id');
+      if (qId && qId !== 'undefined' && qId !== 'null') {
+        return qId;
+      }
+      return null;
+    }
+
+    const userLabel = getUserChatId();
     var balance = 0;
     var bots = [];
     var currentTab = 'overview';
@@ -240,6 +255,18 @@
     function renderOverview() {
       const c = document.getElementById('content');
       if (!c) return;
+      if (!userLabel) {
+        c.innerHTML = `
+          <div style="text-align:center; padding:50px 20px;">
+            <div style="font-size:3.5rem; margin-bottom:10px;">🔒</div>
+            <h3 style="color:#d4af37;">Доступ ограничен</h3>
+            <p style="color:#94a3b8; font-size:0.95rem; line-height:1.5; margin-top:10px;">
+              Пожалуйста, откройте этот личный кабинет через кнопку <b>«📱 Личный кабинет»</b> в вашем Telegram-боте!
+            </p>
+          </div>
+        `;
+        return;
+      }
       c.innerHTML = `
         <div style="padding:16px;">
           <div style="background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; border-radius:16px; padding:20px; margin-bottom:16px; text-align:center;">
@@ -271,6 +298,16 @@
     function renderBots() {
       const c = document.getElementById('content');
       if (!c) return;
+      if (!userLabel) {
+        c.innerHTML = `
+          <div style="text-align:center; padding:50px 20px;">
+            <div style="font-size:3.5rem; margin-bottom:10px;">🔒</div>
+            <h3 style="color:#d4af37;">Доступ ограничен</h3>
+            <p style="color:#94a3b8; font-size:0.95rem;">Пожалуйста, открывайте личный кабинет из вашего Telegram-бота!</p>
+          </div>
+        `;
+        return;
+      }
       if (!bots || bots.length === 0) {
         c.innerHTML = `
           <div style="text-align:center; padding:50px 20px;">
@@ -456,6 +493,7 @@
     }
 
     function syncWithServer() {
+      if (!userLabel) return;
       fetch(API_URL + '/api/bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
         .then(d => {
