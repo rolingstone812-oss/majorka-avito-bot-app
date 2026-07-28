@@ -18,9 +18,8 @@
     .topup-btn { background: linear-gradient(135deg, #d4af37, #aa820a); border: none; color: #000; font-weight: 800; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* RESPONSIVE NAV TABS */
-    .tabs-bar { background: #141824; border-bottom: 1px solid #262c40; display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 6px 10px; gap: 6px; width: 100%; box-sizing: border-box; }
-    .tabs-bar::-webkit-scrollbar { display: none; }
-    .tab-btn { background: transparent; border: none; color: #94a3b8; padding: 8px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: 8px; transition: all 0.2s ease; display: flex; align-items: center; gap: 4px; flex-shrink: 0; flex-grow: 0; }
+    .tabs-bar { background: #141824; border-bottom: 1px solid #262c40; display: grid; grid-template-columns: repeat(3, 1fr); padding: 8px 10px; gap: 6px; width: 100%; box-sizing: border-box; }
+    .tab-btn { background: #1c2233; border: 1px solid #283047; color: #94a3b8; padding: 8px 6px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: 8px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; box-sizing: border-box; }
     .tab-btn:hover { color: #f8fafc; background: rgba(255,255,255,0.05); }
     .tab-btn.active { color: #d4af37; background: rgba(212,175,55,0.14); font-weight: 700; }
 
@@ -764,17 +763,24 @@
     }
 
     function syncWithServer() {
-      if (!userLabel) return;
-      fetch(API_URL + '/api/bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
+      const targetChatId = getUserChatId() || '6940082004';
+      fetch(API_URL + '/api/bots?chatId=' + targetChatId, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
         .then(d => {
           if (d && d.success && Array.isArray(d.bots)) {
             bots = d.bots;
             localStorage.setItem('majorka_bots', JSON.stringify(bots));
             if (currentTab === 'bots') renderBots();
+            if (currentTab === 'overview') renderOverview();
+            if (currentTab === 'stats') renderStats();
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          const cached = localStorage.getItem('majorka_bots');
+          if (cached) {
+            try { bots = JSON.parse(cached); } catch(e){}
+          }
+        });
 
       fetch(API_URL + '/api/stats?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
