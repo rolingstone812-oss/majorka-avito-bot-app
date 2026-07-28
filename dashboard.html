@@ -123,17 +123,17 @@
 <body>
 
   <div class="header">
-    <div class="logo">MAJORKA BOT</div>
+    <div class="logo">MAJORKA BOT</d
     <div class="header-right">
-      <div class="balance-badge">💰 <span id="balance">0 ₽</span></div>
+      <div class="balance-badge">💰 <span id="balance">0 ₽</span></d
       <button class="btn-gold" onclick="openPayModal()">ПОПОЛНИТЬ</button>
-    </div>
-  </div>
+    </d
+  </d
 
   <div class="subheader">
     <h1>MAJORKA BOT</h1>
     <p>Автопилот продаж на Авито</p>
-  </div>
+  </d
 
   <div class="top-nav">
     <button class="nav-btn active" id="tab-btn-overview" onclick="showTab('overview')">📊 Обзор</button>
@@ -141,27 +141,27 @@
     <button class="nav-btn" id="tab-btn-create" onclick="showTab('create')">➕ Создать</button>
     <button class="nav-btn" id="tab-btn-dialogs" onclick="showTab('dialogs')">💬 Диалоги</button>
     <button class="nav-btn" id="tab-btn-support" onclick="showTab('support')">⭐ Поддержка</button>
-  </div>
+  </d
 
-  <div class="content" id="content"></div>
+  <div class="content" id="content"></d
 
   <div class="bottom-nav">
-    <div class="bottom-nav-item active" id="bnav-overview" onclick="showTab('overview')"><div class="bottom-nav-icon">📊</div><div class="bottom-nav-label">Обзор</div></div>
-    <div class="bottom-nav-item" id="bnav-bots" onclick="showTab('bots')"><div class="bottom-nav-icon">🤖</div><div class="bottom-nav-label">Боты</div></div>
-    <div class="bottom-nav-item" id="bnav-create" onclick="showTab('create')"><div class="bottom-nav-icon">➕</div><div class="bottom-nav-label">Создать</div></div>
-    <div class="bottom-nav-item" id="bnav-dialogs" onclick="showTab('dialogs')"><div class="bottom-nav-icon">💬</div><div class="bottom-nav-label">Диалоги</div></div>
-    <div class="bottom-nav-item" id="bnav-support" onclick="showTab('support')"><div class="bottom-nav-icon">⭐</div><div class="bottom-nav-label">Поддержка</div></div>
-  </div>
+    <div class="bottom-nav-item active" id="bnav-overview" onclick="showTab('overview')"><div class="bottom-nav-icon">📊</d<div class="bottom-nav-label">Обзор</d</d
+    <div class="bottom-nav-item" id="bnav-bots" onclick="showTab('bots')"><div class="bottom-nav-icon">🤖</d<div class="bottom-nav-label">Боты</d</d
+    <div class="bottom-nav-item" id="bnav-create" onclick="showTab('create')"><div class="bottom-nav-icon">➕</d<div class="bottom-nav-label">Создать</d</d
+    <div class="bottom-nav-item" id="bnav-dialogs" onclick="showTab('dialogs')"><div class="bottom-nav-icon">💬</d<div class="bottom-nav-label">Диалоги</d</d
+    <div class="bottom-nav-item" id="bnav-support" onclick="showTab('support')"><div class="bottom-nav-icon">⭐</d<div class="bottom-nav-label">Поддержка</d</d
+  </d
 
   <!-- Модальное окно оплаты -->
   <div class="modal" id="payModal">
     <div class="modal-content">
       <button class="modal-close" onclick="closePayModal()">✕</button>
-      <div style="color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:8px;">💰 Пополнение баланса</div>
-      <div class="serif" style="font-size:24px; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</div>
+      <div style="color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:8px;">💰 Пополнение баланса</d
+      <div class="serif" style="font-size:24px; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</d
       
       <div style="background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:12px; padding:18px; margin-bottom:16px;">
-        <div style="font-size:12px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Онлайн-оплата картой / ЮMoney (Мгновенно)</div>
+        <div style="font-size:12px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Онлайн-оплата картой / ЮMoney (Мгновенно)</d
         <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Безопасная оплата. Баланс и подписка зачисляются автоматически сразу после перевода.</p>
         <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yoomoneyForm">
           <input type="hidden" name="receiver" value="4100119556996975">
@@ -172,16 +172,16 @@
           <input type="hidden" name="label" id="ymLabel" value="">
           <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽</button>
         </form>
-      </div>
+      </d
 
       <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:16px;">
         <div style="display:flex; gap:8px;">
-        </div>
-      </div>
+        </d
+      </d
 
       <button class="btn-secondary" style="width:100%;" onclick="closePayModal()">Закрыть</button>
-    </div>
-  </div>
+    </d
+  </d
 
   <script>
     const API_URL = (window.location.protocol === 'https:')
@@ -365,7 +365,7 @@
       if (!userLabel) {
         c.innerHTML = `
           <div style="padding:30px 20px; text-align:center; max-width:440px; margin:0 auto;">
-            <div style="font-size:3.5rem; margin-bottom:12px;">👑</div>
+            <div style="font-size:3.5rem; margin-bottom:12px;">👑</d
             <h2 style="color:#d4af37; font-size:1.5rem; margin-bottom:6px; font-weight:800;">MAJORKA BOT</h2>
             <p style="color:#94a3b8; font-size:0.92rem; line-height:1.4; margin-bottom:24px;">
               Автопилот продаж и AI-менеджер на Авито 24/7
@@ -383,8 +383,8 @@
                 <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
                 Войти через Google Account
               </button>
-            </div>
-          </div>
+            </d
+          </d
         `;
         return;
       }
@@ -394,24 +394,24 @@
             <h2 style="color:#d4af37; margin:0 0 8px 0; font-size:1.4rem;">MAJORKA BOT</h2>
             <p style="color:#94a3b8; margin:0; font-size:0.9rem;">Автопилот продаж на Авито 24/7</p>
             <button class="btn btn-gold" style="margin-top:15px; width:100%; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px; border-radius:10px; cursor:pointer;" onclick="showTab('create')">+ Создать нового бота</button>
-          </div>
+          </d
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
             <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
-              <div style="font-size:0.8rem; color:#94a3b8;">Всего ботов</div>
-              <div id="statBots" style="font-size:1.6rem; font-weight:bold; color:#fff; margin-top:4px;">0</div>
-            </div>
+              <div style="font-size:0.8rem; color:#94a3b8;">Всего ботов</d
+              <div id="statBots" style="font-size:1.6rem; font-weight:bold; color:#fff; margin-top:4px;">0</d
+            </d
             <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
-              <div style="font-size:0.8rem; color:#94a3b8;">Сообщений</div>
-              <div id="statMsgs" style="font-size:1.6rem; font-weight:bold; color:#10b981; margin-top:4px;">0</div>
-            </div>
-          </div>
+              <div style="font-size:0.8rem; color:#94a3b8;">Сообщений</d
+              <div id="statMsgs" style="font-size:1.6rem; font-weight:bold; color:#10b981; margin-top:4px;">0</d
+            </d
+          </d
 
           <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; text-align:center;">
-            <div style="font-size:0.85rem; color:#94a3b8;">Собрано горячих лидов (телефонов)</div>
-            <div id="statLeads" style="font-size:2rem; font-weight:bold; color:#d4af37; margin-top:4px;">0</div>
-          </div>
-        </div>
+            <div style="font-size:0.85rem; color:#94a3b8;">Собрано горячих лидов (телефонов)</d
+            <div id="statLeads" style="font-size:2rem; font-weight:bold; color:#d4af37; margin-top:4px;">0</d
+          </d
+        </d
       `;
       syncWithServer();
     }
@@ -422,21 +422,21 @@
       if (!userLabel) {
         c.innerHTML = `
           <div style="text-align:center; padding:50px 20px;">
-            <div style="font-size:3.5rem; margin-bottom:10px;">🔒</div>
+            <div style="font-size:3.5rem; margin-bottom:10px;">🔒</d
             <h3 style="color:#d4af37;">Доступ ограничен</h3>
             <p style="color:#94a3b8; font-size:0.95rem;">Пожалуйста, открывайте личный кабинет из вашего Telegram-бота!</p>
-          </div>
+          </d
         `;
         return;
       }
       if (!bots || bots.length === 0) {
         c.innerHTML = `
           <div style="text-align:center; padding:50px 20px;">
-            <div style="font-size:3.5rem; margin-bottom:10px;">🤖</div>
+            <div style="font-size:3.5rem; margin-bottom:10px;">🤖</d
             <h3 style="color:#fff;">Ботов пока нет</h3>
             <p style="color:#94a3b8; font-size:0.9rem;">Создайте первого ИИ-продавца для ваших объявлений на Авито!</p>
             <button style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px 24px; border-radius:10px; cursor:pointer; margin-top:10px;" onclick="showTab('create')">+ Создать первого бота</button>
-          </div>`;
+          </d`;
         return;
       }
       c.innerHTML = '<div style="padding:16px;">' + bots.map(b => `
@@ -444,14 +444,14 @@
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <h4 style="margin:0; color:#fff; font-size:1.1rem;">${b.name}</h4>
             <span class="badge" style="background:${b.status_color || '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.status || 'ТРЕБУЕТСЯ ВХОД 🔑'}</span>
-          </div>
+          </d
           <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Товарка'} | Город: ${b.city || 'Красноярск'}</p>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
             ${b.step !== 'start' ? `<button style="background:linear-gradient(135deg, #d4af37, #aa820a); color:#000; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="requestAuthQR('${b.name}', '${b.emulator_index}')">🔑 Войти по QR в ТГ</button>` : ''}
             <button style="background:#ef4444; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
-          </div>
-        </div>
-      `).join('') + '</div>';
+          </d
+        </d
+      `).join('') + '</d';
     }
 
     async function requestAuthQR(name, emuIndex) {
@@ -473,61 +473,61 @@
           <h3 style="color:#d4af37; margin-top:0;">🚀 Создание нового ИИ-продавца</h3>
           
           <div style="background:rgba(212,175,55,0.1); border:1px solid #d4af37; border-radius:12px; padding:14px; margin-bottom:16px;">
-            <label style="color:#d4af37; font-weight:bold; display:block; margin-bottom:8px;">🔑 1. Способ авторизации в Авито (LDPlayer):</label>
+            <label style="color:#d4af37; font-weight:bold; display:block; margin-bottom:8px;">🔑 1. Способ авторизации в Авито (MAJORKA Engine):</label>
             <div style="display:flex; flex-direction:column; gap:8px;">
               <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="qr" checked> 📷 Вход по QR-коду (Авто-генерация)</label>
               <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="phone"> 📲 Вход по номеру телефона аккаунта и СМС</label>
               <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="api"> 🔑 Официальный API Авито (Client ID/Secret)</label>
-            </div>
-          </div>
+            </d
+          </d
 
           <div style="display:flex; flex-direction:column; gap:12px;">
-            <div>
+            <d
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Название бота / магазина:</label>
               <input type="text" id="wName" placeholder="Например: Автозапчасти Авито" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
+            </d
 
-            <div>
+            <d
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ниша бизнеса и преимущества:</label>
               <input type="text" id="wNiche" placeholder="Например: Запчасти для авто" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
+            </d
 
-            <div>
+            <d
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Способ продаж:</label>
               <select id="wSalesMethod" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
                 <option value="Переводить на созвон">📞 Переводить на созвон (получать номер телефона)</option>
                 <option value="Продавать прямо в чате">💬 Продавать прямо в чате</option>
               </select>
-            </div>
+            </d
 
-            <div>
+            <d
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Телефон перевода / поддержки:</label>
               <input type="text" id="wPhone" placeholder="+7 (999) 000-00-00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
+            </d
 
-            <div>
+            <d
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Город и адрес склада/офиса:</label>
               <input type="text" id="wCity" placeholder="Например: Москва" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
+            </d
 
-            <div>
+            <d
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Режим работы:</label>
               <input type="text" id="wHours" placeholder="09:00 - 21:00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
+            </d
 
-            <div>
+            <d
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ссылка на объявление или профиль Авито:</label>
               <input type="text" id="wLink" placeholder="https://avito.ru/..." style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
+            </d
 
-            <div>
+            <d
               <label style="color:#d4af37; font-size:0.85rem; font-weight:bold; display:block; margin-bottom:4px;">🌐 Прокси IP (мобильный / резидентский) [Необязательно]:</label>
               <input type="text" id="wProxy" placeholder="ip:port или ip:port:user:pass" style="width:100%; background:#181c28; border:1px solid #d4af37; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
+            </d
 
             <button onclick="submitBot()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:pointer; margin-top:8px;">🚀 Запустить бота на Авито</button>
-          </div>
-        </div>
+          </d
+        </d
       `;
     }
 
@@ -538,7 +538,7 @@
         <div style="padding:16px; text-align:center;">
           <h3 style="color:#fff;">💬 Чаты и Лиды клиентов</h3>
           <p style="color:#94a3b8; font-size:0.9rem;">Все поступившие номера телефонов и диалоги с Авито отображаются здесь и передаются в ваш Телеграм-бот!</p>
-        </div>
+        </d
       `;
     }
 
@@ -548,9 +548,9 @@
       c.innerHTML = `
         <div style="padding:16px; text-align:center;">
           <h3 style="color:#d4af37;">⭐ Служба поддержки</h3>
-          <p style="color:#94a3b8; font-size:0.9rem;">Есть вопросы по настройке эмулятора LDPlayer или оплат?</p>
+          <p style="color:#94a3b8; font-size:0.9rem;">Есть вопросы по настройке облачный модульа MAJORKA Engine или оплат?</p>
           <a href="https://t.me/chc332" target="_blank" style="display:inline-block; background:#10b981; color:#fff; text-decoration:none; font-weight:bold; padding:12px 24px; border-radius:10px; margin-top:10px;">💬 Написать менеджеру (@chc332)</a>
-        </div>
+        </d
       `;
     }
 
@@ -665,7 +665,7 @@
           📜 Лицензионное Соглашение и Регламент Сервиса
         </h3>
         <p style="color:#94a3b8; font-size:0.78rem; margin:4px 0 0 0;">Редакция 2.4 | Документация использования программного комплекса</p>
-      </div>
+      </d
 
       <div style="padding:20px; overflow-y:auto; color:#94a3b8; font-size:0.83rem; line-height:1.6; flex:1;" id="termsScrollArea">
         <h4 style="color:#cbd5e1; margin-top:0; font-size:0.9rem;">1. Предмет лицензионного соглашения</h4>
@@ -673,7 +673,7 @@
         <p>1.2. Использование Программного обеспечения допускается исключительно на условиях настоящего Соглашения. Полным акцептом настоящих условий является совершение действий по авторизации в личном кабинете или запуск процессов автоматизации.</p>
 
         <h4 style="color:#cbd5e1; font-size:0.9rem;">2. Технические параметры и работа цифровых инстансов</h4>
-        <p>2.1. Для выполнения задач автоматизации Лицензиар предоставляет изолированную среду исполнения (виртуальный контейнер эмуляции Android OS).</p>
+        <p>2.1. Для выполнения задач автоматизации Лицензиар предоставляет изолированную среду исполнения (выделенный изолированный серверный слот).</p>
         <p>2.2. Лицензиат (Пользователь) самостоятельно определяет параметры сетевых подключений (IP-адреса, прокси-серверы типа HTTP/SOCKS5) и график работы алгоритмов.</p>
 
         <h4 style="color:#cbd5e1; font-size:0.9rem;">3. Порядок взаимодействия с сторонними платформами</h4>
@@ -688,7 +688,7 @@
         <h4 style="color:#cbd5e1; font-size:0.9rem;">5. Финансовые условия и порядок обслуживания</h4>
         <p>5.1. Доступ к функциям Сервиса предоставляется на условиях абонентской платы на срок 30 календарных дней за каждый активный слот.</p>
         <p>5.2. Уплаченные денежные средства за период активного использования подписки не подлежат возврату после активации экземпляра виртуального устройства.</p>
-      </div>
+      </d
 
       <div style="padding:16px 20px; border-top:1px solid #2a3142; background:#181c28;">
         <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:14px;">
@@ -696,15 +696,15 @@
           <label for="chkAcceptTerms" style="color:#cbd5e1; font-size:0.82rem; cursor:pointer; line-height:1.3;">
             Я прочитал(а) Лицензионное соглашение и регламент, согласен(на) с условиями и принимаю правила использования
           </label>
-        </div>
+        </d
 
         <button id="btnAcceptTerms" onclick="confirmTerms()" disabled style="width:100%; background:#334155; border:none; color:#94a3b8; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:not-allowed; transition:all 0.3s ease;">
           🔒 Отметьте галочку для входа
         </button>
-      </div>
+      </d
 
-    </div>
-  </div>iv>
+    </d
+  </d
 
 </body>
 </html>
