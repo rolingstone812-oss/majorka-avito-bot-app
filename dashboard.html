@@ -18,9 +18,9 @@
     .topup-btn { background: linear-gradient(135deg, #d4af37, #aa820a); border: none; color: #000; font-weight: 800; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
 
     /* RESPONSIVE NAV TABS */
-    .tabs-bar { background: #141824; border-bottom: 1px solid #262c40; display: flex; overflow-x: auto; scrollbar-width: none; padding: 4px 6px; gap: 2px; }
+    .tabs-bar { background: #141824; border-bottom: 1px solid #262c40; display: flex; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding: 6px 10px; gap: 6px; width: 100%; box-sizing: border-box; }
     .tabs-bar::-webkit-scrollbar { display: none; }
-    .tab-btn { background: transparent; border: none; color: #94a3b8; padding: 8px 10px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: 6px; transition: all 0.2s ease; display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+    .tab-btn { background: transparent; border: none; color: #94a3b8; padding: 8px 12px; font-size: 0.8rem; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: 8px; transition: all 0.2s ease; display: flex; align-items: center; gap: 4px; flex-shrink: 0; flex-grow: 0; }
     .tab-btn:hover { color: #f8fafc; background: rgba(255,255,255,0.05); }
     .tab-btn.active { color: #d4af37; background: rgba(212,175,55,0.14); font-weight: 700; }
 
@@ -59,7 +59,6 @@
     <button class="tab-btn" id="tab-create" onclick="showTab('create')">➕ Создать</button>
     <button class="tab-btn" id="tab-stats" onclick="showTab('stats')">📈 Статистика</button>
     <button class="tab-btn" id="tab-instruction" onclick="showTab('instruction')">📚 Инструкция</button>
-    <button class="tab-btn" id="tab-terms" onclick="showTab('terms')">📜 Соглашение</button>
     <button class="tab-btn" id="tab-support" onclick="showTab('support')">⭐ Поддержка</button>
   </div>
 
