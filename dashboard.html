@@ -193,12 +193,19 @@
 
     function getUserChatId() {
       if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
-        return window.Telegram.WebApp.initDataUnsafe.user.id.toString();
+        const id = window.Telegram.WebApp.initDataUnsafe.user.id.toString();
+        localStorage.setItem('majorka_user_id', id);
+        return id;
       }
       const urlParams = new URLSearchParams(window.location.search);
       const qId = urlParams.get('chatId') || urlParams.get('user_id');
       if (qId && qId !== 'undefined' && qId !== 'null') {
+        localStorage.setItem('majorka_user_id', qId);
         return qId;
+      }
+      const savedId = localStorage.getItem('majorka_user_id');
+      if (savedId && savedId !== 'undefined' && savedId !== 'null') {
+        return savedId;
       }
       return null;
     }
@@ -233,6 +240,30 @@
         if (document.getElementById('wCity')) document.getElementById('wCity').value = city;
         if (document.getElementById('wHours')) document.getElementById('wHours').value = hours;
       }, 100);
+    }
+
+        function submitRegistration() {
+      const regId = document.getElementById('regChatId')?.value?.trim();
+      const regName = document.getElementById('regName')?.value?.trim() || 'Пользователь';
+      const terms = document.getElementById('regTerms')?.checked;
+
+      if (!regId) {
+        showToast('⚠️ Пожалуйста, введите ваш Telegram Chat ID');
+        return;
+      }
+      if (!terms) {
+        showToast('⚠️ Необходимо согласиться с условиями сервиса');
+        return;
+      }
+
+      const cleanId = regId.replace(/[^0-9]/g, '') || regId;
+      localStorage.setItem('majorka_user_id', cleanId);
+      localStorage.setItem('majorka_user_name', regName);
+
+      showToast('🎉 Успешный вход! Загрузка кабинета...');
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
     }
 
     function showToast(msg) {
@@ -284,12 +315,29 @@
       if (!c) return;
       if (!userLabel) {
         c.innerHTML = `
-          <div style="text-align:center; padding:50px 20px;">
-            <div style="font-size:3.5rem; margin-bottom:10px;">🔒</div>
-            <h3 style="color:#d4af37;">Доступ ограничен</h3>
-            <p style="color:#94a3b8; font-size:0.95rem; line-height:1.5; margin-top:10px;">
-              Пожалуйста, откройте этот личный кабинет через кнопку <b>«📱 Личный кабинет»</b> в вашем Telegram-боте!
+          <div style="padding:20px; text-align:center; max-width:420px; margin:0 auto;">
+            <div style="font-size:3.5rem; margin-bottom:10px;">👋</div>
+            <h2 style="color:#d4af37; font-size:1.4rem; margin-bottom:8px;">Добро пожаловать в MAJORKA BOT</h2>
+            <p style="color:#94a3b8; font-size:0.9rem; line-height:1.4; margin-bottom:20px;">
+              Автопилот продаж на Авито 24/7. Пожалуйста, пройдите быструю авторизацию для входа в кабинет.
             </p>
+
+            <div style="background:#181c28; border:1px solid #d4af37; padding:20px; border-radius:14px; text-align:left; box-shadow:0 10px 25px rgba(0,0,0,0.5);">
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:6px;">Ваш Telegram Chat ID или Номер Телефона:</label>
+              <input type="text" id="regChatId" placeholder="Например: 6940082004 или +79990000000" style="width:100%; background:#0f172a; border:1px solid #334155; color:#fff; padding:12px; border-radius:8px; box-sizing:border-box; margin-bottom:14px; font-size:0.95rem;">
+
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:6px;">Ваше имя или название магазина:</label>
+              <input type="text" id="regName" placeholder="Александр | Мой Магазин" style="width:100%; background:#0f172a; border:1px solid #334155; color:#fff; padding:12px; border-radius:8px; box-sizing:border-box; margin-bottom:16px; font-size:0.95rem;">
+
+              <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:16px;">
+                <input type="checkbox" id="regTerms" checked style="margin-top:3px; cursor:pointer;">
+                <label for="regTerms" style="color:#94a3b8; font-size:0.75rem; line-height:1.3; cursor:pointer;">
+                  Я согласен с <a href="#instruction" onclick="showTab('instruction')" style="color:#d4af37;">правилами использования</a> и осознаю риски автоматизации.
+                </label>
+              </div>
+
+              <button onclick="submitRegistration()" style="width:100%; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:pointer;">🚀 Войти в Личный Кабинет</button>
+            </div>
           </div>
         `;
         return;
