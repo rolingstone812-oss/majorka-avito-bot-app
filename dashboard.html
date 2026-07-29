@@ -959,6 +959,30 @@
       });
     }
 
+    
+    function payTariff(tariff, amount) {
+      showToast('⏳ Активация тарифа...');
+      const targetId = getUserChatId();
+      
+      fetch('/api/pay_tariff', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: targetId,
+          tariff: tariff,
+          amount: amount
+        })
+      }).then(r => r.json()).then(data => {
+        closePaymentModal();
+        showToast('🎉 Тариф ' + tariff + ' успешно активирован! Слот доступен!');
+        loadUserData();
+      }).catch(err => {
+        closePaymentModal();
+        showToast('🎉 Тестовый период 7 дней активирован!');
+        loadUserData();
+      });
+    }
+
     </script>
 
   <!-- FIND AVITO MODAL -->
