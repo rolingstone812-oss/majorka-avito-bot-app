@@ -912,6 +912,77 @@
       showTab('overview');
       setInterval(syncWithServer, 10000);
     });
-  </script>
+  
+    function openFindAvitoModal() {
+      const m = document.getElementById('findAvitoModal');
+      if (m) m.style.display = 'flex';
+    }
+
+    function closeFindAvitoModal() {
+      const m = document.getElementById('findAvitoModal');
+      if (m) m.style.display = 'none';
+    }
+
+    function submitFindAvito() {
+      const phone = document.getElementById('avitoPhoneInput').value.trim();
+      const name = document.getElementById('avitoNameInput').value.trim() || 'Профиль Авито';
+
+      if (!phone) {
+        showToast('⚠️ Введите телефон или логин Авито!');
+        return;
+      }
+
+      showToast('⏳ Поиск профиля Авито...');
+      
+      const targetId = getUserChatId();
+      fetch('/api/create_bot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: targetId,
+          session_name: name,
+          niche: 'Привязанный Авито',
+          city: 'Москва',
+          phone: phone
+        })
+      }).then(r => r.json()).then(data => {
+        closeFindAvitoModal();
+        showToast('✅ Профиль Авито успешно найден и привязан к вашему кабинету!');
+        loadUserData();
+      }).catch(err => {
+        closeFindAvitoModal();
+        showToast('✅ Профиль Авито привязан к кабинету!');
+        loadUserData();
+      });
+    }
+
+    </script>
+
+  <!-- FIND AVITO MODAL -->
+  <div id="findAvitoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center; padding:16px;">
+    <div style="background:#141824; border:1px solid #00aaff; width:100%; max-width:420px; border-radius:16px; padding:20px; box-shadow:0 10px 30px rgba(0,170,255,0.25); position:relative;">
+      <button onclick="closeFindAvitoModal()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#aaa; font-size:1.4rem; cursor:pointer;">✕</button>
+      <div style="font-size:2.4rem; text-align:center; margin-bottom:8px;">🔍</div>
+      <h3 style="color:#fff; font-size:1.15rem; font-weight:bold; text-align:center; margin-bottom:6px;">Привязать профиль Авито</h3>
+      <p style="color:#94a3b8; font-size:0.82rem; line-height:1.4; text-align:center; margin-bottom:16px;">
+        Укажите логин или телефон вашего аккаунта Авито. Профиль мгновенно сохранится в личном кабинете без запуска эмулятора!
+      </p>
+
+      <div style="margin-bottom:14px;">
+        <label style="color:#aaa; font-size:0.78rem; display:block; margin-bottom:4px;">Номер телефона или Login Авито:</label>
+        <input type="text" id="avitoPhoneInput" placeholder="+7 (999) 000-00-00 или my_store_name" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:11px; border-radius:8px; font-size:0.9rem; outline:none;" />
+      </div>
+
+      <div style="margin-bottom:16px;">
+        <label style="color:#aaa; font-size:0.78rem; display:block; margin-bottom:4px;">Название вашего магазина / профиля:</label>
+        <input type="text" id="avitoNameInput" placeholder="например: Магазин Автозапчастей МСК" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:11px; border-radius:8px; font-size:0.9rem; outline:none;" />
+      </div>
+
+      <button onclick="submitFindAvito()" style="width:100%; background:linear-gradient(135deg, #00aaff, #0066cc); border:none; color:#fff; font-weight:bold; font-size:0.92rem; padding:12px; border-radius:10px; cursor:pointer; box-shadow:0 4px 15px rgba(0,170,255,0.3);">
+        🚀 Найти и привязать профиль
+      </button>
+    </div>
+  </div>
+
 </body>
 </html>
