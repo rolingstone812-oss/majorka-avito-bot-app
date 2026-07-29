@@ -173,6 +173,14 @@
     if (tg) { tg.expand(); }
 
     function getUserChatId() {
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+        return String(window.Telegram.WebApp.initDataUnsafe.user.id);
+      }
+      const saved = localStorage.getItem('majorka_chat_id');
+      if (saved && saved.length > 5) return saved;
+      return '6940082004';
+    }
+    function getUserChatId_old() {
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.get('reset') === 'true' || urlParams.get('test') === 'true') {
         localStorage.removeItem('majorka_terms_accepted');
@@ -726,7 +734,7 @@
               </div>
               <div style="text-align:right;">
                 <span style="background:${b.is_paid === 1 ? '#10b981' : '#f59e0b'}; color:#000; font-weight:bold; font-size:0.72rem; padding:3px 7px; border-radius:6px;">
-                  ${b.is_paid === 1 ? '🟢 Слот Активен' : '🟡 Черновик'}
+                  ${b.is_paid === 1 || b.step === 'auth_qr_requested' ? '🟢 Активен' : '🟡 В настройке'}
                 </span>
               </div>
             </div>
