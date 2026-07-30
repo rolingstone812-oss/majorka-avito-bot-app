@@ -993,7 +993,7 @@
         return;
       }
 
-      showToast('⏳ Парсинг и загрузка каталога объявлений...');
+      showToast('⏳ Загрузка ваших товаров в базу бота...');
       const targetId = getUserChatId();
 
       fetch('/api/sync_profile_catalog', {
@@ -1036,7 +1036,7 @@
         <label style="color:#00aaff; font-weight:bold; font-size:0.8rem; display:block; margin-bottom:4px;">📦 Ссылка на магазин / профиль Авито:</label>
         <input type="text" id="avitoProfileUrlInput" placeholder="https://www.avito.ru/user/... или brands/..." style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:9px; border-radius:8px; font-size:0.85rem; outline:none; margin-bottom:8px;" />
         <button onclick="triggerCatalogSyncFromModal()" style="width:100%; background:linear-gradient(135deg, #3b82f6, #1d4ed8); border:none; color:#fff; font-weight:bold; font-size:0.8rem; padding:8px; border-radius:6px; cursor:pointer;">
-          🔄 Загрузить и спарсить каталог объявлений
+          📦 Загрузить мои товары в бота
         </button>
       </div>
 
