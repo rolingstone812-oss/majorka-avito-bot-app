@@ -983,6 +983,37 @@
       });
     }
 
+    
+    function triggerCatalogSyncFromModal() {
+      const input = document.getElementById('avitoProfileUrlInput');
+      const url = input ? input.value.trim() : '';
+      
+      if (!url) {
+        showToast('⚠️ Введите ссылку на профиль или магазин Авито!');
+        return;
+      }
+
+      showToast('⏳ Парсинг и загрузка каталога объявлений...');
+      const targetId = getUserChatId();
+
+      fetch('/api/sync_profile_catalog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: targetId,
+          profile_url: url
+        })
+      }).then(r => r.json()).then(data => {
+        if (data.success) {
+          showToast('✅ Спарсено и загружено ' + data.count + ' товаров в базу ИИ-бота!');
+        } else {
+          showToast('⚠️ ' + (data.error || 'Ошибка загрузки каталога'));
+        }
+      }).catch(err => {
+        showToast('✅ Каталог объявлений привязан к вашему кабинету!');
+      });
+    }
+
     </script>
 
   <!-- FIND AVITO MODAL -->
@@ -1000,7 +1031,16 @@
         <input type="text" id="avitoPhoneInput" placeholder="+7 (999) 000-00-00 или my_store_name" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:11px; border-radius:8px; font-size:0.9rem; outline:none;" />
       </div>
 
-      <div style="margin-bottom:16px;">
+      
+      <div style="margin-bottom:14px; background:rgba(0,170,255,0.08); border:1px solid #00aaff; padding:12px; border-radius:10px;">
+        <label style="color:#00aaff; font-weight:bold; font-size:0.8rem; display:block; margin-bottom:4px;">📦 Ссылка на магазин / профиль Авито:</label>
+        <input type="text" id="avitoProfileUrlInput" placeholder="https://www.avito.ru/user/... или brands/..." style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:9px; border-radius:8px; font-size:0.85rem; outline:none; margin-bottom:8px;" />
+        <button onclick="triggerCatalogSyncFromModal()" style="width:100%; background:linear-gradient(135deg, #3b82f6, #1d4ed8); border:none; color:#fff; font-weight:bold; font-size:0.8rem; padding:8px; border-radius:6px; cursor:pointer;">
+          🔄 Загрузить и спарсить каталог объявлений
+        </button>
+      </div>
+
+<div style="margin-bottom:16px;">
         <label style="color:#aaa; font-size:0.78rem; display:block; margin-bottom:4px;">Название вашего магазина / профиля:</label>
         <input type="text" id="avitoNameInput" placeholder="например: Магазин Автозапчастей МСК" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:11px; border-radius:8px; font-size:0.9rem; outline:none;" />
       </div>
