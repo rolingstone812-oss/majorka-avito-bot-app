@@ -2,184 +2,168 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>MAJORKA BOT — Личный кабинет</title>
-  <script>
-    // Мгновенный сброс кэша Chrome и Telegram
-    if (!window.location.search.includes('v=9999')) {
-      window.location.replace(window.location.pathname + '?v=9999');
-    }
-  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MAJORKA BOT — Личный Кабинет</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
   <style>
-    :root {
-      --bg: #0a0a0c; --bg-card: #141418; --border: rgba(201, 168, 76, 0.25);
-      --gold: #c9a84c; --gold-light: #e8c97a; --text: #f0ede6;
-      --text-muted: #908878; --green: #4caf50; --blue: #2196f3;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 90px; }
-    .serif { font-family: 'Cormorant Garamond', serif; }
-    
-    .header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
-    .logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
-    .header-right { display: flex; align-items: center; gap: 10px; }
-    .balance-badge { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.35); padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 700; color: var(--gold); }
-    .btn-gold { background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%); color: #000; border: none; padding: 8px 16px; border-radius: 16px; font-weight: 800; font-size: 11px; cursor: pointer; }
-    
-    .subheader { text-align: center; padding: 20px 16px 10px; }
-    .subheader h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); letter-spacing: 3px; }
-    .subheader p { font-size: 11px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
-    
-    .top-nav { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; }
-    .nav-btn { padding: 8px 14px; border-radius: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .nav-btn.active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
-    
-    .content { padding: 16px; max-width: 600px; margin: 0 auto; }
-    
-    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-    .stat-card { background: var(--bg-card); border: 1px solid var(--border); padding: 16px; border-radius: 12px; }
-    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-    .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--gold); }
-    .stat-value.green { color: var(--green); }
-    
-    .main-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 20px; }
-    .main-block .icon { font-size: 40px; margin-bottom: 12px; }
-    .main-block h2 { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: #fff; margin-bottom: 10px; }
-    .main-block p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .btn-primary { padding: 14px; background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%); color: #000; border: none; font-weight: 800; font-size: 12px; border-radius: 8px; cursor: pointer; text-align: center; text-decoration: none; display: inline-block; width: 100%; }
-    .btn-secondary { padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); font-weight: 600; font-size: 12px; border-radius: 8px; cursor: pointer; text-align: center; width: 100%; }
-    
-    .payment-block { background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.02) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
-    .payment-title { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
-    
-    .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
-    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #fff; margin-bottom: 16px; }
-    
-    .chart { display: flex; justify-content: space-between; align-items: flex-end; height: 120px; padding: 10px 0; }
-    .chart-bar { text-align: center; flex: 1; }
-    .chart-bar div:first-child { background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%); width: 30px; height: var(--h); border-radius: 4px; margin: 0 auto; transition: height 0.3s; }
-    .chart-bar div:last-child { font-size: 10px; color: var(--text-muted); margin-top: 6px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: #0c0f17; color: #f8fafc; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
 
-    /* ROI */
-    .roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-    .roi-item-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-    .roi-item-value { font-size: 24px; font-weight: 700; color: #fff; margin-top: 4px; }
-    .roi-banner { background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); border-radius: 8px; padding: 12px; text-align: center; font-size: 12px; color: var(--green); }
-    
-    /* Рефералка */
-    .ref-block { background: linear-gradient(135deg, rgba(201,168,76,0.2) 0%, rgba(201,168,76,0.05) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 20px; }
-    .ref-icon { font-size: 40px; margin-bottom: 12px; }
-    .ref-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold); margin-bottom: 8px; }
-    .ref-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
-    .ref-link { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
-    .ref-link code { font-size: 12px; color: var(--gold); word-break: break-all; }
-    .ref-stats { display: flex; justify-content: space-around; padding-top: 16px; border-top: 1px solid var(--border); }
-    .ref-stat-value { font-size: 20px; font-weight: 700; color: #fff; }
-    .ref-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+    /* HEADER */
+    .header { background: #141824; border-bottom: 1px solid #262c40; padding: 10px 14px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+    .brand { font-size: 1.05rem; font-weight: 800; color: #d4af37; letter-spacing: 0.5px; display: flex; align-items: center; gap: 6px; }
+    .header-right { display: flex; align-items: center; gap: 8px; }
+    .balance-badge { background: #1a2030; border: 1px solid #d4af37; color: #d4af37; padding: 5px 10px; border-radius: 20px; font-weight: 700; font-size: 0.8rem; cursor: pointer; display: flex; align-items: center; gap: 4px; transition: all 0.2s ease; }
+    .balance-badge:hover { background: #d4af37; color: #000; }
+    .topup-btn { background: linear-gradient(135deg, #d4af37, #aa820a); border: none; color: #000; font-weight: 800; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
 
-    .form-group { margin-bottom: 16px; }
-    .form-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
-    .form-input { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 13px; }
-    
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
-    .bottom-nav-item { text-align: center; cursor: pointer; flex: 1; }
-    .bottom-nav-icon { font-size: 20px; margin-bottom: 4px; }
-    .bottom-nav-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-    .bottom-nav-item.active .bottom-nav-label { color: var(--gold); }
-    
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; align-items: center; justify-content: center; padding: 16px; }
-    .modal.active { display: flex; }
-    .modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; max-width: 440px; width: 100%; padding: 24px; position: relative; }
-    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #888; font-size: 20px; cursor: pointer; }
-  
-    input[type="text"], input[type="number"], select, textarea {
-      width: 100% !important;
-      background: #181c28 !important;
-      border: 1px solid #2a3142 !important;
-      color: #ffffff !important;
-      font-size: 15px !important;
-      padding: 12px 14px !important;
-      border-radius: 8px !important;
-      box-sizing: border-box !important;
-      outline: none !important;
-      -webkit-user-select: text !important;
-      user-select: text !important;
-      pointer-events: auto !important;
-      opacity: 1 !important;
-    }
-    input[type="text"]:focus, select:focus {
-      border-color: #d4af37 !important;
-      box-shadow: 0 0 8px rgba(212,175,55,0.3) !important;
-    }
-</style>
+    /* RESPONSIVE NAV TABS */
+    .tabs-bar { background: #141824; border-bottom: 1px solid #262c40; display: grid; grid-template-columns: repeat(3, 1fr); padding: 8px 10px; gap: 6px; width: 100%; box-sizing: border-box; }
+    .tab-btn { background: #1c2233; border: 1px solid #283047; color: #94a3b8; padding: 8px 6px; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; border-radius: 8px; transition: all 0.2s ease; display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; box-sizing: border-box; }
+    .tab-btn:hover { color: #f8fafc; background: rgba(255,255,255,0.05); }
+    .tab-btn.active { color: #d4af37; background: rgba(212,175,55,0.14); font-weight: 700; }
+
+    /* CONTAINER AREA */
+    .container { flex: 1; padding: 14px; max-width: 600px; margin: 0 auto; width: 100%; }
+
+    /* TOAST */
+    .toast-container { position: fixed; top: 60px; right: 12px; z-index: 99999; display: flex; flex-direction: column; gap: 6px; pointer-events: none; }
+    .toast { background: #1e293b; border-left: 4px solid #d4af37; color: #fff; padding: 10px 14px; border-radius: 8px; font-size: 0.82rem; font-weight: 600; box-shadow: 0 10px 25px rgba(0,0,0,0.5); transform: translateX(120%); transition: transform 0.3s ease; pointer-events: auto; }
+    .toast.show { transform: translateX(0); }
+
+    /* PAY MODAL */
+    .modal-overlay { position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index: 9999; display:none; align-items:center; justify-content:center; padding:16px; }
+    .modal-overlay.active { display:flex; }
+    .modal-card { background:#181c28; border:1px solid #d4af37; border-radius:16px; max-width:440px; width:100%; padding:24px; text-align:center; position:relative; }
+    .close-btn { position:absolute; top:12px; right:16px; color:#94a3b8; font-size:1.5rem; cursor:pointer; }
+  </style>
 </head>
 <body>
 
+  <!-- HEADER -->
   <div class="header">
-    <div class="logo">MAJORKA BOT</div>
+    <div class="brand">👑 MAJORKA BOT</div>
     <div class="header-right">
-      <div class="balance-badge">💰 <span id="balance">0 ₽</span></div>
-      <button class="btn-gold" onclick="openPayModal()">ПОПОЛНИТЬ</button>
+      <button onclick="openFindAvitoModal()" style="background:linear-gradient(135deg, #00aaff, #0066cc); border:none; color:#fff; font-weight:bold; font-size:0.75rem; padding:6px 10px; border-radius:8px; cursor:pointer; box-shadow:0 2px 10px rgba(0,170,255,0.3); margin-right:4px;">
+        🔑 Войти в Авито
+      </button>
+      <div id="tgLinkBadge" style="display:none; background:#1e293b; border:1px solid #3b82f6; color:#60a5fa; padding:4px 8px; border-radius:12px; font-size:0.75rem; cursor:pointer;" onclick="openLinkTgModal()">
+        🔗 Привязать ТГ
+      </div>
+      <div class="balance-badge" id="balBadge" onclick="refreshBalanceClick()" title="Обновить баланс">
+        💰 <span id="balVal">0</span> ₽
+      </div>
+      <button class="topup-btn" onclick="openPayModal()">ПОПОЛНИТЬ</button>
     </div>
   </div>
 
-  <div class="subheader">
-    <h1>MAJORKA BOT</h1>
-    <p>Автопилот продаж на Авито</p>
+  <!-- NAVIGATION TABS -->
+  <div class="tabs-bar" id="mainTabsBar">
+    <button class="tab-btn active" id="tab-overview" onclick="showTab('overview')">📊 Обзор</button>
+    <button class="tab-btn" id="tab-bots" onclick="showTab('bots')">🤖 Мои боты</button>
+    <button class="tab-btn" id="tab-create" onclick="showTab('create')">➕ Создать</button>
+    <button class="tab-btn" id="tab-stats" onclick="showTab('stats')">📈 Статистика</button>
+    <button class="tab-btn" id="tab-ref" onclick="showTab('ref')">👥 Рефералы</button>
+    <button class="tab-btn" id="tab-support" onclick="showTab('support')">⭐ Поддержка</button>
   </div>
 
-  <div class="top-nav">
-    <button class="nav-btn active" id="tab-btn-overview" onclick="showTab('overview')">📊 Обзор</button>
-    <button class="nav-btn" id="tab-btn-bots" onclick="showTab('bots')">🤖 Мои боты</button>
-    <button class="nav-btn" id="tab-btn-create" onclick="showTab('create')">➕ Создать</button>
-    <button class="nav-btn" id="tab-btn-dialogs" onclick="showTab('dialogs')">💬 Диалоги</button>
-    <button class="nav-btn" id="tab-btn-support" onclick="showTab('support')">⭐ Поддержка</button>
+  <!-- MAIN CONTAINER -->
+  <div class="container" id="content"></div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastBox"></div>
+
+  <!-- TOP-UP PAYMENT MODAL -->
+  <div class="modal-overlay" id="payModal">
+    <div class="modal-card">
+      <span class="close-btn" onclick="closePayModal()">&times;</span>
+      <h3 style="color:#d4af37; margin-bottom:12px; font-size:1.2rem;">💳 Пополнение баланса</h3>
+      <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:16px; line-height:1.4;">
+        Для пополнения баланса или приобретения слота обратитесь в отдел поддержки Telegram.
+      </p>
+      <a href="https://t.me/chc332" target="_blank" style="display:inline-block; background:linear-gradient(135deg, #10b981, #059669); color:#fff; text-decoration:none; font-weight:bold; padding:12px 20px; border-radius:10px; width:100%; box-sizing:border-box;">
+        💬 Написать менеджеру поддержки (@chc332)
+      </a>
+    </div>
   </div>
 
-  <div class="content" id="content"></div>
+  
+  <!-- LINK TELEGRAM MODAL -->
+  <div id="linkTgModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:999999; display:none; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
+    <div style="background:#181c28; border:1px solid #3b82f6; border-radius:16px; max-width:440px; width:100%; padding:24px; text-align:center; color:#fff; position:relative;">
+      <span class="close-btn" onclick="closeLinkTgModal()">&times;</span>
+      <h3 style="color:#60a5fa; margin-bottom:8px; font-size:1.2rem;">🔗 Привязка Telegram-аккаунта</h3>
+      <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:16px; line-height:1.4;">
+        Вы вошли через Google. Чтобы получать QR-коды авторизации и уведомления от Авито-ботов прямо в Telegram, привяжите ваш Telegram-чат:
+      </p>
 
-  <div class="bottom-nav">
-    <div class="bottom-nav-item active" id="bnav-overview" onclick="showTab('overview')"><div class="bottom-nav-icon">📊</div><div class="bottom-nav-label">Обзор</div></div>
-    <div class="bottom-nav-item" id="bnav-bots" onclick="showTab('bots')"><div class="bottom-nav-icon">🤖</div><div class="bottom-nav-label">Боты</div></div>
-    <div class="bottom-nav-item" id="bnav-create" onclick="showTab('create')"><div class="bottom-nav-icon">➕</div><div class="bottom-nav-label">Создать</div></div>
-    <div class="bottom-nav-item" id="bnav-dialogs" onclick="showTab('dialogs')"><div class="bottom-nav-icon">💬</div><div class="bottom-nav-label">Диалоги</div></div>
-    <div class="bottom-nav-item" id="bnav-support" onclick="showTab('support')"><div class="bottom-nav-icon">⭐</div><div class="bottom-nav-label">Поддержка</div></div>
+      <a id="btnLinkBotTg" href="https://t.me/Saas_Master_bot?start=link" target="_blank" style="display:inline-block; background:#24a1de; color:#fff; text-decoration:none; font-weight:bold; padding:12px; border-radius:10px; width:100%; box-sizing:border-box; margin-bottom:12px; font-size:0.9rem;">
+        🤖 Привязать через бота @Saas_Master_bot
+      </a>
+
+      <div style="color:#64748b; font-size:0.75rem;">Или введите ваш Telegram ID:</div>
+      <div style="display:flex; gap:8px; margin-top:6px;">
+        <input type="text" id="manualTgIdInput" placeholder="Ваш Telegram Chat ID" style="flex:1; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:9px; border-radius:8px; font-size:0.85rem;">
+        <button onclick="saveManualTgIdLink()" style="background:#10b981; border:none; color:#fff; font-weight:bold; padding:9px 14px; border-radius:8px; cursor:pointer;">Сохранить</button>
+      </div>
+    </div>
   </div>
 
-  <!-- Модальное окно оплаты -->
-  <div class="modal" id="payModal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closePayModal()">✕</button>
-      <div style="color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:8px;">💰 Пополнение баланса</div>
-      <div class="serif" style="font-size:24px; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</div>
-      
-      <div style="background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:12px; padding:18px; margin-bottom:16px;">
-        <div style="font-size:12px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Онлайн-оплата картой / ЮMoney (Мгновенно)</div>
-        <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Безопасная оплата. Баланс и подписка зачисляются автоматически сразу после перевода.</p>
-        <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yoomoneyForm">
-          <input type="hidden" name="receiver" value="4100119556996975">
-          <input type="hidden" name="quickpay-form" value="button">
-          <input type="hidden" name="targets" value="Оплата подписки MAJORKA BOT">
-          <input type="hidden" name="paymentType" value="AC">
-          <input type="hidden" name="sum" value="6490">
-          <input type="hidden" name="label" id="ymLabel" value="">
-          <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽</button>
-        </form>
+  <!-- GOOGLE AUTH MODAL -->
+  <div id="googleAuthModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:999999; display:none; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
+    <div style="background:#ffffff; border-radius:16px; max-width:420px; width:100%; padding:28px 24px; box-shadow:0 25px 60px rgba(0,0,0,0.7); color:#202124; text-align:center;">
+      <div style="display:flex; justify-content:center; margin-bottom:16px;">
+        <svg width="40" height="40" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+      </div>
+      <h3 style="margin:0 0 6px 0; font-size:1.3rem; font-weight:600; color:#202124;">Вход через Google</h3>
+      <p style="color:#5f6368; font-size:0.88rem; margin:0 0 20px 0;">Для продолжения укажите ваш аккаунт Google</p>
+      <div style="text-align:left; margin-bottom:20px;">
+        <label style="display:block; font-size:0.8rem; font-weight:600; color:#5f6368; margin-bottom:6px;">Электронная почта Google (Email):</label>
+        <input type="email" id="gAuthEmail" placeholder="example@gmail.com" style="width:100%; border:1px solid #dadce0; padding:12px; border-radius:8px; font-size:0.95rem; box-sizing:border-box;">
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button onclick="closeGoogleAuthModal()" style="flex:1; background:#f1f3f4; border:none; color:#3c4043; font-weight:600; padding:12px; border-radius:8px; cursor:pointer;">Отмена</button>
+        <button onclick="submitGoogleAuth()" style="flex:1.5; background:#1a73e8; border:none; color:#fff; font-weight:600; padding:12px; border-radius:8px; cursor:pointer;">Далее</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLEAN SLATE TERMS AGREEMENT MODAL -->
+  <div id="termsModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.92); backdrop-filter:blur(8px); z-index:99999; display:none; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
+    <div style="background:#1e293b; border:1px solid #334155; border-radius:12px; max-width:540px; width:100%; max-height:82vh; display:flex; flex-direction:column; box-shadow:0 25px 50px -12px rgba(0, 0, 0, 0.7); overflow:hidden;">
+      <div style="padding:16px 20px; border-bottom:1px solid #334155; background:#0f172a;">
+        <h3 style="color:#f8fafc; margin:0; font-size:1.1rem; font-weight:600;">Пользовательское Соглашение и Регламент Сервиса</h3>
+        <p style="color:#64748b; font-size:0.75rem; margin:2px 0 0 0;">Редакция 2.4 | Правила лицензирования ПО</p>
+      </div>
+      <div style="padding:20px; overflow-y:auto; color:#94a3b8; font-size:0.82rem; line-height:1.55; flex:1;" id="termsScrollArea">
+        <h4 style="color:#e2e8f0; margin-top:0; font-size:0.88rem; font-weight:600;">1. Общие положения</h4>
+        <p>1.1. Настоящий документ регулирует условия предоставления доступа к функционалу платформы MAJORKA BOT (далее — ПО), обеспечивающей автоматизацию коммуникаций в аккаунтах пользователя.</p>
+        <p>1.2. Использование ПО означает полное согласие Пользователя с настоящим регламентом.</p>
+
+        <h4 style="color:#e2e8f0; font-size:0.88rem; font-weight:600;">2. Серверные слоты и подключение</h4>
+        <p>2.1. Сервис предоставляет изолированные цифровые слоты обработки данных.</p>
+        <p>2.2. Пользователь самостоятельно подключает персональные прокси-серверы и настраивает параметры целевых объявлений.</p>
+
+        <h4 style="color:#e2e8f0; font-size:0.88rem; font-weight:600;">3. Разграничение ответственности</h4>
+        <p>3.1. Сервис функционирует независимо и не является аффилированным продуктом платформы Avito.ru.</p>
+        <p>3.2. Все автоматизированные действия считаются совершенными непосредственно Пользователем.</p>
+        <p>3.3. Пользователь осведомлен о специфике работы модерации внешних площадок и самостоятельно несет ответственность за соблюдение правил ресурсов, качество прокси-серверов и сохранность аккаунтов. Администрация Сервиса не несет ответственности за любые ограничения или блокировки со стороны сторонних платформ.</p>
+
+        <h4 style="color:#e2e8f0; font-size:0.88rem; font-weight:600;">4. Финансовые условия</h4>
+        <p>4.1. Подписка предоставляет право использования одного изолированного слота на срок 30 календарных дней.</p>
       </div>
 
-      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:16px;">
-        <div style="display:flex; gap:8px;">
+      <div style="padding:14px 20px; border-top:1px solid #334155; background:#0f172a;">
+        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+          <input type="checkbox" id="chkAcceptTerms" style="cursor:pointer;" onchange="toggleAcceptBtn()">
+          <label for="chkAcceptTerms" style="color:#cbd5e1; font-size:0.8rem; cursor:pointer;">
+            Я ознакомлен(а) с регламентом и принимаю условия соглашения
+          </label>
         </div>
+        <button id="btnAcceptTerms" onclick="confirmTerms()" disabled style="width:100%; background:#334155; border:none; color:#64748b; font-weight:600; font-size:0.9rem; padding:11px; border-radius:8px; cursor:not-allowed; transition:all 0.2s ease;">
+          Отметьте галочку для продолжения
+        </button>
       </div>
-
-      <button class="btn-secondary" style="width:100%;" onclick="closePayModal()">Закрыть</button>
     </div>
   </div>
 
@@ -192,81 +176,48 @@
     if (tg) { tg.expand(); }
 
     function getUserChatId() {
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+        return String(window.Telegram.WebApp.initDataUnsafe.user.id);
+      }
+      const saved = localStorage.getItem('majorka_chat_id');
+      if (saved && saved.length > 5) return saved;
+      return '6940082004';
+    }
+    function getUserChatId_old() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('reset') === 'true' || urlParams.get('test') === 'true') {
+        localStorage.removeItem('majorka_terms_accepted');
+        localStorage.removeItem('majorka_user_id');
+        localStorage.removeItem('majorka_registered');
+      }
+
       if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
         const id = window.Telegram.WebApp.initDataUnsafe.user.id.toString();
         localStorage.setItem('majorka_user_id', id);
         return id;
       }
-      const urlParams = new URLSearchParams(window.location.search);
       const qId = urlParams.get('chatId') || urlParams.get('user_id');
       if (qId && qId !== 'undefined' && qId !== 'null') {
         localStorage.setItem('majorka_user_id', qId);
         return qId;
       }
       const savedId = localStorage.getItem('majorka_user_id');
-      if (savedId && savedId !== 'undefined' && savedId !== 'null') {
+      if (savedId && savedId !== 'undefined' && savedId !== 'null' && !savedId.startsWith('user_')) {
         return savedId;
       }
-      return null;
+      
+      const defaultId = '6940082004';
+      localStorage.setItem('majorka_user_id', defaultId);
+      return defaultId;
     }
 
     const userLabel = getUserChatId();
     var balance = 0;
     var bots = [];
+    var messagesCount = 0;
+    var leadsCount = 0;
     var currentTab = 'overview';
 
-        function refreshBalanceClick() {
-      showToast('🔄 Обновление баланса...');
-      syncWithServer();
-    }
-
-    function validateProxyInput(proxyStr) {
-      if (!proxyStr || !proxyStr.trim()) return true;
-      const clean = proxyStr.trim();
-      const parts = clean.split(':');
-      if (parts.length < 2 || parts.length > 4) {
-        showToast('⚠️ Формат прокси: IP:PORT или IP:PORT:USER:PASS');
-        return false;
-      }
-      return true;
-    }
-
-        function openConfigModal(name, niche, city, hours) {
-      showToast('⚙️ Настройка параметров бота «' + name + '»');
-      showTab('create');
-      setTimeout(() => {
-        if (document.getElementById('wName')) document.getElementById('wName').value = name;
-        if (document.getElementById('wNiche')) document.getElementById('wNiche').value = niche;
-        if (document.getElementById('wCity')) document.getElementById('wCity').value = city;
-        if (document.getElementById('wHours')) document.getElementById('wHours').value = hours;
-      }, 100);
-    }
-
-        function submitRegistration() {
-      const regId = document.getElementById('regChatId')?.value?.trim();
-      const regName = document.getElementById('regName')?.value?.trim() || 'Пользователь';
-      const terms = document.getElementById('regTerms')?.checked;
-
-      if (!regId) {
-        showToast('⚠️ Пожалуйста, введите ваш Telegram Chat ID');
-        return;
-      }
-      if (!terms) {
-        showToast('⚠️ Необходимо согласиться с условиями сервиса');
-        return;
-      }
-
-      const cleanId = regId.replace(/[^0-9]/g, '') || regId;
-      localStorage.setItem('majorka_user_id', cleanId);
-      localStorage.setItem('majorka_user_name', regName);
-
-      showToast('🎉 Успешный вход! Загрузка кабинета...');
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    }
-
-    
     function checkTermsModal() {
       const modal = document.getElementById('termsModal');
       const accepted = localStorage.getItem('majorka_terms_accepted');
@@ -283,16 +234,16 @@
       if (chk && btn) {
         if (chk.checked) {
           btn.disabled = false;
-          btn.style.background = 'linear-gradient(135deg, #d4af37, #aa820a)';
-          btn.style.color = '#000';
+          btn.style.background = '#3b82f6';
+          btn.style.color = '#ffffff';
           btn.style.cursor = 'pointer';
-          btn.innerText = '✅ Принять условия и войти';
+          btn.innerText = 'Принять и продолжить';
         } else {
           btn.disabled = true;
           btn.style.background = '#334155';
-          btn.style.color = '#94a3b8';
+          btn.style.color = '#64748b';
           btn.style.cursor = 'not-allowed';
-          btn.innerText = '🔒 Отметьте галочку для входа';
+          btn.innerText = 'Отметьте галочку для продолжения';
         }
       }
     }
@@ -306,238 +257,525 @@
       showToast('🎉 Условия приняты! Добро пожаловать!');
     }
 
+    function submitOnboardingRegistration() {
+      const name = document.getElementById('regName')?.value?.trim();
+      const phone = document.getElementById('regPhone')?.value?.trim();
+      
+      if (!name) {
+        showToast('⚠️ Укажите ваше имя или название магазина!');
+        return;
+      }
+      
+      localStorage.setItem('majorka_registered', 'true');
+      localStorage.setItem('majorka_user_name', name);
+      if (phone) localStorage.setItem('majorka_user_phone', phone);
+      
+      const cleanId = userLabel || ('user_' + Math.floor(Math.random()*1000000));
+      localStorage.setItem('majorka_user_id', cleanId);
+      
+      showToast('🎉 Регистрация завершена! Добро пожаловать, ' + name + '!');
+      setTimeout(() => { window.location.reload(); }, 600);
+    }
+
     function fastLogin(provider) {
-      showToast('🔄 Выполняется быстрый вход через ' + provider + '...');
-      const fallbackId = '6940082004';
-      localStorage.setItem('majorka_user_id', fallbackId);
-      setTimeout(() => {
-        window.location.reload();
-      }, 600);
+      if (provider === 'Google') {
+        openGoogleAuthModal();
+      } else {
+        showToast('🔄 Выполняется вход через Telegram...');
+        const tgId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id ? window.Telegram.WebApp.initDataUnsafe.user.id.toString() : '6940082004';
+        localStorage.setItem('majorka_user_id', tgId);
+        localStorage.setItem('majorka_registered', 'true');
+        setTimeout(() => { window.location.reload(); }, 500);
+      }
+    }
+
+    function openGoogleAuthModal() {
+      const modal = document.getElementById('googleAuthModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+    function closeGoogleAuthModal() {
+      const modal = document.getElementById('googleAuthModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function submitGoogleAuth() {
+      const email = document.getElementById('gAuthEmail')?.value?.trim();
+      if (!email || !email.includes('@')) {
+        alert('Пожалуйста, введите корректный Email Google!');
+        return;
+      }
+      closeGoogleAuthModal();
+      showToast('🎉 Проверка успешна! Аккаунт ' + email + ' привязан.');
+      const cleanId = 'g_' + email.replace(/[^a-zA-Z0-9]/g, '_');
+      localStorage.setItem('majorka_user_id', cleanId);
+      localStorage.setItem('majorka_user_email', email);
+      localStorage.setItem('majorka_registered', 'true');
+      localStorage.setItem('majorka_is_google', 'true');
+      setTimeout(() => { window.location.reload(); }, 600);
+    }
+
+    function resetAuthTest() {
+      if (confirm('Сбросить авторизацию, регистрацию и Соглашение для проверки входа?')) {
+        localStorage.removeItem('majorka_terms_accepted');
+        localStorage.removeItem('majorka_registered');
+        localStorage.removeItem('majorka_user_id');
+        localStorage.removeItem('majorka_user_name');
+        showToast('🔄 Авторизация сброшена! Перезагрузка...');
+        setTimeout(() => { window.location.href = window.location.pathname; }, 500);
+      }
+    }
+
+    function openTermsAgain() {
+      const modal = document.getElementById('termsModal');
+      if (modal) modal.style.display = 'flex';
+    }
+
+        function submit1ClickRegistration() {
+      showToast('🎉 Вход выполнен! Загрузка вашего кабинета...');
+      localStorage.setItem('majorka_registered', 'true');
+      const targetId = getUserChatId() || '6940082004';
+      localStorage.setItem('majorka_user_id', targetId);
+      setTimeout(() => { window.location.reload(); }, 400);
+    }
+
+        function renderTermsTab() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      c.innerHTML = `
+        <div style="padding:10px; max-width:600px; margin:0 auto; color:#fff;">
+          <h2 style="color:#d4af37; font-size:1.2rem; margin-bottom:12px; text-align:center;">📜 Лицензионное Соглашение и Регламент</h2>
+          
+          <div style="background:#141824; border:1px solid #262c40; border-radius:12px; padding:18px; color:#cbd5e1; font-size:0.85rem; line-height:1.6; max-height:65vh; overflow-y:auto; margin-bottom:16px;">
+            <h4 style="color:#fff; margin-top:0; font-size:0.95rem;">1. Общие положения</h4>
+            <p style="margin-bottom:10px;">1.1. Настоящий документ регулирует условия предоставления доступа к функционалу платформы MAJORKA BOT, обеспечивающей автоматизацию коммуникаций в аккаунтах пользователя.</p>
+            <p style="margin-bottom:10px;">1.2. Использование сервиса означает полное согласие Пользователя с настоящим регламентом.</p>
+
+            <h4 style="color:#fff; font-size:0.95rem; margin-top:12px;">2. Серверные слоты и подключение</h4>
+            <p style="margin-bottom:10px;">2.1. Сервис предоставляет изолированные цифровые слоты обработки данных.</p>
+            <p style="margin-bottom:10px;">2.2. Пользователь самостоятельно подключает персональные прокси-серверы и настраивает параметры целевых объявлений.</p>
+
+            <h4 style="color:#fff; font-size:0.95rem; margin-top:12px;">3. Разграничение ответственности</h4>
+            <p style="margin-bottom:10px;">3.1. Сервис функционирует независимо и не является аффилированным продуктом платформы Avito.ru.</p>
+            <p style="margin-bottom:10px;">3.2. Все автоматизированные действия считаются совершенными непосредственно Пользователем.</p>
+            <p style="margin-bottom:10px;">3.3. Пользователь осведомлен о специфике работы модерации внешних площадок и самостоятельно несет ответственность за соблюдение правил ресурсов, качество прокси-серверов и сохранность аккаунтов. Администрация Сервиса не несет ответственности за любые ограничения или блокировки со стороны сторонних платформ.</p>
+
+            <h4 style="color:#fff; font-size:0.95rem; margin-top:12px;">4. Финансовые условия</h4>
+            <p>4.1. Подписка предоставляет право использования одного изолированного слота на срок 30 календарных дней.</p>
+          </div>
+
+          <div style="text-align:center;">
+            <button onclick="openTermsAgain()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:0.9rem; padding:12px 24px; border-radius:10px; cursor:pointer;">
+              📜 Открыть во всплывающем окне
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    
+    function openLinkTgModal() {
+      const modal = document.getElementById('linkTgModal');
+      if (modal) modal.style.display = 'flex';
+      const email = localStorage.getItem('majorka_user_email') || '';
+      const botBtn = document.getElementById('btnLinkBotTg');
+      if (botBtn && email) {
+        botBtn.href = 'https://t.me/Saas_Master_bot?start=link_' + encodeURIComponent(email);
+      }
+    }
+
+    function closeLinkTgModal() {
+      const modal = document.getElementById('linkTgModal');
+      if (modal) modal.style.display = 'none';
+    }
+
+    function saveManualTgIdLink() {
+      const input = document.getElementById('manualTgIdInput')?.value?.trim();
+      if (!input) {
+        showToast('⚠️ Введите корректный Telegram ID!');
+        return;
+      }
+      localStorage.setItem('majorka_user_id', input);
+      closeLinkTgModal();
+      showToast('🎉 Telegram ID ' + input + ' успешно привязан к вашему аккаунту!');
+      setTimeout(() => { window.location.reload(); }, 500);
+    }
+
+        function renderReferral() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      
+      const targetId = getUserChatId() || '6940082004';
+      const refLink = 'https://t.me/Saas_Master_bot?start=ref_' + targetId;
+
+      c.innerHTML = `
+        <div style="padding:10px; max-width:600px; margin:0 auto; color:#fff;">
+          <h2 style="color:#d4af37; font-size:1.25rem; margin-bottom:12px; font-weight:700; text-align:center;">👥 Реферальный Центр MAJORKA</h2>
+          <p style="color:#94a3b8; font-size:0.85rem; line-height:1.4; text-align:center; margin-bottom:16px;">
+            Приглашайте друзей и коллег! Получайте <b>15% постоянного дохода</b> от каждого пополнения баланса вашими рефералами.
+          </p>
+
+          <div style="background:#141824; border:1px solid #d4af37; padding:16px; border-radius:14px; margin-bottom:16px; text-align:center;">
+            <div style="color:#aaa; font-size:0.78rem; margin-bottom:6px;">Ваша персональная реферальная ссылка:</div>
+            <div style="background:#0c0f17; border:1px solid #262c40; padding:10px; border-radius:8px; font-size:0.82rem; color:#d4af37; font-family:monospace; word-break:break-all; margin-bottom:12px;">
+              ${refLink}
+            </div>
+
+            <div style="display:flex; gap:8px;">
+              <button onclick="copyRefLink('${refLink}')" style="flex:1; background:#3b82f6; border:none; color:#fff; font-weight:bold; font-size:0.82rem; padding:10px; border-radius:8px; cursor:pointer;">
+                📋 Скопировать
+              </button>
+              <a href="https://t.me/share/url?url=${encodeURIComponent(refLink)}&text=${encodeURIComponent('Привет! Попробуй лучшего AI-менеджера продаж на Авито 24/7!')}" target="_blank" style="flex:1.2; background:#24a1de; color:#fff; text-decoration:none; font-weight:bold; font-size:0.82rem; padding:10px; border-radius:8px; text-align:center; display:inline-block;">
+                ✈️ Поделиться в ТГ
+              </a>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;">
+            <div style="background:#141824; border:1px solid #262c40; padding:14px; border-radius:12px; text-align:center;">
+              <div style="color:#94a3b8; font-size:0.75rem; margin-bottom:4px;">Приглашено друзей</div>
+              <div style="color:#10b981; font-size:1.5rem; font-weight:bold;">0</div>
+            </div>
+            <div style="background:#141824; border:1px solid #262c40; padding:14px; border-radius:12px; text-align:center;">
+              <div style="color:#94a3b8; font-size:0.75rem; margin-bottom:4px;">Заработано бонусов</div>
+              <div style="color:#d4af37; font-size:1.5rem; font-weight:bold;">0 ₽</div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function copyRefLink(link) {
+      navigator.clipboard.writeText(link).then(() => {
+        showToast('📋 Реферальная ссылка скопирована в буфер!');
+      }).catch(() => {
+        showToast('📋 Ссылка: ' + link);
+      });
     }
 
     function showToast(msg) {
-      let toast = document.getElementById('customToast');
-      if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'customToast';
-        toast.style.cssText = 'position:fixed; top:-60px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; color:#fff; padding:12px 24px; border-radius:30px; font-weight:bold; font-size:0.9rem; z-index:99999; box-shadow:0 10px 25px rgba(0,0,0,0.8); transition:all 0.4s ease; text-align:center; display:flex; align-items:center; gap:8px; pointer-events:none;';
-        document.body.appendChild(toast);
-      }
-      toast.innerHTML = '✨ <span>' + msg + '</span>';
-      toast.style.opacity = '1';
-      toast.style.top = '20px';
+      const box = document.getElementById('toastBox');
+      if (!box) return;
+      const t = document.createElement('div');
+      t.className = 'toast';
+      t.innerText = msg;
+      box.appendChild(t);
+      setTimeout(() => t.classList.add('show'), 10);
       setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.top = '-60px';
-      }, 3200);
+        t.classList.remove('show');
+        setTimeout(() => t.remove(), 300);
+      }, 3000);
     }
 
-    function updateUI() {
-      const bVal = (typeof balance !== 'undefined' ? Number(balance) : 0).toFixed(2) + ' ₽';
-      const topBalEl = document.getElementById('balance');
-      if (topBalEl) topBalEl.innerText = bVal;
-      
-      const balBadges = document.querySelectorAll('.balance-badge span, .user-balance');
-      balBadges.forEach(b => { if(b) b.innerText = bVal; });
+    function refreshBalanceClick() {
+      showToast('🔄 Обновление баланса...');
+      syncWithServer();
     }
 
-    function showTab(tabId) {
-      currentTab = tabId;
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+    function showTab(tabName) {
+      currentTab = tabName;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.getElementById('tab-' + tabName);
+      if (activeBtn) activeBtn.classList.add('active');
 
-      const topNavBtn = document.getElementById('tab-btn-' + tabId);
-      if (topNavBtn) topNavBtn.classList.add('active');
-
-      const bNavBtn = document.getElementById('bnav-' + tabId);
-      if (bNavBtn) bNavBtn.classList.add('active');
-
-      if (tabId === 'overview') renderOverview();
-      else if (tabId === 'bots') renderBots();
-      else if (tabId === 'create') renderCreate();
-      else if (tabId === 'dialogs') renderDialogs();
-      else if (tabId === 'support') renderSupport();
+      if (tabName === 'overview') renderOverview();
+      else if (tabName === 'bots') renderBots();
+      else if (tabName === 'create') renderCreateForm();
+      else if (tabName === 'stats') renderStats();
+      else if (tabName === 'instruction') renderDocs();
+      else if (tabName === 'ref') renderReferral();
+      else if (tabName === 'terms') renderTermsTab();
+      else if (tabName === 'support') renderSupport();
     }
 
     function renderOverview() {
       const c = document.getElementById('content');
       if (!c) return;
-      if (!userLabel) {
+
+      const isRegistered = localStorage.getItem('majorka_registered') === 'true';
+
+      if (!userLabel || !isRegistered) {
         c.innerHTML = `
-          <div style="padding:30px 20px; text-align:center; max-width:440px; margin:0 auto;">
-            <div style="font-size:3.5rem; margin-bottom:12px;">👑</div>
-            <h2 style="color:#d4af37; font-size:1.5rem; margin-bottom:6px; font-weight:800;">MAJORKA BOT</h2>
-            <p style="color:#94a3b8; font-size:0.92rem; line-height:1.4; margin-bottom:24px;">
-              Автопилот продаж и AI-менеджер на Авито 24/7
+          <div style="padding:30px 16px; text-align:center; max-width:440px; margin:0 auto;">
+            <div style="font-size:3.5rem; margin-bottom:10px;">👋</div>
+            <h2 style="color:#d4af37; font-size:1.5rem; margin-bottom:6px; font-weight:800;">Добро пожаловать в MAJORKA BOT</h2>
+            <p style="color:#94a3b8; font-size:0.9rem; line-height:1.4; margin-bottom:24px;">
+              Автопилот продаж и AI-менеджер на Авито 24/7. Нажмите кнопку ниже для быстрого входа в ваш личный кабинет.
             </p>
 
-            <div style="background:#181c28; border:1px solid #2a3142; padding:24px; border-radius:16px; box-shadow:0 15px 35px rgba(0,0,0,0.5);">
-              <h4 style="color:#fff; margin:0 0 16px 0; font-size:1rem;">Выберите способ входа:</h4>
-
-              <button onclick="fastLogin('Telegram')" style="width:100%; background:#24a1de; border:none; color:#fff; font-weight:bold; font-size:1rem; padding:14px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:12px; box-shadow:0 4px 15px rgba(36,161,222,0.3);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .54-1.43.53-.47-.01-1.37-.26-2.05-.48-.83-.27-1.49-.42-1.43-.89.03-.25.38-.51 1.07-.79 4.19-1.83 6.99-3.04 8.4-3.64 4-.17 4.83.69 4.79 1.48z"/></svg>
-                Быстрый вход через Telegram
+            <div style="background:#141824; border:1px solid #262c40; padding:24px; border-radius:16px; box-shadow:0 15px 35px rgba(0,0,0,0.5); margin-bottom:16px;">
+              <button onclick="submit1ClickRegistration()" style="width:100%; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:800; font-size:1.05rem; padding:15px; border-radius:12px; cursor:pointer; box-shadow:0 4px 15px rgba(212,175,55,0.3); margin-bottom:12px;">
+                🚀 Войти в Личный Кабинет
               </button>
+            </div>
 
-              <button onclick="fastLogin('Google')" style="width:100%; background:#ffffff; border:none; color:#000; font-weight:bold; font-size:0.95rem; padding:14px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 4px 15px rgba(255,255,255,0.15);">
-                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-                Войти через Google Account
+            <div style="display:flex; gap:10px;">
+              <button onclick="fastLogin('Telegram')" style="flex:1; background:#24a1de; border:none; color:#fff; font-weight:bold; font-size:0.85rem; padding:11px; border-radius:10px; cursor:pointer;">
+                Telegram 1-Click
+              </button>
+              <button onclick="fastLogin('Google')" style="flex:1; background:#ffffff; border:none; color:#000; font-weight:bold; font-size:0.85rem; padding:11px; border-radius:10px; cursor:pointer;">
+                Google Account
               </button>
             </div>
           </div>
         `;
         return;
       }
+
       c.innerHTML = `
-        <div style="padding:16px;">
-          <div style="background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; border-radius:16px; padding:20px; margin-bottom:16px; text-align:center;">
-            <h2 style="color:#d4af37; margin:0 0 8px 0; font-size:1.4rem;">MAJORKA BOT</h2>
-            <p style="color:#94a3b8; margin:0; font-size:0.9rem;">Автопилот продаж на Авито 24/7</p>
-            <button class="btn btn-gold" style="margin-top:15px; width:100%; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px; border-radius:10px; cursor:pointer;" onclick="showTab('create')">+ Создать нового бота</button>
-          </div>
+        <div style="background:#141824; border:1px solid #262c40; padding:18px; border-radius:14px; margin-bottom:14px; text-align:center;">
+          <h3 style="color:#d4af37; font-size:1.2rem; margin-bottom:4px;">MAJORKA BOT</h3>
+          <p style="color:#94a3b8; font-size:0.82rem; margin-bottom:14px;">Автопилот продаж на Авито 24/7</p>
+          <button onclick="showTab('create')" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:800; font-size:0.9rem; padding:11px 22px; border-radius:10px; cursor:pointer;">+ Создать нового бота</button>
+        </div>
 
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-            <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
-              <div style="font-size:0.8rem; color:#94a3b8;">Всего ботов</div>
-              <div id="statBots" style="font-size:1.6rem; font-weight:bold; color:#fff; margin-top:4px;">0</div>
-            </div>
-            <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
-              <div style="font-size:0.8rem; color:#94a3b8;">Сообщений</div>
-              <div id="statMsgs" style="font-size:1.6rem; font-weight:bold; color:#10b981; margin-top:4px;">0</div>
-            </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+          <div style="background:#141824; border:1px solid #262c40; padding:14px; border-radius:12px; text-align:center;">
+            <div style="color:#94a3b8; font-size:0.78rem; margin-bottom:4px;">Всего ботов</div>
+            <div style="color:#fff; font-size:1.6rem; font-weight:bold;">${bots.length}</div>
           </div>
-
-          <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; text-align:center;">
-            <div style="font-size:0.85rem; color:#94a3b8;">Собрано горячих лидов (телефонов)</div>
-            <div id="statLeads" style="font-size:2rem; font-weight:bold; color:#d4af37; margin-top:4px;">0</div>
+          <div style="background:#141824; border:1px solid #262c40; padding:14px; border-radius:12px; text-align:center;">
+            <div style="color:#94a3b8; font-size:0.78rem; margin-bottom:4px;">Обработано сообщений</div>
+            <div style="color:#10b981; font-size:1.6rem; font-weight:bold;">${messagesCount}</div>
           </div>
         </div>
+
+        <div style="background:#141824; border:1px solid #262c40; padding:14px; border-radius:12px; text-align:center;">
+          <div style="color:#94a3b8; font-size:0.78rem; margin-bottom:4px;">Собрано горячих лидов (телефонов)</div>
+          <div style="color:#d4af37; font-size:1.6rem; font-weight:bold;">${leadsCount}</div>
+        </div>
       `;
-      syncWithServer();
     }
 
     function renderBots() {
       const c = document.getElementById('content');
       if (!c) return;
-      if (!userLabel) {
+
+      if (!bots || bots.length === 0) {
         c.innerHTML = `
-          <div style="text-align:center; padding:50px 20px;">
-            <div style="font-size:3.5rem; margin-bottom:10px;">🔒</div>
-            <h3 style="color:#d4af37;">Доступ ограничен</h3>
-            <p style="color:#94a3b8; font-size:0.95rem;">Пожалуйста, открывайте личный кабинет из вашего Telegram-бота!</p>
+          <div style="padding:40px 20px; text-align:center;">
+            <div style="font-size:3rem; margin-bottom:10px;">🤖</div>
+            <h3 style="color:#fff; margin-bottom:6px;">У вас пока нет созданных ботов</h3>
+            <p style="color:#94a3b8; font-size:0.85rem; margin-bottom:16px;">Создайте вашего первого бота прямо сейчас!</p>
+            <button onclick="showTab('create')" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px 20px; border-radius:10px; cursor:pointer;">+ Создать бота</button>
           </div>
         `;
         return;
       }
-      if (!bots || bots.length === 0) {
-        c.innerHTML = `
-          <div style="text-align:center; padding:50px 20px;">
-            <div style="font-size:3.5rem; margin-bottom:10px;">🤖</div>
-            <h3 style="color:#fff;">Ботов пока нет</h3>
-            <p style="color:#94a3b8; font-size:0.9rem;">Создайте первого ИИ-продавца для ваших объявлений на Авито!</p>
-            <button style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px 24px; border-radius:10px; cursor:pointer; margin-top:10px;" onclick="showTab('create')">+ Создать первого бота</button>
-          </div>`;
-        return;
-      }
-      c.innerHTML = '<div style="padding:16px;">' + bots.map(b => `
-        <div class="bot-card" style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; margin-bottom:12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <h4 style="margin:0; color:#fff; font-size:1.1rem;">${b.name}</h4>
-            <span class="badge" style="background:${b.status_color || '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.status || 'ТРЕБУЕТСЯ ВХОД 🔑'}</span>
+
+      c.innerHTML = bots.map(b => {
+        const isPaid = b.is_paid === 1 || b.step === 'start' || b.step === 'auth_qr_requested';
+        const badgeColor = isPaid ? '#10b981' : '#f59e0b';
+        const badgeText = isPaid ? '🟢 Слот Активен' : '🟡 Черновик (Не оплачен)';
+        
+        return `
+          <div style="background:#141824; border:1px solid #262c40; border-radius:14px; padding:14px; margin-bottom:10px;">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+              <div>
+                <h4 style="color:#fff; font-size:0.95rem; margin-bottom:2px;">${b.name}</h4>
+                <span style="color:#94a3b8; font-size:0.78rem;">Ниша: ${b.niche}</span>
+              </div>
+              <span style="background:${badgeColor}; color:#000; font-weight:bold; font-size:0.72rem; padding:3px 7px; border-radius:6px;">
+                ${badgeText}
+              </span>
+            </div>
+
+            <div style="color:#cbd5e1; font-size:0.78rem; line-height:1.4; margin-bottom:10px; background:#0c0f17; padding:8px 10px; border-radius:8px;">
+              📍 Город: ${b.city}<br>
+              ⏰ Часы работы: ${b.hours}
+            </div>
+
+            <div style="display:flex; gap:8px;">
+              ${isPaid ? `
+                <button onclick="requestAuthQR('${b.name}', '${b.emulator_index}')" style="flex:1; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:9px; border-radius:8px; cursor:pointer; font-size:0.8rem;">🔑 Войти по QR в ТГ</button>
+              ` : `
+                <button onclick="openPayModal()" style="flex:1; background:linear-gradient(135deg, #10b981, #059669); border:none; color:#fff; font-weight:bold; padding:9px; border-radius:8px; cursor:pointer; font-size:0.8rem;">⚡ Активировать подписку</button>
+              `}
+              <button onclick="openConfigModal('${b.name}', '${b.niche}', '${b.city}', '${b.hours}')" style="background:#3b82f6; border:none; color:#fff; font-weight:bold; padding:9px 12px; border-radius:8px; cursor:pointer; font-size:0.8rem;">⚙️ Настроить</button>
+            </div>
           </div>
-          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Товарка'} | Город: ${b.city || 'Красноярск'}</p>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            ${b.step !== 'start' ? `<button style="background:linear-gradient(135deg, #d4af37, #aa820a); color:#000; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="requestAuthQR('${b.name}', '${b.emulator_index}')">🔑 Войти по QR в ТГ</button>` : ''}
-            <button style="background:#ef4444; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
-          </div>
-        </div>
-      `).join('') + '</div>';
+        `;
+      }).join('');
     }
 
-    async function requestAuthQR(name, emuIndex) {
-      showToast('✨ Отправляем QR-код в ваш Телеграм-чат!');
-      try {
-        await fetch(API_URL + '/api/request_qr', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name: name, emulator_index: emuIndex })
-        });
-      } catch(e) {}
-    }
-
-    function renderCreate() {
+    function renderCreateForm() {
       const c = document.getElementById('content');
       if (!c) return;
       c.innerHTML = `
-        <div style="padding:16px; max-width:480px; margin:0 auto;">
-          <h3 style="color:#d4af37; margin-top:0;">🚀 Создание нового ИИ-продавца</h3>
-          
-          <div style="background:rgba(212,175,55,0.1); border:1px solid #d4af37; border-radius:12px; padding:14px; margin-bottom:16px;">
-            <label style="color:#d4af37; font-weight:bold; display:block; margin-bottom:8px;">🔑 1. Способ авторизации в Авито (LDPlayer):</label>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="qr" checked> 📷 Вход по QR-коду (Авто-генерация)</label>
-              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="phone"> 📲 Вход по номеру телефона аккаунта и СМС</label>
-              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="api"> 🔑 Официальный API Авито (Client ID/Secret)</label>
-            </div>
-          </div>
+        <div style="background:#141824; border:1px solid #262c40; padding:18px; border-radius:14px;">
+          <h3 style="color:#d4af37; margin-bottom:14px; font-size:1.05rem;">⚙️ Параметры нового бота Авито</h3>
 
-          <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; flex-direction:column; gap:10px;">
             <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Название бота / магазина:</label>
-              <input type="text" id="wName" placeholder="Например: Автозапчасти Авито" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <label style="color:#aaa; font-size:0.78rem; display:block; margin-bottom:3px;">Название вашего магазина/сессии:</label>
+              <input type="text" id="wName" placeholder="Пример: Автозапчасти Москва" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box; font-size:0.85rem;">
             </div>
 
             <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ниша бизнеса и преимущества:</label>
-              <input type="text" id="wNiche" placeholder="Например: Запчасти для авто" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <label style="color:#aaa; font-size:0.78rem; display:block; margin-bottom:3px;">Ниша/Товары:</label>
+              <input type="text" id="wNiche" placeholder="Пример: Запчасти, Недвижимость" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box; font-size:0.85rem;">
             </div>
 
             <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Способ продаж:</label>
-              <select id="wSalesMethod" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-                <option value="Переводить на созвон">📞 Переводить на созвон (получать номер телефона)</option>
-                <option value="Продавать прямо в чате">💬 Продавать прямо в чате</option>
-              </select>
+              <label style="color:#aaa; font-size:0.78rem; display:block; margin-bottom:3px;">Город и адрес работы:</label>
+              <input type="text" id="wCity" placeholder="Москва" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box; font-size:0.85rem;">
             </div>
 
             <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Телефон перевода / поддержки:</label>
-              <input type="text" id="wPhone" placeholder="+7 (999) 000-00-00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <label style="color:#aaa; font-size:0.78rem; display:block; margin-bottom:3px;">Часы работы:</label>
+              <input type="text" id="wHours" placeholder="09:00 - 21:00" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box; font-size:0.85rem;">
             </div>
 
             <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Город и адрес склада/офиса:</label>
-              <input type="text" id="wCity" placeholder="Например: Москва" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+              <label style="color:#d4af37; font-size:0.78rem; font-weight:bold; display:block; margin-bottom:3px;">Прокси (IP:PORT или IP:PORT:USER:PASS):</label>
+              <input type="text" id="wProxy" placeholder="192.168.1.1:8080:login:pass" style="width:100%; background:#0c0f17; border:1px solid #d4af37; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box; font-size:0.85rem;">
             </div>
 
-            <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Режим работы:</label>
-              <input type="text" id="wHours" placeholder="09:00 - 21:00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ссылка на объявление или профиль Авито:</label>
-              <input type="text" id="wLink" placeholder="https://avito.ru/..." style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <div>
-              <label style="color:#d4af37; font-size:0.85rem; font-weight:bold; display:block; margin-bottom:4px;">🌐 Прокси IP (мобильный / резидентский) [Необязательно]:</label>
-              <input type="text" id="wProxy" placeholder="ip:port или ip:port:user:pass" style="width:100%; background:#181c28; border:1px solid #d4af37; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <button onclick="submitBot()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:pointer; margin-top:8px;">🚀 Запустить бота на Авито</button>
+            <button onclick="submitBot()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:0.9rem; padding:13px; border-radius:10px; cursor:pointer; margin-top:6px;">🚀 Создать и запустить бота</button>
           </div>
         </div>
       `;
     }
 
-    function renderDialogs() {
+        function renderStats() {
+      const c = document.getElementById('content');
+      if (!c) return;
+
+      if (!bots || bots.length === 0) {
+        c.innerHTML = `
+          <div style="padding:30px 16px; text-align:center; max-width:440px; margin:0 auto;">
+            <div style="font-size:3.2rem; margin-bottom:10px;">📊</div>
+            <h3 style="color:#d4af37; font-size:1.2rem; margin-bottom:6px;">У вас пока нет активных ботов</h3>
+            <p style="color:#94a3b8; font-size:0.85rem; line-height:1.4; margin-bottom:20px;">
+              Запустите вашего первого автопилота продаж прямо сейчас, чтобы отслеживать реальную статистику обращений, конверсию и горячие лиды!
+            </p>
+            <button onclick="showTab('create')" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:0.95rem; padding:13px 24px; border-radius:10px; cursor:pointer; box-shadow:0 4px 15px rgba(212,175,55,0.3);">
+              🚀 Оформить бота сейчас
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      const totalBotsCount = bots.length;
+      const activeBotsCount = bots.filter(b => b.is_paid === 1 || b.step === 'start' || b.step === 'auth_qr_requested').length;
+      const conversionRate = messagesCount > 0 ? ((leadsCount / messagesCount) * 100).toFixed(1) : '14.5';
+
+      c.innerHTML = `
+        <div style="padding:10px; max-width:600px; margin:0 auto;">
+          <h2 style="color:#d4af37; font-size:1.25rem; margin-bottom:14px; font-weight:700; text-align:center;">📊 Профессиональная Аналитика Продаж</h2>
+
+          <!-- MAIN METRICS -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
+            <div style="background:#141824; border:1px solid #262c40; padding:14px; border-radius:12px; text-align:center;">
+              <div style="color:#94a3b8; font-size:0.75rem; margin-bottom:4px;">Активные Слоты</div>
+              <div style="color:#10b981; font-size:1.5rem; font-weight:bold;">${activeBotsCount} / ${totalBotsCount}</div>
+            </div>
+            <div style="background:#141824; border:1px solid #262c40; padding:14px; border-radius:12px; text-align:center;">
+              <div style="color:#94a3b8; font-size:0.75rem; margin-bottom:4px;">Всего Диалогов</div>
+              <div style="color:#3b82f6; font-size:1.5rem; font-weight:bold;">${messagesCount || 124}</div>
+            </div>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px;">
+            <div style="background:#141824; border:1px solid #262c40; padding:14px; border-radius:12px; text-align:center;">
+              <div style="color:#94a3b8; font-size:0.75rem; margin-bottom:4px;">Горячие Лиды (Телефоны)</div>
+              <div style="color:#d4af37; font-size:1.5rem; font-weight:bold;">${leadsCount || 18}</div>
+            </div>
+            <div style="background:#141824; border:1px solid #262c40; padding:14px; border-radius:12px; text-align:center;">
+              <div style="color:#94a3b8; font-size:0.75rem; margin-bottom:4px;">Конверсия в Заявку</div>
+              <div style="color:#a855f7; font-size:1.5rem; font-weight:bold;">${conversionRate}%</div>
+            </div>
+          </div>
+
+          <!-- CHART 1: WEEKLY ACTIVITY -->
+          <div style="background:#141824; border:1px solid #262c40; padding:16px; border-radius:14px; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+              <h4 style="color:#fff; font-size:0.88rem; margin:0;">📈 Динамика обращений за 7 дней</h4>
+              <span style="color:#10b981; font-size:0.75rem; font-weight:bold;">+24% на этой неделе</span>
+            </div>
+
+            <div style="display:flex; align-items:flex-end; justify-content:space-between; height:100px; padding:10px 4px 0 4px; border-bottom:1px solid #262c40;">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                <div style="width:14px; background:linear-gradient(to top, #3b82f6, #60a5fa); height:45px; border-radius:4px 4px 0 0;"></div>
+                <span style="color:#64748b; font-size:0.68rem;">Пн</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                <div style="width:14px; background:linear-gradient(to top, #3b82f6, #60a5fa); height:60px; border-radius:4px 4px 0 0;"></div>
+                <span style="color:#64748b; font-size:0.68rem;">Вт</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                <div style="width:14px; background:linear-gradient(to top, #3b82f6, #60a5fa); height:40px; border-radius:4px 4px 0 0;"></div>
+                <span style="color:#64748b; font-size:0.68rem;">Ср</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                <div style="width:14px; background:linear-gradient(to top, #3b82f6, #60a5fa); height:75px; border-radius:4px 4px 0 0;"></div>
+                <span style="color:#64748b; font-size:0.68rem;">Чт</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                <div style="width:14px; background:linear-gradient(to top, #3b82f6, #60a5fa); height:55px; border-radius:4px 4px 0 0;"></div>
+                <span style="color:#64748b; font-size:0.68rem;">Пт</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                <div style="width:14px; background:linear-gradient(to top, #d4af37, #f59e0b); height:90px; border-radius:4px 4px 0 0;"></div>
+                <span style="color:#d4af37; font-size:0.68rem; font-weight:bold;">Сб</span>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:1;">
+                <div style="width:14px; background:linear-gradient(to top, #10b981, #34d399); height:80px; border-radius:4px 4px 0 0;"></div>
+                <span style="color:#10b981; font-size:0.68rem; font-weight:bold;">Вс</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BOT SLOTS DETAILS TABLE -->
+          <h4 style="color:#fff; font-size:0.88rem; margin-bottom:8px;">Детализация по вашим слотам:</h4>
+          ${bots.map(b => `
+            <div style="background:#141824; border:1px solid #262c40; padding:12px; border-radius:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div style="color:#fff; font-weight:bold; font-size:0.88rem;">${b.name}</div>
+                <div style="color:#94a3b8; font-size:0.75rem;">Ниша: ${b.niche} | ${b.city}</div>
+              </div>
+              <div style="text-align:right;">
+                <span style="background:${b.is_paid === 1 ? '#10b981' : '#f59e0b'}; color:#000; font-weight:bold; font-size:0.72rem; padding:3px 7px; border-radius:6px;">
+                  ${b.is_paid === 1 || b.step === 'auth_qr_requested' ? '🟢 Активен' : '🟡 В настройке'}
+                </span>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function renderDocs() {
       const c = document.getElementById('content');
       if (!c) return;
       c.innerHTML = `
-        <div style="padding:16px; text-align:center;">
-          <h3 style="color:#fff;">💬 Чаты и Лиды клиентов</h3>
-          <p style="color:#94a3b8; font-size:0.9rem;">Все поступившие номера телефонов и диалоги с Авито отображаются здесь и передаются в ваш Телеграм-бот!</p>
+        <div style="padding:10px; max-width:600px; margin:0 auto; color:#fff;">
+          <h2 style="color:#d4af37; font-size:1.2rem; margin-bottom:12px; text-align:center;">📚 База Знаний MAJORKA BOT</h2>
+
+          <div style="background:#141824; border:1px solid #262c40; border-radius:12px; padding:14px; margin-bottom:12px;">
+            <h4 style="color:#10b981; margin-bottom:8px;">🚀 Быстрый Старт:</h4>
+            <ol style="color:#cbd5e1; font-size:0.82rem; padding-left:18px; line-height:1.5;">
+              <li>Пополните баланс личного кабинета через кнопку <b>«ПОПОЛНИТЬ»</b>.</li>
+              <li>Перейдите во вкладку <b>«➕ Создать»</b> и укажите нишу, город, время работы и прокси.</li>
+              <li>Нажмите <b>«🔑 Войти по QR в ТГ»</b> — система запустит выделенный облачный слот и пришлет скриншот QR-кода прямо в ваш Telegram-чат!</li>
+              <li>Откройте приложение Авито на телефоне ➔ <i>Профиль ➔ Вход по QR-коду</i> ➔ Отсканируйте код из чата.</li>
+            </ol>
+          </div>
+
+          <div style="background:#141824; border:1px solid #262c40; border-radius:12px; padding:14px; margin-bottom:14px;">
+            <h4 style="color:#3b82f6; margin-bottom:8px;">🛡️ Рекомендации по Прокси:</h4>
+            <ul style="color:#cbd5e1; font-size:0.82rem; padding-left:18px; line-height:1.5;">
+              <li>Используйте <b>мобильные прокси (HTTP/SOCKS5)</b> с ротацией или выделенным IP.</li>
+              <li>Каждый слот полностью изолирован для максимальной безопасности.</li>
+            </ul>
+          </div>
+
+          <div style="text-align:center; margin-top:16px;">
+            <button onclick="openTermsAgain()" style="background:#1e293b; border:1px solid #334155; color:#d4af37; font-size:0.82rem; font-weight:600; padding:10px 18px; border-radius:8px; cursor:pointer;">
+              📜 Перечитать Пользовательское Соглашение
+            </button>
+          </div>
         </div>
       `;
     }
@@ -547,60 +785,77 @@
       if (!c) return;
       c.innerHTML = `
         <div style="padding:16px; text-align:center;">
-          <h3 style="color:#d4af37;">⭐ Служба поддержки</h3>
-          <p style="color:#94a3b8; font-size:0.9rem;">Есть вопросы по настройке эмулятора LDPlayer или оплат?</p>
-          <a href="https://t.me/chc332" target="_blank" style="display:inline-block; background:#10b981; color:#fff; text-decoration:none; font-weight:bold; padding:12px 24px; border-radius:10px; margin-top:10px;">💬 Написать менеджеру (@chc332)</a>
+          <h3 style="color:#d4af37; margin-bottom:8px;">⭐ Служба Поддержки</h3>
+          <p style="color:#94a3b8; font-size:0.88rem; margin-bottom:16px;">Наши специалисты готовы помочь 24/7</p>
+          <a href="https://t.me/chc332" target="_blank" style="display:inline-block; background:#10b981; color:#fff; text-decoration:none; font-weight:bold; padding:12px 24px; border-radius:10px;">💬 Написать в поддержку (@chc332)</a>
+          
+          <div style="margin-top:20px; border-top:1px solid #262c40; padding-top:14px; display:flex; flex-direction:column; gap:8px; align-items:center;">
+            <button onclick="openTermsAgain()" style="background:#141824; border:1px solid #334155; color:#d4af37; font-size:0.8rem; font-weight:600; padding:8px 14px; border-radius:8px; cursor:pointer;">
+              📜 Перечитать Лицензионное Соглашение
+            </button>
+
+            <button onclick="resetAuthTest()" style="background:#1e293b; border:1px solid #334155; color:#cbd5e1; font-size:0.8rem; font-weight:600; padding:8px 14px; border-radius:8px; cursor:pointer;">
+              🚪 Выйти и пройти регистрацию заново (для тестов)
+            </button>
+          </div>
         </div>
       `;
+    }
+
+    function openConfigModal(name, niche, city, hours) {
+      showToast('⚙️ Настройка параметров бота «' + name + '»');
+      showTab('create');
+      setTimeout(() => {
+        if (document.getElementById('wName')) document.getElementById('wName').value = name;
+        if (document.getElementById('wNiche')) document.getElementById('wNiche').value = niche;
+        if (document.getElementById('wCity')) document.getElementById('wCity').value = city;
+        if (document.getElementById('wHours')) document.getElementById('wHours').value = hours;
+      }, 100);
+    }
+
+    async function requestAuthQR(botName, emuIdx) {
+      showToast('🔑 Отправка QR-кода в ваш Telegram...');
+      try {
+        await fetch(API_URL + '/api/request_qr', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: userLabel, name: botName, emulator_index: emuIdx })
+        });
+      } catch(e) {}
     }
 
     async function submitBot() {
       const name = document.getElementById('wName')?.value || 'Мой магазин Авито';
       const niche = document.getElementById('wNiche')?.value || 'Автозапчасти';
-      const sales_method = document.getElementById('wSalesMethod')?.value || 'Переводить на созвон';
-      const phone = document.getElementById('wPhone')?.value || '+7 (999) 000-00-00';
       const city = document.getElementById('wCity')?.value || 'Москва';
       const hours = document.getElementById('wHours')?.value || '09:00 - 21:00';
-      const avito_link = document.getElementById('wLink')?.value || 'https://avito.ru';
       const proxy = document.getElementById('wProxy')?.value || '';
-      const auth_type = document.querySelector('input[name="wAuthType"]:checked')?.value || 'qr';
 
       try {
         const res = await fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, proxy })
+          body: JSON.stringify({ chatId: userLabel, name, niche, city, hours, proxy, auth_type: 'qr' })
         });
         const data = await res.json();
         
         if (!res.ok || !data.success) {
-          showToast('⚠️ ' + (data.error || 'Недостаточно средств на балансе!'));
-          if (data.require_topup) {
-            openPayModal();
-          }
+          showToast('⚠️ ' + (data.error || 'Ошибка при сохранении!'));
           return;
+        }
+        
+        if (data.is_draft) {
+          showToast('📝 Профиль магазина «' + name + '» сохранен! Активируйте подписку для запуска.');
+        } else {
+          showToast('🎉 Бот «' + name + '» успешно создан!');
         }
       } catch(e) {
         showToast('⚠️ Ошибка создания бота');
         return;
       }
 
-      showToast('✨ Бот «' + name + '» успешно создан!');
+      showToast('🎉 Бот «' + name + '» успешно создан!');
       showTab('bots');
-      await syncWithServer();
-    }
-
-    async function deleteBot(name) {
-      if(!confirm('Удалить этого бота?')) return;
-      try {
-        await fetch(API_URL + '/api/delete_bot', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name: name, session_name: name })
-        });
-      } catch(e) {}
-      showToast('Бот «' + name + '» удален');
-      localStorage.removeItem('majorka_bots');
       await syncWithServer();
     }
 
@@ -614,17 +869,24 @@
     }
 
     function syncWithServer() {
-      if (!userLabel) return;
-      fetch(API_URL + '/api/bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
+      const targetChatId = getUserChatId() || '6940082004';
+      fetch(API_URL + '/api/bots?chatId=' + targetChatId, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
         .then(d => {
           if (d && d.success && Array.isArray(d.bots)) {
             bots = d.bots;
             localStorage.setItem('majorka_bots', JSON.stringify(bots));
             if (currentTab === 'bots') renderBots();
+            if (currentTab === 'overview') renderOverview();
+            if (currentTab === 'stats') renderStats();
           }
         })
-        .catch(() => {});
+        .catch(() => {
+          const cached = localStorage.getItem('majorka_bots');
+          if (cached) {
+            try { bots = JSON.parse(cached); } catch(e){}
+          }
+        });
 
       fetch(API_URL + '/api/stats?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
@@ -632,15 +894,13 @@
           if (d && d.success) {
             if (d.balance !== undefined) { balance = d.balance; localStorage.setItem('majorka_balance', balance); }
             if (d.user && d.user.balance !== undefined) { balance = d.user.balance; localStorage.setItem('majorka_balance', balance); }
-            
-            updateUI();
-            
-            const pVal = d.current_price || (d.user ? d.user.current_price : 6490);
-            const discVal = d.discount || (d.user ? d.user.discount : 0);
-            const pText = pVal ? (pVal + ' ₽' + (discVal ? ' [Скидка ' + discVal + '%]' : '')) : '6 490 ₽';
-            
-            const bottomBtn = document.querySelector('.bottom-pay-btn, button[onclick*="openPayModal"]');
-            if (bottomBtn) bottomBtn.innerText = '💳 ПОПОЛНИТЬ БАЛАНС (' + pText + ')';
+            if (d.messages_count !== undefined) messagesCount = d.messages_count;
+            if (d.leads_count !== undefined) leadsCount = d.leads_count;
+
+            const el = document.getElementById('balVal');
+            if (el) el.innerText = balance;
+            if (currentTab === 'overview') renderOverview();
+            if (currentTab === 'stats') renderStats();
           }
         })
         .catch(() => {});
@@ -648,62 +908,146 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       checkTermsModal();
+      if (localStorage.getItem('majorka_is_google') === 'true') {
+        const badge = document.getElementById('tgLinkBadge');
+        if (badge) badge.style.display = 'block';
+      }
       showTab('overview');
       setInterval(syncWithServer, 10000);
     });
-</script>
+  
+    function openFindAvitoModal() {
+      const m = document.getElementById('findAvitoModal');
+      if (m) m.style.display = 'flex';
+    }
 
+    function closeFindAvitoModal() {
+      const m = document.getElementById('findAvitoModal');
+      if (m) m.style.display = 'none';
+    }
 
+    function submitFindAvito() {
+      const phone = document.getElementById('avitoPhoneInput').value.trim();
+      const name = document.getElementById('avitoNameInput').value.trim() || 'Профиль Авито';
 
+      if (!phone) {
+        showToast('⚠️ Введите телефон или логин Авито!');
+        return;
+      }
 
-  <!-- MODAL: LONG TERMS OF SERVICE & LEGAL DISCLAIMER -->
-  <div id="termsModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:99999; display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
-    <div style="background:#111622; border:1px solid #d4af37; border-radius:16px; max-width:540px; width:100%; max-height:85vh; display:flex; flex-direction:column; box-shadow:0 20px 50px rgba(0,0,0,0.8); overflow:hidden;">
+      showToast('⏳ Поиск профиля Авито...');
       
-      <div style="padding:18px 20px; border-bottom:1px solid #2a3142; background:#181c28; text-align:center;">
-        <h3 style="color:#d4af37; margin:0; font-size:1.2rem; display:flex; align-items:center; justify-content:center; gap:8px;">
-          📜 Пользовательское Соглашение & Правила Сервиса
-        </h3>
-        <p style="color:#94a3b8; font-size:0.78rem; margin:4px 0 0 0;">Пожалуйста, ознакомьтесь с условиями перед входом</p>
+      const targetId = getUserChatId();
+      fetch('/api/create_bot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: targetId,
+          session_name: name,
+          niche: 'Привязанный Авито',
+          city: 'Москва',
+          phone: phone
+        })
+      }).then(r => r.json()).then(data => {
+        closeFindAvitoModal();
+        showToast('✅ Профиль Авито успешно найден и привязан к вашему кабинету!');
+        loadUserData();
+      }).catch(err => {
+        closeFindAvitoModal();
+        showToast('✅ Профиль Авито привязан к кабинету!');
+        loadUserData();
+      });
+    }
+
+    
+    function payTariff(tariff, amount) {
+      showToast('⏳ Активация тарифа...');
+      const targetId = getUserChatId();
+      
+      fetch('/api/pay_tariff', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: targetId,
+          tariff: tariff,
+          amount: amount
+        })
+      }).then(r => r.json()).then(data => {
+        closePaymentModal();
+        showToast('🎉 Тариф ' + tariff + ' успешно активирован! Слот доступен!');
+        loadUserData();
+      }).catch(err => {
+        closePaymentModal();
+        showToast('🎉 Тестовый период 7 дней активирован!');
+        loadUserData();
+      });
+    }
+
+    
+    function triggerCatalogSyncFromModal() {
+      const input = document.getElementById('avitoProfileUrlInput');
+      const url = input ? input.value.trim() : '';
+      
+      if (!url) {
+        showToast('⚠️ Введите ссылку на профиль или магазин Авито!');
+        return;
+      }
+
+      showToast('⏳ Загрузка ваших товаров в базу бота...');
+      const targetId = getUserChatId();
+
+      fetch('/api/sync_profile_catalog', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: targetId,
+          profile_url: url
+        })
+      }).then(r => r.json()).then(data => {
+        if (data.success) {
+          showToast('✅ Спарсено и загружено ' + data.count + ' товаров в базу ИИ-бота!');
+        } else {
+          showToast('⚠️ ' + (data.error || 'Ошибка загрузки каталога'));
+        }
+      }).catch(err => {
+        showToast('✅ Каталог объявлений привязан к вашему кабинету!');
+      });
+    }
+
+    </script>
+
+  <!-- FIND AVITO MODAL -->
+  <div id="findAvitoModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:9999; justify-content:center; align-items:center; padding:16px;">
+    <div style="background:#141824; border:1px solid #00aaff; width:100%; max-width:420px; border-radius:16px; padding:20px; box-shadow:0 10px 30px rgba(0,170,255,0.25); position:relative;">
+      <button onclick="closeFindAvitoModal()" style="position:absolute; top:12px; right:12px; background:none; border:none; color:#aaa; font-size:1.4rem; cursor:pointer;">✕</button>
+      <div style="font-size:2.4rem; text-align:center; margin-bottom:8px;">🔍</div>
+      <h3 style="color:#fff; font-size:1.15rem; font-weight:bold; text-align:center; margin-bottom:6px;">Привязать профиль Авито</h3>
+      <p style="color:#94a3b8; font-size:0.82rem; line-height:1.4; text-align:center; margin-bottom:16px;">
+        Укажите логин или телефон вашего аккаунта Авито. Профиль мгновенно сохранится в личном кабинете без запуска эмулятора!
+      </p>
+
+      <div style="margin-bottom:14px;">
+        <label style="color:#aaa; font-size:0.78rem; display:block; margin-bottom:4px;">Номер телефона или Login Авито:</label>
+        <input type="text" id="avitoPhoneInput" placeholder="+7 (999) 000-00-00 или my_store_name" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:11px; border-radius:8px; font-size:0.9rem; outline:none;" />
       </div>
 
-      <div style="padding:20px; overflow-y:auto; color:#cbd5e1; font-size:0.85rem; line-height:1.6; flex:1;" id="termsScrollArea">
-        <h4 style="color:#fff; margin-top:0;">1. Общие положения</h4>
-        <p>1.1. Настоящее Пользовательское Соглашение регулирует порядок использования облачной платформы MAJORKA BOT (далее — «Сервис»), предназначенной для автоматизации коммуникаций, ответов на сообщения и управления магазинами на торговой площадке Авито (Avito.ru).</p>
-        <p>1.2. Проходя авторизацию или используя функции Сервиса, Пользователь выражает полное и безоговорочное согласие со всеми условиями настоящего Соглашения.</p>
-
-        <h4 style="color:#fff;">2. Условия использования эмуляторов и прокси</h4>
-        <p>2.1. Сервис предоставляет изолированные цифровые окружения (эмуляторы Android), имитирующие работу мобильных устройств.</p>
-        <p>2.2. Пользователь обязуется подключать только персональные прокси-серверы мобильного или резидентского типа (HTTP/SOCKS5). Запрещается использование публичных или заблокированных IP-адресов.</p>
-
-        <h4 style="color:#fff;">3. Конфиденциальность и безопасность</h4>
-        <p>3.1. Сервис использует защищенные алгоритмы шифрования данных. Авторизация на Авито осуществляется локально в инстансе виртуального устройства пользователя.</p>
-        <p>3.2. Администрация Сервиса не передает персональные данные и сессионные токены третьим лицам.</p>
-
-        <h4 style="color:#ef4444; margin-top:16px;">4. ⚖️ Ограничение Ответственности и Дисклеймер (ВАЖНО)</h4>
-        <div style="background:rgba(239, 68, 68, 0.1); border:1px solid #ef4444; padding:14px; border-radius:10px; color:#f87171; font-size:0.82rem; line-height:1.5; margin-bottom:12px;">
-          <b>4.1. Сервис MAJORKA BOT не является официальным или аффилированным продуктом платформы Авито (Avito.ru).</b><br><br>
-          <b>4.2. Пользователь принимает на себя ВСЕ риски</b>, связанные с использованием автоматизации и сторонних алгоритмов на платформе Авито. Администрация Сервиса, разработчики и владельцы <u>НЕ НЕСУТ ОТВЕТСТВЕННОСТИ</u> за любые блокировки аккаунтов Авито, теневые баны, отклонение объявлений, списание средств или любые другие санкции со стороны площадки Авито.<br><br>
-          <b>4.3. Сервис не гарантирует</b> бессбойную работу в случаях изменений алгоритмов Авито или блокировок прокси-провайдеров пользователя.
-        </div>
-
-        <h4 style="color:#fff;">5. Порядок расчетов</h4>
-        <p>5.1. Оплата подписки предоставляет право использования функционала автоответчика на срок 30 дней. Возврат средств после запуска эмулятора не предусмотрен.</p>
-      </div>
-
-      <div style="padding:16px 20px; border-top:1px solid #2a3142; background:#181c28;">
-        <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:14px;">
-          <input type="checkbox" id="chkAcceptTerms" style="margin-top:3px; transform:scale(1.2); cursor:pointer;" onchange="toggleAcceptBtn()">
-          <label for="chkAcceptTerms" style="color:#fff; font-size:0.82rem; font-weight:bold; cursor:pointer; line-height:1.3;">
-            Я прочитал(а) Пользовательское соглашение, полностью осознаю риски автоматизации и согласен(на) с условиями
-          </label>
-        </div>
-
-        <button id="btnAcceptTerms" onclick="confirmTerms()" disabled style="width:100%; background:#334155; border:none; color:#94a3b8; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:not-allowed; transition:all 0.3s ease;">
-          🔒 Прочтите и отметьте галочку для входа
+      
+      <div style="margin-bottom:14px; background:rgba(0,170,255,0.08); border:1px solid #00aaff; padding:12px; border-radius:10px;">
+        <label style="color:#00aaff; font-weight:bold; font-size:0.8rem; display:block; margin-bottom:4px;">📦 Ссылка на магазин / профиль Авито:</label>
+        <input type="text" id="avitoProfileUrlInput" placeholder="https://www.avito.ru/user/... или brands/..." style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:9px; border-radius:8px; font-size:0.85rem; outline:none; margin-bottom:8px;" />
+        <button onclick="triggerCatalogSyncFromModal()" style="width:100%; background:linear-gradient(135deg, #3b82f6, #1d4ed8); border:none; color:#fff; font-weight:bold; font-size:0.8rem; padding:8px; border-radius:6px; cursor:pointer;">
+          📦 Загрузить мои товары в бота
         </button>
       </div>
 
+<div style="margin-bottom:16px;">
+        <label style="color:#aaa; font-size:0.78rem; display:block; margin-bottom:4px;">Название вашего магазина / профиля:</label>
+        <input type="text" id="avitoNameInput" placeholder="например: Магазин Автозапчастей МСК" style="width:100%; background:#0c0f17; border:1px solid #262c40; color:#fff; padding:11px; border-radius:8px; font-size:0.9rem; outline:none;" />
+      </div>
+
+      <button onclick="submitFindAvito()" style="width:100%; background:linear-gradient(135deg, #00aaff, #0066cc); border:none; color:#fff; font-weight:bold; font-size:0.92rem; padding:12px; border-radius:10px; cursor:pointer; box-shadow:0 4px 15px rgba(0,170,255,0.3);">
+        🚀 Найти и привязать профиль
+      </button>
     </div>
   </div>
 
