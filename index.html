@@ -184,136 +184,14 @@
   </div>
 
   <script>
-    const API_URL = (window.location.protocol === 'https:')
-      ? 'https://immensurable-paleaceous-marcella.ngrok-free.dev'
-      : 'http://127.0.0.1:8085';
-
+    const API_URL = 'http://127.0.0.1:8085';
     let tg = window.Telegram?.WebApp;
     if (tg) { tg.expand(); }
 
-    function getUserChatId() {
-      if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
-        const id = window.Telegram.WebApp.initDataUnsafe.user.id.toString();
-        localStorage.setItem('majorka_user_id', id);
-        return id;
-      }
-      const urlParams = new URLSearchParams(window.location.search);
-      const qId = urlParams.get('chatId') || urlParams.get('user_id');
-      if (qId && qId !== 'undefined' && qId !== 'null') {
-        localStorage.setItem('majorka_user_id', qId);
-        return qId;
-      }
-      const savedId = localStorage.getItem('majorka_user_id');
-      if (savedId && savedId !== 'undefined' && savedId !== 'null') {
-        return savedId;
-      }
-      return null;
-    }
-
-    const userLabel = getUserChatId();
+    const userLabel = tg?.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : '6940082004';
     var balance = 0;
     var bots = [];
     var currentTab = 'overview';
-
-        function refreshBalanceClick() {
-      showToast('🔄 Обновление баланса...');
-      syncWithServer();
-    }
-
-    function validateProxyInput(proxyStr) {
-      if (!proxyStr || !proxyStr.trim()) return true;
-      const clean = proxyStr.trim();
-      const parts = clean.split(':');
-      if (parts.length < 2 || parts.length > 4) {
-        showToast('⚠️ Формат прокси: IP:PORT или IP:PORT:USER:PASS');
-        return false;
-      }
-      return true;
-    }
-
-        function openConfigModal(name, niche, city, hours) {
-      showToast('⚙️ Настройка параметров бота «' + name + '»');
-      showTab('create');
-      setTimeout(() => {
-        if (document.getElementById('wName')) document.getElementById('wName').value = name;
-        if (document.getElementById('wNiche')) document.getElementById('wNiche').value = niche;
-        if (document.getElementById('wCity')) document.getElementById('wCity').value = city;
-        if (document.getElementById('wHours')) document.getElementById('wHours').value = hours;
-      }, 100);
-    }
-
-        function submitRegistration() {
-      const regId = document.getElementById('regChatId')?.value?.trim();
-      const regName = document.getElementById('regName')?.value?.trim() || 'Пользователь';
-      const terms = document.getElementById('regTerms')?.checked;
-
-      if (!regId) {
-        showToast('⚠️ Пожалуйста, введите ваш Telegram Chat ID');
-        return;
-      }
-      if (!terms) {
-        showToast('⚠️ Необходимо согласиться с условиями сервиса');
-        return;
-      }
-
-      const cleanId = regId.replace(/[^0-9]/g, '') || regId;
-      localStorage.setItem('majorka_user_id', cleanId);
-      localStorage.setItem('majorka_user_name', regName);
-
-      showToast('🎉 Успешный вход! Загрузка кабинета...');
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    }
-
-    
-    function checkTermsModal() {
-      const modal = document.getElementById('termsModal');
-      const accepted = localStorage.getItem('majorka_terms_accepted');
-      if (accepted === 'true') {
-        if (modal) modal.style.display = 'none';
-      } else {
-        if (modal) modal.style.display = 'flex';
-      }
-    }
-
-    function toggleAcceptBtn() {
-      const chk = document.getElementById('chkAcceptTerms');
-      const btn = document.getElementById('btnAcceptTerms');
-      if (chk && btn) {
-        if (chk.checked) {
-          btn.disabled = false;
-          btn.style.background = 'linear-gradient(135deg, #d4af37, #aa820a)';
-          btn.style.color = '#000';
-          btn.style.cursor = 'pointer';
-          btn.innerText = '✅ Принять условия и войти';
-        } else {
-          btn.disabled = true;
-          btn.style.background = '#334155';
-          btn.style.color = '#94a3b8';
-          btn.style.cursor = 'not-allowed';
-          btn.innerText = '🔒 Отметьте галочку для входа';
-        }
-      }
-    }
-
-    function confirmTerms() {
-      const chk = document.getElementById('chkAcceptTerms');
-      if (!chk || !chk.checked) return;
-      localStorage.setItem('majorka_terms_accepted', 'true');
-      const modal = document.getElementById('termsModal');
-      if (modal) modal.style.display = 'none';
-      showToast('🎉 Условия приняты! Добро пожаловать!');
-    }
-
-    function fastLogin(provider) {
-      showToast('🔄 Выполняется быстрый вход через ' + provider + '...');
-      const fallbackId = '6940082004';
-      localStorage.setItem('majorka_user_id', fallbackId);
-      setTimeout(() => {
-        window.location.reload();
-      }, 600);
-    }
 
     function showToast(msg) {
       let toast = document.getElementById('customToast');
@@ -362,32 +240,6 @@
     function renderOverview() {
       const c = document.getElementById('content');
       if (!c) return;
-      if (!userLabel) {
-        c.innerHTML = `
-          <div style="padding:30px 20px; text-align:center; max-width:440px; margin:0 auto;">
-            <div style="font-size:3.5rem; margin-bottom:12px;">👑</div>
-            <h2 style="color:#d4af37; font-size:1.5rem; margin-bottom:6px; font-weight:800;">MAJORKA BOT</h2>
-            <p style="color:#94a3b8; font-size:0.92rem; line-height:1.4; margin-bottom:24px;">
-              Автопилот продаж и AI-менеджер на Авито 24/7
-            </p>
-
-            <div style="background:#181c28; border:1px solid #2a3142; padding:24px; border-radius:16px; box-shadow:0 15px 35px rgba(0,0,0,0.5);">
-              <h4 style="color:#fff; margin:0 0 16px 0; font-size:1rem;">Выберите способ входа:</h4>
-
-              <button onclick="fastLogin('Telegram')" style="width:100%; background:#24a1de; border:none; color:#fff; font-weight:bold; font-size:1rem; padding:14px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:12px; box-shadow:0 4px 15px rgba(36,161,222,0.3);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .54-1.43.53-.47-.01-1.37-.26-2.05-.48-.83-.27-1.49-.42-1.43-.89.03-.25.38-.51 1.07-.79 4.19-1.83 6.99-3.04 8.4-3.64 4-.17 4.83.69 4.79 1.48z"/></svg>
-                Быстрый вход через Telegram
-              </button>
-
-              <button onclick="fastLogin('Google')" style="width:100%; background:#ffffff; border:none; color:#000; font-weight:bold; font-size:0.95rem; padding:14px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 4px 15px rgba(255,255,255,0.15);">
-                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-                Войти через Google Account
-              </button>
-            </div>
-          </div>
-        `;
-        return;
-      }
       c.innerHTML = `
         <div style="padding:16px;">
           <div style="background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; border-radius:16px; padding:20px; margin-bottom:16px; text-align:center;">
@@ -419,16 +271,6 @@
     function renderBots() {
       const c = document.getElementById('content');
       if (!c) return;
-      if (!userLabel) {
-        c.innerHTML = `
-          <div style="text-align:center; padding:50px 20px;">
-            <div style="font-size:3.5rem; margin-bottom:10px;">🔒</div>
-            <h3 style="color:#d4af37;">Доступ ограничен</h3>
-            <p style="color:#94a3b8; font-size:0.95rem;">Пожалуйста, открывайте личный кабинет из вашего Telegram-бота!</p>
-          </div>
-        `;
-        return;
-      }
       if (!bots || bots.length === 0) {
         c.innerHTML = `
           <div style="text-align:center; padding:50px 20px;">
@@ -443,26 +285,14 @@
         <div class="bot-card" style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; margin-bottom:12px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <h4 style="margin:0; color:#fff; font-size:1.1rem;">${b.name}</h4>
-            <span class="badge" style="background:${b.status_color || '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.status || 'ТРЕБУЕТСЯ ВХОД 🔑'}</span>
+            <span class="badge" style="background:${b.is_paid ? '#10b981' : '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.is_paid ? 'АКТИВЕН' : 'НЕ ОПЛАЧЕН'}</span>
           </div>
-          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Товарка'} | Город: ${b.city || 'Красноярск'}</p>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            ${b.step !== 'start' ? `<button style="background:linear-gradient(135deg, #d4af37, #aa820a); color:#000; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="requestAuthQR('${b.name}', '${b.emulator_index}')">🔑 Войти по QR в ТГ</button>` : ''}
+          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Автозапчасти'} | Город: ${b.city || 'Москва'}</p>
+          <div style="display:flex; gap:8px;">
             <button style="background:#ef4444; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
           </div>
         </div>
       `).join('') + '</div>';
-    }
-
-    async function requestAuthQR(name, emuIndex) {
-      showToast('✨ Отправляем QR-код в ваш Телеграм-чат!');
-      try {
-        await fetch(API_URL + '/api/request_qr', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name: name, emulator_index: emuIndex })
-        });
-      } catch(e) {}
     }
 
     function renderCreate() {
@@ -566,26 +396,14 @@
       const auth_type = document.querySelector('input[name="wAuthType"]:checked')?.value || 'qr';
 
       try {
-        const res = await fetch(API_URL + '/api/create_bot', {
+        await fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, proxy })
         });
-        const data = await res.json();
-        
-        if (!res.ok || !data.success) {
-          showToast('⚠️ ' + (data.error || 'Недостаточно средств на балансе!'));
-          if (data.require_topup) {
-            openPayModal();
-          }
-          return;
-        }
-      } catch(e) {
-        showToast('⚠️ Ошибка создания бота');
-        return;
-      }
+      } catch(e) {}
 
-      showToast('✨ Бот «' + name + '» успешно создан!');
+      showToast('Бот «' + name + '» успешно создан!');
       showTab('bots');
       await syncWithServer();
     }
@@ -614,7 +432,6 @@
     }
 
     function syncWithServer() {
-      if (!userLabel) return;
       fetch(API_URL + '/api/bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
         .then(d => {
@@ -647,65 +464,12 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      checkTermsModal();
       showTab('overview');
       setInterval(syncWithServer, 10000);
     });
 </script>
 
 
-
-
-  <!-- MODAL: LONG TERMS OF SERVICE & LEGAL DISCLAIMER -->
-  <div id="termsModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:99999; display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
-    <div style="background:#111622; border:1px solid #d4af37; border-radius:16px; max-width:540px; width:100%; max-height:85vh; display:flex; flex-direction:column; box-shadow:0 20px 50px rgba(0,0,0,0.8); overflow:hidden;">
-      
-      <div style="padding:18px 20px; border-bottom:1px solid #2a3142; background:#181c28; text-align:center;">
-        <h3 style="color:#d4af37; margin:0; font-size:1.2rem; display:flex; align-items:center; justify-content:center; gap:8px;">
-          📜 Пользовательское Соглашение & Правила Сервиса
-        </h3>
-        <p style="color:#94a3b8; font-size:0.78rem; margin:4px 0 0 0;">Пожалуйста, ознакомьтесь с условиями перед входом</p>
-      </div>
-
-      <div style="padding:20px; overflow-y:auto; color:#cbd5e1; font-size:0.85rem; line-height:1.6; flex:1;" id="termsScrollArea">
-        <h4 style="color:#fff; margin-top:0;">1. Общие положения</h4>
-        <p>1.1. Настоящее Пользовательское Соглашение регулирует порядок использования облачной платформы MAJORKA BOT (далее — «Сервис»), предназначенной для автоматизации коммуникаций, ответов на сообщения и управления магазинами на торговой площадке Авито (Avito.ru).</p>
-        <p>1.2. Проходя авторизацию или используя функции Сервиса, Пользователь выражает полное и безоговорочное согласие со всеми условиями настоящего Соглашения.</p>
-
-        <h4 style="color:#fff;">2. Условия использования эмуляторов и прокси</h4>
-        <p>2.1. Сервис предоставляет изолированные цифровые окружения (эмуляторы Android), имитирующие работу мобильных устройств.</p>
-        <p>2.2. Пользователь обязуется подключать только персональные прокси-серверы мобильного или резидентского типа (HTTP/SOCKS5). Запрещается использование публичных или заблокированных IP-адресов.</p>
-
-        <h4 style="color:#fff;">3. Конфиденциальность и безопасность</h4>
-        <p>3.1. Сервис использует защищенные алгоритмы шифрования данных. Авторизация на Авито осуществляется локально в инстансе виртуального устройства пользователя.</p>
-        <p>3.2. Администрация Сервиса не передает персональные данные и сессионные токены третьим лицам.</p>
-
-        <h4 style="color:#ef4444; margin-top:16px;">4. ⚖️ Ограничение Ответственности и Дисклеймер (ВАЖНО)</h4>
-        <div style="background:rgba(239, 68, 68, 0.1); border:1px solid #ef4444; padding:14px; border-radius:10px; color:#f87171; font-size:0.82rem; line-height:1.5; margin-bottom:12px;">
-          <b>4.1. Сервис MAJORKA BOT не является официальным или аффилированным продуктом платформы Авито (Avito.ru).</b><br><br>
-          <b>4.2. Пользователь принимает на себя ВСЕ риски</b>, связанные с использованием автоматизации и сторонних алгоритмов на платформе Авито. Администрация Сервиса, разработчики и владельцы <u>НЕ НЕСУТ ОТВЕТСТВЕННОСТИ</u> за любые блокировки аккаунтов Авито, теневые баны, отклонение объявлений, списание средств или любые другие санкции со стороны площадки Авито.<br><br>
-          <b>4.3. Сервис не гарантирует</b> бессбойную работу в случаях изменений алгоритмов Авито или блокировок прокси-провайдеров пользователя.
-        </div>
-
-        <h4 style="color:#fff;">5. Порядок расчетов</h4>
-        <p>5.1. Оплата подписки предоставляет право использования функционала автоответчика на срок 30 дней. Возврат средств после запуска эмулятора не предусмотрен.</p>
-      </div>
-
-      <div style="padding:16px 20px; border-top:1px solid #2a3142; background:#181c28;">
-        <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:14px;">
-          <input type="checkbox" id="chkAcceptTerms" style="margin-top:3px; transform:scale(1.2); cursor:pointer;" onchange="toggleAcceptBtn()">
-          <label for="chkAcceptTerms" style="color:#fff; font-size:0.82rem; font-weight:bold; cursor:pointer; line-height:1.3;">
-            Я прочитал(а) Пользовательское соглашение, полностью осознаю риски автоматизации и согласен(на) с условиями
-          </label>
-        </div>
-
-        <button id="btnAcceptTerms" onclick="confirmTerms()" disabled style="width:100%; background:#334155; border:none; color:#94a3b8; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:not-allowed; transition:all 0.3s ease;">
-          🔒 Прочтите и отметьте галочку для входа
-        </button>
-      </div>
-
-    </div>
-  </div>
 
 </body>
 </html>
