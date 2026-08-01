@@ -1,771 +1,711 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-
-<script>
-// --- PERMANENT TELEGRAM USER & BOT PERSISTENCE ENGINE ---
-(function initPermanentTelegramSession() {
-  let userId = 'default_user';
-  let userName = 'Пользователь';
-  
-  // 1. Detect Telegram WebApp user
-  if (window.Telegram && window.Telegram.WebApp) {
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.expand();
-    const user = tg.initDataUnsafe && tg.initDataUnsafe.user;
-    if (user) {
-      userId = user.id ? 'tg_' + user.id : (user.username || 'tg_user');
-      userName = user.username ? '@' + user.username : (user.first_name || 'Пользователь');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>MAJORKA BOT — Личный кабинет</title>
+  <script>
+    // Мгновенный сброс кэша Chrome и Telegram
+    if (!window.location.search.includes('v=9999')) {
+      window.location.replace(window.location.pathname + '?v=9999');
     }
-  }
+  </script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   
-  // 2. Fallback to URL parameters or localStorage
-  const urlParams = new URLSearchParams(window.location.search);
-  const loginParam = urlParams.get('login');
-  if (loginParam) {
-    userName = loginParam.startsWith('@') ? loginParam : '@' + loginParam;
-    userId = 'user_' + loginParam.replace(/[^a-zA-Z0-9_]/g, '');
-    localStorage.setItem('majorka_active_user_id', userId);
-    localStorage.setItem('majorka_active_user_name', userName);
-  } else {
-    const savedId = localStorage.getItem('majorka_active_user_id');
-    const savedName = localStorage.getItem('majorka_active_user_name');
-    if (savedId) userId = savedId;
-    if (savedName) userName = savedName;
-  }
-  
-  // 3. Set global USER context
-  window.CURRENT_USER_ID = userId;
-  window.CURRENT_USER_NAME = userName;
-  
-  // 4. Load permanent user-bound bots from localStorage
-  const storageKey = 'majorka_bots_' + userId;
-  const legacyBots = localStorage.getItem('majorka_bots_demo');
-  let userBots = [];
-  
-  try {
-    const stored = localStorage.getItem(storageKey);
-    if (stored) {
-      userBots = JSON.parse(stored);
-    } else if (legacyBots) {
-      userBots = JSON.parse(legacyBots);
-      localStorage.setItem(storageKey, JSON.stringify(userBots));
+  <style>
+    :root {
+      --bg: #0a0a0c; --bg-card: #141418; --border: rgba(201, 168, 76, 0.25);
+      --gold: #c9a84c; --gold-light: #e8c97a; --text: #f0ede6;
+      --text-muted: #908878; --green: #4caf50; --blue: #2196f3;
     }
-  } catch(e) {}
-  
-  window.BOTS = userBots;
-  
-  // Override save state function to save permanently under current user ID
-  window.saveBotsState = function() {
-    try {
-      localStorage.setItem('majorka_bots_' + window.CURRENT_USER_ID, JSON.stringify(window.BOTS));
-      localStorage.setItem('majorka_bots_demo', JSON.stringify(window.BOTS));
-    } catch(e) {}
-  };
-})();
-
-// Update deleteBot to use permanent save state
-function deleteBot(botId) {
-  if (confirm('Вы действительно хотите удалить этого бота?')) {
-    window.BOTS = window.BOTS.filter(b => b.id !== botId);
-    if (window.saveBotsState) window.saveBotsState();
-    renderBots();
-    renderSidebar();
-    renderOverview();
-    alert('Бот полностью удалён!');
-  }
-}
-</script>
-
-
-<script>
-// GLOBAL DASHBOARD ENGINE
-window.USER_BALANCE = parseInt(localStorage.getItem('majorka_user_balance') || '0');
-
-function updateBalanceUI() {
-  const elBal = document.getElementById('uBalanceDisplay');
-  if (elBal) {
-    elBal.innerHTML = `💰 БАЛАНС: <strong style="color:#c9a84c;font-size:14px">${window.USER_BALANCE.toLocaleString('ru-RU')} ₽</strong>`;
-  }
-}
-
-window.openOrder = function() {
-  const modal = document.getElementById('obg');
-  if (modal) {
-    modal.style.display = 'flex';
-    modal.classList.add('on');
-  }
-};
-
-window.closeOrder = function() {
-  const modal = document.getElementById('obg');
-  if (modal) {
-    modal.style.display = 'none';
-    modal.classList.remove('on');
-  }
-};
-
-window.confirmTopup = function() {
-  window.USER_BALANCE += 6490;
-  localStorage.setItem('majorka_user_balance', window.USER_BALANCE);
-  updateBalanceUI();
-  window.closeOrder();
-  alert('🎉 Баланс пополнен на 6 490 ₽! Теперь вы можете запустить бота.');
-};
-
-window.addEventListener('DOMContentLoaded', () => {
-  updateBalanceUI();
-  
-  // Auto-topup if return from successful payment URL
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('paid') === 'true' || params.get('topup')) {
-    window.USER_BALANCE += 6490;
-    localStorage.setItem('majorka_user_balance', window.USER_BALANCE);
-    updateBalanceUI();
-  }
-});
-</script>
-
-
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MAJORKA BOT — Личный кабинет</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
-// Auto-login if URL parameter exists
-window.addEventListener('DOMContentLoaded', () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const loginParam = urlParams.get('login');
-  if (loginParam) {
-    document.getElementById('loginInput').value = loginParam;
-    doLogin();
-  }
-});
-
-function deleteBot(botId) {
-  if (confirm('Вы действительно хотите удалить этого бота?')) {
-    BOTS = BOTS.filter(b => b.id !== botId);
-    try { if(window.saveBotsState) window.saveBotsState(); } catch(e){}
-    renderBots();
-    renderSidebar();
-    renderOverview();
-    alert('Бот полностью удалён!');
-  }
-} catch(e){}
-    renderBots();
-    renderSidebar();
-    alert('Бот успешно удалён!');
-  }
-}
-
-function openEditModal(botId) {
-  const b = BOTS.find(x => x.id === botId);
-  if (!b) return;
-  const newName = prompt('Новое название бота:', b.name);
-  if (newName && newName.trim()) {
-    b.name = newName.trim();
-    const newNiche = prompt('Ниша бизнеса:', b.niche || '');
-    if (newNiche !== null) b.niche = newNiche.trim();
-    try { if(window.saveBotsState) window.saveBotsState(); } catch(e){}
-    renderBots();
-    renderSidebar();
-    alert('Настройки бота обновлены!');
-  }
-}
-
-</script>
-<style>
-:root{
-  --g:#c9a84c;--gl:#e8c97a;--gd:rgba(201,168,76,.12);
-  --dk:#090909;--dk2:#0f0f0f;--dk3:#141414;--dk4:#1a1a1a;
-  --tx:#e0d8c8;--txm:#6a6050;--txs:#a09880;
-  --bd:1px solid rgba(201,168,76,.1);
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',sans-serif;background:var(--dk);color:var(--tx)}
-
-/* ──────── LANDING ──────── */
-.land{min-height:100vh;display:flex;flex-direction:column}
-
-
-
-.land-nav-links a{color:var(--txm);text-decoration:none;font-size:11px;letter-spacing:2px;text-transform:uppercase;transition:color .3s}
-.land-nav-links a:hover{color:var(--g)}
-.btn-signin{background:var(--g);color:#000;border:none;padding:10px 24px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s}
-.btn-signin:hover{background:var(--gl)}
-
-/* HERO */
-
-
-
-
-
-.ey{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:24px}
-
-.land-h1 em{font-style:normal;color:var(--g);display:block}
-
-
-.btn-primary{display:inline-flex;align-items:center;gap:10px;background:var(--g);color:#000;padding:16px 36px;font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s}
-.btn-primary:hover{background:var(--gl);transform:translateY(-2px);box-shadow:0 16px 40px rgba(201,168,76,.25)}
-.btn-secondary{display:inline-flex;align-items:center;gap:10px;background:transparent;color:var(--g);padding:16px 36px;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;border:1px solid rgba(201,168,76,.4);cursor:pointer;font-family:'Inter',sans-serif;transition:all .3s;text-decoration:none}
-.btn-secondary:hover{background:var(--gd)}
-
-
-
-
-/* FEATURES strip */
-
-.lf-icon{font-size:28px;margin-bottom:12px}
-.lf-title{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--g);margin-bottom:6px}
-.lf-text{font-size:12px;color:var(--txm);line-height:1.75}
-
-/* SCREENSHOTS SECTION */
-
-.ls-header{text-align:center;margin-bottom:60px}
-.ls-eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--g);margin-bottom:16px}
-.ls-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,4.5vw,56px);font-weight:300;color:#fff;line-height:1.1}
-.screens-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;max-width:1200px;margin:0 auto}
-.screen-img-wrap{position:relative;overflow:hidden;aspect-ratio:16/10;background:var(--dk2);cursor:pointer}
-.screen-img-wrap:first-child{grid-row:span 2;aspect-ratio:auto}
-.screen-img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease;display:block}
-.screen-img-wrap:hover .screen-img{transform:scale(1.04)}
-.screen-caption{position:absolute;bottom:0;left:0;right:0;padding:24px;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,transparent 100%)}
-.sc-tag{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g);margin-bottom:6px}
-.sc-title{font-family:'Cormorant Garamond',serif;font-size:20px;color:#fff}
-.sc-desc{font-size:12px;color:#a09080;margin-top:4px}
-
-/* CTA STRIP */
-
-.lcs-h2{font-family:'Cormorant Garamond',serif;font-size:clamp(32px,5vw,60px);font-weight:300;color:#fff;margin-bottom:16px}
-.lcs-sub{font-size:14px;color:var(--txm);margin-bottom:36px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.8}
-
-/* FOOTER */
-
-.lf-logo{font-family:'Cormorant Garamond',serif;font-size:17px;letter-spacing:3px;color:var(--g);text-transform:uppercase}
-.lf-copy{font-size:11px;color:var(--txm)}
-
-  renderSbBots();
-  nav('overview');
-}
-
-function doLogout(){
-  USER = null; BOTS = [];
-  document.getElementById('app').classList.remove('on');
-  document.getElementById('landing').style.display='block';
-  document.getElementById('loginInput').value='';
-}
-
-function saveBots(){
-  if(USER) localStorage.setItem('majorka_bots_'+USER.id, JSON.stringify(BOTS));
-}
-
-function renderSbBots(){
-  const el = document.getElementById('sbBotList');
-  if(!BOTS.length){ el.innerHTML='<div style="padding:10px 24px;font-size:11px;color:var(--txm)">Ботов пока нет</div>'; return; }
-  el.innerHTML = BOTS.map(b=>`
-    <div class="sb-bot-item" onclick="openBot('${b.id}')">
-      <div class="sb-bot-name">${b.name}</div>
-      <div class="sb-bot-status">
-        <div class="dot dot-green"></div>
-        <span class="sb-bot-status-txt">${b.status==="active"?"Активен":"Ожидает оплаты"}</span>
-      </div>
-    </div>`).join('');
-}
-
-// ══════════════ NAVIGATION ══════════════
-function nav(screen){
-  document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'));
-  const el = document.getElementById('nav-'+screen);
-  if(el) el.classList.add('active');
-  const titles={overview:'Обзор',bots:'Мои боты',create:'Создать бота',analytics:'Аналитика'};
-  document.getElementById('topTitle').textContent = titles[screen]||screen;
-  const c = document.getElementById('mainContent');
-  c.className='content fade-in';
-  if(screen==='overview') renderOverview();
-  else if(screen==='bots') renderBots();
-  else if(screen==='create') { wizStep=1; wizData={}; renderWiz(); }
-  else if(screen==='analytics') renderAnalytics();
-}
-
-function openBot(id){
-  const b = BOTS.find(x=>x.id===id);
-  if(!b) return;
-  document.getElementById('topTitle').textContent = b.name;
-  const c = document.getElementById('mainContent');
-  c.className='content fade-in';
-  c.innerHTML = renderBotDetail(b);
-  renderChatList(b);
-}
-
-// ══════════════ OVERVIEW ══════════════
-function renderOverview(){
-  const tot = arr=>BOTS.reduce((s,b)=>s+(b[arr]||0),0);
-  const td=tot('dialogs_today'), tw=tot('dialogs_week'), tm=tot('dialogs_month'), tc=tot('conversions');
-  const saved = Math.round(tm*1.5/60);
-  const hasBots = BOTS.length>0;
-
-  document.getElementById('mainContent').innerHTML=`
-    ${hasBots?`<div class="notice">&#128276; Ваши боты активны. Сегодня обработано <strong style="color:var(--g)">${td} диалогов</strong>.</div>`:''}
-    <div class="cards-row">
-      <div class="card2">
-        <div class="card2-label">Диалогов сегодня</div>
-        <div class="${hasBots?'card2-val':'card2-zero'}">${td}</div>
-        <div class="card2-sub">Обработано ботами</div>
-        ${hasBots?'<div class="card2-trend-up">&#8593; Данные в реальном времени</div>':'<div class="card2-empty">Подключите первого бота</div>'}
-      </div>
-      <div class="card2">
-        <div class="card2-label">За неделю</div>
-        <div class="${hasBots?'card2-val':'card2-zero'}">${tw}</div>
-        <div class="card2-sub">Диалогов за 7 дней</div>
-        ${hasBots?'':'<div class="card2-empty">Данных пока нет</div>'}
-      </div>
-      <div class="card2">
-        <div class="card2-label">Конверсии</div>
-        <div class="${hasBots?'card2-val':'card2-zero'}">${tc}</div>
-        <div class="card2-sub">Заявок за месяц</div>
-        ${hasBots?'':'<div class="card2-empty">Данных пока нет</div>'}
-      </div>
-      <div class="card2">
-        <div class="card2-label">Сэкономлено</div>
-        <div class="${hasBots?'card2-val':'card2-zero'}">${hasBots?saved+'ч':'—'}</div>
-        <div class="card2-sub">Вашего времени за месяц</div>
-        ${hasBots?`<div class="card2-trend-up">&#9203; ${tm*1.5} мин</div>`:'<div class="card2-empty">Данных пока нет</div>'}
-      </div>
-    </div>
-    <div class="chart-grid">
-      <div class="chart-box">
-        <div class="chart-title">Диалоги за 7 дней</div>
-        ${hasBots?'<div class="chart-wrap"><canvas id="lineChart"></canvas></div>':
-          '<div class="chart-empty"><div class="chart-empty-icon">📈</div><div class="chart-empty-txt">Данные появятся после запуска бота</div></div>'}
-      </div>
-      <div class="chart-box">
-        <div class="chart-title">Активность по часам</div>
-        ${hasBots?'<div class="chart-wrap"><canvas id="barChart"></canvas></div>':
-          '<div class="chart-empty"><div class="chart-empty-icon">⏰</div><div class="chart-empty-txt">Данные появятся после запуска бота</div></div>'}
-      </div>
-    </div>
-    <div class="table-box">
-      <div class="table-head">
-        <div class="table-title">Мои боты</div>
-        <button class="btn-next" onclick="nav('create')" style="padding:8px 18px;font-size:10px">+ Создать бота</button>
-      </div>
-      ${!BOTS.length?`<div class="empty-state">
-        <div class="es-icon">🤖</div>
-        <div class="es-title">Ботов пока нет</div>
-        <div class="es-sub">Создайте первого бота и начните получать клиентов автоматически</div>
-        <button class="btn-next" onclick="nav('create')">+ Создать первого бота</button>
-      </div>`:`
-      <table>
-        <tr><th>Бот</th><th>Аккаунт</th><th>Статус</th><th>Сегодня</th><th>Неделя</th><th>Конверсии</th></tr>
-        ${BOTS.map(b=>`<tr onclick="openBot('${b.id}')">
-          <td class="td-name">${b.name}</td>
-          <td>${b.phone||'—'}</td>
-          <td>${b.status==="active" ? '<span class="sp sp-green"><span class="dot dot-green"></span>Активен</span>' : '<span class="sp sp-yellow"><span class="dot dot-yellow"></span>Ожидает оплаты (6 490 ₽)</span>'}</td>
-          <td style="color:var(--g)">${b.dialogs_today||0}</td>
-          <td>${b.dialogs_week||0}</td>
-          <td>${b.conversions||0}</td>
-        </tr>`).join('')}
-      </table>`}
-    </div>
-  `;
-  if(hasBots) setTimeout(drawOverviewCharts, 50);
-}
-
-function drawOverviewCharts(){
-  const days=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-  const gOpts=(max)=>({responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#7a7060',font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{color:'#7a7060',font:{size:10}},min:0,max:max||undefined}}});
-  const lc=document.getElementById('lineChart');
-  const bc=document.getElementById('barChart');
-  if(lc) new Chart(lc,{type:'line',data:{labels:days,datasets:[{data:BOTS.map(()=>0).concat([0,0,0,0,0,0,0]).slice(0,7),borderColor:'#c9a84c',backgroundColor:'rgba(201,168,76,.08)',tension:.4,fill:true,pointBackgroundColor:'#c9a84c',pointRadius:4}]},options:gOpts()});
-  const hrs=['9','10','11','12','13','14','15','16','17','18','19','20'];
-  if(bc) new Chart(bc,{type:'bar',data:{labels:hrs,datasets:[{data:new Array(12).fill(0),backgroundColor:'rgba(201,168,76,.3)',borderColor:'rgba(201,168,76,.6)',borderWidth:1}]},options:gOpts()});
-}
-
-// ══════════════ BOT LIST ══════════════
-function renderBots(){
-  document.getElementById('mainContent').innerHTML = !BOTS.length?`
-    <div class="empty-state" style="padding:80px 20px">
-      <div class="es-icon">🤖</div>
-      <div class="es-title">Ботов пока нет</div>
-      <div class="es-sub">Создайте первого бота — он начнёт отвечать вашим клиентам на Авито автоматически</div>
-      <button class="btn-next" onclick="nav('create')">+ Создать первого бота</button>
-    </div>
-  `:`
-    <div class="section-hd">
-      <div><div class="section-title">Мои Авито-боты</div><div class="section-sub">${BOTS.length} бот(ов)</div></div>
-      <button class="btn-next" onclick="nav('create')">+ Создать нового</button>
-    </div>
-    ${BOTS.map(b=>`
-      <div style="background:var(--dk2);border:var(--bd);padding:22px;margin-bottom:10px;cursor:pointer;transition:border-color .2s" onmouseenter="this.style.borderColor='rgba(201,168,76,.3)'" onmouseleave="this.style.borderColor='rgba(201,168,76,.1)'" onclick="openBot('${b.id}')">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
-          <div style="display:flex;align-items:center;gap:12px">
-            <div style="width:40px;height:40px;background:var(--gd);border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-size:18px">🤖</div>
-            <div>
-              <div style="font-family:'Cormorant Garamond',serif;font-size:18px;color:#fff">${b.name}</div>
-              <div style="font-size:10px;color:var(--txm);margin-top:2px">${b.niche} · создан ${b.created}</div>
-            </div>
-          </div>
-          ${b.status==="active" ? '<span class="sp sp-green"><span class="dot dot-green"></span>Активен</span>' : '<span class="sp sp-yellow"><span class="dot dot-yellow"></span>Ожидает оплаты (6 490 ₽)</span>'}
-        </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding-top:14px;border-top:var(--bd)">
-          <div><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txm);margin-bottom:3px">Сегодня</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--g)">${b.dialogs_today||0}</div></div>
-          <div><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txm);margin-bottom:3px">Неделя</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--g)">${b.dialogs_week||0}</div></div>
-          <div><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txm);margin-bottom:3px">Месяц</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--g)">${b.dialogs_month||0}</div></div>
-          <div><div style="font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--txm);margin-bottom:3px">Конверсии</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--g)">${b.conversions||0}</div></div>
-        </div>
-      </div>
-    `).join('')}
-  `;
-}
-
-// ══════════════ BOT DETAIL ══════════════
-function renderBotDetail(b){
-  return `
-    <div class="bot-hd">
-      <div class="bot-info">
-        <div class="bot-av">🤖</div>
-        <div><div class="bot-name">${b.name}</div><div class="bot-niche">${b.niche} · ${b.phone||'—'}</div></div>
-      </div>
-      <div class="bot-actions" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        ${b.status !== 'active' ? `<a href="https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119556996975&quickpay-form=shop&targets=Оплата%20MAJORKA%20BOT&sum=6490&paymentType=SB" target="_blank" class="btn-next" style="background:#e53935;color:#fff;padding:8px 14px;font-size:10px;text-decoration:none;display:inline-block">💳 Оплатить 6 490 ₽</a>` : ''}
-        <button class="btn-stop" style="background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--g);padding:6px 12px;font-size:11px;cursor:pointer" onclick="openEditModal('${b.id}')">✏️ Изм.</button>
-        <button class="btn-stop" style="background:rgba(229,57,53,.15);border:1px solid rgba(229,57,53,.4);color:#e53935;padding:6px 12px;font-size:11px;cursor:pointer" onclick="deleteBot('${b.id}')">🗑️ Удалить</button>
-
-        <button class="btn-restart">&#8635; Restart</button>
-        <button class="btn-cfg">&#9881; Настройки</button>
-        <button class="btn-next" onclick="nav('bots')" style="padding:9px 18px;font-size:10px">&#8592; Все боты</button>
-      </div>
-    </div>
-    <div class="cards-row">
-      <div class="card2"><div class="card2-label">Сегодня</div><div class="${b.dialogs_today?'card2-val':'card2-zero'}">${b.dialogs_today||0}</div><div class="card2-sub">Диалогов</div></div>
-      <div class="card2"><div class="card2-label">Неделя</div><div class="${b.dialogs_week?'card2-val':'card2-zero'}">${b.dialogs_week||0}</div><div class="card2-sub">Диалогов</div></div>
-      <div class="card2"><div class="card2-label">Месяц</div><div class="${b.dialogs_month?'card2-val':'card2-zero'}">${b.dialogs_month||0}</div><div class="card2-sub">Диалогов</div></div>
-      <div class="card2"><div class="card2-label">Конверсии</div><div class="${b.conversions?'card2-val':'card2-zero'}">${b.conversions||0}</div><div class="card2-sub">Заявок</div></div>
-    </div>
-    <div class="table-box">
-      <div class="table-head"><div class="table-title">Диалоги с клиентами</div></div>
-      <div class="chats-panel">
-        <div class="chats-list" id="chatsList">
-          <div class="chat-empty"><div class="chat-empty-icon">💬</div><div style="font-size:11px">Диалогов пока нет</div></div>
-        </div>
-        <div class="chat-msgs" id="chatMsgs">
-          <div class="chat-empty"><div class="chat-empty-icon">📭</div><div style="font-size:11px">Выберите диалог</div></div>
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function renderChatList(b){ /* chats will come from API */ }
-
-function confirmStop(id){
-  if(confirm('Остановить бота? Он перестанет отвечать клиентам.')){
-    BOTS = BOTS.filter(x=>x.id!==id);
-    saveBots(); renderSbBots(); nav('bots');
-  }
-}
-
-// ══════════════ CREATE WIZARD ══════════════
-function renderWiz(){
-  const labels=['Ниша','Аккаунт','Авторизация','Скрипт','Запуск'];
-  const steps = labels.map((l,i)=>`
-    <div class="wiz-step ${i+1<wizStep?'done':''} ${i+1===wizStep?'act':''}">
-      <div class="wiz-num">${i+1<wizStep?'✓':i+1}</div>
-      <div class="wiz-lbl">${l}</div>
-    </div>`).join('');
-
-  let body='';
-  if(wizStep===1) body=`
-    <div class="wiz-title">Расскажите о бизнесе</div>
-    <div class="wiz-sub">Автопилот составит персональный скрипт продаж под вашу нишу</div>
-    <label class="wiz-label">Ваша ниша на Авито *</label>
-    <input class="wiz-input" id="w1" placeholder="Например: авто-запчасти, мебель, одежда..." value="${wizData.niche||''}">
-    <label class="wiz-label">Ссылка на объявление (необязательно)</label>
-    <input class="wiz-input" id="w2" placeholder="https://www.avito.ru/..." value="${wizData.link||''}">
-    <label class="wiz-label">Ваши главные преимущества</label>
-    <textarea class="wiz-textarea" id="w3" placeholder="Например: быстрая доставка, гарантия 1 год, только оригиналы...">${wizData.advantages||''}</textarea>
-    <div class="wiz-foot"><div></div><button class="btn-next" onclick="wNext()">Далее &#8594;</button></div>
-  `;
-  else if(wizStep===2) body=`
-    <div class="wiz-title">Аккаунт Авито</div>
-    <div class="wiz-sub">Укажите данные аккаунта, который будет вести переписку</div>
-    <label class="wiz-label">Название (для вашего удобства) *</label>
-    <input class="wiz-input" id="w4" placeholder="Например: Запчасти Авто #1" value="${wizData.accname||''}">
-    <label class="wiz-label">Номер телефона аккаунта Авито *</label>
-    <input class="wiz-input" id="w5" placeholder="+7 900 000-00-00" value="${wizData.phone||''}">
-    <div class="wiz-foot"><button class="btn-prev" onclick="wPrev()">&#8592; Назад</button><button class="btn-next" onclick="wNext()">Далее &#8594;</button></div>
-  `;
-  else if(wizStep===3) body=`
-    <div class="wiz-title">Авторизация в Авито</div>
-    <div class="wiz-sub">Выберите способ входа в аккаунт на эмуляторе</div>
-    <div class="method-tabs">
-      <div class="mtab active" id="tabQR" onclick="switchM('qr')">📷 QR-код</div>
-      <div class="mtab" id="tabSMS" onclick="switchM('sms')">📱 SMS-код</div>
-    </div>
-    <div id="mQR">
-      <div class="qr-box">
-        <div class="qr-ph">📷</div>
-        <div class="qr-hint">Откройте приложение Авито<br>Профиль → Настройки → Устройства → Добавить<br>Наведите камеру на QR-код</div>
-      </div>
-      <button class="btn-next" style="width:100%" onclick="wizData.auth=true;wNext()">&#10003; Авторизация выполнена</button>
-    </div>
-    <div id="mSMS" style="display:none">
-      <input class="wiz-input" id="w6" placeholder="Введите SMS-код из сообщения Авито">
-      <button class="btn-next" style="width:100%" onclick="wizData.auth=true;wNext()">Подтвердить &#8594;</button>
-    </div>
-    <div class="wiz-foot" style="margin-top:14px"><button class="btn-prev" onclick="wPrev()">&#8592; Назад</button><div></div></div>
-  `;
-  else if(wizStep===4) body=`
-    <div class="wiz-title">Скрипт продаж</div>
-    <div class="wiz-sub">Автопилот составил скрипт на основе вашей ниши. Можете дополнить.</div>
-    <div class="spin-box">
-      <div class="spin-lbl">🤖 Сгенерированный SPIN-скрипт</div>
-      <div class="spin-txt">
-        <strong style="color:var(--g)">Приветствие:</strong> «Добрый день! Спасибо за интерес.»<br><br>
-        <strong style="color:var(--g)">Квалификация:</strong> Уточняем модель / параметры / объём заказа для точного подбора.<br><br>
-        <strong style="color:var(--g)">Презентация:</strong> Указываем наличие, цену, гарантию и срок доставки.<br><br>
-        <strong style="color:var(--g)">Закрытие:</strong> «Можем оформить сегодня. Доставка в день заказа. Удобно?»<br><br>
-        Ниша: <strong style="color:var(--g)">${wizData.niche||'—'}</strong>
-      </div>
-    </div>
-    <label class="wiz-label">Дополнительные инструкции</label>
-    <textarea class="wiz-textarea" id="w7" placeholder="Например: предлагать рассрочку, не называть конкурентов...">${wizData.extra||''}</textarea>
-    <div class="wiz-foot"><button class="btn-prev" onclick="wPrev()">&#8592; Назад</button><button class="btn-next" onclick="wNext()">Запустить бота 🚀</button></div>
-  `;
-  else if(wizStep===5){
-    const isPaidBot = wizData._isPaidFromBalance || BOTS.some(b => b.name === wizData.accname && b.status === 'active');
-    body=`
-    <div class="success-wiz" style="text-align:center;padding:30px 20px">
-      <div style="font-size:64px;margin-bottom:16px;line-height:1">✅</div>
-      <div class="sw-title" style="font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--g);margin-bottom:12px">Спасибо за выбор компании MAJORKA!</div>
-      <div class="sw-txt" style="font-size:14px;color:#d0c8b8;max-width:520px;margin:0 auto 24px;line-height:1.7">
-        Ваш Авито-бот <strong style="color:#fff">${wizData.accname||'Новый бот'}</strong> успешно создан и запущен в работу!<br>
-        С вашего баланса списано <strong style="color:var(--g)">6 490 ₽</strong>.<br><br>
-        ИИ-продавец уже активен и готов мгновенно отвечать вашим клиентам 24/7.
-      </div>
-      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-        <button class="btn-cta" onclick="nav('bots')" style="padding:12px 28px;background:linear-gradient(135deg,#c9a84c 0%,#e8c97a 100%);color:#000;font-weight:700;border:none;border-radius:6px;cursor:pointer">📱 Мои боты</button>
-        <button class="btn-prev" onclick="nav('overview')" style="padding:12px 24px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:6px;cursor:pointer">На главную панель</button>
-      </div>
-    </div>
-  `;
-  }
-  if(wizStep===4){
-    wizData.extra=document.getElementById('w7')?.value.trim();
-    let botStatus = 'pending';
-    if (USER_BALANCE >= 6490) {
-      USER_BALANCE -= 6490;
-      localStorage.setItem('majorka_user_balance', USER_BALANCE);
-      botStatus = 'active';
-      wizData._isPaidFromBalance = true;
-      updateBalanceUI();
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+    body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 90px; }
+    .serif { font-family: 'Cormorant Garamond', serif; }
     
-    const newBot={
-      id:'b'+Date.now(), name:wizData.accname, niche:wizData.niche,
-      phone:wizData.phone, status: botStatus,
-      dialogs_today:0, dialogs_week:0, dialogs_month:0, conversions:0,
-      created:new Date().toLocaleDateString('ru-RU')
-    };
-    BOTS.push(newBot);
-    saveBots();
-    renderSbBots();
-  }
-  wizStep=Math.min(wizStep+1,5);
-  renderWiz();
-}
-function wPrev(){ wizStep=Math.max(wizStep-1,1); renderWiz(); }
-function switchM(m){
-  document.getElementById('mQR').style.display=m==='qr'?'block':'none';
-  document.getElementById('mSMS').style.display=m==='sms'?'block':'none';
-  document.getElementById('tabQR').className='mtab'+(m==='qr'?' active':'');
-  document.getElementById('tabSMS').className='mtab'+(m==='sms'?' active':'');
-}
-
-// ══════════════ ANALYTICS ══════════════
-function renderAnalytics(){
-  const hasBots = BOTS.length>0;
-  document.getElementById('mainContent').innerHTML=`
-    <div class="section-hd">
-      <div><div class="section-title">Аналитика</div><div class="section-sub">Отчёты по всем ботам</div></div>
-    </div>
-    <div class="period-tabs">
-      <div class="ptab active" onclick="setPeriod(this)">Сегодня</div>
-      <div class="ptab" onclick="setPeriod(this)">Вчера</div>
-      <div class="ptab" onclick="setPeriod(this)">Неделя</div>
-      <div class="ptab" onclick="setPeriod(this)">Месяц</div>
-    </div>
-    <div class="cards-row">
-      <div class="card2"><div class="card2-label">Диалогов</div><div class="${hasBots?'card2-val':'card2-zero'}">${BOTS.reduce((s,b)=>s+(b.dialogs_today||0),0)}</div><div class="card2-sub">За выбранный период</div></div>
-      <div class="card2"><div class="card2-label">Ответов бота</div><div class="${hasBots?'card2-val':'card2-zero'}">${BOTS.reduce((s,b)=>s+(b.dialogs_today||0),0)}</div><div class="card2-sub">Автоматических</div></div>
-      <div class="card2"><div class="card2-label">Конверсии</div><div class="${hasBots?'card2-val':'card2-zero'}">${BOTS.reduce((s,b)=>s+(b.conversions||0),0)}</div><div class="card2-sub">Заявок/продаж</div></div>
-      <div class="card2"><div class="card2-label">Сэкономлено</div><div class="${hasBots?'card2-val':'card2-zero'}">${hasBots?Math.round(BOTS.reduce((s,b)=>s+(b.dialogs_month||0),0)*1.5/60)+'ч':'—'}</div><div class="card2-sub">Вашего времени</div></div>
-    </div>
-    ${!hasBots?`<div class="empty-state">
-      <div class="es-icon">📊</div>
-      <div class="es-title">Данных пока нет</div>
-      <div class="es-sub">Создайте первого бота — данные появятся автоматически</div>
-      <button class="btn-next" onclick="nav('create')">+ Создать бота</button>
-    </div>`:`
-    <div class="chart-grid">
-      <div class="chart-box">
-        <div class="chart-title">Диалоги по дням</div>
-        <div class="chart-empty"><div class="chart-empty-icon">📈</div><div class="chart-empty-txt">Данные накапливаются...</div></div>
-      </div>
-      <div class="chart-box">
-        <div class="chart-title">Распределение по ботам</div>
-        <div class="chart-empty"><div class="chart-empty-icon">🤖</div><div class="chart-empty-txt">Данные накапливаются...</div></div>
-      </div>
-    </div>
-    <div class="table-box">
-      <div class="table-head"><div class="table-title">Детальный отчёт</div></div>
-      <table>
-        <tr><th>Бот</th><th>Диалоги</th><th>Конверсии</th><th>% Конверсии</th><th>Ср. ответ</th></tr>
-        ${BOTS.map(b=>`<tr onclick="openBot('${b.id}')">
-          <td class="td-name">${b.name}</td>
-          <td style="color:var(--g)">${b.dialogs_today||0}</td>
-          <td>${b.conversions||0}</td>
-          <td>—</td>
-          <td>~3 сек</td>
-        </tr>`).join('')}
-      </table>
-    </div>`}
-  `;
-}
-
-function setPeriod(el){
-  document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// Auto-login if URL parameter exists
-window.addEventListener('DOMContentLoaded', () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const loginParam = urlParams.get('login');
-  if (loginParam) {
-    document.getElementById('loginInput').value = loginParam;
-    doLogin();
-  }
-});
-
-function deleteBot(botId) {
-  if (confirm('Вы действительно хотите удалить этого бота?')) {
-    BOTS = BOTS.filter(b => b.id !== botId);
-    try { if(window.saveBotsState) window.saveBotsState(); } catch(e){}
-    renderBots();
-    renderSidebar();
-    renderOverview();
-    alert('Бот полностью удалён!');
-  }
-} catch(e){}
-    renderBots();
-    renderSidebar();
-    alert('Бот успешно удалён!');
-  }
-}
-
-function openEditModal(botId) {
-  const b = BOTS.find(x => x.id === botId);
-  if (!b) return;
-  const newName = prompt('Новое название бота:', b.name);
-  if (newName && newName.trim()) {
-    b.name = newName.trim();
-    const newNiche = prompt('Ниша бизнеса:', b.niche || '');
-    if (newNiche !== null) b.niche = newNiche.trim();
-    try { if(window.saveBotsState) window.saveBotsState(); } catch(e){}
-    renderBots();
-    renderSidebar();
-    alert('Настройки бота обновлены!');
-  }
-}
-
-</script>
-
-<!-- INLINE PAYMENT MODAL IN DASHBOARD -->
-<!-- INLINE PAYMENT MODAL FOR DASHBOARD -->
-<!-- INLINE PAYMENT MODAL IN DASHBOARD -->
-<div class="obg" id="obg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;align-items:center;justify-content:center;padding:16px">
-  <div class="obox" style="background:#141416;border:1px solid rgba(201,168,76,0.4);border-radius:16px;max-width:480px;width:100%;padding:32px;position:relative;color:#fff">
-    <button class="ocl" onclick="window.closeOrder()" style="position:absolute;top:16px;right:16px;background:none;border:none;color:#aaa;font-size:22px;cursor:pointer">✕</button>
+    .header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
+    .header-right { display: flex; align-items: center; gap: 10px; }
+    .balance-badge { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.35); padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 700; color: var(--gold); }
+    .btn-gold { background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%); color: #000; border: none; padding: 8px 16px; border-radius: 16px; font-weight: 800; font-size: 11px; cursor: pointer; }
     
-    <div id="oForm">
-      <div style="display:inline-block;background:rgba(201,168,76,0.15);color:#c9a84c;font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 10px;border-radius:12px;margin-bottom:12px">💰 Пополнение баланса</div>
-      <div style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#fff;margin-bottom:4px">Пополнение на 6 490 ₽</div>
-      <div style="font-size:12px;color:#a09080;margin-bottom:20px">Хватает для запуска 1 Авито-бота на 1 месяц</div>
-      
-      <!-- SBP Direct Transfer Option -->
-      <div style="background:linear-gradient(135deg, rgba(201,168,76,0.15) 0%, rgba(255,255,255,0.02) 100%);border:1px solid rgba(201,168,76,0.4);border-radius:12px;padding:18px;margin-bottom:20px;text-align:left">
-        <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#c9a84c;margin-bottom:10px">⚡ Перевод по СБП (0% комиссии):</div>
-        
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.08);font-size:13px">
-          <span style="color:#a09080">Номер телефона СБП:</span>
-          <strong style="color:#fff;font-size:15px">+7 (923) 451-10-89</strong>
-        </div>
-        
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;font-size:13px">
-          <span style="color:#a09080">Банк получателя:</span>
-          <strong style="color:#ffe082">🟡 Т-Банк (Тинькофф)</strong>
-        </div>
-      </div>
+    .subheader { text-align: center; padding: 20px 16px 10px; }
+    .subheader h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); letter-spacing: 3px; }
+    .subheader p { font-size: 11px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+    
+    .top-nav { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; }
+    .nav-btn { padding: 8px 14px; border-radius: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+    .nav-btn.active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
+    
+    .content { padding: 16px; max-width: 600px; margin: 0 auto; }
+    
+    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+    .stat-card { background: var(--bg-card); border: 1px solid var(--border); padding: 16px; border-radius: 12px; }
+    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+    .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--gold); }
+    .stat-value.green { color: var(--green); }
+    
+    .main-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 20px; }
+    .main-block .icon { font-size: 40px; margin-bottom: 12px; }
+    .main-block h2 { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: #fff; margin-bottom: 10px; }
+    .main-block p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btn-primary { padding: 14px; background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%); color: #000; border: none; font-weight: 800; font-size: 12px; border-radius: 8px; cursor: pointer; text-align: center; text-decoration: none; display: inline-block; width: 100%; }
+    .btn-secondary { padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); font-weight: 600; font-size: 12px; border-radius: 8px; cursor: pointer; text-align: center; width: 100%; }
+    
+    .payment-block { background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.02) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+    .payment-title { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
+    
+    .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
+    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #fff; margin-bottom: 16px; }
+    
+    .chart { display: flex; justify-content: space-between; align-items: flex-end; height: 120px; padding: 10px 0; }
+    .chart-bar { text-align: center; flex: 1; }
+    .chart-bar div:first-child { background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%); width: 30px; height: var(--h); border-radius: 4px; margin: 0 auto; transition: height 0.3s; }
+    .chart-bar div:last-child { font-size: 10px; color: var(--text-muted); margin-top: 6px; }
 
-      <button type="button" onclick="window.confirmTopup()" style="width:100%;background:linear-gradient(135deg,#c9a84c 0%,#e8c97a 100%);color:#000;border:none;padding:16px;font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;border-radius:10px;cursor:pointer;margin-bottom:12px">✅ Подтвердить пополнение 6 490 ₽</button>
-      
-      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" onsubmit="setTimeout(() => window.confirmTopup(), 1000)">
-        <input type="hidden" name="receiver" value="4100119556996975">
-        <input type="hidden" name="quickpay-form" value="shop">
-        <input type="hidden" name="targets" value="Пополнение баланса MAJORKA BOT (6490 руб)">
-        <input type="hidden" name="paymentType" value="AC">
-        <input type="hidden" name="sum" value="6490">
-        <button type="submit" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#fff;padding:12px;font-size:11px;font-weight:600;border-radius:10px;cursor:pointer">💳 Оплатить картой через ЮMoney</button>
-      </form>
+    /* ROI */
+    .roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+    .roi-item-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
+    .roi-item-value { font-size: 24px; font-weight: 700; color: #fff; margin-top: 4px; }
+    .roi-banner { background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); border-radius: 8px; padding: 12px; text-align: center; font-size: 12px; color: var(--green); }
+    
+    /* Рефералка */
+    .ref-block { background: linear-gradient(135deg, rgba(201,168,76,0.2) 0%, rgba(201,168,76,0.05) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 20px; }
+    .ref-icon { font-size: 40px; margin-bottom: 12px; }
+    .ref-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold); margin-bottom: 8px; }
+    .ref-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+    .ref-link { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .ref-link code { font-size: 12px; color: var(--gold); word-break: break-all; }
+    .ref-stats { display: flex; justify-content: space-around; padding-top: 16px; border-top: 1px solid var(--border); }
+    .ref-stat-value { font-size: 20px; font-weight: 700; color: #fff; }
+    .ref-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
+    .form-input { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 13px; }
+    
+    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
+    .bottom-nav-item { text-align: center; cursor: pointer; flex: 1; }
+    .bottom-nav-icon { font-size: 20px; margin-bottom: 4px; }
+    .bottom-nav-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+    .bottom-nav-item.active .bottom-nav-label { color: var(--gold); }
+    
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; align-items: center; justify-content: center; padding: 16px; }
+    .modal.active { display: flex; }
+    .modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; max-width: 440px; width: 100%; padding: 24px; position: relative; }
+    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #888; font-size: 20px; cursor: pointer; }
+  
+    input[type="text"], input[type="number"], select, textarea {
+      width: 100% !important;
+      background: #181c28 !important;
+      border: 1px solid #2a3142 !important;
+      color: #ffffff !important;
+      font-size: 15px !important;
+      padding: 12px 14px !important;
+      border-radius: 8px !important;
+      box-sizing: border-box !important;
+      outline: none !important;
+      -webkit-user-select: text !important;
+      user-select: text !important;
+      pointer-events: auto !important;
+      opacity: 1 !important;
+    }
+    input[type="text"]:focus, select:focus {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 8px rgba(212,175,55,0.3) !important;
+    }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="logo">MAJORKA BOT</div>
+    <div class="header-right">
+      <div class="balance-badge">💰 <span id="balance">0 ₽</span></div>
+      <button class="btn-gold" onclick="openPayModal()">ПОПОЛНИТЬ</button>
     </div>
   </div>
-</div>
-</div>
 
-<script>
-function openOrder() { document.getElementById('obg').classList.add('on'); }
-function closeOrder() { document.getElementById('obg').classList.remove('on'); }
+  <div class="subheader">
+    <h1>MAJORKA BOT</h1>
+    <p>Автопилот продаж на Авито</p>
+  </div>
 
-function switchPayTab(tab) {
-  const isSbp = tab === 'sbpPhone';
-  document.getElementById('boxSbpPhone').style.display = isSbp ? 'block' : 'none';
-  document.getElementById('boxCardYoo').style.display = isSbp ? 'none' : 'block';
-  
-  const tabSbp = document.getElementById('tabSbpPhone');
-  const tabCard = document.getElementById('tabCardYoo');
-  
-  if (isSbp) {
-    tabSbp.style.background = 'rgba(201,168,76,0.15)';
-    tabSbp.style.borderColor = 'rgba(201,168,76,0.4)';
-    tabSbp.style.color = 'var(--g)';
-    tabCard.style.background = 'rgba(255,255,255,0.03)';
-    tabCard.style.borderColor = 'rgba(255,255,255,0.1)';
-    tabCard.style.color = '#a09080';
-  } else {
-    tabCard.style.background = 'rgba(201,168,76,0.15)';
-    tabCard.style.borderColor = 'rgba(201,168,76,0.4)';
-    tabCard.style.color = 'var(--g)';
-    tabSbp.style.background = 'rgba(255,255,255,0.03)';
-    tabSbp.style.borderColor = 'rgba(255,255,255,0.1)';
-    tabSbp.style.color = '#a09080';
-  }
-}
+  <div class="top-nav">
+    <button class="nav-btn active" id="tab-btn-overview" onclick="showTab('overview')">📊 Обзор</button>
+    <button class="nav-btn" id="tab-btn-bots" onclick="showTab('bots')">🤖 Мои боты</button>
+    <button class="nav-btn" id="tab-btn-create" onclick="showTab('create')">➕ Создать</button>
+    <button class="nav-btn" id="tab-btn-dialogs" onclick="showTab('dialogs')">💬 Диалоги</button>
+    <button class="nav-btn" id="tab-btn-support" onclick="showTab('support')">⭐ Поддержка</button>
+  </div>
 
-function confirmTopup() {
-  USER_BALANCE += 6490;
-  localStorage.setItem('majorka_user_balance', USER_BALANCE);
-  updateBalanceUI();
-  closeOrder();
-  alert('🎉 Баланс пополнен на 6 490 ₽! Теперь вы можете запустить бота.');
-}
+  <div class="content" id="content"></div>
+
+  <div class="bottom-nav">
+    <div class="bottom-nav-item active" id="bnav-overview" onclick="showTab('overview')"><div class="bottom-nav-icon">📊</div><div class="bottom-nav-label">Обзор</div></div>
+    <div class="bottom-nav-item" id="bnav-bots" onclick="showTab('bots')"><div class="bottom-nav-icon">🤖</div><div class="bottom-nav-label">Боты</div></div>
+    <div class="bottom-nav-item" id="bnav-create" onclick="showTab('create')"><div class="bottom-nav-icon">➕</div><div class="bottom-nav-label">Создать</div></div>
+    <div class="bottom-nav-item" id="bnav-dialogs" onclick="showTab('dialogs')"><div class="bottom-nav-icon">💬</div><div class="bottom-nav-label">Диалоги</div></div>
+    <div class="bottom-nav-item" id="bnav-support" onclick="showTab('support')"><div class="bottom-nav-icon">⭐</div><div class="bottom-nav-label">Поддержка</div></div>
+  </div>
+
+  <!-- Модальное окно оплаты -->
+  <div class="modal" id="payModal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closePayModal()">✕</button>
+      <div style="color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:8px;">💰 Пополнение баланса</div>
+      <div class="serif" style="font-size:24px; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</div>
+      
+      <div style="background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:12px; padding:18px; margin-bottom:16px;">
+        <div style="font-size:12px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Онлайн-оплата картой / ЮMoney (Мгновенно)</div>
+        <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Безопасная оплата. Баланс и подписка зачисляются автоматически сразу после перевода.</p>
+        <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yoomoneyForm">
+          <input type="hidden" name="receiver" value="4100119556996975">
+          <input type="hidden" name="quickpay-form" value="button">
+          <input type="hidden" name="targets" value="Оплата подписки MAJORKA BOT">
+          <input type="hidden" name="paymentType" value="AC">
+          <input type="hidden" name="sum" value="6490">
+          <input type="hidden" name="label" id="ymLabel" value="">
+          <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽</button>
+        </form>
+      </div>
+
+      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:16px;">
+        <div style="display:flex; gap:8px;">
+        </div>
+      </div>
+
+      <button class="btn-secondary" style="width:100%;" onclick="closePayModal()">Закрыть</button>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = (window.location.protocol === 'https:')
+      ? 'https://immensurable-paleaceous-marcella.ngrok-free.dev'
+      : 'http://127.0.0.1:8085';
+
+    let tg = window.Telegram?.WebApp;
+    if (tg) { tg.expand(); }
+
+    function getUserChatId() {
+      if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
+        const id = window.Telegram.WebApp.initDataUnsafe.user.id.toString();
+        localStorage.setItem('majorka_user_id', id);
+        return id;
+      }
+      const urlParams = new URLSearchParams(window.location.search);
+      const qId = urlParams.get('chatId') || urlParams.get('user_id');
+      if (qId && qId !== 'undefined' && qId !== 'null') {
+        localStorage.setItem('majorka_user_id', qId);
+        return qId;
+      }
+      const savedId = localStorage.getItem('majorka_user_id');
+      if (savedId && savedId !== 'undefined' && savedId !== 'null') {
+        return savedId;
+      }
+      return null;
+    }
+
+    const userLabel = getUserChatId();
+    var balance = 0;
+    var bots = [];
+    var currentTab = 'overview';
+
+        function refreshBalanceClick() {
+      showToast('🔄 Обновление баланса...');
+      syncWithServer();
+    }
+
+    function validateProxyInput(proxyStr) {
+      if (!proxyStr || !proxyStr.trim()) return true;
+      const clean = proxyStr.trim();
+      const parts = clean.split(':');
+      if (parts.length < 2 || parts.length > 4) {
+        showToast('⚠️ Формат прокси: IP:PORT или IP:PORT:USER:PASS');
+        return false;
+      }
+      return true;
+    }
+
+        function openConfigModal(name, niche, city, hours) {
+      showToast('⚙️ Настройка параметров бота «' + name + '»');
+      showTab('create');
+      setTimeout(() => {
+        if (document.getElementById('wName')) document.getElementById('wName').value = name;
+        if (document.getElementById('wNiche')) document.getElementById('wNiche').value = niche;
+        if (document.getElementById('wCity')) document.getElementById('wCity').value = city;
+        if (document.getElementById('wHours')) document.getElementById('wHours').value = hours;
+      }, 100);
+    }
+
+        function submitRegistration() {
+      const regId = document.getElementById('regChatId')?.value?.trim();
+      const regName = document.getElementById('regName')?.value?.trim() || 'Пользователь';
+      const terms = document.getElementById('regTerms')?.checked;
+
+      if (!regId) {
+        showToast('⚠️ Пожалуйста, введите ваш Telegram Chat ID');
+        return;
+      }
+      if (!terms) {
+        showToast('⚠️ Необходимо согласиться с условиями сервиса');
+        return;
+      }
+
+      const cleanId = regId.replace(/[^0-9]/g, '') || regId;
+      localStorage.setItem('majorka_user_id', cleanId);
+      localStorage.setItem('majorka_user_name', regName);
+
+      showToast('🎉 Успешный вход! Загрузка кабинета...');
+      setTimeout(() => {
+        window.location.reload();
+      }, 500);
+    }
+
+    
+    function checkTermsModal() {
+      const modal = document.getElementById('termsModal');
+      const accepted = localStorage.getItem('majorka_terms_accepted');
+      if (accepted === 'true') {
+        if (modal) modal.style.display = 'none';
+      } else {
+        if (modal) modal.style.display = 'flex';
+      }
+    }
+
+    function toggleAcceptBtn() {
+      const chk = document.getElementById('chkAcceptTerms');
+      const btn = document.getElementById('btnAcceptTerms');
+      if (chk && btn) {
+        if (chk.checked) {
+          btn.disabled = false;
+          btn.style.background = 'linear-gradient(135deg, #d4af37, #aa820a)';
+          btn.style.color = '#000';
+          btn.style.cursor = 'pointer';
+          btn.innerText = '✅ Принять условия и войти';
+        } else {
+          btn.disabled = true;
+          btn.style.background = '#334155';
+          btn.style.color = '#94a3b8';
+          btn.style.cursor = 'not-allowed';
+          btn.innerText = '🔒 Отметьте галочку для входа';
+        }
+      }
+    }
+
+    function confirmTerms() {
+      const chk = document.getElementById('chkAcceptTerms');
+      if (!chk || !chk.checked) return;
+      localStorage.setItem('majorka_terms_accepted', 'true');
+      const modal = document.getElementById('termsModal');
+      if (modal) modal.style.display = 'none';
+      showToast('🎉 Условия приняты! Добро пожаловать!');
+    }
+
+    function fastLogin(provider) {
+      showToast('🔄 Выполняется быстрый вход через ' + provider + '...');
+      const fallbackId = '6940082004';
+      localStorage.setItem('majorka_user_id', fallbackId);
+      setTimeout(() => {
+        window.location.reload();
+      }, 600);
+    }
+
+    function showToast(msg) {
+      let toast = document.getElementById('customToast');
+      if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'customToast';
+        toast.style.cssText = 'position:fixed; top:-60px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; color:#fff; padding:12px 24px; border-radius:30px; font-weight:bold; font-size:0.9rem; z-index:99999; box-shadow:0 10px 25px rgba(0,0,0,0.8); transition:all 0.4s ease; text-align:center; display:flex; align-items:center; gap:8px; pointer-events:none;';
+        document.body.appendChild(toast);
+      }
+      toast.innerHTML = '✨ <span>' + msg + '</span>';
+      toast.style.opacity = '1';
+      toast.style.top = '20px';
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.top = '-60px';
+      }, 3200);
+    }
+
+    function updateUI() {
+      const bVal = (typeof balance !== 'undefined' ? Number(balance) : 0).toFixed(2) + ' ₽';
+      const topBalEl = document.getElementById('balance');
+      if (topBalEl) topBalEl.innerText = bVal;
+      
+      const balBadges = document.querySelectorAll('.balance-badge span, .user-balance');
+      balBadges.forEach(b => { if(b) b.innerText = bVal; });
+    }
+
+    function showTab(tabId) {
+      currentTab = tabId;
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
+
+      const topNavBtn = document.getElementById('tab-btn-' + tabId);
+      if (topNavBtn) topNavBtn.classList.add('active');
+
+      const bNavBtn = document.getElementById('bnav-' + tabId);
+      if (bNavBtn) bNavBtn.classList.add('active');
+
+      if (tabId === 'overview') renderOverview();
+      else if (tabId === 'bots') renderBots();
+      else if (tabId === 'create') renderCreate();
+      else if (tabId === 'dialogs') renderDialogs();
+      else if (tabId === 'support') renderSupport();
+    }
+
+    function renderOverview() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      if (!userLabel) {
+        c.innerHTML = `
+          <div style="padding:30px 20px; text-align:center; max-width:440px; margin:0 auto;">
+            <div style="font-size:3.5rem; margin-bottom:12px;">👑</div>
+            <h2 style="color:#d4af37; font-size:1.5rem; margin-bottom:6px; font-weight:800;">MAJORKA BOT</h2>
+            <p style="color:#94a3b8; font-size:0.92rem; line-height:1.4; margin-bottom:24px;">
+              Автопилот продаж и AI-менеджер на Авито 24/7
+            </p>
+
+            <div style="background:#181c28; border:1px solid #2a3142; padding:24px; border-radius:16px; box-shadow:0 15px 35px rgba(0,0,0,0.5);">
+              <h4 style="color:#fff; margin:0 0 16px 0; font-size:1rem;">Выберите способ входа:</h4>
+
+              <button onclick="fastLogin('Telegram')" style="width:100%; background:#24a1de; border:none; color:#fff; font-weight:bold; font-size:1rem; padding:14px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:12px; box-shadow:0 4px 15px rgba(36,161,222,0.3);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .54-1.43.53-.47-.01-1.37-.26-2.05-.48-.83-.27-1.49-.42-1.43-.89.03-.25.38-.51 1.07-.79 4.19-1.83 6.99-3.04 8.4-3.64 4-.17 4.83.69 4.79 1.48z"/></svg>
+                Быстрый вход через Telegram
+              </button>
+
+              <button onclick="fastLogin('Google')" style="width:100%; background:#ffffff; border:none; color:#000; font-weight:bold; font-size:0.95rem; padding:14px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 4px 15px rgba(255,255,255,0.15);">
+                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+                Войти через Google Account
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+      c.innerHTML = `
+        <div style="padding:16px;">
+          <div style="background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; border-radius:16px; padding:20px; margin-bottom:16px; text-align:center;">
+            <h2 style="color:#d4af37; margin:0 0 8px 0; font-size:1.4rem;">MAJORKA BOT</h2>
+            <p style="color:#94a3b8; margin:0; font-size:0.9rem;">Автопилот продаж на Авито 24/7</p>
+            <button class="btn btn-gold" style="margin-top:15px; width:100%; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px; border-radius:10px; cursor:pointer;" onclick="showTab('create')">+ Создать нового бота</button>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+            <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:0.8rem; color:#94a3b8;">Всего ботов</div>
+              <div id="statBots" style="font-size:1.6rem; font-weight:bold; color:#fff; margin-top:4px;">0</div>
+            </div>
+            <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
+              <div style="font-size:0.8rem; color:#94a3b8;">Сообщений</div>
+              <div id="statMsgs" style="font-size:1.6rem; font-weight:bold; color:#10b981; margin-top:4px;">0</div>
+            </div>
+          </div>
+
+          <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; text-align:center;">
+            <div style="font-size:0.85rem; color:#94a3b8;">Собрано горячих лидов (телефонов)</div>
+            <div id="statLeads" style="font-size:2rem; font-weight:bold; color:#d4af37; margin-top:4px;">0</div>
+          </div>
+        </div>
+      `;
+      syncWithServer();
+    }
+
+    function renderBots() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      if (!userLabel) {
+        c.innerHTML = `
+          <div style="text-align:center; padding:50px 20px;">
+            <div style="font-size:3.5rem; margin-bottom:10px;">🔒</div>
+            <h3 style="color:#d4af37;">Доступ ограничен</h3>
+            <p style="color:#94a3b8; font-size:0.95rem;">Пожалуйста, открывайте личный кабинет из вашего Telegram-бота!</p>
+          </div>
+        `;
+        return;
+      }
+      if (!bots || bots.length === 0) {
+        c.innerHTML = `
+          <div style="text-align:center; padding:50px 20px;">
+            <div style="font-size:3.5rem; margin-bottom:10px;">🤖</div>
+            <h3 style="color:#fff;">Ботов пока нет</h3>
+            <p style="color:#94a3b8; font-size:0.9rem;">Создайте первого ИИ-продавца для ваших объявлений на Авито!</p>
+            <button style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px 24px; border-radius:10px; cursor:pointer; margin-top:10px;" onclick="showTab('create')">+ Создать первого бота</button>
+          </div>`;
+        return;
+      }
+      c.innerHTML = '<div style="padding:16px;">' + bots.map(b => `
+        <div class="bot-card" style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; margin-bottom:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+            <h4 style="margin:0; color:#fff; font-size:1.1rem;">${b.name}</h4>
+            <span class="badge" style="background:${b.status_color || '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.status || 'ТРЕБУЕТСЯ ВХОД 🔑'}</span>
+          </div>
+          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Товарка'} | Город: ${b.city || 'Красноярск'}</p>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            ${b.step !== 'start' ? `<button style="background:linear-gradient(135deg, #d4af37, #aa820a); color:#000; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="requestAuthQR('${b.name}', '${b.emulator_index}')">🔑 Войти по QR в ТГ</button>` : ''}
+            <button style="background:#ef4444; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
+          </div>
+        </div>
+      `).join('') + '</div>';
+    }
+
+    async function requestAuthQR(name, emuIndex) {
+      showToast('✨ Отправляем QR-код в ваш Телеграм-чат!');
+      try {
+        await fetch(API_URL + '/api/request_qr', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: userLabel, name: name, emulator_index: emuIndex })
+        });
+      } catch(e) {}
+    }
+
+    function renderCreate() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      c.innerHTML = `
+        <div style="padding:16px; max-width:480px; margin:0 auto;">
+          <h3 style="color:#d4af37; margin-top:0;">🚀 Создание нового ИИ-продавца</h3>
+          
+          <div style="background:rgba(212,175,55,0.1); border:1px solid #d4af37; border-radius:12px; padding:14px; margin-bottom:16px;">
+            <label style="color:#d4af37; font-weight:bold; display:block; margin-bottom:8px;">🔑 1. Способ авторизации в Авито (LDPlayer):</label>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="qr" checked> 📷 Вход по QR-коду (Авто-генерация)</label>
+              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="phone"> 📲 Вход по номеру телефона аккаунта и СМС</label>
+              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="api"> 🔑 Официальный API Авито (Client ID/Secret)</label>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Название бота / магазина:</label>
+              <input type="text" id="wName" placeholder="Например: Автозапчасти Авито" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ниша бизнеса и преимущества:</label>
+              <input type="text" id="wNiche" placeholder="Например: Запчасти для авто" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Способ продаж:</label>
+              <select id="wSalesMethod" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+                <option value="Переводить на созвон">📞 Переводить на созвон (получать номер телефона)</option>
+                <option value="Продавать прямо в чате">💬 Продавать прямо в чате</option>
+              </select>
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Телефон перевода / поддержки:</label>
+              <input type="text" id="wPhone" placeholder="+7 (999) 000-00-00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Город и адрес склада/офиса:</label>
+              <input type="text" id="wCity" placeholder="Например: Москва" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Режим работы:</label>
+              <input type="text" id="wHours" placeholder="09:00 - 21:00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ссылка на объявление или профиль Авито:</label>
+              <input type="text" id="wLink" placeholder="https://avito.ru/..." style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <div>
+              <label style="color:#d4af37; font-size:0.85rem; font-weight:bold; display:block; margin-bottom:4px;">🌐 Прокси IP (мобильный / резидентский) [Необязательно]:</label>
+              <input type="text" id="wProxy" placeholder="ip:port или ip:port:user:pass" style="width:100%; background:#181c28; border:1px solid #d4af37; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
+            </div>
+
+            <button onclick="submitBot()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:pointer; margin-top:8px;">🚀 Запустить бота на Авито</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDialogs() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      c.innerHTML = `
+        <div style="padding:16px; text-align:center;">
+          <h3 style="color:#fff;">💬 Чаты и Лиды клиентов</h3>
+          <p style="color:#94a3b8; font-size:0.9rem;">Все поступившие номера телефонов и диалоги с Авито отображаются здесь и передаются в ваш Телеграм-бот!</p>
+        </div>
+      `;
+    }
+
+    function renderSupport() {
+      const c = document.getElementById('content');
+      if (!c) return;
+      c.innerHTML = `
+        <div style="padding:16px; text-align:center;">
+          <h3 style="color:#d4af37;">⭐ Служба поддержки</h3>
+          <p style="color:#94a3b8; font-size:0.9rem;">Есть вопросы по настройке эмулятора LDPlayer или оплат?</p>
+          <a href="https://t.me/chc332" target="_blank" style="display:inline-block; background:#10b981; color:#fff; text-decoration:none; font-weight:bold; padding:12px 24px; border-radius:10px; margin-top:10px;">💬 Написать менеджеру (@chc332)</a>
+        </div>
+      `;
+    }
+
+    async function submitBot() {
+      const name = document.getElementById('wName')?.value || 'Мой магазин Авито';
+      const niche = document.getElementById('wNiche')?.value || 'Автозапчасти';
+      const sales_method = document.getElementById('wSalesMethod')?.value || 'Переводить на созвон';
+      const phone = document.getElementById('wPhone')?.value || '+7 (999) 000-00-00';
+      const city = document.getElementById('wCity')?.value || 'Москва';
+      const hours = document.getElementById('wHours')?.value || '09:00 - 21:00';
+      const avito_link = document.getElementById('wLink')?.value || 'https://avito.ru';
+      const proxy = document.getElementById('wProxy')?.value || '';
+      const auth_type = document.querySelector('input[name="wAuthType"]:checked')?.value || 'qr';
+
+      try {
+        const res = await fetch(API_URL + '/api/create_bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, proxy })
+        });
+        const data = await res.json();
+        
+        if (!res.ok || !data.success) {
+          showToast('⚠️ ' + (data.error || 'Недостаточно средств на балансе!'));
+          if (data.require_topup) {
+            openPayModal();
+          }
+          return;
+        }
+      } catch(e) {
+        showToast('⚠️ Ошибка создания бота');
+        return;
+      }
+
+      showToast('✨ Бот «' + name + '» успешно создан!');
+      showTab('bots');
+      await syncWithServer();
+    }
+
+    async function deleteBot(name) {
+      if(!confirm('Удалить этого бота?')) return;
+      try {
+        await fetch(API_URL + '/api/delete_bot', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: userLabel, name: name, session_name: name })
+        });
+      } catch(e) {}
+      showToast('Бот «' + name + '» удален');
+      localStorage.removeItem('majorka_bots');
+      await syncWithServer();
+    }
+
+    function openPayModal() {
+      const payModal = document.getElementById('payModal');
+      if (payModal) payModal.classList.add('active');
+    }
+    function closePayModal() {
+      const payModal = document.getElementById('payModal');
+      if (payModal) payModal.classList.remove('active');
+    }
+
+    function syncWithServer() {
+      if (!userLabel) return;
+      fetch(API_URL + '/api/bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.success && Array.isArray(d.bots)) {
+            bots = d.bots;
+            localStorage.setItem('majorka_bots', JSON.stringify(bots));
+            if (currentTab === 'bots') renderBots();
+          }
+        })
+        .catch(() => {});
+
+      fetch(API_URL + '/api/stats?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
+        .then(r => r.json())
+        .then(d => {
+          if (d && d.success) {
+            if (d.balance !== undefined) { balance = d.balance; localStorage.setItem('majorka_balance', balance); }
+            if (d.user && d.user.balance !== undefined) { balance = d.user.balance; localStorage.setItem('majorka_balance', balance); }
+            
+            updateUI();
+            
+            const pVal = d.current_price || (d.user ? d.user.current_price : 6490);
+            const discVal = d.discount || (d.user ? d.user.discount : 0);
+            const pText = pVal ? (pVal + ' ₽' + (discVal ? ' [Скидка ' + discVal + '%]' : '')) : '6 490 ₽';
+            
+            const bottomBtn = document.querySelector('.bottom-pay-btn, button[onclick*="openPayModal"]');
+            if (bottomBtn) bottomBtn.innerText = '💳 ПОПОЛНИТЬ БАЛАНС (' + pText + ')';
+          }
+        })
+        .catch(() => {});
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkTermsModal();
+      showTab('overview');
+      setInterval(syncWithServer, 10000);
+    });
 </script>
+
+
+
+
+  <!-- MODAL: LONG TERMS OF SERVICE & LEGAL DISCLAIMER -->
+  <div id="termsModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); z-index:99999; display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
+    <div style="background:#111622; border:1px solid #d4af37; border-radius:16px; max-width:540px; width:100%; max-height:85vh; display:flex; flex-direction:column; box-shadow:0 20px 50px rgba(0,0,0,0.8); overflow:hidden;">
+      
+      <div style="padding:18px 20px; border-bottom:1px solid #2a3142; background:#181c28; text-align:center;">
+        <h3 style="color:#d4af37; margin:0; font-size:1.2rem; display:flex; align-items:center; justify-content:center; gap:8px;">
+          📜 Пользовательское Соглашение & Правила Сервиса
+        </h3>
+        <p style="color:#94a3b8; font-size:0.78rem; margin:4px 0 0 0;">Пожалуйста, ознакомьтесь с условиями перед входом</p>
+      </div>
+
+      <div style="padding:20px; overflow-y:auto; color:#cbd5e1; font-size:0.85rem; line-height:1.6; flex:1;" id="termsScrollArea">
+        <h4 style="color:#fff; margin-top:0;">1. Общие положения</h4>
+        <p>1.1. Настоящее Пользовательское Соглашение регулирует порядок использования облачной платформы MAJORKA BOT (далее — «Сервис»), предназначенной для автоматизации коммуникаций, ответов на сообщения и управления магазинами на торговой площадке Авито (Avito.ru).</p>
+        <p>1.2. Проходя авторизацию или используя функции Сервиса, Пользователь выражает полное и безоговорочное согласие со всеми условиями настоящего Соглашения.</p>
+
+        <h4 style="color:#fff;">2. Условия использования эмуляторов и прокси</h4>
+        <p>2.1. Сервис предоставляет изолированные цифровые окружения (эмуляторы Android), имитирующие работу мобильных устройств.</p>
+        <p>2.2. Пользователь обязуется подключать только персональные прокси-серверы мобильного или резидентского типа (HTTP/SOCKS5). Запрещается использование публичных или заблокированных IP-адресов.</p>
+
+        <h4 style="color:#fff;">3. Конфиденциальность и безопасность</h4>
+        <p>3.1. Сервис использует защищенные алгоритмы шифрования данных. Авторизация на Авито осуществляется локально в инстансе виртуального устройства пользователя.</p>
+        <p>3.2. Администрация Сервиса не передает персональные данные и сессионные токены третьим лицам.</p>
+
+        <h4 style="color:#ef4444; margin-top:16px;">4. ⚖️ Ограничение Ответственности и Дисклеймер (ВАЖНО)</h4>
+        <div style="background:rgba(239, 68, 68, 0.1); border:1px solid #ef4444; padding:14px; border-radius:10px; color:#f87171; font-size:0.82rem; line-height:1.5; margin-bottom:12px;">
+          <b>4.1. Сервис MAJORKA BOT не является официальным или аффилированным продуктом платформы Авито (Avito.ru).</b><br><br>
+          <b>4.2. Пользователь принимает на себя ВСЕ риски</b>, связанные с использованием автоматизации и сторонних алгоритмов на платформе Авито. Администрация Сервиса, разработчики и владельцы <u>НЕ НЕСУТ ОТВЕТСТВЕННОСТИ</u> за любые блокировки аккаунтов Авито, теневые баны, отклонение объявлений, списание средств или любые другие санкции со стороны площадки Авито.<br><br>
+          <b>4.3. Сервис не гарантирует</b> бессбойную работу в случаях изменений алгоритмов Авито или блокировок прокси-провайдеров пользователя.
+        </div>
+
+        <h4 style="color:#fff;">5. Порядок расчетов</h4>
+        <p>5.1. Оплата подписки предоставляет право использования функционала автоответчика на срок 30 дней. Возврат средств после запуска эмулятора не предусмотрен.</p>
+      </div>
+
+      <div style="padding:16px 20px; border-top:1px solid #2a3142; background:#181c28;">
+        <div style="display:flex; align-items:flex-start; gap:10px; margin-bottom:14px;">
+          <input type="checkbox" id="chkAcceptTerms" style="margin-top:3px; transform:scale(1.2); cursor:pointer;" onchange="toggleAcceptBtn()">
+          <label for="chkAcceptTerms" style="color:#fff; font-size:0.82rem; font-weight:bold; cursor:pointer; line-height:1.3;">
+            Я прочитал(а) Пользовательское соглашение, полностью осознаю риски автоматизации и согласен(на) с условиями
+          </label>
+        </div>
+
+        <button id="btnAcceptTerms" onclick="confirmTerms()" disabled style="width:100%; background:#334155; border:none; color:#94a3b8; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:not-allowed; transition:all 0.3s ease;">
+          🔒 Прочтите и отметьте галочку для входа
+        </button>
+      </div>
+
+    </div>
+  </div>
 
 </body>
 </html>
