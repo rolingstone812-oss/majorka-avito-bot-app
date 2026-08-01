@@ -123,17 +123,17 @@
 <body>
 
   <div class="header">
-    <div class="logo">MAJORKA BOT</d
+    <div class="logo">MAJORKA BOT</div>
     <div class="header-right">
-      <div class="balance-badge">💰 <span id="balance">0 ₽</span></d
+      <div class="balance-badge">💰 <span id="balance">0 ₽</span></div>
       <button class="btn-gold" onclick="openPayModal()">ПОПОЛНИТЬ</button>
-    </d
-  </d
+    </div>
+  </div>
 
   <div class="subheader">
     <h1>MAJORKA BOT</h1>
     <p>Автопилот продаж на Авито</p>
-  </d
+  </div>
 
   <div class="top-nav">
     <button class="nav-btn active" id="tab-btn-overview" onclick="showTab('overview')">📊 Обзор</button>
@@ -141,27 +141,27 @@
     <button class="nav-btn" id="tab-btn-create" onclick="showTab('create')">➕ Создать</button>
     <button class="nav-btn" id="tab-btn-dialogs" onclick="showTab('dialogs')">💬 Диалоги</button>
     <button class="nav-btn" id="tab-btn-support" onclick="showTab('support')">⭐ Поддержка</button>
-  </d
+  </div>
 
-  <div class="content" id="content"></d
+  <div class="content" id="content"></div>
 
   <div class="bottom-nav">
-    <div class="bottom-nav-item active" id="bnav-overview" onclick="showTab('overview')"><div class="bottom-nav-icon">📊</d<div class="bottom-nav-label">Обзор</d</d
-    <div class="bottom-nav-item" id="bnav-bots" onclick="showTab('bots')"><div class="bottom-nav-icon">🤖</d<div class="bottom-nav-label">Боты</d</d
-    <div class="bottom-nav-item" id="bnav-create" onclick="showTab('create')"><div class="bottom-nav-icon">➕</d<div class="bottom-nav-label">Создать</d</d
-    <div class="bottom-nav-item" id="bnav-dialogs" onclick="showTab('dialogs')"><div class="bottom-nav-icon">💬</d<div class="bottom-nav-label">Диалоги</d</d
-    <div class="bottom-nav-item" id="bnav-support" onclick="showTab('support')"><div class="bottom-nav-icon">⭐</d<div class="bottom-nav-label">Поддержка</d</d
-  </d
+    <div class="bottom-nav-item active" id="bnav-overview" onclick="showTab('overview')"><div class="bottom-nav-icon">📊</div><div class="bottom-nav-label">Обзор</div></div>
+    <div class="bottom-nav-item" id="bnav-bots" onclick="showTab('bots')"><div class="bottom-nav-icon">🤖</div><div class="bottom-nav-label">Боты</div></div>
+    <div class="bottom-nav-item" id="bnav-create" onclick="showTab('create')"><div class="bottom-nav-icon">➕</div><div class="bottom-nav-label">Создать</div></div>
+    <div class="bottom-nav-item" id="bnav-dialogs" onclick="showTab('dialogs')"><div class="bottom-nav-icon">💬</div><div class="bottom-nav-label">Диалоги</div></div>
+    <div class="bottom-nav-item" id="bnav-support" onclick="showTab('support')"><div class="bottom-nav-icon">⭐</div><div class="bottom-nav-label">Поддержка</div></div>
+  </div>
 
   <!-- Модальное окно оплаты -->
   <div class="modal" id="payModal">
     <div class="modal-content">
       <button class="modal-close" onclick="closePayModal()">✕</button>
-      <div style="color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:8px;">💰 Пополнение баланса</d
-      <div class="serif" style="font-size:24px; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</d
+      <div style="color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:8px;">💰 Пополнение баланса</div>
+      <div class="serif" style="font-size:24px; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</div>
       
       <div style="background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:12px; padding:18px; margin-bottom:16px;">
-        <div style="font-size:12px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Онлайн-оплата картой / ЮMoney (Мгновенно)</d
+        <div style="font-size:12px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Онлайн-оплата картой / ЮMoney (Мгновенно)</div>
         <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Безопасная оплата. Баланс и подписка зачисляются автоматически сразу после перевода.</p>
         <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yoomoneyForm">
           <input type="hidden" name="receiver" value="4100119556996975">
@@ -172,264 +172,26 @@
           <input type="hidden" name="label" id="ymLabel" value="">
           <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽</button>
         </form>
-      </d
+      </div>
 
       <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:16px;">
         <div style="display:flex; gap:8px;">
-        </d
-      </d
+        </div>
+      </div>
 
       <button class="btn-secondary" style="width:100%;" onclick="closePayModal()">Закрыть</button>
-    </d
-  </d
+    </div>
+  </div>
 
   <script>
-    const API_URL = (window.location.protocol === 'https:')
-      ? 'https://immensurable-paleaceous-marcella.ngrok-free.dev'
-      : 'http://127.0.0.1:8085';
-
+    const API_URL = 'http://127.0.0.1:8085';
     let tg = window.Telegram?.WebApp;
     if (tg) { tg.expand(); }
 
-    function getUserChatId() {
-      if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
-        const id = window.Telegram.WebApp.initDataUnsafe.user.id.toString();
-        localStorage.setItem('majorka_user_id', id);
-        return id;
-      }
-      const urlParams = new URLSearchParams(window.location.search);
-      const qId = urlParams.get('chatId') || urlParams.get('user_id');
-      if (qId && qId !== 'undefined' && qId !== 'null') {
-        localStorage.setItem('majorka_user_id', qId);
-        return qId;
-      }
-      const savedId = localStorage.getItem('majorka_user_id');
-      if (savedId && savedId !== 'undefined' && savedId !== 'null') {
-        return savedId;
-      }
-      return null;
-    }
-
-    const userLabel = getUserChatId();
+    const userLabel = tg?.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : '6940082004';
     var balance = 0;
     var bots = [];
     var currentTab = 'overview';
-
-        function refreshBalanceClick() {
-      showToast('🔄 Обновление баланса...');
-      syncWithServer();
-    }
-
-    function validateProxyInput(proxyStr) {
-      if (!proxyStr || !proxyStr.trim()) return true;
-      const clean = proxyStr.trim();
-      const parts = clean.split(':');
-      if (parts.length < 2 || parts.length > 4) {
-        showToast('⚠️ Формат прокси: IP:PORT или IP:PORT:USER:PASS');
-        return false;
-      }
-      return true;
-    }
-
-        function openConfigModal(name, niche, city, hours) {
-      showToast('⚙️ Настройка параметров бота «' + name + '»');
-      showTab('create');
-      setTimeout(() => {
-        if (document.getElementById('wName')) document.getElementById('wName').value = name;
-        if (document.getElementById('wNiche')) document.getElementById('wNiche').value = niche;
-        if (document.getElementById('wCity')) document.getElementById('wCity').value = city;
-        if (document.getElementById('wHours')) document.getElementById('wHours').value = hours;
-      }, 100);
-    }
-
-        function submitRegistration() {
-      const regId = document.getElementById('regChatId')?.value?.trim();
-      const regName = document.getElementById('regName')?.value?.trim() || 'Пользователь';
-      const terms = document.getElementById('regTerms')?.checked;
-
-      if (!regId) {
-        showToast('⚠️ Пожалуйста, введите ваш Telegram Chat ID');
-        return;
-      }
-      if (!terms) {
-        showToast('⚠️ Необходимо согласиться с условиями сервиса');
-        return;
-      }
-
-      const cleanId = regId.replace(/[^0-9]/g, '') || regId;
-      localStorage.setItem('majorka_user_id', cleanId);
-      localStorage.setItem('majorka_user_name', regName);
-
-      showToast('🎉 Успешный вход! Загрузка кабинета...');
-      setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    }
-
-    
-    function checkTermsModal() {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('reset') === 'true' || urlParams.get('test') === 'true') {
-        localStorage.removeItem('majorka_terms_accepted');
-        localStorage.removeItem('majorka_user_id');
-      }
-
-      const modal = document.getElementById('termsModal');
-      const accepted = localStorage.getItem('majorka_terms_accepted');
-      if (accepted === 'true') {
-        if (modal) modal.style.display = 'none';
-      } else {
-        if (modal) modal.style.display = 'flex';
-      }
-    }
-
-    function toggleAcceptBtn() {
-      const chk = document.getElementById('chkAcceptTerms');
-      const btn = document.getElementById('btnAcceptTerms');
-      if (chk && btn) {
-        if (chk.checked) {
-          btn.disabled = false;
-          btn.style.background = '#3b82f6';
-          btn.style.color = '#ffffff';
-          btn.style.cursor = 'pointer';
-          btn.innerText = 'Принять и продолжить';
-        } else {
-          btn.disabled = true;
-          btn.style.background = '#334155';
-          btn.style.color = '#64748b';
-          btn.style.cursor = 'not-allowed';
-          btn.innerText = 'Отметьте галочку для продолжения';
-        }
-      }
-    }
-
-    function confirmTerms() {
-      const chk = document.getElementById('chkAcceptTerms');
-      if (!chk || !chk.checked) return;
-      localStorage.setItem('majorka_terms_accepted', 'true');
-      const modal = document.getElementById('termsModal');
-      if (modal) modal.style.display = 'none';
-      showToast('🎉 Условия приняты! Добро пожаловать!');
-    }
-
-    function fastLogin(provider) {
-      if (provider === 'Google') {
-        openGoogleAuthModal();
-      } else {
-        showToast('🔄 Выполняется вход через Telegram...');
-        const tgId = window.Telegram?.WebApp?.initDataUnsafe?.user?.id ? window.Telegram.WebApp.initDataUnsafe.user.id.toString() : '6940082004';
-        localStorage.setItem('majorka_user_id', tgId);
-        setTimeout(() => { window.location.reload(); }, 500);
-      }
-    }
-
-    function openGoogleAuthModal() {
-      const modal = document.getElementById('googleAuthModal');
-      if (modal) modal.style.display = 'flex';
-    }
-
-    function closeGoogleAuthModal() {
-      const modal = document.getElementById('googleAuthModal');
-      if (modal) modal.style.display = 'none';
-    }
-
-    function submitGoogleAuth() {
-      const email = document.getElementById('gAuthEmail')?.value?.trim();
-      if (!email || !email.includes('@')) {
-        alert('Пожалуйста, введите корректный Email Google!');
-        return;
-      }
-      
-      closeGoogleAuthModal();
-      showToast('🎉 Проверка успешна! Аккаунт ' + email + ' привязан.');
-      const cleanId = 'g_' + email.replace(/[^a-zA-Z0-9]/g, '_');
-      localStorage.setItem('majorka_user_id', cleanId);
-      localStorage.setItem('majorka_user_email', email);
-      setTimeout(() => { window.location.reload(); }, 600);
-    }
-
-        function renderStats() {
-      const c = document.getElementById('content');
-      if (!c) return;
-      
-      if (!bots || bots.length === 0) {
-        c.innerHTML = `
-          <div style="padding:40px 20px; text-align:center; max-width:440px; margin:0 auto;">
-            <div style="font-size:3.5rem; margin-bottom:12px;">📊</div>
-            <h3 style="color:#d4af37; font-size:1.3rem; margin-bottom:8px;">У вас пока нет активных ботов</h3>
-            <p style="color:#94a3b8; font-size:0.9rem; line-height:1.4; margin-bottom:24px;">
-              Запустите вашего первого автопилота продаж прямо сейчас, чтобы отслеживать реальную статистику обращений, конверсию и горячие лиды!
-            </p>
-            <button onclick="showTab('create')" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:1rem; padding:14px 28px; border-radius:12px; cursor:pointer; box-shadow:0 4px 15px rgba(212,175,55,0.3);">
-              🚀 Оформить бота сейчас
-            </button>
-          </div>
-        `;
-        return;
-      }
-
-      // Calculate statistics for existing user bots
-      const totalBotsCount = bots.length;
-      const activeBotsCount = bots.filter(b => b.status_color === '#10b981' || b.step === 'start').length;
-
-      c.innerHTML = `
-        <div style="padding:16px; max-width:600px; margin:0 auto;">
-          <h2 style="color:#d4af37; font-size:1.3rem; margin-bottom:16px; font-weight:700;">📊 Статистика работы ваших ботов</h2>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-            <div style="background:#181c28; border:1px solid #2a3142; padding:16px; border-radius:12px; text-align:center;">
-              <div style="color:#94a3b8; font-size:0.8rem; margin-bottom:4px;">Активных слотов</div>
-              <div style="color:#10b981; font-size:1.6rem; font-weight:bold;">${activeBotsCount} / ${totalBotsCount}</div>
-            </div>
-            <div style="background:#181c28; border:1px solid #2a3142; padding:16px; border-radius:12px; text-align:center;">
-              <div style="color:#94a3b8; font-size:0.8rem; margin-bottom:4px;">Обработано сообщений</div>
-              <div style="color:#3b82f6; font-size:1.6rem; font-weight:bold;">124</div>
-            </div>
-          </div>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
-            <div style="background:#181c28; border:1px solid #2a3142; padding:16px; border-radius:12px; text-align:center;">
-              <div style="color:#94a3b8; font-size:0.8rem; margin-bottom:4px;">Собрано лидов (телефонов)</div>
-              <div style="color:#d4af37; font-size:1.6rem; font-weight:bold;">18</div>
-            </div>
-            <div style="background:#181c28; border:1px solid #2a3142; padding:16px; border-radius:12px; text-align:center;">
-              <div style="color:#94a3b8; font-size:0.8rem; margin-bottom:4px;">Скорость ответа ИИ</div>
-              <div style="color:#a855f7; font-size:1.6rem; font-weight:bold;">1.2 сек</div>
-            </div>
-          </div>
-
-          <h4 style="color:#fff; font-size:0.95rem; margin-bottom:10px;">Детализация по вашим слотам:</h4>
-          ${bots.map(b => `
-            <div style="background:#181c28; border:1px solid #2a3142; padding:14px; border-radius:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <div style="color:#fff; font-weight:bold; font-size:0.95rem;">${b.name}</div>
-                <div style="color:#94a3b8; font-size:0.8rem;">Ниша: ${b.niche} | ${b.city}</div>
-              </div>
-              <div style="text-align:right;">
-                <span style="background:${b.status_color || '#10b981'}; color:#000; font-weight:bold; font-size:0.75rem; padding:4px 8px; border-radius:6px;">
-                  ${b.status_text || '🟢 Активен'}
-                </span>
-              </div>
-            </div>
-          `).join('')}
-          <div style="margin-top:20px; border-top:1px solid #2a3142; padding-top:14px; text-align:center;">
-            <button onclick="resetAuthTest()" style="background:#334155; border:1px solid #475569; color:#cbd5e1; font-size:0.8rem; font-weight:600; padding:8px 16px; border-radius:8px; cursor:pointer;">
-              🚪 Выйти и пройти регистрацию заново (для тестов)
-            </button>
-          </div>
-        </div>
-      `;
-    }
-
-        function resetAuthTest() {
-      if (confirm('Сбросить авторизацию и Соглашение для проверки входа?')) {
-        localStorage.removeItem('majorka_terms_accepted');
-        localStorage.removeItem('majorka_user_id');
-        localStorage.removeItem('majorka_user_name');
-        showToast('🔄 Авторизация сброшена! Перезагрузка...');
-        setTimeout(() => { window.location.href = window.location.pathname; }, 500);
-      }
-    }
 
     function showToast(msg) {
       let toast = document.getElementById('customToast');
@@ -478,56 +240,30 @@
     function renderOverview() {
       const c = document.getElementById('content');
       if (!c) return;
-      if (!userLabel) {
-        c.innerHTML = `
-          <div style="padding:30px 20px; text-align:center; max-width:440px; margin:0 auto;">
-            <div style="font-size:3.5rem; margin-bottom:12px;">👑</d
-            <h2 style="color:#d4af37; font-size:1.5rem; margin-bottom:6px; font-weight:800;">MAJORKA BOT</h2>
-            <p style="color:#94a3b8; font-size:0.92rem; line-height:1.4; margin-bottom:24px;">
-              Автопилот продаж и AI-менеджер на Авито 24/7
-            </p>
-
-            <div style="background:#181c28; border:1px solid #2a3142; padding:24px; border-radius:16px; box-shadow:0 15px 35px rgba(0,0,0,0.5);">
-              <h4 style="color:#fff; margin:0 0 16px 0; font-size:1rem;">Выберите способ входа:</h4>
-
-              <button onclick="fastLogin('Telegram')" style="width:100%; background:#24a1de; border:none; color:#fff; font-weight:bold; font-size:1rem; padding:14px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:12px; box-shadow:0 4px 15px rgba(36,161,222,0.3);">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.12.02-1.96 1.25-5.54 3.69-.52.36-1 .54-1.43.53-.47-.01-1.37-.26-2.05-.48-.83-.27-1.49-.42-1.43-.89.03-.25.38-.51 1.07-.79 4.19-1.83 6.99-3.04 8.4-3.64 4-.17 4.83.69 4.79 1.48z"/></svg>
-                Быстрый вход через Telegram
-              </button>
-
-              <button onclick="fastLogin('Google')" style="width:100%; background:#ffffff; border:none; color:#000; font-weight:bold; font-size:0.95rem; padding:14px; border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:10px; box-shadow:0 4px 15px rgba(255,255,255,0.15);">
-                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-                Войти через Google Account
-              </button>
-            </d
-          </d
-        `;
-        return;
-      }
       c.innerHTML = `
         <div style="padding:16px;">
           <div style="background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; border-radius:16px; padding:20px; margin-bottom:16px; text-align:center;">
             <h2 style="color:#d4af37; margin:0 0 8px 0; font-size:1.4rem;">MAJORKA BOT</h2>
             <p style="color:#94a3b8; margin:0; font-size:0.9rem;">Автопилот продаж на Авито 24/7</p>
             <button class="btn btn-gold" style="margin-top:15px; width:100%; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px; border-radius:10px; cursor:pointer;" onclick="showTab('create')">+ Создать нового бота</button>
-          </d
+          </div>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
             <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
-              <div style="font-size:0.8rem; color:#94a3b8;">Всего ботов</d
-              <div id="statBots" style="font-size:1.6rem; font-weight:bold; color:#fff; margin-top:4px;">0</d
-            </d
+              <div style="font-size:0.8rem; color:#94a3b8;">Всего ботов</div>
+              <div id="statBots" style="font-size:1.6rem; font-weight:bold; color:#fff; margin-top:4px;">0</div>
+            </div>
             <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
-              <div style="font-size:0.8rem; color:#94a3b8;">Сообщений</d
-              <div id="statMsgs" style="font-size:1.6rem; font-weight:bold; color:#10b981; margin-top:4px;">0</d
-            </d
-          </d
+              <div style="font-size:0.8rem; color:#94a3b8;">Сообщений</div>
+              <div id="statMsgs" style="font-size:1.6rem; font-weight:bold; color:#10b981; margin-top:4px;">0</div>
+            </div>
+          </div>
 
           <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; text-align:center;">
-            <div style="font-size:0.85rem; color:#94a3b8;">Собрано горячих лидов (телефонов)</d
-            <div id="statLeads" style="font-size:2rem; font-weight:bold; color:#d4af37; margin-top:4px;">0</d
-          </d
-        </d
+            <div style="font-size:0.85rem; color:#94a3b8;">Собрано горячих лидов (телефонов)</div>
+            <div id="statLeads" style="font-size:2rem; font-weight:bold; color:#d4af37; margin-top:4px;">0</div>
+          </div>
+        </div>
       `;
       syncWithServer();
     }
@@ -535,50 +271,28 @@
     function renderBots() {
       const c = document.getElementById('content');
       if (!c) return;
-      if (!userLabel) {
-        c.innerHTML = `
-          <div style="text-align:center; padding:50px 20px;">
-            <div style="font-size:3.5rem; margin-bottom:10px;">🔒</d
-            <h3 style="color:#d4af37;">Доступ ограничен</h3>
-            <p style="color:#94a3b8; font-size:0.95rem;">Пожалуйста, открывайте личный кабинет из вашего Telegram-бота!</p>
-          </d
-        `;
-        return;
-      }
       if (!bots || bots.length === 0) {
         c.innerHTML = `
           <div style="text-align:center; padding:50px 20px;">
-            <div style="font-size:3.5rem; margin-bottom:10px;">🤖</d
+            <div style="font-size:3.5rem; margin-bottom:10px;">🤖</div>
             <h3 style="color:#fff;">Ботов пока нет</h3>
             <p style="color:#94a3b8; font-size:0.9rem;">Создайте первого ИИ-продавца для ваших объявлений на Авито!</p>
             <button style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px 24px; border-radius:10px; cursor:pointer; margin-top:10px;" onclick="showTab('create')">+ Создать первого бота</button>
-          </d`;
+          </div>`;
         return;
       }
       c.innerHTML = '<div style="padding:16px;">' + bots.map(b => `
         <div class="bot-card" style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; margin-bottom:12px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
             <h4 style="margin:0; color:#fff; font-size:1.1rem;">${b.name}</h4>
-            <span class="badge" style="background:${b.status_color || '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.status || 'ТРЕБУЕТСЯ ВХОД 🔑'}</span>
-          </d
-          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Товарка'} | Город: ${b.city || 'Красноярск'}</p>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            ${b.step !== 'start' ? `<button style="background:linear-gradient(135deg, #d4af37, #aa820a); color:#000; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="requestAuthQR('${b.name}', '${b.emulator_index}')">🔑 Войти по QR в ТГ</button>` : ''}
+            <span class="badge" style="background:${b.is_paid ? '#10b981' : '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.is_paid ? 'АКТИВЕН' : 'НЕ ОПЛАЧЕН'}</span>
+          </div>
+          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Автозапчасти'} | Город: ${b.city || 'Москва'}</p>
+          <div style="display:flex; gap:8px;">
             <button style="background:#ef4444; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
-          </d
-        </d
-      `).join('') + '</d';
-    }
-
-    async function requestAuthQR(name, emuIndex) {
-      showToast('✨ Отправляем QR-код в ваш Телеграм-чат!');
-      try {
-        await fetch(API_URL + '/api/request_qr', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name: name, emulator_index: emuIndex })
-        });
-      } catch(e) {}
+          </div>
+        </div>
+      `).join('') + '</div>';
     }
 
     function renderCreate() {
@@ -589,61 +303,61 @@
           <h3 style="color:#d4af37; margin-top:0;">🚀 Создание нового ИИ-продавца</h3>
           
           <div style="background:rgba(212,175,55,0.1); border:1px solid #d4af37; border-radius:12px; padding:14px; margin-bottom:16px;">
-            <label style="color:#d4af37; font-weight:bold; display:block; margin-bottom:8px;">🔑 1. Способ авторизации в Авито (MAJORKA Engine):</label>
+            <label style="color:#d4af37; font-weight:bold; display:block; margin-bottom:8px;">🔑 1. Способ авторизации в Авито (LDPlayer):</label>
             <div style="display:flex; flex-direction:column; gap:8px;">
               <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="qr" checked> 📷 Вход по QR-коду (Авто-генерация)</label>
               <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="phone"> 📲 Вход по номеру телефона аккаунта и СМС</label>
               <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="api"> 🔑 Официальный API Авито (Client ID/Secret)</label>
-            </d
-          </d
+            </div>
+          </div>
 
           <div style="display:flex; flex-direction:column; gap:12px;">
-            <d
+            <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Название бота / магазина:</label>
               <input type="text" id="wName" placeholder="Например: Автозапчасти Авито" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </d
+            </div>
 
-            <d
+            <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ниша бизнеса и преимущества:</label>
               <input type="text" id="wNiche" placeholder="Например: Запчасти для авто" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </d
+            </div>
 
-            <d
+            <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Способ продаж:</label>
               <select id="wSalesMethod" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
                 <option value="Переводить на созвон">📞 Переводить на созвон (получать номер телефона)</option>
                 <option value="Продавать прямо в чате">💬 Продавать прямо в чате</option>
               </select>
-            </d
+            </div>
 
-            <d
+            <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Телефон перевода / поддержки:</label>
               <input type="text" id="wPhone" placeholder="+7 (999) 000-00-00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </d
+            </div>
 
-            <d
+            <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Город и адрес склада/офиса:</label>
               <input type="text" id="wCity" placeholder="Например: Москва" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </d
+            </div>
 
-            <d
+            <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Режим работы:</label>
               <input type="text" id="wHours" placeholder="09:00 - 21:00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </d
+            </div>
 
-            <d
+            <div>
               <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ссылка на объявление или профиль Авито:</label>
               <input type="text" id="wLink" placeholder="https://avito.ru/..." style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </d
+            </div>
 
-            <d
+            <div>
               <label style="color:#d4af37; font-size:0.85rem; font-weight:bold; display:block; margin-bottom:4px;">🌐 Прокси IP (мобильный / резидентский) [Необязательно]:</label>
               <input type="text" id="wProxy" placeholder="ip:port или ip:port:user:pass" style="width:100%; background:#181c28; border:1px solid #d4af37; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </d
+            </div>
 
             <button onclick="submitBot()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:pointer; margin-top:8px;">🚀 Запустить бота на Авито</button>
-          </d
-        </d
+          </div>
+        </div>
       `;
     }
 
@@ -654,7 +368,7 @@
         <div style="padding:16px; text-align:center;">
           <h3 style="color:#fff;">💬 Чаты и Лиды клиентов</h3>
           <p style="color:#94a3b8; font-size:0.9rem;">Все поступившие номера телефонов и диалоги с Авито отображаются здесь и передаются в ваш Телеграм-бот!</p>
-        </d
+        </div>
       `;
     }
 
@@ -664,9 +378,9 @@
       c.innerHTML = `
         <div style="padding:16px; text-align:center;">
           <h3 style="color:#d4af37;">⭐ Служба поддержки</h3>
-          <p style="color:#94a3b8; font-size:0.9rem;">Есть вопросы по настройке облачный модульа MAJORKA Engine или оплат?</p>
+          <p style="color:#94a3b8; font-size:0.9rem;">Есть вопросы по настройке эмулятора LDPlayer или оплат?</p>
           <a href="https://t.me/chc332" target="_blank" style="display:inline-block; background:#10b981; color:#fff; text-decoration:none; font-weight:bold; padding:12px 24px; border-radius:10px; margin-top:10px;">💬 Написать менеджеру (@chc332)</a>
-        </d
+        </div>
       `;
     }
 
@@ -682,26 +396,14 @@
       const auth_type = document.querySelector('input[name="wAuthType"]:checked')?.value || 'qr';
 
       try {
-        const res = await fetch(API_URL + '/api/create_bot', {
+        await fetch(API_URL + '/api/create_bot', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, proxy })
         });
-        const data = await res.json();
-        
-        if (!res.ok || !data.success) {
-          showToast('⚠️ ' + (data.error || 'Недостаточно средств на балансе!'));
-          if (data.require_topup) {
-            openPayModal();
-          }
-          return;
-        }
-      } catch(e) {
-        showToast('⚠️ Ошибка создания бота');
-        return;
-      }
+      } catch(e) {}
 
-      showToast('✨ Бот «' + name + '» успешно создан!');
+      showToast('Бот «' + name + '» успешно создан!');
       showTab('bots');
       await syncWithServer();
     }
@@ -730,7 +432,6 @@
     }
 
     function syncWithServer() {
-      if (!userLabel) return;
       fetch(API_URL + '/api/bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
         .then(r => r.json())
         .then(d => {
@@ -763,7 +464,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      checkTermsModal();
       showTab('overview');
       setInterval(syncWithServer, 10000);
     });
@@ -772,50 +472,43 @@
 
 
 
-  <!-- MODAL: PROFESSIONAL CLEAN SLATE TERMS -->
-  <div id="termsModal" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(15, 23, 42, 0.9); backdrop-filter:blur(8px); z-index:99999; display:flex; align-items:center; justify-content:center; padding:16px; box-sizing:border-box;">
-    <div style="background:#1e293b; border:1px solid #334155; border-radius:12px; max-width:540px; width:100%; max-height:82vh; display:flex; flex-direction:column; box-shadow:0 25px 50px -12px rgba(0, 0, 0, 0.7); overflow:hidden;">
-      
-      <div style="padding:16px 20px; border-bottom:1px solid #334155; background:#0f172a;">
-        <h3 style="color:#f8fafc; margin:0; font-size:1.1rem; font-weight:600; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-          Пользовательское Соглашение и Регламент Сервиса
-        </h3>
-        <p style="color:#64748b; font-size:0.75rem; margin:2px 0 0 0;">Редакция 2.4 | Правила лицензирования ПО</p>
-      </div>
+<!-- EXACT YOOMONEY PAYMENT MODAL FROM COMMIT 8c59ae9 -->
+<div id="payModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99999; justify-content:center; align-items:center; padding:16px;">
+  <div style="background:#131315; border:1px solid #FFDD2D; width:100%; max-width:440px; border-radius:24px; padding:28px; box-shadow:0 0 40px rgba(255,221,45,0.2); text-align:center; position:relative;">
+    <button onclick="closePayModal()" style="position:absolute; top:16px; right:20px; color:#aaa; font-size:24px; background:none; border:none; cursor:pointer;">&times;</button>
+    
+    <div style="font-size:12px; font-weight:700; color:#FFDD2D; text-transform:uppercase; margin-bottom:8px;">💰 ПОПОЛНЕНИЕ БАЛАНСА</div>
+    <div style="font-size:24px; font-weight:bold; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</div>
 
-      <div style="padding:20px; overflow-y:auto; color:#94a3b8; font-size:0.82rem; line-height:1.55; flex:1;" id="termsScrollArea">
-        <h4 style="color:#e2e8f0; margin-top:0; font-size:0.88rem; font-weight:600;">1. Общие положения</h4>
-        <p>1.1. Настоящий документ регулирует условия предоставления доступа к функционалу платформы MAJORKA BOT (далее — ПО), обеспечивающей автоматизацию коммуникаций в аккаунтах пользователя.</p>
-        <p>1.2. Использование ПО означает полное согласие Пользователя с настоящим регламентом.</p>
-
-        <h4 style="color:#e2e8f0; font-size:0.88rem; font-weight:600;">2. Серверные слоты и подключение</h4>
-        <p>2.1. Сервис предоставляет изолированные цифровые слоты обработки данных.</p>
-        <p>2.2. Пользователь самостоятельно подключает персональные прокси-серверы и настраивает параметры целевых объявлений.</p>
-
-        <h4 style="color:#e2e8f0; font-size:0.88rem; font-weight:600;">3. Разграничение ответственности</h4>
-        <p>3.1. Сервис функционирует независимо и не является аффилированным продуктом платформы Avito.ru.</p>
-        <p>3.2. Все автоматизированные действия считаются совершенными непосредственно Пользователем.</p>
-        <p>3.3. Пользователь осведомлен о специфике работы модерации внешних площадок и самостоятельно несет ответственность за соблюдение правил ресурсов, качество прокси-серверов и сохранность аккаунтов. Администрация Сервиса не несет ответственности за любые ограничения или блокировки со стороны сторонних платформ.</p>
-
-        <h4 style="color:#e2e8f0; font-size:0.88rem; font-weight:600;">4. Финансовые условия</h4>
-        <p>4.1. Подписка предоставляет право использования одного изолированного слота на срок 30 календарных дней.</p>
-      </div>
-
-      <div style="padding:14px 20px; border-top:1px solid #334155; background:#0f172a;">
-        <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
-          <input type="checkbox" id="chkAcceptTerms" style="cursor:pointer;" onchange="toggleAcceptBtn()">
-          <label for="chkAcceptTerms" style="color:#cbd5e1; font-size:0.8rem; cursor:pointer;">
-            Я ознакомлен(а) с регламентом и принимаю условия соглашения
-          </label>
-        </div>
-
-        <button id="btnAcceptTerms" onclick="confirmTerms()" disabled style="width:100%; background:#334155; border:none; color:#64748b; font-weight:600; font-size:0.9rem; padding:11px; border-radius:8px; cursor:not-allowed; transition:all 0.2s ease;">
-          Отметьте галочку для продолжения
+    <div style="background:rgba(255,255,255,0.03); border:1px solid #FFDD2D; border-radius:16px; padding:16px; margin-bottom:16px; text-align:left;">
+      <div style="font-size:12px; font-weight:700; color:#FFDD2D; text-transform:uppercase; margin-bottom:8px;">💳 ОНЛАЙН-ОПЛАТА КАРТОЙ / ЮMONEY (МГНОВЕННО)</div>
+      <p style="font-size:11px; color:#aaa; margin-bottom:14px; line-height:1.4;">Безопасная оплата. Баланс и подписка зачисляются автоматически сразу после перевода.</p>
+      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yoomoneyForm">
+        <input type="hidden" name="receiver" value="4100119556996975">
+        <input type="hidden" name="quickpay-form" value="button">
+        <input type="hidden" name="targets" value="Оплата подписки MAJORKA BOT">
+        <input type="hidden" name="paymentType" value="AC">
+        <input type="hidden" name="sum" value="6490">
+        <input type="hidden" name="label" id="ymLabel" value="">
+        <button type="submit" style="width:100%; padding:14px; border-radius:12px; background:linear-gradient(90deg, #FFDD2D, #FFC700); color:#000; font-weight:bold; font-size:15px; border:none; cursor:pointer; box-shadow:0 4px 20px rgba(255,221,45,0.3);">
+            💳 Оплатить 6 490 ₽
         </button>
-      </div>
-
+      </form>
     </div>
-  </div>iv>
+
+    <button style="width:100%; padding:12px; border-radius:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-size:14px; font-weight:600; cursor:pointer;" onclick="closePayModal()">Закрыть</button>
+  </div>
+</div>
+<script>
+function openPayModal() {
+    const pM = document.getElementById('payModal');
+    if (pM) pM.style.display = 'flex';
+}
+function closePayModal() {
+    const pM = document.getElementById('payModal');
+    if (pM) pM.style.display = 'none';
+}
+</script>
 
 </body>
 </html>
