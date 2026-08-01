@@ -472,14 +472,11 @@
 
 
 
-<!-- EXACT YOOMONEY PAYMENT MODAL FROM COMMIT 8c59ae9 -->
 <div id="payModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99999; justify-content:center; align-items:center; padding:16px;">
   <div style="background:#131315; border:1px solid #FFDD2D; width:100%; max-width:440px; border-radius:24px; padding:28px; box-shadow:0 0 40px rgba(255,221,45,0.2); text-align:center; position:relative;">
     <button onclick="closePayModal()" style="position:absolute; top:16px; right:20px; color:#aaa; font-size:24px; background:none; border:none; cursor:pointer;">&times;</button>
-    
     <div style="font-size:12px; font-weight:700; color:#FFDD2D; text-transform:uppercase; margin-bottom:8px;">💰 ПОПОЛНЕНИЕ БАЛАНСА</div>
     <div style="font-size:24px; font-weight:bold; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</div>
-
     <div style="background:rgba(255,255,255,0.03); border:1px solid #FFDD2D; border-radius:16px; padding:16px; margin-bottom:16px; text-align:left;">
       <div style="font-size:12px; font-weight:700; color:#FFDD2D; text-transform:uppercase; margin-bottom:8px;">💳 ОНЛАЙН-ОПЛАТА КАРТОЙ / ЮMONEY (МГНОВЕННО)</div>
       <p style="font-size:11px; color:#aaa; margin-bottom:14px; line-height:1.4;">Безопасная оплата. Баланс и подписка зачисляются автоматически сразу после перевода.</p>
@@ -490,24 +487,17 @@
         <input type="hidden" name="paymentType" value="AC">
         <input type="hidden" name="sum" value="6490">
         <input type="hidden" name="label" id="ymLabel" value="">
-        <button type="submit" style="width:100%; padding:14px; border-radius:12px; background:linear-gradient(90deg, #FFDD2D, #FFC700); color:#000; font-weight:bold; font-size:15px; border:none; cursor:pointer; box-shadow:0 4px 20px rgba(255,221,45,0.3);">
+        <button type="submit" style="width:100%; padding:14px; border-radius:12px; background:linear-gradient(90deg, #FFDD2D, #FFC700); color:#000; font-weight:bold; font-size:15px; border:none; cursor:pointer;">
             💳 Оплатить 6 490 ₽
         </button>
       </form>
     </div>
-
     <button style="width:100%; padding:12px; border-radius:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-size:14px; font-weight:600; cursor:pointer;" onclick="closePayModal()">Закрыть</button>
   </div>
 </div>
 <script>
-function openPayModal() {
-    const pM = document.getElementById('payModal');
-    if (pM) pM.style.display = 'flex';
-}
-function closePayModal() {
-    const pM = document.getElementById('payModal');
-    if (pM) pM.style.display = 'none';
-}
+function openPayModal() { const m = document.getElementById('payModal'); if(m) m.style.display='flex'; }
+function closePayModal() { const m = document.getElementById('payModal'); if(m) m.style.display='none'; }
 </script>
 
 </body>
