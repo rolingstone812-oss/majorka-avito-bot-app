@@ -241,16 +241,7 @@
       const c = document.getElementById('content');
       if (!c) return;
       c.innerHTML = `
-        <div style="padding:16px;">
-          <div style="background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; border-radius:16px; padding:20px; margin-bottom:16px; text-align:center;">
-            <h2 style="color:#d4af37; margin:0 0 8px 0; font-size:1.4rem;">MAJORKA BOT</h2>
-            <p style="color:#94a3b8; margin:0; font-size:0.9rem;">Автопилот продаж на Авито 24/7</p>
-            <button class="btn btn-gold" style="margin-top:15px; width:100%; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px; border-radius:10px; cursor:pointer;" onclick="showTab('create')">+ Создать нового бота</button>
-          </div>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-            <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
-              <div style="font-size:0.8rem; color:#94a3b8;">Всего ботов</div>
+        
               <div id="statBots" style="font-size:1.6rem; font-weight:bold; color:#fff; margin-top:4px;">0</div>
             </div>
             <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
