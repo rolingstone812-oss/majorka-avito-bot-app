@@ -734,8 +734,11 @@ function submitRegistration() {
         alert('Пожалуйста, подтвердите согласие с Пользовательским соглашением.');
         return;
     }
-    if (!phone) {
-        alert('Пожалуйста, укажите номер телефона.');
+    
+    // Check if phone contains actual digits
+    const digitsOnly = phone.replace(/\D/g, '');
+    if (!phone || digitsOnly.length < 10) {
+        alert('Пожалуйста, укажите корректный номер телефона (например: +7 (999) 000-00-00)');
         return;
     }
     
@@ -759,12 +762,45 @@ function checkUserRegistration() {
 }
 
 function openPaymentModal() {
-    const pM = document.getElementById('paymentModal');
-    if (pM) pM.style.display = 'flex';
-    const labelInput = document.getElementById('yoomoney_label');
-    if (labelInput) {
-        labelInput.value = getUserChatId() + '_' + Date.now();
+    let pM = document.getElementById('paymentModal');
+    if (!pM) {
+        const div = document.createElement('div');
+        div.id = 'paymentModal';
+        div.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99999; display:flex; justify-content:center; align-items:center; padding:16px;';
+        div.innerHTML = `
+            <div style="background:#131315; border:2px solid #FFDD2D; width:100%; max-width:480px; border-radius:24px; padding:28px; box-shadow:0 0 50px rgba(255,221,45,0.25); text-align:center; position:relative;">
+                <button onclick="closePaymentModal()" style="position:absolute; top:16px; right:20px; color:#aaa; font-size:24px; background:none; border:none; cursor:pointer;">&times;</button>
+                <div style="font-size:40px; margin-bottom:10px;">💳</div>
+                <h3 style="color:#FFDD2D; font-size:22px; font-weight:bold; margin-bottom:8px;">Оплата Тарифа Тест-Драйв</h3>
+                <p style="color:#ccc; font-size:14px; margin-bottom:20px; line-height:1.5;">Оплата 1 590 ₽ за 7 дней полного доступа к платформе и ассистенту продаж на Авито.</p>
+                <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" style="margin: 0 0 16px 0; width: 100%;">
+                    <input type="hidden" name="receiver" value="4100119556996975">
+                    <input type="hidden" name="formcomment" value="MAJORKA - Оплата Тест-Драйв 7 Дней">
+                    <input type="hidden" name="short-dest" value="Тест-Драйв 7 Дней (1 590 ₽)">
+                    <input type="hidden" name="label" id="yoomoney_label" value="${getUserChatId()}_1590">
+                    <input type="hidden" name="quickpay-form" value="shop">
+                    <input type="hidden" name="targets" value="Оплата Тест-Драйв MAJORKA">
+                    <input type="hidden" name="sum" value="1590" data-type="number">
+                    <input type="hidden" name="paymentType" value="AC">
+                    <button type="submit" style="width:100%; padding:15px 24px; border-radius:14px; background:linear-gradient(90deg, #FFDD2D, #FFC700); color:#000; font-weight:bold; font-size:16px; border:none; cursor:pointer; box-shadow:0 4px 20px rgba(255,221,45,0.4); transition:all 0.2s;">
+                        💳 Оплатить 1 590 ₽ через ЮMoney (СБП / Карта)
+                    </button>
+                </form>
+                <a href="https://t.me/chc332" target="_blank" style="display:block; width:100%; padding:12px 20px; border-radius:14px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-size:13px; font-weight:600; text-decoration:none;">
+                    💬 Или написать менеджеру (@chc332)
+                </a>
+            </div>
+        `;
+        document.body.appendChild(div);
+        pM = div;
     }
+    pM.style.display = 'flex';
+}
+
+function closePaymentModal() {
+    const pM = document.getElementById('paymentModal');
+    if (pM) pM.style.display = 'none';
+}
 }
 
 window.addEventListener('DOMContentLoaded', function() {
