@@ -1,504 +1,1121 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>MAJORKA BOT — Личный кабинет</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAJORKA // Вход в кабинет</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
   <script>
-    // Мгновенный сброс кэша Chrome и Telegram
-    if (!window.location.search.includes('v=9999')) {
-      window.location.replace(window.location.pathname + '?v=9999');
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#09090b',
+              surface: '#121215',
+              surfaceLight: '#18181d',
+              border: 'rgba(255, 255, 255, 0.08)',
+              borderFocus: '#FFDD2D',
+              gold: '#FFDD2D',
+              'gold-hover': '#FFC700'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
     }
   </script>
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <style>
-    :root {
-      --bg: #0a0a0c; --bg-card: #141418; --border: rgba(201, 168, 76, 0.25);
-      --gold: #c9a84c; --gold-light: #e8c97a; --text: #f0ede6;
-      --text-muted: #908878; --green: #4caf50; --blue: #2196f3;
+    * {
+      box-sizing: border-box;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-    body { background: var(--bg); color: var(--text); min-height: 100vh; padding-bottom: 90px; }
-    .serif { font-family: 'Cormorant Garamond', serif; }
-    
-    .header { display: flex; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--bg); z-index: 100; }
-    .logo { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 700; color: var(--gold); letter-spacing: 2px; }
-    .header-right { display: flex; align-items: center; gap: 10px; }
-    .balance-badge { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.35); padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 700; color: var(--gold); }
-    .btn-gold { background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%); color: #000; border: none; padding: 8px 16px; border-radius: 16px; font-weight: 800; font-size: 11px; cursor: pointer; }
-    
-    .subheader { text-align: center; padding: 20px 16px 10px; }
-    .subheader h1 { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); letter-spacing: 3px; }
-    .subheader p { font-size: 11px; color: var(--text-muted); letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
-    
-    .top-nav { display: flex; gap: 8px; padding: 12px 16px; overflow-x: auto; }
-    .nav-btn { padding: 8px 14px; border-radius: 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--text-muted); font-size: 12px; font-weight: 600; cursor: pointer; white-space: nowrap; }
-    .nav-btn.active { background: rgba(201,168,76,0.15); border-color: var(--gold); color: var(--gold); }
-    
-    .content { padding: 16px; max-width: 600px; margin: 0 auto; }
-    
-    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
-    .stat-card { background: var(--bg-card); border: 1px solid var(--border); padding: 16px; border-radius: 12px; }
-    .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
-    .stat-value { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--gold); }
-    .stat-value.green { color: var(--green); }
-    
-    .main-block { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 20px; }
-    .main-block .icon { font-size: 40px; margin-bottom: 12px; }
-    .main-block h2 { font-family: 'Cormorant Garamond', serif; font-size: 24px; color: #fff; margin-bottom: 10px; }
-    .main-block p { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5; }
-    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .btn-primary { padding: 14px; background: linear-gradient(135deg, #c9a84c 0%, #e8c97a 100%); color: #000; border: none; font-weight: 800; font-size: 12px; border-radius: 8px; cursor: pointer; text-align: center; text-decoration: none; display: inline-block; width: 100%; }
-    .btn-secondary { padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); color: var(--text); font-weight: 600; font-size: 12px; border-radius: 8px; cursor: pointer; text-align: center; width: 100%; }
-    
-    .payment-block { background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.02) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
-    .payment-title { font-size: 11px; font-weight: 700; color: var(--gold); text-transform: uppercase; margin-bottom: 12px; }
-    
-    .section { background: var(--bg-card); border: 1px solid var(--border); border-radius: 14px; padding: 20px; margin-bottom: 20px; }
-    .section-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: #fff; margin-bottom: 16px; }
-    
-    .chart { display: flex; justify-content: space-between; align-items: flex-end; height: 120px; padding: 10px 0; }
-    .chart-bar { text-align: center; flex: 1; }
-    .chart-bar div:first-child { background: linear-gradient(180deg, var(--gold) 0%, var(--gold-light) 100%); width: 30px; height: var(--h); border-radius: 4px; margin: 0 auto; transition: height 0.3s; }
-    .chart-bar div:last-child { font-size: 10px; color: var(--text-muted); margin-top: 6px; }
-
-    /* ROI */
-    .roi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-    .roi-item-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; }
-    .roi-item-value { font-size: 24px; font-weight: 700; color: #fff; margin-top: 4px; }
-    .roi-banner { background: rgba(76,175,80,0.1); border: 1px solid rgba(76,175,80,0.3); border-radius: 8px; padding: 12px; text-align: center; font-size: 12px; color: var(--green); }
-    
-    /* Рефералка */
-    .ref-block { background: linear-gradient(135deg, rgba(201,168,76,0.2) 0%, rgba(201,168,76,0.05) 100%); border: 1px solid var(--border); border-radius: 14px; padding: 24px; text-align: center; margin-bottom: 20px; }
-    .ref-icon { font-size: 40px; margin-bottom: 12px; }
-    .ref-title { font-family: 'Cormorant Garamond', serif; font-size: 20px; color: var(--gold); margin-bottom: 8px; }
-    .ref-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
-    .ref-link { background: rgba(0,0,0,0.3); border: 1px solid var(--border); border-radius: 8px; padding: 12px; margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; }
-    .ref-link code { font-size: 12px; color: var(--gold); word-break: break-all; }
-    .ref-stats { display: flex; justify-content: space-around; padding-top: 16px; border-top: 1px solid var(--border); }
-    .ref-stat-value { font-size: 20px; font-weight: 700; color: #fff; }
-    .ref-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
-
-    .form-group { margin-bottom: 16px; }
-    .form-label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; }
-    .form-input { width: 100%; padding: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 6px; color: #fff; font-size: 13px; }
-    
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: var(--bg-card); border-top: 1px solid var(--border); display: flex; justify-content: space-around; padding: 10px 0; z-index: 100; }
-    .bottom-nav-item { text-align: center; cursor: pointer; flex: 1; }
-    .bottom-nav-icon { font-size: 20px; margin-bottom: 4px; }
-    .bottom-nav-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-    .bottom-nav-item.active .bottom-nav-label { color: var(--gold); }
-    
-    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 999; align-items: center; justify-content: center; padding: 16px; }
-    .modal.active { display: flex; }
-    .modal-content { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; max-width: 440px; width: 100%; padding: 24px; position: relative; }
-    .modal-close { position: absolute; top: 16px; right: 16px; background: none; border: none; color: #888; font-size: 20px; cursor: pointer; }
-  
-    input[type="text"], input[type="number"], select, textarea {
-      width: 100% !important;
-      background: #181c28 !important;
-      border: 1px solid #2a3142 !important;
-      color: #ffffff !important;
-      font-size: 15px !important;
-      padding: 12px 14px !important;
-      border-radius: 8px !important;
-      box-sizing: border-box !important;
-      outline: none !important;
-      -webkit-user-select: text !important;
-      user-select: text !important;
-      pointer-events: auto !important;
-      opacity: 1 !important;
+    body {
+      background-color: #09090b;
+      color: #F3F4F6;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
     }
-    input[type="text"]:focus, select:focus {
-      border-color: #d4af37 !important;
-      box-shadow: 0 0 8px rgba(212,175,55,0.3) !important;
+    .auth-status { min-height: 1.25rem; font-size: .75rem; line-height: 1.25rem; }
+    .auth-status.error { color: #f87171; }
+    .auth-status.info { color: rgba(255,255,255,.6); }
+    .auth-status.success { color: #34d399; }
+    
+    .auth-mode { color: rgba(255,255,255,.45); transition: all .2s ease; }
+    .auth-mode.active { color: #121214; background: #FFDD2D; font-weight: 700; box-shadow: 0 2px 10px rgba(255,221,45,.2); }
+    
+    .password-hint { color: rgba(255,255,255,.4); }
+    .password-hint.valid { color: #34d399; }
+    .password-hint.invalid { color: #f87171; }
+
+    .rolly-input {
+      background: #141417;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      color: #ffffff;
+      border-radius: 0.75rem;
+      transition: all 0.2s ease;
     }
-</style>
-</head>
-<body>
+    .rolly-input:focus {
+      border-color: #FFDD2D;
+      outline: none;
+      box-shadow: 0 0 0 1px rgba(255, 221, 45, 0.35);
+      background: #17171b;
+    }
 
-  <div class="header">
-    <div class="logo">MAJORKA BOT</div>
-    <div class="header-right">
-      <div class="balance-badge">💰 <span id="balance">0 ₽</span></div>
-      <button class="btn-gold" onclick="openPayModal()">ПОПОЛНИТЬ</button>
-    </div>
-  </div>
+    .btn-gold {
+      background: #FFDD2D;
+      color: #121214;
+      font-weight: 700;
+      border-radius: 0.75rem;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 18px rgba(255, 221, 45, 0.2);
+    }
+    .btn-gold:hover {
+      background: #FFC700;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(255, 221, 45, 0.32);
+    }
+    .btn-gold:active {
+      transform: translateY(0);
+    }
 
-  <div class="subheader">
-    <h1>MAJORKA BOT</h1>
-    <p>Автопилот продаж на Авито</p>
-  </div>
+    .glass-card {
+      background: rgba(18, 22, 34, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
 
-  <div class="top-nav">
-    <button class="nav-btn active" id="tab-btn-overview" onclick="showTab('overview')">📊 Обзор</button>
-    <button class="nav-btn" id="tab-btn-bots" onclick="showTab('bots')">🤖 Мои боты</button>
-    <button class="nav-btn" id="tab-btn-create" onclick="showTab('create')">➕ Создать</button>
-    <button class="nav-btn" id="tab-btn-dialogs" onclick="showTab('dialogs')">💬 Диалоги</button>
-    <button class="nav-btn" id="tab-btn-support" onclick="showTab('support')">⭐ Поддержка</button>
-  </div>
-
-  <div class="content" id="content"></div>
-
-  <div class="bottom-nav">
-    <div class="bottom-nav-item active" id="bnav-overview" onclick="showTab('overview')"><div class="bottom-nav-icon">📊</div><div class="bottom-nav-label">Обзор</div></div>
-    <div class="bottom-nav-item" id="bnav-bots" onclick="showTab('bots')"><div class="bottom-nav-icon">🤖</div><div class="bottom-nav-label">Боты</div></div>
-    <div class="bottom-nav-item" id="bnav-create" onclick="showTab('create')"><div class="bottom-nav-icon">➕</div><div class="bottom-nav-label">Создать</div></div>
-    <div class="bottom-nav-item" id="bnav-dialogs" onclick="showTab('dialogs')"><div class="bottom-nav-icon">💬</div><div class="bottom-nav-label">Диалоги</div></div>
-    <div class="bottom-nav-item" id="bnav-support" onclick="showTab('support')"><div class="bottom-nav-icon">⭐</div><div class="bottom-nav-label">Поддержка</div></div>
-  </div>
-
-  <!-- Модальное окно оплаты -->
-  <div class="modal" id="payModal">
-    <div class="modal-content">
-      <button class="modal-close" onclick="closePayModal()">✕</button>
-      <div style="color:var(--gold); font-size:11px; font-weight:700; text-transform:uppercase; margin-bottom:8px;">💰 Пополнение баланса</div>
-      <div class="serif" style="font-size:24px; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</div>
-      
-      <div style="background:rgba(201,168,76,0.12); border:1px solid var(--gold); border-radius:12px; padding:18px; margin-bottom:16px;">
-        <div style="font-size:12px; font-weight:700; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">💳 Онлайн-оплата картой / ЮMoney (Мгновенно)</div>
-        <p style="font-size:11px; color:var(--text-muted); margin-bottom:14px;">Безопасная оплата. Баланс и подписка зачисляются автоматически сразу после перевода.</p>
-        <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yoomoneyForm">
-          <input type="hidden" name="receiver" value="4100119556996975">
-          <input type="hidden" name="quickpay-form" value="button">
-          <input type="hidden" name="targets" value="Оплата подписки MAJORKA BOT">
-          <input type="hidden" name="paymentType" value="AC">
-          <input type="hidden" name="sum" value="6490">
-          <input type="hidden" name="label" id="ymLabel" value="">
-          <button type="submit" class="btn-primary" style="width:100%;">💳 Оплатить 6 490 ₽</button>
-        </form>
-      </div>
-
-      <div style="background:rgba(255,255,255,0.03); border:1px solid var(--border); border-radius:12px; padding:16px; margin-bottom:16px;">
-        <div style="display:flex; gap:8px;">
-        </div>
-      </div>
-
-      <button class="btn-secondary" style="width:100%;" onclick="closePayModal()">Закрыть</button>
-    </div>
-  </div>
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes floatReverse {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(6px); }
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.75; transform: scale(1.03); }
+    }
+    .anim-float { animation: floatSlow 6s ease-in-out infinite; }
+    .anim-float-rev { animation: floatReverse 7s ease-in-out infinite; }
+    .anim-pulse-glow { animation: pulseGlow 5s ease-in-out infinite; }
+  </style>
 
   <script>
-    const API_URL = 'http://127.0.0.1:8085';
-    let tg = window.Telegram?.WebApp;
-    if (tg) { tg.expand(); }
-
-    const userLabel = tg?.initDataUnsafe?.user?.id ? tg.initDataUnsafe.user.id.toString() : '6940082004';
-    var balance = 0;
-    var bots = [];
-    var currentTab = 'overview';
-
-    function showToast(msg) {
-      let toast = document.getElementById('customToast');
-      if (!toast) {
-        toast = document.createElement('div');
-        toast.id = 'customToast';
-        toast.style.cssText = 'position:fixed; top:-60px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; color:#fff; padding:12px 24px; border-radius:30px; font-weight:bold; font-size:0.9rem; z-index:99999; box-shadow:0 10px 25px rgba(0,0,0,0.8); transition:all 0.4s ease; text-align:center; display:flex; align-items:center; gap:8px; pointer-events:none;';
-        document.body.appendChild(toast);
-      }
-      toast.innerHTML = '✨ <span>' + msg + '</span>';
-      toast.style.opacity = '1';
-      toast.style.top = '20px';
-      setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.top = '-60px';
-      }, 3200);
+    // Auto clear session if URL has ?reset=1 or if forced test
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('reset') || urlParams.has('logout')) {
+      localStorage.clear();
+      document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
+  </script>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-gold selection:text-black">
 
-    function updateUI() {
-      const bVal = (typeof balance !== 'undefined' ? Number(balance) : 0).toFixed(2) + ' ₽';
-      const topBalEl = document.getElementById('balance');
-      if (topBalEl) topBalEl.innerText = bVal;
+  <div class="min-h-screen w-full flex flex-col lg:flex-row">
+
+    <!-- ==================== LEFT COLUMN: AUTHENTICATION FORM ==================== -->
+    <div class="w-full lg:w-[45%] xl:w-[42%] flex flex-col justify-between p-6 sm:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-white/5 bg-[#09090b] relative z-20">
       
-      const balBadges = document.querySelectorAll('.balance-badge span, .user-balance');
-      balBadges.forEach(b => { if(b) b.innerText = bVal; });
-    }
-
-    function showTab(tabId) {
-      currentTab = tabId;
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.bottom-nav-item').forEach(b => b.classList.remove('active'));
-
-      const topNavBtn = document.getElementById('tab-btn-' + tabId);
-      if (topNavBtn) topNavBtn.classList.add('active');
-
-      const bNavBtn = document.getElementById('bnav-' + tabId);
-      if (bNavBtn) bNavBtn.classList.add('active');
-
-      if (tabId === 'overview') renderOverview();
-      else if (tabId === 'bots') renderBots();
-      else if (tabId === 'create') renderCreate();
-      else if (tabId === 'dialogs') renderDialogs();
-      else if (tabId === 'support') renderSupport();
-    }
-
-    function renderOverview() {
-      const c = document.getElementById('content');
-      if (!c) return;
-      c.innerHTML = `
-        <div style="padding:16px;">
-          <div style="background:linear-gradient(135deg, #181c28, #11141f); border:1px solid #d4af37; border-radius:16px; padding:20px; margin-bottom:16px; text-align:center;">
-            <h2 style="color:#d4af37; margin:0 0 8px 0; font-size:1.4rem;">MAJORKA BOT</h2>
-            <p style="color:#94a3b8; margin:0; font-size:0.9rem;">Автопилот продаж на Авито 24/7</p>
-            <button class="btn btn-gold" style="margin-top:15px; width:100%; background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px; border-radius:10px; cursor:pointer;" onclick="showTab('create')">+ Создать нового бота</button>
+      <!-- TOP: BRAND LOGO -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3 cursor-pointer group">
+          <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-b from-[#22201b] to-[#121214] border border-brand-gold/30 shadow-[0_2px_12px_rgba(255,221,45,0.12)]">
+            <!-- 3D FACETED MONOGRAM M -->
+            <svg class="w-5 h-5 transform group-hover:scale-105 transition-transform duration-300" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="idx_m_facet_left" x1="4" y1="6" x2="13" y2="29" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FFF8D6"/>
+                  <stop offset="45%" stop-color="#F0C048"/>
+                  <stop offset="100%" stop-color="#8F660F"/>
+                </linearGradient>
+                <linearGradient id="idx_m_facet_mid_l" x1="8" y1="7" x2="18" y2="24" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FFFDF0"/>
+                  <stop offset="40%" stop-color="#FCD568"/>
+                  <stop offset="100%" stop-color="#A87713"/>
+                </linearGradient>
+                <linearGradient id="idx_m_facet_mid_r" x1="18" y1="7" x2="28" y2="24" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#B88210"/>
+                  <stop offset="55%" stop-color="#734F06"/>
+                  <stop offset="100%" stop-color="#3D2800"/>
+                </linearGradient>
+                <linearGradient id="idx_m_facet_right" x1="23" y1="6" x2="32" y2="29" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FAD464"/>
+                  <stop offset="50%" stop-color="#D99F20"/>
+                  <stop offset="100%" stop-color="#6B4804"/>
+                </linearGradient>
+                <linearGradient id="idx_m_gem" x1="18" y1="16" x2="18" y2="23" gradientUnits="userSpaceOnUse">
+                  <stop offset="0%" stop-color="#FFFFFF"/>
+                  <stop offset="100%" stop-color="#F0C048"/>
+                </linearGradient>
+              </defs>
+              <path d="M4 29L7.5 7L13 18L10 29H4Z" fill="url(#idx_m_facet_left)"/>
+              <path d="M7.5 7L18 23.5L13 18L7.5 7Z" fill="url(#idx_m_facet_mid_l)"/>
+              <path d="M28.5 7L18 23.5L23 18L28.5 7Z" fill="url(#idx_m_facet_mid_r)"/>
+              <path d="M32 29L28.5 7L23 18L26 29H32Z" fill="url(#idx_m_facet_right)"/>
+              <polygon points="18,17 20,20.5 18,24 16,20.5" fill="url(#idx_m_gem)"/>
+            </svg>
           </div>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-            <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
-              <div style="font-size:0.8rem; color:#94a3b8;">Всего ботов</div>
-              <div id="statBots" style="font-size:1.6rem; font-weight:bold; color:#fff; margin-top:4px;">0</div>
-            </div>
-            <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:14px; text-align:center;">
-              <div style="font-size:0.8rem; color:#94a3b8;">Сообщений</div>
-              <div id="statMsgs" style="font-size:1.6rem; font-weight:bold; color:#10b981; margin-top:4px;">0</div>
-            </div>
-          </div>
-
-          <div style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; text-align:center;">
-            <div style="font-size:0.85rem; color:#94a3b8;">Собрано горячих лидов (телефонов)</div>
-            <div id="statLeads" style="font-size:2rem; font-weight:bold; color:#d4af37; margin-top:4px;">0</div>
+          <div>
+            <h1 class="font-outfit text-xl font-extrabold text-white tracking-wider leading-none">MAJOR<span class="text-brand-gold">KA</span></h1>
+            <p class="text-[10px] text-white/40 font-medium tracking-wide">Управляющий продажами</p>
           </div>
         </div>
-      `;
-      syncWithServer();
+
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="openTariffModal()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-gold/30 bg-brand-gold/10 hover:bg-brand-gold/20 text-[11px] font-bold text-brand-gold transition-all cursor-pointer">
+            <span class="material-symbols-outlined text-sm">payments</span>
+            <span>Тарифы от 1 590 ₽</span>
+          </button>
+          <span class="hidden sm:inline-flex text-[10px] font-semibold text-white/40 tracking-wider uppercase px-2.5 py-1 rounded-full border border-white/5 bg-white/[0.02]">
+            Avito 24/7
+          </span>
+        </div>
+      </div>
+
+      <!-- CENTER: AUTHENTICATION FORM -->
+      <div class="w-full max-w-[390px] mx-auto my-auto py-8">
+        
+        <div class="mb-7">
+          <h2 id="authTitle" class="font-outfit text-3xl font-extrabold text-white tracking-tight mb-2">Вход в кабинет</h2>
+          <p id="authSubtitle" class="text-xs sm:text-sm text-white/50">Войдите, чтобы управлять продажами и заказами</p>
+        </div>
+
+        <!-- MODE SWITCHER (Вход / Регистрация) -->
+        <div class="grid grid-cols-2 gap-1 p-1 bg-[#141417] rounded-xl border border-white/5 mb-6">
+          <button id="loginModeButton" type="button" onclick="setAuthMode('login')" class="auth-mode active py-2 rounded-lg text-xs font-semibold cursor-pointer">Вход</button>
+          <button id="registerModeButton" type="button" onclick="setAuthMode('register')" class="auth-mode py-2 rounded-lg text-xs font-semibold cursor-pointer">Регистрация</button>
+        </div>
+
+        <div class="space-y-4">
+          <!-- NAME FIELD (Register only) -->
+          <div id="nameField" class="hidden">
+            <label class="text-xs font-medium text-white/60 block mb-1.5">Ваше имя</label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-lg">badge</span>
+              <input type="text" id="nameInput" autocomplete="name" class="rolly-input w-full pl-11 pr-4 py-3 text-sm placeholder-white/20" placeholder="Алексей">
+            </div>
+          </div>
+
+          <!-- EMAIL FIELD (With @ icon) -->
+          <div>
+            <label class="text-xs font-medium text-white/60 block mb-1.5">Email адрес</label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-lg">alternate_email</span>
+              <input type="email" id="emailInput" autocomplete="email" class="rolly-input w-full pl-11 pr-4 py-3 text-sm placeholder-white/20" placeholder="name@gmail.com">
+            </div>
+          </div>
+
+          <!-- PASSWORD FIELD (With key icon & eye toggle) -->
+          <div>
+            <label class="text-xs font-medium text-white/60 block mb-1.5">Пароль</label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-lg">vpn_key</span>
+              <input type="password" id="passwordInput" autocomplete="current-password" oninput="updatePasswordHint()" class="rolly-input w-full pl-11 pr-11 py-3 text-sm placeholder-white/20" placeholder="••••••••">
+              <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors p-1 cursor-pointer">
+                <span id="eyeIcon" class="material-symbols-outlined text-lg select-none">visibility</span>
+              </button>
+            </div>
+            <p id="passwordHint" class="password-hint text-[11px] mt-1.5">Не менее 8 символов, 1 латинская буква и 1 цифра</p>
+          </div>
+
+          <!-- PASSWORD CONFIRM FIELD (Register only) -->
+          <div id="passwordConfirmField" class="hidden">
+            <label class="text-xs font-medium text-white/60 block mb-1.5">Повторите пароль</label>
+            <div class="relative">
+              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-lg">lock</span>
+              <input type="password" id="passwordConfirmInput" autocomplete="new-password" class="rolly-input w-full pl-11 pr-4 py-3 text-sm placeholder-white/20" placeholder="Повторите пароль">
+            </div>
+          </div>
+
+          <!-- TERMS & CONDITIONS CHECKBOX -->
+          <div class="flex items-start gap-2.5 pt-1 text-xs text-white/55">
+            <input type="checkbox" id="indexTermsCheckbox" checked class="w-4 h-4 mt-0.5 rounded bg-[#141417] border-white/20 accent-[#FFDD2D] cursor-pointer">
+            <label for="indexTermsCheckbox" class="cursor-pointer select-none leading-relaxed">
+              Я принимаю 
+              <button type="button" onclick="openDocModal()" class="text-brand-gold hover:underline font-medium">Условия использования и Политику</button>
+            </label>
+          </div>
+
+          <!-- STATUS & PRIMARY ACTION BUTTON -->
+          <div class="pt-2 space-y-3">
+            <div id="authStatus" class="auth-status info" role="status" aria-live="polite"></div>
+            
+            <button id="emailLoginButton" onclick="submitEmailAuth()" class="w-full btn-gold py-3.5 px-5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
+              <span id="emailActionText">Войти в кабинет</span>
+              <span class="material-symbols-outlined text-base">arrow_forward</span>
+            </button>
+
+            <!-- DIVIDER -->
+            <div class="flex items-center gap-3 py-1 text-[11px] text-white/25">
+              <span class="h-px bg-white/10 flex-1"></span>
+              <span>или быстрый доступ</span>
+              <span class="h-px bg-white/10 flex-1"></span>
+            </div>
+
+            <!-- GOOGLE & TELEGRAM AUTH -->
+            <div id="googleSignInButton" class="min-h-[40px] flex justify-center w-full"></div>
+            
+            <button onclick="submitTelegramAuth()" class="w-full py-3 px-4 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 rounded-xl text-xs font-semibold text-white/90 flex items-center justify-center gap-2.5 transition-colors cursor-pointer">
+              <svg class="w-4 h-4 fill-[#2AABEE]" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+              <span>Войти через Telegram (@avito_deployer_bot)</span>
+            </button>
+
+            <!-- PROMO / TRUST CARD -->
+            <div onclick="openTariffModal()" class="p-3.5 rounded-xl bg-gradient-to-r from-[#1c1a14] via-[#161518] to-[#121215] border border-brand-gold/25 hover:border-brand-gold/50 transition-all cursor-pointer shadow-lg group">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-8 h-8 rounded-lg bg-brand-gold/15 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-base">
+                    🚀
+                  </div>
+                  <div>
+                    <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                      <span>Тест-Драйв 7 дней за 1 590 ₽</span>
+                      <span class="text-[9px] bg-brand-gold text-[#121214] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider">ХИТ</span>
+                    </div>
+                    <div class="text-[10px] text-white/50 flex items-center gap-1 mt-0.5">
+                      <span class="text-emerald-400">🛡️ 100% гарантия возврата 24ч</span>
+                      <span>•</span>
+                      <span>без переплат</span>
+                    </div>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-sm text-brand-gold group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BOTTOM: SECURITY BADGES -->
+      <div class="pt-6 border-t border-white/5 flex flex-wrap items-center justify-between gap-3 text-[11px] text-white/40">
+        <div class="flex items-center gap-4">
+          <span class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm text-white/30">lock</span>
+            Шифрование сессии
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm text-white/30">security</span>
+            Сервер 24/7
+          </span>
+        </div>
+        <a href="https://t.me/chc332" target="_blank" class="hover:text-brand-gold transition-colors flex items-center gap-1.5 font-medium">
+          <span class="material-symbols-outlined text-sm">support_agent</span>
+          Поддержка @chc332
+        </a>
+      </div>
+
+    </div>
+
+    <!-- ==================== RIGHT COLUMN: 3D ISOMETRIC LUXURY SHOWCASE ==================== -->
+    <div class="flex-1 min-h-[600px] lg:min-h-screen relative overflow-hidden flex flex-col justify-between p-8 sm:p-12 lg:p-16 bg-[#08080a]" style="background: radial-gradient(circle at 65% 42%, #0e1e36 0%, #0a1120 45%, #08080a 90%);">
+      
+      <!-- AMBIENT GLOW BACKDROPS -->
+      <div class="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-blue-600/10 blur-[120px] pointer-events-none anim-pulse-glow"></div>
+      <div class="absolute bottom-1/3 left-1/3 w-80 h-80 rounded-full bg-brand-gold/[0.04] blur-[100px] pointer-events-none"></div>
+
+      <!-- TOP RIGHT: LIVE STATUS PILL -->
+      <div class="flex items-center justify-end z-10">
+        <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-md text-[11px] text-white/70">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Выделенный сервер онлайн • отклик 0.3с</span>
+        </div>
+      </div>
+
+      <!-- CENTER: 3D ISOMETRIC GLASS HUB & FLOATING CARDS -->
+      <div class="relative w-full max-w-[620px] mx-auto my-auto py-10 z-10 flex items-center justify-center min-h-[380px]">
+        
+        <!-- SVG CONNECTING CIRCUITS & ISOMETRIC PLATFORM -->
+        <svg class="absolute inset-0 w-full h-full pointer-events-none overflow-visible" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <filter id="circuitGlow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="3" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+            <linearGradient id="neonCyanLine" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#00D2FF" stop-opacity="0.8"/>
+              <stop offset="100%" stop-color="#0066FF" stop-opacity="0.2"/>
+            </linearGradient>
+            <linearGradient id="neonGoldLine" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FFDD2D" stop-opacity="0.7"/>
+              <stop offset="100%" stop-color="#FF9900" stop-opacity="0.1"/>
+            </linearGradient>
+          </defs>
+
+          <!-- CIRCUIT TRACK 1: To Top-Left Card -->
+          <path d="M 300 200 L 220 160 L 160 120" stroke="url(#neonCyanLine)" stroke-width="2" stroke-dasharray="4 4" filter="url(#circuitGlow)"/>
+          
+          <!-- CIRCUIT TRACK 2: To Top-Right Card -->
+          <path d="M 330 190 L 410 150 L 460 110" stroke="url(#neonCyanLine)" stroke-width="2" stroke-dasharray="4 4" filter="url(#circuitGlow)"/>
+          
+          <!-- CIRCUIT TRACK 3: To Left Badges -->
+          <path d="M 270 215 L 180 230 L 110 240" stroke="url(#neonCyanLine)" stroke-width="2" stroke-linecap="round" filter="url(#circuitGlow)"/>
+          
+          <!-- CIRCUIT TRACK 4: To Bottom-Right Orders Card -->
+          <path d="M 330 230 L 400 270 L 460 300" stroke="url(#neonGoldLine)" stroke-width="2" stroke-dasharray="4 4" filter="url(#circuitGlow)"/>
+
+          <!-- CONNECTION PULSE NODES -->
+          <circle cx="160" cy="120" r="4" fill="#00D2FF" filter="url(#circuitGlow)"/>
+          <circle cx="460" cy="110" r="4" fill="#00D2FF" filter="url(#circuitGlow)"/>
+          <circle cx="110" cy="240" r="4" fill="#00D2FF" filter="url(#circuitGlow)"/>
+          <circle cx="460" cy="300" r="4" fill="#FFDD2D" filter="url(#circuitGlow)"/>
+        </svg>
+
+        <!-- CENTRAL 3D ISOMETRIC GLASS HUB -->
+        <div class="relative z-10 flex items-center justify-center">
+          
+          <!-- Outer Shadow Platform -->
+          <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-3xl bg-gradient-to-tr from-[#0b162c] to-[#040812] border-2 border-cyan-500/30 shadow-[0_20px_60px_rgba(0,112,243,0.35)] flex items-center justify-center transform -rotate-12 hover:rotate-0 transition-transform duration-700 ease-out cursor-pointer group">
+            
+            <!-- Mid Glowing Rim -->
+            <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl bg-gradient-to-b from-blue-900/40 via-cyan-950/20 to-black/80 border border-cyan-400/40 shadow-inner flex items-center justify-center p-3 relative overflow-hidden">
+              
+              <!-- Subtle light reflection across glass -->
+              <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-cyan-400/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+
+              <!-- Top Surface: Monogram M Plate -->
+              <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-[#0e131d] border border-white/10 shadow-2xl flex flex-col items-center justify-center relative">
+                <svg class="w-12 h-12 transform group-hover:scale-110 transition-transform duration-300" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M4 29L7.5 7L13 18L10 29H4Z" fill="url(#idx_m_facet_left)"/>
+                  <path d="M7.5 7L18 23.5L13 18L7.5 7Z" fill="url(#idx_m_facet_mid_l)"/>
+                  <path d="M28.5 7L18 23.5L23 18L28.5 7Z" fill="url(#idx_m_facet_mid_r)"/>
+                  <path d="M32 29L28.5 7L23 18L26 29H32Z" fill="url(#idx_m_facet_right)"/>
+                  <polygon points="18,17 20,20.5 18,24 16,20.5" fill="url(#idx_m_gem)"/>
+                </svg>
+                <span class="text-[9px] font-extrabold tracking-widest text-brand-gold mt-1">MAJORKA</span>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- FLOATING CARD 1: TOP-LEFT ANALYTICS DONUT -->
+        <div class="absolute -top-4 -left-4 sm:left-2 glass-card rounded-2xl p-3.5 sm:p-4 w-44 sm:w-48 anim-float pointer-events-none sm:pointer-events-auto">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-[10px] uppercase font-bold text-white/50 tracking-wider">Конверсия</span>
+            <span class="text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+42%</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <!-- Mini SVG Donut -->
+            <div class="relative w-11 h-11 shrink-0">
+              <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="4"></circle>
+                <circle cx="18" cy="18" r="14" fill="none" stroke="#00D2FF" stroke-width="4" stroke-dasharray="88" stroke-dashoffset="20" stroke-linecap="round"></circle>
+              </svg>
+              <span class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white">78%</span>
+            </div>
+            <div class="space-y-1.5 flex-1">
+              <div class="h-1.5 rounded-full bg-white/10 w-full overflow-hidden">
+                <div class="h-full bg-cyan-400 w-4/5 rounded-full"></div>
+              </div>
+              <div class="h-1.5 rounded-full bg-white/10 w-3/4 overflow-hidden">
+                <div class="h-full bg-brand-gold w-3/5 rounded-full"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FLOATING CARD 2: TOP-RIGHT SALES GROWTH SPLINE -->
+        <div class="absolute -top-2 -right-4 sm:right-2 glass-card rounded-2xl p-3.5 sm:p-4 w-44 sm:w-52 anim-float-rev pointer-events-none sm:pointer-events-auto">
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-[10px] font-medium text-white/50">Продажи за неделю</span>
+            <span class="material-symbols-outlined text-xs text-brand-gold">trending_up</span>
+          </div>
+          <div class="text-base sm:text-lg font-extrabold text-white tracking-tight">284 500 ₽</div>
+          <!-- Wave spline chart -->
+          <div class="mt-2 h-7 w-full">
+            <svg class="w-full h-full" viewBox="0 0 100 30" fill="none" preserveAspectRatio="none">
+              <path d="M0 25 C20 20, 35 5, 55 15 C75 25, 85 8, 100 2" stroke="#FFDD2D" stroke-width="2" stroke-linecap="round"/>
+              <path d="M0 25 C20 20, 35 5, 55 15 C75 25, 85 8, 100 2 L 100 30 L 0 30 Z" fill="url(#chartGrad)" opacity="0.15"/>
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FFDD2D"/>
+                  <stop offset="100%" stop-color="transparent"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+        </div>
+
+        <!-- FLOATING BADGES: LEFT CIRCULAR NODES -->
+        <div class="absolute left-0 bottom-12 space-y-2.5">
+          <!-- Avito Node -->
+          <div class="glass-card rounded-xl px-3 py-1.5 flex items-center gap-2 border-cyan-500/20 shadow-lg anim-float">
+            <div class="w-6 h-6 rounded-lg bg-blue-500/20 flex items-center justify-center text-cyan-400 font-black text-xs">
+              A
+            </div>
+            <div class="text-left">
+              <p class="text-[10px] font-bold text-white leading-none">Авито Магазин</p>
+              <p class="text-[8px] text-emerald-400 leading-none mt-0.5">Синхронизирован</p>
+            </div>
+          </div>
+
+          <!-- Speed Node -->
+          <div class="glass-card rounded-xl px-3 py-1.5 flex items-center gap-2 border-brand-gold/20 shadow-lg anim-float-rev">
+            <span class="material-symbols-outlined text-sm text-brand-gold">bolt</span>
+            <span class="text-[10px] font-bold text-white">&lt;15 сек отклик</span>
+          </div>
+        </div>
+
+        <!-- FLOATING CARD 3: BOTTOM-RIGHT LIVE TRANSACTION/ORDER FEED -->
+        <div class="absolute -bottom-6 -right-2 sm:right-4 glass-card rounded-2xl p-3.5 sm:p-4 w-52 sm:w-60 anim-float pointer-events-none sm:pointer-events-auto">
+          <div class="flex items-center justify-between pb-2 border-b border-white/5 mb-2">
+            <span class="text-[10px] font-bold text-white/70 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+              Поток заказов
+            </span>
+            <span class="text-[9px] text-white/40">онлайн</span>
+          </div>
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-[11px]">
+              <div class="flex items-center gap-2">
+                <span class="text-sm">📦</span>
+                <div>
+                  <p class="font-semibold text-white leading-none text-[10px]">Авито Доставка</p>
+                  <p class="text-[8px] text-white/40 leading-none mt-0.5">Покупатель: Артем</p>
+                </div>
+              </div>
+              <span class="font-bold text-emerald-400 text-[10px]">+18 900 ₽</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] pt-1 border-t border-white/5">
+              <div class="flex items-center gap-2">
+                <span class="text-sm">💬</span>
+                <div>
+                  <p class="font-semibold text-white leading-none text-[10px]">Квалификация лида</p>
+                  <p class="text-[8px] text-white/40 leading-none mt-0.5">Готов к покупке</p>
+                </div>
+              </div>
+              <span class="font-bold text-brand-gold text-[10px]">100%</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- BOTTOM: HEADLINE & PUNCHLINE TYPOGRAPHY -->
+      <div class="z-10 pt-8">
+        <h2 class="font-outfit text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.1]">
+          Все продажи<br>в одном кабинете
+        </h2>
+        <p class="text-xs sm:text-sm text-white/50 max-w-lg mt-3 leading-relaxed">
+          Автономные продажи, квалификация лидов и аналитика — на одних цифрах, в реальном времени 24/7.
+        </p>
+        <div class="flex flex-wrap items-center gap-3 mt-5">
+          <div class="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 backdrop-blur-md flex items-center gap-2 text-xs text-white/80">
+            <span class="text-emerald-400 text-sm">🛡️</span>
+            <span class="font-medium">100% Гарантия возврата 24ч</span>
+          </div>
+          <button type="button" onclick="openTariffModal()" class="px-3.5 py-2 rounded-xl bg-brand-gold/10 border border-brand-gold/25 hover:bg-brand-gold/20 backdrop-blur-md flex items-center gap-2 text-xs text-brand-gold font-bold transition-colors cursor-pointer">
+            <span class="text-sm">⚡</span>
+            <span>Тест-Драйв 7 дней за 1 590 ₽</span>
+          </button>
+          <a href="https://t.me/chc332" target="_blank" class="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 hover:border-brand-gold/30 transition-colors flex items-center gap-2 text-xs text-white/80">
+            <span class="text-cyan-400 text-sm">💬</span>
+            <span>Поддержка 24/7 @chc332</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- COOKIE CONSENT BANNER (152-ФЗ / GDPR) -->
+  <div id="cookieConsentBanner" class="fixed bottom-5 right-5 z-50 max-w-md w-[calc(100%-2rem)] sm:w-full p-5 glass-card border-brand-gold/30 rounded-2xl shadow-2xl space-y-3 hidden transition-all duration-300">
+    <div class="flex items-start justify-between gap-3">
+      <div class="flex items-center gap-2 text-brand-gold font-bold font-outfit text-sm">
+        <span class="material-symbols-outlined text-base">cookie</span>
+        <span>Файлы Cookie и Безопасность</span>
+      </div>
+      <button onclick="dismissCookieBanner()" class="text-white/40 hover:text-white transition-colors cursor-pointer">
+        <span class="material-symbols-outlined text-sm">close</span>
+      </button>
+    </div>
+    <p class="text-xs text-white/70 leading-relaxed">
+      Мы используем файлы cookie и зашифрованные сессионные токены для сохранения вашего входа и безопасной работы Личного Кабинета.
+    </p>
+    <div class="flex items-center gap-2 pt-1">
+      <button onclick="acceptCookies('all')" class="btn-gold flex-1 py-2.5 rounded-xl text-xs font-bold cursor-pointer">
+        Принять все
+      </button>
+      <button onclick="acceptCookies('essential')" class="flex-1 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-white/80 transition-colors cursor-pointer">
+        Только необходимые
+      </button>
+    </div>
+  </div>
+
+  <!-- TARIFFS & TEST-DRIVE MODAL -->
+  <div id="tariffModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-card max-w-4xl w-full max-h-[90vh] flex flex-col p-6 sm:p-8 space-y-6 shadow-2xl relative border-brand-gold/30 rounded-3xl overflow-y-auto">
+      
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-brand-gold px-2.5 py-0.5 bg-brand-gold/10 rounded-full border border-brand-gold/30">Прозрачные условия</span>
+            <span class="text-[11px] text-emerald-400 font-semibold flex items-center gap-1">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+              100% Гарантия возврата 24ч
+            </span>
+          </div>
+          <h3 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white mt-1">Тарифы и Тест-Драйв MAJORKA</h3>
+        </div>
+        <button onclick="closeTariffModal()" class="text-white/40 hover:text-white transition-colors cursor-pointer p-2 rounded-xl bg-white/5 hover:bg-white/10">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- 3 CARDS IN MODAL -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch pt-2">
+        
+        <!-- CARD 1: TEST DRIVE 7 DAYS -->
+        <div class="p-6 rounded-2xl bg-white/[0.03] border border-brand-gold/30 flex flex-col justify-between space-y-5 relative hover:border-brand-gold/60 transition-all">
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-white/60 px-2.5 py-0.5 bg-white/5 rounded-full border border-white/10">Быстрый старт</span>
+              <span class="text-[9px] font-extrabold text-brand-gold bg-brand-gold/15 px-2 py-0.5 rounded border border-brand-gold/30">1 РАЗ</span>
+            </div>
+            <div>
+              <h4 class="font-outfit font-bold text-lg text-white">Тест-Драйв на 7 дней</h4>
+              <div class="font-outfit font-extrabold text-3xl text-brand-gold mt-2">1 590 ₽</div>
+              <p class="text-[11px] text-white/40 mt-0.5">Полный доступ на неделю</p>
+            </div>
+            <ul class="space-y-2 text-xs text-white/70 pt-2">
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span>Выделенный сервер 24/7</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span>Ответ покупателю &lt;15 сек</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span>SPIN-скрипты продаж</span>
+              </li>
+              <li class="flex items-center gap-2 text-emerald-400 font-medium">
+                <span class="material-symbols-outlined text-emerald-400 text-sm">shield</span>
+                <span>Возврат 100% если не подошло</span>
+              </li>
+            </ul>
+          </div>
+          <button onclick="selectTariffFromModal('trial_7days')" class="w-full py-3 rounded-xl text-xs font-bold text-brand-gold border border-brand-gold/40 hover:bg-brand-gold/15 transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <span>Выбрать Тест-Драйв</span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+        </div>
+
+        <!-- CARD 2: FULL MONTH -->
+        <div class="p-6 rounded-2xl bg-brand-gold/[0.04] border-2 border-brand-gold/50 flex flex-col justify-between space-y-5 relative shadow-[0_10px_35px_rgba(255,221,45,0.12)]">
+          <div class="absolute -top-3 right-4 bg-brand-gold text-[#121214] font-outfit font-extrabold text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
+            ХИТ ПРОДАЖ • -50%
+          </div>
+          <div class="space-y-3">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-brand-gold px-2.5 py-0.5 bg-brand-gold/10 rounded-full border border-brand-gold/30">Максимум</span>
+            <div>
+              <h4 class="font-outfit font-bold text-lg text-white">Полный Месяц</h4>
+              <div class="flex items-baseline gap-2 mt-2">
+                <span class="text-xs text-white/30 line-through">12 990 ₽</span>
+                <span class="font-outfit font-extrabold text-3xl text-brand-gold">6 490 ₽</span>
+                <span class="text-xs text-white/40">/мес</span>
+              </div>
+              <p class="text-[11px] text-white/40 mt-0.5">30 дней непрерывных продаж</p>
+            </div>
+            <ul class="space-y-2 text-xs text-white/80 pt-2">
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="font-semibold text-white">Приоритетный сервер 24/7</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span>Безлимитный каталог товаров</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span>До 5 магазинов на аккаунте</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span>PRO-аналитика и воронка</span>
+              </li>
+            </ul>
+          </div>
+          <button onclick="selectTariffFromModal('month')" class="w-full btn-gold py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md">
+            <span>Оформить Подписку</span>
+            <span class="material-symbols-outlined text-sm">rocket_launch</span>
+          </button>
+        </div>
+
+        <!-- CARD 3: FINANSIST BONUS -->
+        <div class="p-6 rounded-2xl bg-white/[0.02] border border-emerald-500/30 flex flex-col justify-between space-y-5 relative">
+          <div class="space-y-3">
+            <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 px-2.5 py-0.5 bg-emerald-500/10 rounded-full border border-emerald-500/30">В подарок</span>
+            <div>
+              <h4 class="font-outfit font-bold text-lg text-white">Управляющий «Финансист»</h4>
+              <div class="font-outfit font-extrabold text-2xl text-emerald-400 mt-2">0 ₽ (БЕСПЛАТНО)</div>
+              <p class="text-[11px] text-white/40 mt-0.5">Включен в каждый тариф</p>
+            </div>
+            <ul class="space-y-2 text-xs text-white/70 pt-2">
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-emerald-400 text-sm">mic</span>
+                <span>Голосовой учет расходов в TG</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-emerald-400 text-sm">calculate</span>
+                <span>Авто-расчет маржи и прибыли</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-emerald-400 text-sm">analytics</span>
+                <span>Отчеты в реальном времени</span>
+              </li>
+            </ul>
+          </div>
+          <div class="p-2.5 rounded-xl bg-white/5 border border-white/5 text-center text-[11px] text-white/50">
+            Активируется автоматически после старта
+          </div>
+        </div>
+
+      </div>
+
+      <!-- GUARANTEE ACCORDION / BANNER -->
+      <div class="p-4 rounded-2xl bg-emerald-500/[0.06] border border-emerald-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-emerald-400 text-2xl">verified_user</span>
+          <div>
+            <div class="text-xs font-bold text-white">100% Гарантия возврата средств в течение 24 часов</div>
+            <div class="text-[11px] text-white/60">Если система автоответов или выделенный сервер вам не подойдут — вернем всю сумму на карту без лишней бюрократии.</div>
+          </div>
+        </div>
+        <a href="https://t.me/chc332" target="_blank" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold flex items-center gap-1.5 shrink-0 transition-colors">
+          <span>Связь с основателем @chc332</span>
+          <span class="material-symbols-outlined text-sm">north_east</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FLOATING LIVE SUPPORT WIDGET -->
+  <div id="liveSupportWidget" class="fixed bottom-6 right-6 z-40 flex flex-col items-end">
+    
+    <!-- POPUP SUPPORT WINDOW -->
+    <div id="supportPopupCard" class="hidden w-[340px] sm:w-[360px] glass-card rounded-2xl border border-brand-gold/30 shadow-[0_20px_50px_rgba(0,0,0,0.7)] p-5 mb-3 transition-all duration-300">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2.5">
+          <div class="relative w-9 h-9 rounded-xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-brand-gold/40 flex items-center justify-center text-brand-gold font-bold font-outfit text-sm">
+            M
+            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black animate-pulse"></span>
+          </div>
+          <div>
+            <h4 class="font-outfit font-bold text-sm text-white leading-none">Служба заботы MAJORKA</h4>
+            <span class="text-[10px] text-emerald-400 font-medium">Оператор на связи • ответ 2 мин</span>
+          </div>
+        </div>
+        <button onclick="toggleSupportWidget()" class="text-white/40 hover:text-white p-1 rounded-lg cursor-pointer">
+          <span class="material-symbols-outlined text-base">close</span>
+        </button>
+      </div>
+
+      <div class="py-3 space-y-2.5">
+        <div class="p-3 rounded-xl bg-white/5 border border-white/5 text-xs text-white/80 leading-relaxed">
+          Здравствуйте! 👋 Рады видеть вас в MAJORKA. Хотите подключить магазин на Авито или подобрать тариф?
+        </div>
+
+        <div class="space-y-1.5 pt-1">
+          <button onclick="openTariffModal(); toggleSupportWidget();" class="w-full text-left p-2.5 rounded-xl bg-brand-gold/10 hover:bg-brand-gold/20 border border-brand-gold/30 text-xs text-brand-gold font-semibold flex items-center justify-between transition-colors cursor-pointer">
+            <span class="flex items-center gap-2">
+              <span>⚡</span>
+              <span>Тест-Драйв 7 дней за 1 590 ₽</span>
+            </span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+
+          <button onclick="openDocModal(); toggleSupportWidget();" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-white/80 flex items-center justify-between transition-colors cursor-pointer">
+            <span class="flex items-center gap-2">
+              <span>🛡️</span>
+              <span>100% Гарантия возврата 24ч</span>
+            </span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          </button>
+
+          <a href="https://t.me/chc332" target="_blank" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-cyan-300 flex items-center justify-between transition-colors cursor-pointer">
+            <span class="flex items-center gap-2">
+              <span>💬</span>
+              <span>Написать основателю (@chc332)</span>
+            </span>
+            <span class="material-symbols-outlined text-sm">north_east</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="pt-2 border-t border-white/10">
+        <a href="https://t.me/chc332" target="_blank" class="w-full btn-gold py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+          <svg class="w-3.5 h-3.5 fill-black" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+          <span>Задать вопрос в Telegram</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- FLOATING TRIGGER BUTTON -->
+    <button onclick="toggleSupportWidget()" class="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#141418] hover:bg-[#1a1a20] border border-brand-gold/40 shadow-[0_4px_25px_rgba(255,221,45,0.25)] hover:shadow-[0_6px_30px_rgba(255,221,45,0.4)] transition-all duration-300 cursor-pointer">
+      <div class="relative flex items-center justify-center">
+        <span class="material-symbols-outlined text-brand-gold text-xl group-hover:scale-110 transition-transform">support_agent</span>
+        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black animate-pulse"></span>
+      </div>
+      <span class="text-xs font-bold text-white group-hover:text-brand-gold transition-colors">Служба заботы 24/7</span>
+    </button>
+  </div>
+
+  <!-- DOCUMENTATION & TERMS MODAL -->
+  <div id="docModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-card max-w-2xl w-full max-h-[85vh] flex flex-col p-6 sm:p-8 space-y-6 shadow-2xl relative border-white/10 rounded-3xl">
+      <div class="flex items-center justify-between border-b border-white/10 pb-4">
+        <h3 class="font-outfit text-xl font-bold text-white flex items-center gap-2">
+          <span class="material-symbols-outlined text-brand-gold">description</span>
+          <span>Условия использования и Политика</span>
+        </h3>
+        <button onclick="closeDocModal()" class="text-white/40 hover:text-white transition-colors cursor-pointer">
+          <span class="material-symbols-outlined text-xl">close</span>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto space-y-4 text-xs sm:text-sm text-white/80 pr-2 leading-relaxed font-light">
+        <h4 class="font-bold text-white text-base">1. Общие положения</h4>
+        <p>Настоящее Пользовательское соглашение регулирует порядок использования Платформы Управления Продажами MAJORKA. Используя сервис, вы соглашаетесь с условиями хранения сессионных данных и работы с выделенными серверами 24/7.</p>
+
+        <h4 class="font-bold text-white text-base">2. 100% Гарантия и Возврат средств</h4>
+        <p>Платформа предоставляет 100% гарантию возврата средств в течение 24 часов с момента оплаты, если качество работы выделенного сервера или системы автоответов вас не устроит.</p>
+
+        <h4 class="font-bold text-white text-base">3. Безопасность и Конфиденциальность</h4>
+        <p>Персональные данные и сессия используются только для работы Личного Кабинета. Техническая поддержка осуществляется 24/7 по адресу @chc332.</p>
+      </div>
+
+      <div class="pt-4 border-t border-white/10 flex justify-end">
+        <button onclick="closeDocModal()" class="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold cursor-pointer">
+          Понятно, закрыть
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC & HANDSHAKE -->
+  <script>
+    const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+      ? (window.location.port === '8085' ? '' : 'http://127.0.0.1:8085')
+      : 'http://127.0.0.1:8085';
+
+    const authStatus = (message = '', type = 'info') => {
+      const el = document.getElementById('authStatus');
+      if (el) { el.textContent = message; el.className = `auth-status ${type}`; }
+    };
+
+    function togglePasswordVisibility() {
+      const pwdInput = document.getElementById('passwordInput');
+      const eyeIcon = document.getElementById('eyeIcon');
+      if (pwdInput.type === 'password') {
+        pwdInput.type = 'text';
+        eyeIcon.innerText = 'visibility_off';
+      } else {
+        pwdInput.type = 'password';
+        eyeIcon.innerText = 'visibility';
+      }
     }
 
-    function renderBots() {
-      const c = document.getElementById('content');
-      if (!c) return;
-      if (!bots || bots.length === 0) {
-        c.innerHTML = `
-          <div style="text-align:center; padding:50px 20px;">
-            <div style="font-size:3.5rem; margin-bottom:10px;">🤖</div>
-            <h3 style="color:#fff;">Ботов пока нет</h3>
-            <p style="color:#94a3b8; font-size:0.9rem;">Создайте первого ИИ-продавца для ваших объявлений на Авито!</p>
-            <button style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; padding:12px 24px; border-radius:10px; cursor:pointer; margin-top:10px;" onclick="showTab('create')">+ Создать первого бота</button>
-          </div>`;
+    let authMode = 'login';
+    let googleClientId = '';
+
+    function setAuthMode(mode) {
+      authMode = mode === 'register' ? 'register' : 'login';
+      const isRegister = authMode === 'register';
+      document.getElementById('authTitle').textContent = isRegister ? 'Регистрация в MAJORKA' : 'Вход в кабинет';
+      document.getElementById('authSubtitle').textContent = isRegister
+        ? 'Создайте профиль, чтобы продолжить работу в кабинете.'
+        : 'Войдите, чтобы управлять продажами и заказами';
+      document.getElementById('nameField').classList.toggle('hidden', !isRegister);
+      document.getElementById('passwordConfirmField').classList.toggle('hidden', !isRegister);
+      document.getElementById('loginModeButton').classList.toggle('active', !isRegister);
+      document.getElementById('registerModeButton').classList.toggle('active', isRegister);
+      document.getElementById('emailActionText').textContent = isRegister ? 'Создать профиль' : 'Войти в кабинет';
+      document.getElementById('passwordInput').setAttribute('autocomplete', isRegister ? 'new-password' : 'current-password');
+      authStatus('');
+    }
+
+    function updatePasswordHint() {
+      const password = document.getElementById('passwordInput').value;
+      const valid = password.length >= 8 && /[A-Za-z]/.test(password) && /\d/.test(password);
+      const hint = document.getElementById('passwordHint');
+      if (!hint) return;
+      hint.className = `password-hint text-[11px] mt-1.5 ${password ? (valid ? 'valid' : 'invalid') : ''}`;
+      hint.textContent = valid ? 'Пароль подходит' : 'Не менее 8 символов, 1 латинская буква и 1 цифра';
+    }
+
+    function getPasswordError(password) {
+      if (password.length < 8) return 'Пароль должен содержать минимум 8 символов.';
+      if (!/[A-Za-z]/.test(password)) return 'Добавьте хотя бы одну латинскую букву в пароль.';
+      if (!/\d/.test(password)) return 'Добавьте хотя бы одну цифру в пароль.';
+      return '';
+    }
+
+    function saveAuthAndContinue(data) {
+      localStorage.setItem('session_token', data.session_token);
+      localStorage.setItem('userChatId', String(data.user.chatId));
+      localStorage.setItem('majorka_chatId', String(data.user.chatId));
+      localStorage.setItem('majorka_entered', 'true');
+      window.location.href = './dashboard.html';
+    }
+
+    function initGoogleSignIn() {
+      const container = document.getElementById('googleSignInButton');
+      if (!container || !window.google?.accounts?.id || !googleClientId) {
+        if (container) container.innerHTML = '<span class="text-[11px] text-white/35">Быстрый вход Google временно недоступен</span>';
         return;
       }
-      c.innerHTML = '<div style="padding:16px;">' + bots.map(b => `
-        <div class="bot-card" style="background:#181c28; border:1px solid #2a3142; border-radius:12px; padding:16px; margin-bottom:12px;">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-            <h4 style="margin:0; color:#fff; font-size:1.1rem;">${b.name}</h4>
-            <span class="badge" style="background:${b.is_paid ? '#10b981' : '#f59e0b'}; color:#000; font-weight:bold; font-size:0.75rem; padding:3px 10px; border-radius:10px;">${b.is_paid ? 'АКТИВЕН' : 'НЕ ОПЛАЧЕН'}</span>
-          </div>
-          <p style="margin:0 0 12px 0; color:#94a3b8; font-size:0.85rem;">Ниша: ${b.niche || 'Автозапчасти'} | Город: ${b.city || 'Москва'}</p>
-          <div style="display:flex; gap:8px;">
-            <button style="background:#ef4444; color:#fff; border:none; padding:8px 14px; border-radius:8px; cursor:pointer; font-weight:bold;" onclick="deleteBot('${b.name}')">🗑️ Удалить</button>
-          </div>
-        </div>
-      `).join('') + '</div>';
+      google.accounts.id.initialize({ client_id: googleClientId, callback: handleGoogleCredential, auto_select: false, cancel_on_tap_outside: true });
+      google.accounts.id.renderButton(container, { theme: 'filled_black', size: 'large', width: 340, text: 'continue_with', shape: 'rectangular', logo_alignment: 'left' });
     }
 
-    function renderCreate() {
-      const c = document.getElementById('content');
-      if (!c) return;
-      c.innerHTML = `
-        <div style="padding:16px; max-width:480px; margin:0 auto;">
-          <h3 style="color:#d4af37; margin-top:0;">🚀 Создание нового ИИ-продавца</h3>
-          
-          <div style="background:rgba(212,175,55,0.1); border:1px solid #d4af37; border-radius:12px; padding:14px; margin-bottom:16px;">
-            <label style="color:#d4af37; font-weight:bold; display:block; margin-bottom:8px;">🔑 1. Способ авторизации в Авито (LDPlayer):</label>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="qr" checked> 📷 Вход по QR-коду (Авто-генерация)</label>
-              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="phone"> 📲 Вход по номеру телефона аккаунта и СМС</label>
-              <label style="color:#fff; font-size:0.9rem; cursor:pointer;"><input type="radio" name="wAuthType" value="api"> 🔑 Официальный API Авито (Client ID/Secret)</label>
-            </div>
-          </div>
-
-          <div style="display:flex; flex-direction:column; gap:12px;">
-            <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Название бота / магазина:</label>
-              <input type="text" id="wName" placeholder="Например: Автозапчасти Авито" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ниша бизнеса и преимущества:</label>
-              <input type="text" id="wNiche" placeholder="Например: Запчасти для авто" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Способ продаж:</label>
-              <select id="wSalesMethod" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-                <option value="Переводить на созвон">📞 Переводить на созвон (получать номер телефона)</option>
-                <option value="Продавать прямо в чате">💬 Продавать прямо в чате</option>
-              </select>
-            </div>
-
-            <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Телефон перевода / поддержки:</label>
-              <input type="text" id="wPhone" placeholder="+7 (999) 000-00-00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Город и адрес склада/офиса:</label>
-              <input type="text" id="wCity" placeholder="Например: Москва" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Режим работы:</label>
-              <input type="text" id="wHours" placeholder="09:00 - 21:00" style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <div>
-              <label style="color:#aaa; font-size:0.85rem; display:block; margin-bottom:4px;">Ссылка на объявление или профиль Авито:</label>
-              <input type="text" id="wLink" placeholder="https://avito.ru/..." style="width:100%; background:#181c28; border:1px solid #2a3142; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <div>
-              <label style="color:#d4af37; font-size:0.85rem; font-weight:bold; display:block; margin-bottom:4px;">🌐 Прокси IP (мобильный / резидентский) [Необязательно]:</label>
-              <input type="text" id="wProxy" placeholder="ip:port или ip:port:user:pass" style="width:100%; background:#181c28; border:1px solid #d4af37; color:#fff; padding:10px; border-radius:8px; box-sizing:border-box;">
-            </div>
-
-            <button onclick="submitBot()" style="background:linear-gradient(135deg, #d4af37, #aa820a); border:none; color:#000; font-weight:bold; font-size:1rem; padding:14px; border-radius:10px; cursor:pointer; margin-top:8px;">🚀 Запустить бота на Авито</button>
-          </div>
-        </div>
-      `;
-    }
-
-    function renderDialogs() {
-      const c = document.getElementById('content');
-      if (!c) return;
-      c.innerHTML = `
-        <div style="padding:16px; text-align:center;">
-          <h3 style="color:#fff;">💬 Чаты и Лиды клиентов</h3>
-          <p style="color:#94a3b8; font-size:0.9rem;">Все поступившие номера телефонов и диалоги с Авито отображаются здесь и передаются в ваш Телеграм-бот!</p>
-        </div>
-      `;
-    }
-
-    function renderSupport() {
-      const c = document.getElementById('content');
-      if (!c) return;
-      c.innerHTML = `
-        <div style="padding:16px; text-align:center;">
-          <h3 style="color:#d4af37;">⭐ Служба поддержки</h3>
-          <p style="color:#94a3b8; font-size:0.9rem;">Есть вопросы по настройке эмулятора LDPlayer или оплат?</p>
-          <a href="https://t.me/chc332" target="_blank" style="display:inline-block; background:#10b981; color:#fff; text-decoration:none; font-weight:bold; padding:12px 24px; border-radius:10px; margin-top:10px;">💬 Написать менеджеру (@chc332)</a>
-        </div>
-      `;
-    }
-
-    async function submitBot() {
-      const name = document.getElementById('wName')?.value || 'Мой магазин Авито';
-      const niche = document.getElementById('wNiche')?.value || 'Автозапчасти';
-      const sales_method = document.getElementById('wSalesMethod')?.value || 'Переводить на созвон';
-      const phone = document.getElementById('wPhone')?.value || '+7 (999) 000-00-00';
-      const city = document.getElementById('wCity')?.value || 'Москва';
-      const hours = document.getElementById('wHours')?.value || '09:00 - 21:00';
-      const avito_link = document.getElementById('wLink')?.value || 'https://avito.ru';
-      const proxy = document.getElementById('wProxy')?.value || '';
-      const auth_type = document.querySelector('input[name="wAuthType"]:checked')?.value || 'qr';
-
+    async function handleGoogleCredential(response) {
+      if (!response?.credential) {
+        authStatus('Google не передал подтверждение входа.', 'error');
+        return;
+      }
+      authStatus('Подтверждаем аккаунт Google…', 'info');
       try {
-        await fetch(API_URL + '/api/create_bot', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name, niche, sales_method, phone, city, hours, avito_link, auth_type, proxy })
+        const res = await fetch(`${API_BASE}/api/auth/google`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
+          body: JSON.stringify({ credential: response.credential })
         });
-      } catch(e) {}
-
-      showToast('Бот «' + name + '» успешно создан!');
-      showTab('bots');
-      await syncWithServer();
+        const data = await res.json();
+        if (!res.ok || !data.success || !data.session_token || !data.user?.chatId) throw new Error(data.error || 'Не удалось войти через Google');
+        saveAuthAndContinue(data);
+      } catch (err) {
+        authStatus(err.message || 'Не удалось выполнить вход через Google.', 'error');
+      }
     }
 
-    async function deleteBot(name) {
-      if(!confirm('Удалить этого бота?')) return;
+    async function submitTelegramAuth() {
+      const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
+      if (user?.id) {
+        // Direct Telegram WebApp login
+        const button = document.querySelector('button[onclick="submitTelegramAuth()"]');
+        if (button) { button.disabled = true; button.classList.add('opacity-60', 'cursor-wait'); }
+        authStatus('Подтверждаем профиль Telegram…', 'info');
+        try {
+          const res = await fetch(`${API_BASE}/api/auth/telegram_session`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
+            body: JSON.stringify({ chatId: String(user.id), first_name: user.first_name || '', username: user.username || '' })
+          });
+          const data = await res.json();
+          if (data && data.success && data.session_token) {
+            saveAuthAndContinue(data);
+            return;
+          }
+        } catch (err) {}
+
+        // Fallback for Telegram Mini App
+        saveAuthAndContinue({
+          session_token: 'tg_' + user.id + '_' + Date.now(),
+          user: { chatId: String(user.id), first_name: user.first_name || '', username: user.username || '' }
+        });
+        return;
+      }
+
+      // Desktop / Web Browser: 1-Click Ticket Handshake with @avito_deployer_bot
+      authStatus('Создаём сессию быстрого входа через Telegram…', 'info');
       try {
-        await fetch(API_URL + '/api/delete_bot', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: userLabel, name: name, session_name: name })
+        const ticketRes = await fetch(`${API_BASE}/api/auth/telegram_qr_start`);
+        const ticketData = await ticketRes.json();
+        if (!ticketRes.ok || !ticketData.success || !ticketData.ticket_id) {
+          authStatus('Не удалось создать сессию входа. Попробуйте еще раз.', 'error');
+          return;
+        }
+
+        const botUrl = ticketData.bot_url || `https://t.me/avito_deployer_bot?start=login_${ticketData.ticket_id}`;
+        window.open(botUrl, '_blank');
+        authStatus('Подтвердите вход в Telegram-боте @avito_deployer_bot (нажмите «Запустить» / «Старт»)…', 'info');
+
+        // Poll for confirmation
+        let pollCount = 0;
+        const pollInterval = setInterval(async () => {
+          pollCount++;
+          if (pollCount > 60) {
+            clearInterval(pollInterval);
+            authStatus('Время ожидания входа истекло. Попробуйте снова.', 'error');
+            return;
+          }
+          try {
+            const checkRes = await fetch(`${API_BASE}/api/auth/telegram_qr_check?ticket_id=${ticketData.ticket_id}`);
+            const checkData = await checkRes.json();
+            if (checkData.success && checkData.status === 'authorized' && checkData.session_token) {
+              clearInterval(pollInterval);
+              authStatus('Вход успешно подтверждён! Переходим в кабинет…', 'success');
+              saveAuthAndContinue(checkData);
+            }
+          } catch (e) {
+            // ignore temporary network hiccups during poll
+          }
+        }, 1500);
+
+      } catch (err) {
+        authStatus('Ошибка связи с Telegram-сервисом.', 'error');
+      }
+    }
+
+    async function submitEmailAuth() {
+      const email = document.getElementById('emailInput').value.trim();
+      const password = document.getElementById('passwordInput').value;
+      const termsBox = document.getElementById('indexTermsCheckbox');
+      if (!email || !password) {
+        authStatus('Введите email и пароль.', 'error');
+        return;
+      }
+      const passwordError = authMode === 'register' ? getPasswordError(password) : (password.length < 8 ? 'Пароль должен содержать минимум 8 символов.' : '');
+      if (passwordError) {
+        authStatus(passwordError, 'error');
+        return;
+      }
+      if (authMode === 'register' && document.getElementById('passwordConfirmInput').value !== password) {
+        authStatus('Пароли не совпадают.', 'error');
+        return;
+      }
+      if (authMode === 'register' && document.getElementById('nameInput').value.trim().length < 2) {
+        authStatus('Укажите имя не короче 2 символов.', 'error');
+        return;
+      }
+      if (termsBox && !termsBox.checked) {
+        authStatus('Примите условия использования, чтобы продолжить.', 'error');
+        return;
+      }
+
+      const button = document.getElementById('emailLoginButton');
+      if (button) { button.disabled = true; button.classList.add('opacity-60', 'cursor-wait'); }
+      authStatus(authMode === 'register' ? 'Создаём профиль…' : 'Проверяем данные входа…', 'info');
+      try {
+        const endpoint = authMode === 'register' ? '/api/auth/register' : '/api/auth/email_login';
+        const body = { email, password };
+        if (authMode === 'register') body.first_name = document.getElementById('nameInput').value.trim();
+        const res = await fetch(`${API_BASE}${endpoint}`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include', body: JSON.stringify(body)
         });
-      } catch(e) {}
-      showToast('Бот «' + name + '» удален');
-      localStorage.removeItem('majorka_bots');
-      await syncWithServer();
+        const data = await res.json();
+        if (!res.ok || !data.success || !data.session_token || !data.user?.chatId) {
+          authStatus(data.error || 'Не удалось выполнить операцию.', 'error');
+          return;
+        }
+        saveAuthAndContinue(data);
+      } catch (err) {
+        authStatus('Сервис входа недоступен. Проверьте, запущен ли Flask API.', 'error');
+      } finally {
+        if (button) { button.disabled = false; button.classList.remove('opacity-60', 'cursor-wait'); }
+      }
     }
 
-    function openPayModal() {
-      const payModal = document.getElementById('payModal');
-      if (payModal) payModal.classList.add('active');
-    }
-    function closePayModal() {
-      const payModal = document.getElementById('payModal');
-      if (payModal) payModal.classList.remove('active');
+    async function loadGoogleConfig() {
+      try {
+        const res = await fetch(`${API_BASE}/api/auth/google/config`);
+        const data = await res.json();
+        googleClientId = data.client_id || '';
+      } catch (err) {
+        googleClientId = '';
+      }
+      if (window.google?.accounts?.id) initGoogleSignIn();
+      else window.addEventListener('load', initGoogleSignIn, { once: true });
     }
 
-    function syncWithServer() {
-      fetch(API_URL + '/api/bots?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
-        .then(r => r.json())
-        .then(d => {
-          if (d && d.success && Array.isArray(d.bots)) {
-            bots = d.bots;
-            localStorage.setItem('majorka_bots', JSON.stringify(bots));
-            if (currentTab === 'bots') renderBots();
-          }
-        })
-        .catch(() => {});
+    checkCookieConsent();
+    loadGoogleConfig();
 
-      fetch(API_URL + '/api/stats?chatId=' + userLabel, { headers: { 'ngrok-skip-browser-warning': 'true' } })
-        .then(r => r.json())
-        .then(d => {
-          if (d && d.success) {
-            if (d.balance !== undefined) { balance = d.balance; localStorage.setItem('majorka_balance', balance); }
-            if (d.user && d.user.balance !== undefined) { balance = d.user.balance; localStorage.setItem('majorka_balance', balance); }
-            
-            updateUI();
-            
-            const pVal = d.current_price || (d.user ? d.user.current_price : 6490);
-            const discVal = d.discount || (d.user ? d.user.discount : 0);
-            const pText = pVal ? (pVal + ' ₽' + (discVal ? ' [Скидка ' + discVal + '%]' : '')) : '6 490 ₽';
-            
-            const bottomBtn = document.querySelector('.bottom-pay-btn, button[onclick*="openPayModal"]');
-            if (bottomBtn) bottomBtn.innerText = '💳 ПОПОЛНИТЬ БАЛАНС (' + pText + ')';
-          }
-        })
-        .catch(() => {});
+    function checkCookieConsent() {
+      const consent = localStorage.getItem('cookie_consent');
+      if (!consent) document.getElementById('cookieConsentBanner').classList.remove('hidden');
+    }
+
+    function acceptCookies(type) {
+      localStorage.setItem('cookie_consent', type);
+      document.getElementById('cookieConsentBanner').classList.add('hidden');
+    }
+
+    function dismissCookieBanner() {
+      localStorage.setItem('cookie_consent', 'essential');
+      document.getElementById('cookieConsentBanner').classList.add('hidden');
+    }
+
+    function openDocModal() {
+      const modal = document.getElementById('docModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+    function closeDocModal() {
+      const modal = document.getElementById('docModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function openTariffModal() {
+      const modal = document.getElementById('tariffModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeTariffModal() {
+      const modal = document.getElementById('tariffModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function toggleSupportWidget() {
+      const popup = document.getElementById('supportPopupCard');
+      if (popup) {
+        popup.classList.toggle('hidden');
+      }
+    }
+
+    function selectTariffFromModal(tariffType) {
+      closeTariffModal();
+      setAuthMode('register');
+      const emailInp = document.getElementById('emailInput');
+      const nameInp = document.getElementById('nameInput');
+      if (nameInp) nameInp.focus();
+      else if (emailInp) emailInp.focus();
+      const tariffName = tariffType === 'trial_7days' ? 'Тест-Драйв 7 дней (1 590 ₽)' : 'Полный Месяц (6 490 ₽)';
+      authStatus(`Выбран тариф: ${tariffName}. Заполните данные для создания кабинета.`, 'success');
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      showTab('overview');
-      setInterval(syncWithServer, 10000);
+      if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
+        submitTelegramAuth();
+      }
     });
-</script>
 
-
-
-
-<div id="payModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:99999; justify-content:center; align-items:center; padding:16px;">
-  <div style="background:#131315; border:1px solid #FFDD2D; width:100%; max-width:440px; border-radius:24px; padding:28px; box-shadow:0 0 40px rgba(255,221,45,0.2); text-align:center; position:relative;">
-    <button onclick="closePayModal()" style="position:absolute; top:16px; right:20px; color:#aaa; font-size:24px; background:none; border:none; cursor:pointer;">&times;</button>
-    <div style="font-size:12px; font-weight:700; color:#FFDD2D; text-transform:uppercase; margin-bottom:8px;">💰 ПОПОЛНЕНИЕ БАЛАНСА</div>
-    <div style="font-size:24px; font-weight:bold; color:#fff; margin-bottom:16px;">Сумма подписки: 6 490 ₽</div>
-    <div style="background:rgba(255,255,255,0.03); border:1px solid #FFDD2D; border-radius:16px; padding:16px; margin-bottom:16px; text-align:left;">
-      <div style="font-size:12px; font-weight:700; color:#FFDD2D; text-transform:uppercase; margin-bottom:8px;">💳 ОНЛАЙН-ОПЛАТА КАРТОЙ / ЮMONEY (МГНОВЕННО)</div>
-      <p style="font-size:11px; color:#aaa; margin-bottom:14px; line-height:1.4;">Безопасная оплата. Баланс и подписка зачисляются автоматически сразу после перевода.</p>
-      <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" id="yoomoneyForm">
-        <input type="hidden" name="receiver" value="4100119556996975">
-        <input type="hidden" name="quickpay-form" value="button">
-        <input type="hidden" name="targets" value="Оплата подписки MAJORKA BOT">
-        <input type="hidden" name="paymentType" value="AC">
-        <input type="hidden" name="sum" value="6490">
-        <input type="hidden" name="label" id="ymLabel" value="">
-        <button type="submit" style="width:100%; padding:14px; border-radius:12px; background:linear-gradient(90deg, #FFDD2D, #FFC700); color:#000; font-weight:bold; font-size:15px; border:none; cursor:pointer;">
-            💳 Оплатить 6 490 ₽
-        </button>
-      </form>
-    </div>
-    <button style="width:100%; padding:12px; border-radius:12px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff; font-size:14px; font-weight:600; cursor:pointer;" onclick="closePayModal()">Закрыть</button>
-  </div>
-</div>
-<script>
-function openPayModal() { const m = document.getElementById('payModal'); if(m) m.style.display='flex'; }
-function closePayModal() { const m = document.getElementById('payModal'); if(m) m.style.display='none'; }
-</script>
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' && (document.activeElement?.id === 'passwordInput' || document.activeElement?.id === 'passwordConfirmInput')) submitEmailAuth();
+    });
+  </script>
 
 </body>
 </html>
