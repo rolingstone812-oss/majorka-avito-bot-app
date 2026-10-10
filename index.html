@@ -188,118 +188,127 @@
         </div>
       </div>
 
-      <!-- CENTER: AUTHENTICATION FORM -->
-      <div class="w-full max-w-[390px] mx-auto my-auto py-8">
+      <!-- CENTER: HERO PRESENTATION & FAST ENTRANCE -->
+      <div class="w-full max-w-[420px] mx-auto my-auto py-6 sm:py-8 space-y-6">
         
-        <div class="mb-7">
-          <h2 id="authTitle" class="font-outfit text-3xl font-extrabold text-white tracking-tight mb-2">Вход в кабинет</h2>
-          <p id="authSubtitle" class="text-xs sm:text-sm text-white/50">Войдите, чтобы управлять продажами и заказами</p>
+        <!-- BADGE -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs font-bold uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></span>
+          <span>Управляющий Продажами 24/7</span>
         </div>
 
-        <!-- MODE SWITCHER (Вход / Регистрация) -->
-        <div class="grid grid-cols-2 gap-1 p-1 bg-[#141417] rounded-xl border border-white/5 mb-6">
-          <button id="loginModeButton" type="button" onclick="setAuthMode('login')" class="auth-mode active py-2 rounded-lg text-xs font-semibold cursor-pointer">Вход</button>
-          <button id="registerModeButton" type="button" onclick="setAuthMode('register')" class="auth-mode py-2 rounded-lg text-xs font-semibold cursor-pointer">Регистрация</button>
+        <!-- HERO HEADINGS -->
+        <div class="space-y-2">
+          <p id="heroUserGreet" class="font-inter text-sm sm:text-base text-white/70 font-normal">
+            Рады приветствовать вас
+          </p>
+          <h2 class="font-outfit text-3xl sm:text-4xl lg:text-[42px] font-black text-white tracking-tight leading-tight">
+            Больше продаж.<br><span class="text-brand-gold">Меньше рутины.</span>
+          </h2>
+          <p class="text-xs sm:text-sm text-white/50 leading-relaxed pt-1">
+            Автономная система продаж, квалификации клиентов и приёма заказов на Авито. Управление временем, сделками и клиентами — в одном месте.
+          </p>
         </div>
 
-        <div class="space-y-4">
-          <!-- NAME FIELD (Register only) -->
-          <div id="nameField" class="hidden">
-            <label class="text-xs font-medium text-white/60 block mb-1.5">Ваше имя</label>
-            <div class="relative">
-              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-lg">badge</span>
-              <input type="text" id="nameInput" autocomplete="name" class="rolly-input w-full pl-11 pr-4 py-3 text-sm placeholder-white/20" placeholder="Алексей">
-            </div>
+        <!-- 3 TRUST METRIC PILLS -->
+        <div class="grid grid-cols-3 gap-2 pt-1">
+          <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-center">
+            <div class="font-outfit font-black text-brand-gold text-sm sm:text-base">&lt; 15 с</div>
+            <div class="text-[10px] text-white/40 mt-0.5 font-medium">Ответ 24/7</div>
           </div>
-
-          <!-- EMAIL FIELD (With @ icon) -->
-          <div>
-            <label class="text-xs font-medium text-white/60 block mb-1.5">Email адрес</label>
-            <div class="relative">
-              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-lg">alternate_email</span>
-              <input type="email" id="emailInput" autocomplete="email" class="rolly-input w-full pl-11 pr-4 py-3 text-sm placeholder-white/20" placeholder="name@gmail.com">
-            </div>
+          <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-center">
+            <div class="font-outfit font-black text-emerald-400 text-sm sm:text-base">+70%</div>
+            <div class="text-[10px] text-white/40 mt-0.5 font-medium">Конверсия</div>
           </div>
-
-          <!-- PASSWORD FIELD (With key icon & eye toggle) -->
-          <div>
-            <label class="text-xs font-medium text-white/60 block mb-1.5">Пароль</label>
-            <div class="relative">
-              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-lg">vpn_key</span>
-              <input type="password" id="passwordInput" autocomplete="current-password" oninput="updatePasswordHint()" class="rolly-input w-full pl-11 pr-11 py-3 text-sm placeholder-white/20" placeholder="••••••••">
-              <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white transition-colors p-1 cursor-pointer">
-                <span id="eyeIcon" class="material-symbols-outlined text-lg select-none">visibility</span>
-              </button>
-            </div>
-            <p id="passwordHint" class="password-hint text-[11px] mt-1.5">Не менее 8 символов, 1 латинская буква и 1 цифра</p>
+          <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-center">
+            <div class="font-outfit font-black text-cyan-400 text-sm sm:text-base">100%</div>
+            <div class="text-[10px] text-white/40 mt-0.5 font-medium">Гарантия 24ч</div>
           </div>
+        </div>
 
-          <!-- PASSWORD CONFIRM FIELD (Register only) -->
-          <div id="passwordConfirmField" class="hidden">
-            <label class="text-xs font-medium text-white/60 block mb-1.5">Повторите пароль</label>
-            <div class="relative">
-              <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-lg">lock</span>
-              <input type="password" id="passwordConfirmInput" autocomplete="new-password" class="rolly-input w-full pl-11 pr-4 py-3 text-sm placeholder-white/20" placeholder="Повторите пароль">
-            </div>
-          </div>
+        <!-- MAIN ACTION BUTTONS -->
+        <div class="space-y-3 pt-2">
+          <!-- PRIMARY CTA: ENTER CABINET -->
+          <button onclick="goToCabinet()" class="w-full btn-gold py-4 px-6 rounded-xl text-base font-extrabold flex items-center justify-center gap-2.5 cursor-pointer shadow-neon-glow group">
+            <span class="material-symbols-outlined text-xl">dashboard</span>
+            <span id="btnEnterCabinetText">Войти в Личный Кабинет</span>
+            <span class="material-symbols-outlined text-lg group-hover:translate-x-1 transition-transform">arrow_forward</span>
+          </button>
 
-          <!-- TERMS & CONDITIONS CHECKBOX -->
-          <div class="flex items-start gap-2.5 pt-1 text-xs text-white/55">
-            <input type="checkbox" id="indexTermsCheckbox" checked class="w-4 h-4 mt-0.5 rounded bg-[#141417] border-white/20 accent-[#FFDD2D] cursor-pointer">
-            <label for="indexTermsCheckbox" class="cursor-pointer select-none leading-relaxed">
-              Я принимаю 
-              <button type="button" onclick="openDocModal()" class="text-brand-gold hover:underline font-medium">Условия использования и Политику</button>
-            </label>
-          </div>
-
-          <!-- STATUS & PRIMARY ACTION BUTTON -->
-          <div class="pt-2 space-y-3">
-            <div id="authStatus" class="auth-status info" role="status" aria-live="polite"></div>
-            
-            <button id="emailLoginButton" onclick="submitEmailAuth()" class="w-full btn-gold py-3.5 px-5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
-              <span id="emailActionText">Войти в кабинет</span>
-              <span class="material-symbols-outlined text-base">arrow_forward</span>
-            </button>
-
-            <!-- DIVIDER -->
-            <div class="flex items-center gap-3 py-1 text-[11px] text-white/25">
-              <span class="h-px bg-white/10 flex-1"></span>
-              <span>или быстрый доступ</span>
-              <span class="h-px bg-white/10 flex-1"></span>
-            </div>
-
-            <!-- GOOGLE & TELEGRAM AUTH -->
-            <div id="googleSignInButton" class="min-h-[40px] flex justify-center w-full"></div>
-            
-            <button onclick="submitTelegramAuth()" class="w-full py-3 px-4 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 rounded-xl text-xs font-semibold text-white/90 flex items-center justify-center gap-2.5 transition-colors cursor-pointer">
-              <svg class="w-4 h-4 fill-[#2AABEE]" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
-              <span>Войти через Telegram (@avito_deployer_bot)</span>
-            </button>
-
-            <!-- PROMO / TRUST CARD -->
-            <div onclick="openTariffModal()" class="p-3.5 rounded-xl bg-gradient-to-r from-[#1c1a14] via-[#161518] to-[#121215] border border-brand-gold/25 hover:border-brand-gold/50 transition-all cursor-pointer shadow-lg group">
-              <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-8 h-8 rounded-lg bg-brand-gold/15 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-base">
-                    🚀
+          <!-- SECONDARY CTA: TARIFFS & TRIAL -->
+          <div onclick="openTariffModal()" class="p-3.5 rounded-xl bg-gradient-to-r from-[#1c1a14] via-[#161518] to-[#121215] border border-brand-gold/30 hover:border-brand-gold/60 transition-all cursor-pointer shadow-lg group">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-lg bg-brand-gold/15 border border-brand-gold/30 flex items-center justify-center text-brand-gold text-base">
+                  🚀
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white flex items-center gap-1.5">
+                    <span>Тест-Драйв 7 дней за 1 590 ₽</span>
+                    <span class="text-[9px] bg-brand-gold text-[#121214] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider">ХИТ</span>
                   </div>
-                  <div>
-                    <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                      <span>Тест-Драйв 7 дней за 1 590 ₽</span>
-                      <span class="text-[9px] bg-brand-gold text-[#121214] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider">ХИТ</span>
-                    </div>
-                    <div class="text-[10px] text-white/50 flex items-center gap-1 mt-0.5">
-                      <span class="text-emerald-400">🛡️ 100% гарантия возврата 24ч</span>
-                      <span>•</span>
-                      <span>без переплат</span>
-                    </div>
+                  <div class="text-[10px] text-white/50 flex items-center gap-1 mt-0.5">
+                    <span class="text-emerald-400">🛡️ 100% гарантия возврата 24ч</span>
+                    <span>•</span>
+                    <span>без переплат</span>
                   </div>
                 </div>
-                <span class="material-symbols-outlined text-sm text-brand-gold group-hover:translate-x-1 transition-transform">arrow_forward</span>
               </div>
+              <span class="material-symbols-outlined text-sm text-brand-gold group-hover:translate-x-1 transition-transform">arrow_forward</span>
             </div>
           </div>
+        </div>
 
+        <!-- QUICK ACCESS & COLLAPSIBLE EMAIL FORM -->
+        <div class="pt-1 space-y-3">
+          <div class="flex items-center justify-between text-xs text-white/50 px-1">
+            <button type="button" onclick="submitTelegramAuth()" class="hover:text-brand-gold flex items-center gap-1.5 transition-colors cursor-pointer font-medium">
+              <svg class="w-3.5 h-3.5 fill-[#2AABEE]" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
+              <span>Войти через Telegram</span>
+            </button>
+            <button type="button" onclick="toggleEmailAuthBox()" class="hover:text-white transition-colors cursor-pointer text-white/40 flex items-center gap-1 text-[11px]">
+              <span class="material-symbols-outlined text-xs">tune</span>
+              <span id="toggleEmailText">Вход по паролю</span>
+            </button>
+          </div>
+
+          <!-- COLLAPSIBLE EMAIL AUTH BOX -->
+          <div id="collapsibleEmailBox" class="hidden p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3.5">
+            <!-- MODE SWITCHER -->
+            <div class="grid grid-cols-2 gap-1 p-1 bg-[#141417] rounded-xl border border-white/5">
+              <button id="loginModeButton" type="button" onclick="setAuthMode('login')" class="auth-mode active py-1.5 rounded-lg text-xs font-semibold cursor-pointer">Вход</button>
+              <button id="registerModeButton" type="button" onclick="setAuthMode('register')" class="auth-mode py-1.5 rounded-lg text-xs font-semibold cursor-pointer">Регистрация</button>
+            </div>
+
+            <!-- NAME (Register only) -->
+            <div id="nameField" class="hidden">
+              <input type="text" id="nameInput" autocomplete="name" class="rolly-input w-full px-3.5 py-2.5 text-xs placeholder-white/20" placeholder="Ваше имя">
+            </div>
+
+            <!-- EMAIL -->
+            <div>
+              <input type="email" id="emailInput" autocomplete="email" class="rolly-input w-full px-3.5 py-2.5 text-xs placeholder-white/20" placeholder="name@gmail.com">
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="relative">
+              <input type="password" id="passwordInput" autocomplete="current-password" oninput="updatePasswordHint()" class="rolly-input w-full px-3.5 pr-9 py-2.5 text-xs placeholder-white/20" placeholder="Пароль">
+              <button type="button" onclick="togglePasswordVisibility()" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white p-1">
+                <span id="eyeIcon" class="material-symbols-outlined text-sm select-none">visibility</span>
+              </button>
+            </div>
+
+            <!-- CONFIRM PASSWORD (Register only) -->
+            <div id="passwordConfirmField" class="hidden">
+              <input type="password" id="passwordConfirmInput" autocomplete="new-password" class="rolly-input w-full px-3.5 py-2.5 text-xs placeholder-white/20" placeholder="Повторите пароль">
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <button id="emailLoginButton" onclick="submitEmailAuth()" class="w-full btn-gold py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
+              <span id="emailActionText">Войти в кабинет</span>
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+          </div>
         </div>
 
       </div>
@@ -830,6 +839,27 @@
       if (el) { el.textContent = message; el.className = `auth-status ${type}`; }
     };
 
+    function goToCabinet() {
+      const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+      let target = './dashboard.html';
+      if (tgUser?.id) {
+        target += '?chatId=' + tgUser.id;
+      } else {
+        const saved = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId');
+        if (saved) target += '?chatId=' + saved;
+      }
+      window.location.href = target;
+    }
+
+    function toggleEmailAuthBox() {
+      const box = document.getElementById('collapsibleEmailBox');
+      const text = document.getElementById('toggleEmailText');
+      if (box) {
+        box.classList.toggle('hidden');
+        if (text) text.innerText = box.classList.contains('hidden') ? 'Вход по паролю' : 'Скрыть форму';
+      }
+    }
+
     function togglePasswordVisibility() {
       const pwdInput = document.getElementById('passwordInput');
       const eyeIcon = document.getElementById('eyeIcon');
@@ -1107,8 +1137,12 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      if (window.Telegram?.WebApp?.initDataUnsafe?.user?.id) {
-        submitTelegramAuth();
+      const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+      if (tgUser) {
+        const greetEl = document.getElementById('heroUserGreet');
+        if (greetEl) greetEl.innerText = `Рады приветствовать вас, ${tgUser.first_name || 'партнёр'}!`;
+        const btnText = document.getElementById('btnEnterCabinetText');
+        if (btnText) btnText.innerText = 'Открыть Личный Кабинет';
       }
     });
 
