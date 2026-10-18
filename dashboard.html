@@ -163,14 +163,14 @@
 
   <!-- HEADER -->
   <header class="sticky top-0 z-40 bg-[#121214]/90 backdrop-blur-xl border-b border-glass-border">
-    <div class="max-w-[1280px] mx-auto px-3 sm:px-6 h-20 flex items-center justify-between gap-2 sm:gap-4">
+    <div class="max-w-[1280px] mx-auto px-3 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
       
       <!-- LOGO -->
-      <div class="flex items-center gap-3.5 cursor-pointer group" onclick="switchTab('overview')">
-        <div class="relative flex items-center justify-center w-11 h-11 rounded-2xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/35 shadow-[0_4px_22px_rgba(240,192,72,0.22)] group-hover:border-gold/60 group-hover:shadow-[0_4px_26px_rgba(240,192,72,0.35)] transition-all duration-300">
-          <div class="absolute inset-0 rounded-2xl bg-gradient-to-t from-transparent via-white/[0.03] to-white/[0.08] pointer-events-none"></div>
+      <div class="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer group" onclick="switchTab('overview')">
+        <div class="relative flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/35 shadow-[0_4px_22px_rgba(240,192,72,0.22)] group-hover:border-gold/60 group-hover:shadow-[0_4px_26px_rgba(240,192,72,0.35)] transition-all duration-300">
+          <div class="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-t from-transparent via-white/[0.03] to-white/[0.08] pointer-events-none"></div>
           <!-- 3D FACETED MONOGRAM M -->
-          <svg class="w-6 h-6 transform group-hover:scale-105 transition-transform duration-300" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:scale-105 transition-transform duration-300" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="m_facet_left" x1="4" y1="6" x2="13" y2="29" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stop-color="#FFF8D6"/>
@@ -205,11 +205,11 @@
           </svg>
         </div>
         <div class="flex flex-col">
-          <div class="flex items-center gap-2">
-            <span class="font-outfit text-xl sm:text-2xl font-black text-white tracking-widest leading-none">MAJOR<span class="text-gold">KA</span></span>
+          <div class="flex items-center gap-1.5 sm:gap-2">
+            <span class="font-outfit text-lg sm:text-2xl font-black text-white tracking-widest leading-none">MAJOR<span class="text-gold">KA</span></span>
             <span class="hidden sm:inline-block text-[9px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-gold/15 text-gold border border-gold/30 leading-none">PRO 24/7</span>
           </div>
-          <span class="text-[10px] text-white/40 font-medium tracking-wide -mt-0.5">Управляющий продажами</span>
+          <span class="hidden xs:block text-[10px] text-white/40 font-medium tracking-wide -mt-0.5">Управляющий продажами</span>
         </div>
       </div>
 
@@ -217,7 +217,7 @@
       <nav class="hidden lg:flex items-center gap-1.5 mercury-glass-nav p-1.5 rounded-2xl">
         <button id="tab-btn-overview" onclick="switchTab('overview')" class="nav-tab-btn nav-tab-active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200">Обзор</button>
         <button id="tab-btn-shops" onclick="switchTab('shops')" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
-          <span>Мои Боты</span>
+          <span>Мои Магазины</span>
           <span id="tabShopsCountBadge" class="hidden text-[10px] bg-gold/20 text-gold px-1.5 py-0.2 rounded-full font-bold">1</span>
         </button>
         <button id="tab-btn-knowledge" onclick="switchTab('knowledge')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
@@ -241,25 +241,25 @@
         </div>
 
         <!-- BALANCE BADGE (RESPONSIVE NO-OVERFLOW) -->
-        <div class="bg-gold/10 border border-gold/30 px-2.5 sm:px-3.5 py-1.5 rounded-full flex items-center gap-1.5 shrink-0 whitespace-nowrap">
-          <span class="text-[11px] text-white/50 font-medium uppercase tracking-wider hidden md:inline">Баланс:</span>
+        <div class="bg-gold/10 border border-gold/30 px-2 sm:px-3.5 py-1 sm:py-1.5 rounded-full flex items-center gap-1 shrink-0 whitespace-nowrap">
+          <span class="text-[10px] sm:text-[11px] text-white/50 font-medium uppercase tracking-wider hidden md:inline">Баланс:</span>
           <span id="userBalanceText" class="font-outfit font-black text-gold text-xs sm:text-sm tracking-tight whitespace-nowrap">0 ₽</span>
         </div>
 
         <!-- TOP UP BUTTON (ONLY SOURCE OF RECHARGE) -->
-        <button onclick="openPaymentModal('6490')" class="btn-gold px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1 cursor-pointer shrink-0" title="Пополнить баланс">
-          <span class="material-symbols-outlined text-base">add_card</span>
-          <span class="hidden xs:inline sm:inline">Пополнить</span>
+        <button onclick="openPaymentModal('6490')" class="btn-gold px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1 cursor-pointer shrink-0" title="Пополнить баланс">
+          <span class="material-symbols-outlined text-sm sm:text-base">add_card</span>
+          <span class="hidden sm:inline">Пополнить</span>
         </button>
 
         <!-- BACK TO WELCOME SCREEN -->
         <a href="./index.html" class="p-1.5 sm:p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-gold transition-colors cursor-pointer shrink-0" title="Начальный экран">
-          <span class="material-symbols-outlined text-base">home</span>
+          <span class="material-symbols-outlined text-sm sm:text-base">home</span>
         </a>
 
         <!-- LOGOUT -->
         <button onclick="logoutUser()" class="p-1.5 sm:p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white transition-colors cursor-pointer shrink-0" title="Выйти из аккаунта">
-          <span class="material-symbols-outlined text-base">logout</span>
+          <span class="material-symbols-outlined text-sm sm:text-base">logout</span>
         </button>
       </div>
 
@@ -267,61 +267,61 @@
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="flex-1 max-w-[1280px] w-full mx-auto px-4 sm:px-6 py-8 pb-28 md:pb-12 space-y-8">
+  <main class="flex-1 max-w-[1280px] w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 pb-28 md:pb-12 space-y-5 sm:space-y-8">
 
     <!-- ==================== TAB 1: OVERVIEW ==================== -->
-    <section id="tab-content-overview" class="tab-pane space-y-8">
+    <section id="tab-content-overview" class="tab-pane space-y-5 sm:space-y-8">
       
       <!-- STATUS STRIP -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div class="glass-box p-5 flex items-center justify-between">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+        <div class="glass-box p-4 sm:p-5 flex items-center justify-between">
           <div class="flex items-center gap-3">
             <span class="w-3 h-3 rounded-full bg-status-green animate-pulse shadow-neon-green"></span>
             <div>
-              <div class="font-outfit font-bold text-base text-white">Управляющий Продажами в сети</div>
-              <div class="text-xs text-white/40" id="overviewSubDetails">Автономная работа 24/7 • Выделенный Сервер #1</div>
+              <div class="font-outfit font-bold text-sm sm:text-base text-white">Управляющий Продажами в сети</div>
+              <div class="text-xs text-white/40" id="overviewSubDetails">Автономная работа 24/7 • Слот магазина #1</div>
             </div>
           </div>
-          <span id="overviewSubPill" class="text-xs font-semibold px-3 py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20">Активен</span>
+          <span id="overviewSubPill" class="text-xs font-semibold px-2.5 sm:px-3 py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20">Активен</span>
         </div>
 
-        <div class="glass-box p-5 flex items-center justify-between">
+        <div class="glass-box p-4 sm:p-5 flex items-center justify-between">
           <div class="flex items-center gap-3">
             <span class="material-symbols-outlined text-gold text-2xl">speed</span>
             <div>
-              <div class="font-outfit font-bold text-base text-white">Скорость реакции ассистента</div>
+              <div class="font-outfit font-bold text-sm sm:text-base text-white">Скорость реакции ассистента</div>
               <div class="text-xs text-white/40">Мгновенный ответ покупателям Авито</div>
             </div>
           </div>
-          <span class="font-outfit font-bold text-gold text-lg">&lt; 15 сек</span>
+          <span class="font-outfit font-bold text-gold text-base sm:text-lg">&lt; 15 сек</span>
         </div>
       </div>
 
       <!-- MAIN HERO CARD: AUTH / LINK AVITO -->
-      <div class="glass-box p-8 sm:p-10 relative overflow-hidden bg-gradient-to-br from-white/[0.05] to-transparent border-gold/20">
+      <div class="glass-box p-5 sm:p-8 md:p-10 relative overflow-hidden bg-gradient-to-br from-white/[0.05] to-transparent border-gold/20">
         <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-avito-blue/10 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div class="max-w-2xl relative z-10 space-y-5">
-          <div class="inline-flex items-center gap-2 px-3 py-1 bg-avito-blue/10 border border-avito-blue/30 rounded-full text-avito-blue text-xs font-semibold uppercase tracking-wider">
-            <span class="material-symbols-outlined text-sm">verified</span>
+        <div class="max-w-2xl relative z-10 space-y-4 sm:space-y-5">
+          <div class="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 bg-avito-blue/10 border border-avito-blue/30 rounded-full text-avito-blue text-[11px] sm:text-xs font-semibold uppercase tracking-wider">
+            <span class="material-symbols-outlined text-xs sm:text-sm">verified</span>
             <span>Управляющий в сети 24/7</span>
           </div>
 
-          <h2 class="font-outfit text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+          <h2 class="font-outfit text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight">
             Подключение и Запуск Магазина
           </h2>
 
-          <p class="text-white/60 text-sm sm:text-base leading-relaxed">
+          <p class="text-white/60 text-xs sm:text-sm md:text-base leading-relaxed">
             Привяжите ваш магазин за 1 минуту — система автоматически обучится на ваших товарах и начнет квалифицировать лиды и отвечать покупателям 24/7.
           </p>
 
-          <div class="pt-2 flex flex-col sm:flex-row gap-4">
-            <button onclick="requestTelegramQr('Основной магазин Авито')" class="btn-avito px-8 py-4 rounded-2xl text-base flex items-center justify-center gap-3 cursor-pointer shadow-neon-blue">
+          <div class="pt-2 flex flex-col sm:flex-row gap-3">
+            <button onclick="requestTelegramQr('Основной магазин Авито')" class="btn-avito px-5 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-sm sm:text-base flex items-center justify-center gap-2.5 cursor-pointer shadow-neon-blue w-full sm:w-auto">
               <span class="material-symbols-outlined">qr_code_scanner</span>
               <span>Запросить QR-код в Telegram</span>
             </button>
 
-            <button onclick="openShopSetupWizard()" class="btn-ghost px-6 py-4 rounded-2xl text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer">
+            <button onclick="openShopSetupWizard()" class="btn-ghost px-5 sm:px-6 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
               <span>Настройка магазина</span>
               <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
@@ -330,15 +330,15 @@
       </div>
 
       <!-- TELEGRAM SYNERGY ONBOARDING CARD -->
-      <div id="tgSyncBanner" class="p-6 rounded-2xl bg-gradient-to-r from-[#0d1e3a] via-[#161f30] to-[#121214] border border-blue-500/35 flex flex-col md:flex-row items-center justify-between gap-5 shadow-[0_4px_25px_rgba(0,136,204,0.15)]">
-        <div class="flex items-center gap-4">
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center text-2xl shadow-neon-blue shrink-0">
-            ✈
+      <div id="tgSyncBanner" class="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-[#0d1e3a] via-[#161f30] to-[#121214] border border-blue-500/35 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-5 shadow-[0_4px_25px_rgba(0,136,204,0.15)]">
+        <div class="flex items-start sm:items-center gap-3.5 sm:gap-4">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center shadow-neon-blue shrink-0 mt-0.5 sm:mt-0">
+            <svg class="w-5 h-5 sm:w-6 sm:h-6 fill-white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <h4 class="font-outfit font-extrabold text-lg text-white">Канал уведомлений и синергия с Telegram</h4>
-              <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-status-green/15 text-status-green border border-status-green/30">Активно 24/7</span>
+            <div class="flex flex-wrap items-center gap-2">
+              <h4 class="font-outfit font-extrabold text-base sm:text-lg text-white">Канал уведомлений и синергия с Telegram</h4>
+              <span class="text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full bg-status-green/15 text-status-green border border-status-green/30">Активно 24/7</span>
             </div>
             <p class="text-xs text-white/70 mt-1 leading-relaxed">
               Зарегистрируйте и привяжите ваш Telegram-канал/чат к магазину, чтобы в реальном времени получать актуальные вопросы покупателей, информацию о магазине и уведомления о каждой продаже на Авито.
@@ -346,7 +346,7 @@
           </div>
         </div>
         <div class="flex items-center gap-3 shrink-0 w-full md:w-auto">
-          <a id="btnConnectTgBanner" href="https://t.me/avito_deployer_bot?start=connect_6940082004" target="_blank" class="btn-avito px-6 py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 w-full md:w-auto shadow-neon-blue cursor-pointer">
+          <a id="btnConnectTgBanner" href="https://t.me/avito_deployer_bot?start=connect_6940082004" target="_blank" class="btn-avito px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 w-full md:w-auto shadow-neon-blue cursor-pointer">
             <span>Подключить Telegram-бот</span>
             <span class="material-symbols-outlined text-base">arrow_forward</span>
           </a>
@@ -354,50 +354,50 @@
       </div>
 
       <!-- INTERACTIVE AI CHAT SIMULATOR -->
-      <div class="glass-box p-6 sm:p-8 space-y-6 border-gold/30 bg-gradient-to-br from-gold/[0.02] to-transparent">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-4">
+      <div class="glass-box p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 border-gold/30 bg-gradient-to-br from-gold/[0.02] to-transparent">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3 sm:pb-4">
           <div>
             <div class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-gold text-2xl">chat_bubble</span>
-              <h3 class="font-outfit font-extrabold text-xl text-white">Проверка работы Личного управляющего</h3>
+              <span class="material-symbols-outlined text-gold text-xl sm:text-2xl">chat_bubble</span>
+              <h3 class="font-outfit font-extrabold text-lg sm:text-xl text-white">Проверка работы Личного управляющего</h3>
             </div>
             <p class="text-xs text-white/50 mt-0.5">Задайте вопрос от лица покупателя — ассистент ответит по правилам вашего магазина</p>
           </div>
-          <span class="text-xs text-status-green bg-status-green/10 px-3 py-1 rounded-full border border-status-green/20 flex items-center gap-1.5 self-start sm:self-auto">
+          <span class="text-xs text-status-green bg-status-green/10 px-2.5 sm:px-3 py-1 rounded-full border border-status-green/20 flex items-center gap-1.5 self-start sm:self-auto">
             <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
             <span>Готов к диалогу</span>
           </span>
         </div>
 
         <!-- PRODUCT SELECTOR CONTEXT -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white/[0.03] p-3 rounded-xl border border-white/10">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white/[0.03] p-2.5 sm:p-3 rounded-xl border border-white/10">
           <div class="flex items-center gap-2">
             <span class="material-symbols-outlined text-gold text-sm">inventory_2</span>
             <span class="text-xs text-white/70 font-semibold">Контекст товара для проверки:</span>
           </div>
-          <select id="simulatorProductSelect" class="bg-black/50 border border-white/15 rounded-lg px-3 py-1.5 text-xs text-white focus:outline-none focus:border-gold">
-            <option value="">📦 Общие правила магазина (самовывоз / доставка / график)</option>
-            <option value="Кроссовки Nike Dunk Low Retro">👟 Кроссовки Nike Dunk Low Retro (6 990 ₽)</option>
-            <option value="Худи Stone Island черное">🧥 Худи Stone Island черное (4 990 ₽)</option>
-            <option value="Фара передняя левая LED (оригинал)">🚗 Фара передняя левая LED (14 500 ₽)</option>
-            <option value="Бампер передний в сборе">🚗 Бампер передний в сборе (9 800 ₽)</option>
+          <select id="simulatorProductSelect" class="w-full sm:w-auto bg-black/50 border border-white/15 rounded-lg px-2.5 sm:px-3 py-1.5 text-xs text-white focus:outline-none focus:border-gold">
+            <option value="">Общие правила магазина (самовывоз / доставка / график)</option>
+            <option value="Кроссовки Nike Dunk Low Retro">Кроссовки Nike Dunk Low Retro (6 990 ₽)</option>
+            <option value="Худи Stone Island черное">Худи Stone Island черное (4 990 ₽)</option>
+            <option value="Фара передняя левая LED (оригинал)">Фара передняя левая LED (14 500 ₽)</option>
+            <option value="Бампер передний в сборе">Бампер передний в сборе (9 800 ₽)</option>
           </select>
         </div>
 
         <!-- QUICK CHIPS -->
         <div class="space-y-2">
-          <span class="text-[11px] font-semibold uppercase tracking-wider text-white/40">Быстрые примеры вопросов покупателей:</span>
-          <div class="flex flex-wrap gap-2">
-            <button onclick="sendQuickChatMessage('Здравствуйте! Есть ли в наличии и актуальна ли цена?')" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-xs text-white/80 hover:text-gold transition-all">«В наличии и актуальна ли цена?»</button>
-            <button onclick="sendQuickChatMessage('Где вы находитесь? Можно сегодня забрать самовывозом?')" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-xs text-white/80 hover:text-gold transition-all">«Где забрать самовывозом?»</button>
-            <button onclick="sendQuickChatMessage('Отправляете ли вы Авито Доставкой или СДЭК?')" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-xs text-white/80 hover:text-gold transition-all">«Отправляете Авито Доставкой?»</button>
-            <button onclick="sendQuickChatMessage('Напишите номер телефона для связи с менеджером')" class="px-3 py-1.5 rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-xs text-white/80 hover:text-gold transition-all">«Дайте номер для связи»</button>
+          <span class="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40">Быстрые примеры вопросов покупателей:</span>
+          <div class="flex flex-wrap gap-1.5 sm:gap-2">
+            <button onclick="sendQuickChatMessage('Здравствуйте! Есть ли в наличии и актуальна ли цена?')" class="px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all">«В наличии и актуальна цена?»</button>
+            <button onclick="sendQuickChatMessage('Где вы находитесь? Можно сегодня забрать самовывозом?')" class="px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all">«Где забрать самовывозом?»</button>
+            <button onclick="sendQuickChatMessage('Отправляете ли вы Авито Доставкой или СДЭК?')" class="px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all">«Отправляете Доставкой?»</button>
+            <button onclick="sendQuickChatMessage('Напишите номер телефона для связи с менеджером')" class="px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all">«Дайте номер для связи»</button>
           </div>
         </div>
 
         <!-- CHAT WINDOW -->
-        <div class="space-y-4">
-          <div id="testChatHistory" class="bg-black/40 border border-white/10 rounded-2xl p-4 sm:p-5 h-64 overflow-y-auto space-y-3 font-sans text-sm">
+        <div class="space-y-3 sm:space-y-4">
+          <div id="testChatHistory" class="bg-black/40 border border-white/10 rounded-2xl p-3.5 sm:p-5 h-60 sm:h-64 overflow-y-auto space-y-3 font-sans text-sm">
             <div class="flex items-start gap-2.5">
               <div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/40 flex items-center justify-center text-gold text-xs font-black font-outfit shrink-0 shadow-neon-gold">M</div>
               <div class="p-3 rounded-2xl rounded-tl-none bg-white/10 border border-white/10 text-white/90 max-w-md text-xs leading-relaxed">
@@ -408,9 +408,9 @@
 
           <!-- INPUT FORM -->
           <div class="flex gap-2">
-            <input type="text" id="testChatInput" onkeypress="if(event.key==='Enter') sendTestChatMessage();" placeholder="Напишите сообщение от лица покупателя..." class="flex-1 px-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 text-sm focus:outline-none focus:border-gold transition-colors">
-            <button onclick="sendTestChatMessage()" id="testChatSendBtn" class="btn-gold px-6 py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
-              <span>Отправить</span>
+            <input type="text" id="testChatInput" onkeypress="if(event.key==='Enter') sendTestChatMessage();" placeholder="Напишите сообщение от лица покупателя..." class="flex-1 min-w-0 px-3.5 sm:px-4 py-3 sm:py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 text-xs sm:text-sm focus:outline-none focus:border-gold transition-colors">
+            <button onclick="sendTestChatMessage()" id="testChatSendBtn" class="btn-gold px-3.5 sm:px-6 py-3 sm:py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-neon-gold shrink-0">
+              <span class="hidden sm:inline">Отправить</span>
               <span class="material-symbols-outlined text-sm">send</span>
             </button>
           </div>
@@ -418,7 +418,7 @@
       </div>
 
       <!-- LIVE REALTIME AVITO CHAT FEED -->
-      <div id="liveChatFeedSection" class="glass-box p-6 sm:p-8 space-y-5 border-white/10 hidden">
+      <div id="liveChatFeedSection" class="glass-box p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 border-white/10 hidden">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-status-green/10 border border-status-green/30 flex items-center justify-center text-status-green shrink-0">
@@ -460,7 +460,7 @@
                 <h3 class="font-outfit font-bold text-lg text-white">Мой Магазин</h3>
                 <span class="text-xs text-status-green flex items-center gap-1">
                   <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
-                  <span id="overviewStoreStatus">Выделенный Сервер #1 Готов</span>
+                  <span id="overviewStoreStatus">Слот магазина #1 готов к работе</span>
                 </span>
               </div>
             </div>
@@ -493,19 +493,19 @@
 
     </section>
 
-    <!-- ==================== TAB 2: MY BOTS ==================== -->
-    <section id="tab-content-shops" class="tab-pane hidden space-y-6">
-      <div class="flex items-center justify-between">
+    <!-- ==================== TAB 2: MY SHOPS ==================== -->
+    <section id="tab-content-shops" class="tab-pane hidden space-y-4 sm:space-y-6">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2.5">
-            <span>Мои Боты</span>
+          <h2 class="font-outfit text-xl sm:text-3xl font-extrabold text-white flex items-center gap-2.5">
+            <span>Мои Магазины</span>
             <span id="headerBotsCountTag" class="text-xs bg-gold/10 text-gold px-2.5 py-0.5 rounded-full font-bold border border-gold/30">Активно: 1</span>
           </h2>
-          <p class="text-xs sm:text-sm text-white/50 mt-1">Список подключенных ботов, статусы работы, настройки и привязка каталога</p>
+          <p class="text-xs sm:text-sm text-white/50 mt-1">Список подключенных магазинов, статусы работы, настройки и привязка каталога</p>
         </div>
-        <button onclick="addNewShopAction()" class="btn-gold px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-neon-gold cursor-pointer">
+        <button onclick="addNewShopAction()" class="btn-gold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-neon-gold cursor-pointer w-full sm:w-auto">
           <span class="material-symbols-outlined text-base">add</span>
-          <span>Добавить бота</span>
+          <span>Добавить магазин</span>
         </button>
       </div>
 
@@ -784,7 +784,7 @@
               </li>
               <li class="flex items-center gap-2.5">
                 <span class="material-symbols-outlined text-gold text-base">check_circle</span>
-                <span>Выделенный приоритетный сервер</span>
+                <span>Выделенный приоритетный слот магазина</span>
               </li>
               <li class="flex items-center gap-2.5">
                 <span class="material-symbols-outlined text-gold text-base">check_circle</span>
@@ -883,8 +883,8 @@
             <div class="text-xs text-white/40 font-medium">Активных выделенных слотов</div>
             <div class="font-outfit font-extrabold text-3xl text-avito-blue" id="analyticsTotalBots">1</div>
             <div class="text-[11px] text-avito-blue flex items-center gap-1 mt-1">
-              <span class="material-symbols-outlined text-xs">dns</span>
-              <span>Выделенный Сервер #1</span>
+              <span class="material-symbols-outlined text-xs">storefront</span>
+              <span>Слот магазина #1</span>
             </div>
           </div>
         </div>
@@ -1003,7 +1003,7 @@
       <div class="flex items-center justify-between">
         <div>
           <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">Мастер Подключения Магазина Авито</h2>
-          <p class="text-xs sm:text-sm text-white/50 mt-1">Пошаговое обучение ассистента и привязка аккаунта к Выделенному Серверу</p>
+          <p class="text-xs sm:text-sm text-white/50 mt-1">Пошаговая настройка ассистента и подключение магазина к платформе</p>
         </div>
         <button onclick="switchTab('shops')" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5">
           <span class="material-symbols-outlined text-sm">close</span>
@@ -1128,7 +1128,7 @@
         <div id="wstep-pane-3" class="wstep-pane hidden space-y-5">
           <div class="border-b border-white/10 pb-3">
             <h3 class="font-outfit font-bold text-xl text-white">Шаг 3. Способ Авторизации Авито</h3>
-            <p class="text-xs text-white/50">Выберите удобный способ привязки вашего аккаунта к Выделенному Серверу</p>
+            <p class="text-xs text-white/50">Выберите удобный способ привязки вашего аккаунта к платформе</p>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1276,21 +1276,21 @@
 
       <div class="py-3 space-y-2.5">
         <div class="p-3 rounded-xl bg-white/5 border border-white/5 text-xs text-white/80 leading-relaxed">
-          Здравствуйте! 👋 Есть вопросы по работе магазина, подключению слотов или тарифам?
+          Здравствуйте! Есть вопросы по работе магазина, подключению слотов или тарифам?
         </div>
 
         <div class="space-y-1.5 pt-1">
           <button onclick="switchTab('tariffs'); toggleSupportWidget();" class="w-full text-left p-2.5 rounded-xl bg-gold/10 hover:bg-gold/20 border border-gold/30 text-xs text-gold font-semibold flex items-center justify-between transition-colors cursor-pointer">
             <span class="flex items-center gap-2">
-              <span>⚡</span>
-              <span>Тарифы и Тест-Драйв (1 590 ₽)</span>
+              <span class="material-symbols-outlined text-sm text-gold">tune</span>
+              <span>Тарифы и Пробный период (1 590 ₽)</span>
             </span>
             <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </button>
 
           <button onclick="openDocModal(); toggleSupportWidget();" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-white/80 flex items-center justify-between transition-colors cursor-pointer">
             <span class="flex items-center gap-2">
-              <span>🛡️</span>
+              <span class="material-symbols-outlined text-sm text-gold">verified_user</span>
               <span>100% Гарантия возврата 24ч</span>
             </span>
             <span class="material-symbols-outlined text-sm">arrow_forward</span>
@@ -1298,8 +1298,8 @@
 
           <a href="https://t.me/chc332" target="_blank" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-cyan-300 flex items-center justify-between transition-colors cursor-pointer">
             <span class="flex items-center gap-2">
-              <span>💬</span>
-              <span>Чат с основателем (@chc332)</span>
+              <span class="material-symbols-outlined text-sm text-cyan-300">forum</span>
+              <span>Чат с поддержкой (@chc332)</span>
             </span>
             <span class="material-symbols-outlined text-sm">north_east</span>
           </a>
@@ -1333,8 +1333,8 @@
       <span class="text-[9px] font-medium">Обзор</span>
     </button>
     <button onclick="switchTab('shops')" id="bnav-shops" class="bnav-btn flex flex-col items-center gap-1 p-1 text-white/50 transition-colors">
-      <span class="material-symbols-outlined text-xl">smart_toy</span>
-      <span class="text-[9px] font-medium">Боты</span>
+      <span class="material-symbols-outlined text-xl">storefront</span>
+      <span class="text-[9px] font-medium">Магазины</span>
     </button>
     <button onclick="switchTab('analytics')" id="bnav-analytics" class="bnav-btn flex flex-col items-center gap-1 p-1 text-white/50 transition-colors">
       <span class="material-symbols-outlined text-xl">monitoring</span>
@@ -1355,8 +1355,8 @@
   </nav>
 
   <!-- PAYMENT MODAL (YOOMONEY + SBP T-BANK) -->
-  <div id="paymentModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-box max-w-md w-full p-6 space-y-6 relative border-gold/30 bg-[#121214]">
+  <div id="paymentModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
+    <div class="glass-box max-w-md w-full p-4 sm:p-6 space-y-4 sm:space-y-6 relative border-gold/30 bg-[#121214] max-h-[92vh] overflow-y-auto rounded-2xl">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-white/40 hover:text-white">
         <span class="material-symbols-outlined">close</span>
       </button>
@@ -1383,7 +1383,7 @@
               <span class="font-outfit font-extrabold text-sm">6 490 ₽</span>
             </button>
             <button type="button" onclick="setPresetAmount(1590)" id="presetBtn-1590" class="p-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer">
-              <span>Пробный (7 дней)</span>
+              <span>Пробный период (7 дней)</span>
               <span class="font-outfit font-extrabold text-sm">1 590 ₽</span>
             </button>
           </div>
@@ -1428,7 +1428,7 @@
           <div class="text-white/70 space-y-1">
             <p>Банк: <strong class="text-white">Т-Банк (Тинькофф)</strong></p>
             <p>Телефон: <strong class="text-gold font-mono text-sm">+7 (923) 451-10-89</strong></p>
-            <p>Получатель: <strong class="text-white">Илья Ш.</strong></p>
+            <p>Получатель: <strong class="text-white">Кирилл Ш.</strong></p>
             <p>Сумма к переводу: <strong id="sbpAmountDisplay" class="text-gold font-bold text-sm">6 490 ₽</strong></p>
           </div>
         </div>
@@ -1443,8 +1443,8 @@
   </div>
 
   <!-- SHOP SETTINGS & DELETE MODAL -->
-  <div id="shopSettingsModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-box max-w-lg w-full p-6 space-y-6 relative border-gold/30 bg-[#121214]">
+  <div id="shopSettingsModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
+    <div class="glass-box max-w-lg w-full p-4 sm:p-6 space-y-4 sm:space-y-6 relative border-gold/30 bg-[#121214] max-h-[92vh] overflow-y-auto rounded-2xl">
       <button onclick="closeShopSettingsModal()" class="absolute top-4 right-4 text-white/40 hover:text-white">
         <span class="material-symbols-outlined">close</span>
       </button>
@@ -1824,7 +1824,7 @@
           if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
         }
 
-        showToast('🎉 Тариф успешно активирован!', `Списано ${amount.toLocaleString('ru-RU')} ₽. Переходим к мастеру настройки магазина...`, 'success');
+        showToast('Тариф успешно активирован', `Списано ${amount.toLocaleString('ru-RU')} ₽. Переходим к мастеру настройки магазина...`, 'success');
         await loadUserStats();
         await loadMyBots();
         
@@ -1913,19 +1913,19 @@
         const isPaid = bot.is_paid == 1;
         const statusClass = isPaid ? 'text-status-green' : 'text-gold';
         const dateStr = bot.paid_until ? new Date(bot.paid_until).toLocaleDateString('ru-RU') : '30 дней';
-        const statusText = isPaid ? `🟢 В сети 24/7 (до ${dateStr})` : '🔑 Ожидает QR / Настройки';
-        const emuSlot = `Выделенный Сервер #${bot.emulator_index || (index + 1)}`;
+        const statusText = isPaid ? `В сети 24/7 (до ${dateStr})` : 'Ожидает подключения';
+        const emuSlot = `Слот магазина #${bot.emulator_index || (index + 1)}`;
         const botName = bot.session_name || bot.name || `Магазин #${index + 1}`;
 
         html += `
-          <div class="glass-box p-6 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-4">
-              <div class="w-14 h-14 rounded-2xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/30 flex items-center justify-center text-gold text-lg font-black font-outfit shadow-neon-gold">
+          <div class="glass-box p-4 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
+            <div class="flex items-center gap-3.5">
+              <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/30 flex items-center justify-center text-gold text-base sm:text-lg font-black font-outfit shadow-neon-gold shrink-0">
                 #${index + 1}
               </div>
               <div>
-                <h3 class="font-outfit font-bold text-xl text-white">${escapeHtml(botName)}</h3>
-                <div class="flex items-center gap-3 mt-1 text-xs">
+                <h3 class="font-outfit font-bold text-lg sm:text-xl text-white">${escapeHtml(botName)}</h3>
+                <div class="flex flex-wrap items-center gap-2 mt-1 text-xs">
                   <span class="${statusClass} flex items-center gap-1 font-semibold"><span class="w-2 h-2 rounded-full bg-current animate-pulse"></span><span>${escapeHtml(statusText)}</span></span>
                   <span class="text-white/30">•</span>
                   <span class="text-white/50">${escapeHtml(emuSlot)}</span>
@@ -1933,11 +1933,11 @@
                 </div>
               </div>
             </div>
-            <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
-              <button data-action="settings" data-session-id="${Number(bot.id) || 0}" class="btn-ghost px-3.5 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"><span class="material-symbols-outlined text-base">tune</span><span>Настройки</span></button>
-              <button data-action="qr" data-session-id="${Number(bot.id) || 0}" class="btn-avito px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-neon-blue"><span class="material-symbols-outlined text-base">qr_code_scanner</span><span>QR в Telegram</span></button>
-              <button onclick="openShopSetupWizard()" class="btn-gold px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"><span class="material-symbols-outlined text-base">sync</span><span>Обновить товары</span></button>
-              <button data-action="delete" data-session-id="${Number(bot.id) || 0}" class="px-3.5 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-colors"><span class="material-symbols-outlined text-base">delete</span></button>
+            <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full md:w-auto pt-2 md:pt-0 border-t border-white/5 md:border-t-0">
+              <button data-action="settings" data-session-id="${Number(bot.id) || 0}" class="btn-ghost px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"><span class="material-symbols-outlined text-base">tune</span><span>Настройки</span></button>
+              <button data-action="qr" data-session-id="${Number(bot.id) || 0}" class="btn-avito px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-neon-blue"><span class="material-symbols-outlined text-base">qr_code_scanner</span><span>QR в TG</span></button>
+              <button onclick="openShopSetupWizard()" class="btn-gold px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"><span class="material-symbols-outlined text-base">sync</span><span>Каталог</span></button>
+              <button data-action="delete" data-session-id="${Number(bot.id) || 0}" class="px-3 py-2 sm:px-3.5 sm:py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-colors"><span class="material-symbols-outlined text-base">delete</span><span>Удалить</span></button>
             </div>
           </div>
         `;
@@ -2489,7 +2489,7 @@
         currentStoreKnowledge = payload;
         showToast('База знаний сохранена', 'Инструкции и правила магазина успешно синхронизированы с управляющим продажами', 'success');
       } catch (err) {
-        showToast('Ошибка сохранения', err.message || 'Проверьте соединение с сервером', 'warning');
+        showToast('Ошибка сохранения', err.message || 'Проверьте подключение к сети', 'warning');
       } finally {
         if (saveBtn) saveBtn.disabled = false;
       }
@@ -2524,7 +2524,7 @@
     }
 
     function toggleAnalyticsDemo() {
-      showToast('Аналитика PRO', 'Отображаются динамические метрики активности сервера', 'info');
+      showToast('Аналитика PRO', 'Отображаются динамические метрики активности магазина', 'info');
     }
 
     // PAYMENT MODAL (YOOMONEY + SBP)
@@ -2580,15 +2580,16 @@
     }
 
     async function submitSbpPaymentNotification() {
+      const amount = Number(document.getElementById('modalPaymentSumInput')?.value) || 1590;
       try {
         await apiFetch(`${API_BASE}/api/manual_payment_request`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId })
+          body: JSON.stringify({ chatId: currentChatId, amount: amount })
         });
       } catch (e) {}
 
-      showToast('Заявка принята!', 'Менеджер подтвердит поступление в течение 5-10 минут', 'success');
+      showToast('Заявка принята!', `Менеджер проверит перевод на сумму ${amount.toLocaleString('ru-RU')} ₽ и активирует доступ в течение 5-10 минут`, 'success');
       closePaymentModal();
     }
 
