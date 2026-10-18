@@ -520,6 +520,28 @@
         </button>
       </div>
 
+      <!-- SLOTS & BOT CREATION QUOTA BANNER -->
+      <div class="glass-box p-4 sm:p-5 rounded-2xl border-gold/30 bg-[#141418] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
+        <div class="flex items-center gap-3.5">
+          <div class="w-11 h-11 rounded-2xl bg-gold/10 border border-gold/40 flex items-center justify-center text-gold shadow-neon-gold shrink-0">
+            <span class="material-symbols-outlined text-2xl">verified_user</span>
+          </div>
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-2">
+              <span class="font-outfit font-bold text-white text-sm sm:text-base">Лимит создания ботов</span>
+              <span id="shopsQuotaBadge" class="px-2.5 py-0.5 rounded-full bg-status-green/10 text-status-green font-bold text-[11px] border border-status-green/30">1 активен (лимит: 1)</span>
+            </div>
+            <p class="text-white/70 text-xs leading-relaxed max-w-xl">
+              У вас доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо по подписке на 1 месяц. Для запуска 2-го и последующих магазинов приобретите дополнительный слот в разделе «Тарифы».
+            </p>
+          </div>
+        </div>
+        <button onclick="switchTab('tariffs')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border-gold/40 hover:bg-gold/10 shrink-0 flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+          <span class="material-symbols-outlined text-base">add_box</span>
+          <span>Дополнительный слот</span>
+        </button>
+      </div>
+
       <!-- CONTAINER DYNAMICALLY POPULATED BY renderShopsList() -->
       <div id="shopsListContainer" class="space-y-4">
         <!-- Rendered by JS -->
@@ -1246,7 +1268,15 @@
           </div>
 
           <!-- SUMMARY CARD -->
-          <div class="glass-box p-4 text-left max-w-xl mx-auto space-y-2 text-xs">
+          <div class="glass-box p-4 text-left max-w-xl mx-auto space-y-3 text-xs">
+            <div class="p-3 rounded-xl bg-gold/10 border border-gold/30 text-xs text-gold flex items-start gap-2.5">
+              <span class="material-symbols-outlined text-base mt-0.5 shrink-0">info</span>
+              <div class="space-y-0.5">
+                <p class="font-bold">Лимит создания ботов:</p>
+                <p class="text-white/80 leading-relaxed">Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».</p>
+              </div>
+            </div>
+
             <div class="flex justify-between border-b border-white/5 pb-1.5">
               <span class="text-white/50">Название магазина:</span>
               <strong id="sumShopName" class="text-white">Основной магазин Авито</strong>
@@ -1566,6 +1596,14 @@
         <p class="text-xs text-white/70 leading-relaxed">
           Система готова к приему клиентов. Чтобы бот отвечал на Авито строго по вашим правилам, укажите информацию о доставке, складе и скидках в Базе Знаний.
         </p>
+
+        <div class="p-3 rounded-xl bg-gold/10 border border-gold/30 text-xs text-gold flex items-start gap-2.5">
+          <span class="material-symbols-outlined text-base mt-0.5 shrink-0">info</span>
+          <div class="space-y-0.5">
+            <p class="font-bold">Лимит создания ботов:</p>
+            <p class="text-white/80 leading-relaxed">Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».</p>
+          </div>
+        </div>
       </div>
 
       <!-- ACTION BUTTONS -->
@@ -2142,10 +2180,15 @@
 
       const countTag = document.getElementById('headerBotsCountTag');
       const navBadge = document.getElementById('tabShopsCountBadge');
+      const quotaBadge = document.getElementById('shopsQuotaBadge');
       if (countTag) countTag.innerText = `Активно: ${bots.length}`;
       if (navBadge) {
         navBadge.innerText = bots.length;
         navBadge.classList.remove('hidden');
+      }
+      if (quotaBadge) {
+        const totalSlots = Math.max(1, userSlotsCount || 1);
+        quotaBadge.innerText = `${bots.length} из ${totalSlots} активно`;
       }
 
       if (bots && bots.length > 0) {
@@ -2161,7 +2204,7 @@
 
     function addNewShopAction() {
       if (userBotsList.length >= userSlotsCount && userBotsList.some(b => b.is_paid == 1)) {
-        showToast('Все слоты активны', 'Для подключения дополнительного магазина (Слот #2) приобретите тариф', 'warning');
+        showToast('Лимит создания ботов', 'Вам доступно 1 создание бота по пробной подписке (7 дней) либо на 1 месяц. Для запуска 2-го магазина выберите дополнительный слот в разделе «Тарифы».', 'warning');
         switchTab('tariffs');
         return;
       }
@@ -2307,7 +2350,7 @@
         const createData = await createRes.json();
         if (!createRes.ok || !createData.success) throw new Error(createData.error || 'Не удалось сохранить магазин');
 
-        showToast('Магазин запущен', `Магазин «${name}» успешно настроен и активирован на автопилоте продаж.`, 'success');
+        showToast('Бот успешно запущен!', `Магазин «${name}» на автопилоте 24/7. Вам доступно 1 создание бота по пробной подписке (7 дней) либо на 1 месяц.`, 'success');
         await loadUserStats();
         await loadMyBots();
         switchTab('shops');
