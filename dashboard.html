@@ -129,6 +129,12 @@
     }
     .bnav-active {
       color: #FFDD2D !important;
+      font-weight: 700 !important;
+    }
+    .bnav-active .material-symbols-outlined {
+      transform: scale(1.15);
+      transition: transform 0.2s ease;
+      filter: drop-shadow(0 0 8px rgba(255, 221, 45, 0.4));
     }
     ::-webkit-scrollbar {
       width: 6px;
@@ -1572,6 +1578,8 @@
       try {
         tg.ready();
         tg.expand();
+        if (tg.setHeaderColor) tg.setHeaderColor('#121214');
+        if (tg.setBackgroundColor) tg.setBackgroundColor('#121214');
         if (tg.enableClosingConfirmation) tg.enableClosingConfirmation();
       } catch (e) {}
     }
