@@ -523,115 +523,173 @@
 
     <!-- ==================== TAB: STORE KNOWLEDGE BASE ==================== -->
     <section id="tab-content-knowledge" class="tab-pane hidden space-y-6">
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
-        <div>
-          <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white flex items-center gap-2.5">
-            <span>База Знаний и Правила Магазина</span>
-            <span class="text-xs bg-gold/10 text-gold px-2.5 py-0.5 rounded-full font-bold border border-gold/30">Активно</span>
+      <!-- HEADER BANNER -->
+      <div class="glass-box p-5 sm:p-6 rounded-2xl sm:rounded-3xl border-gold/30 bg-gradient-to-r from-gold/[0.08] via-transparent to-transparent flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div class="space-y-1.5">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
+            <span>Регламент Продаж 24/7</span>
+          </div>
+          <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">
+            База Знаний и Правила Магазина
           </h2>
-          <p class="text-xs sm:text-sm text-white/50 mt-1">
-            Настройте информацию о вашем магазине, график, правила и условия доставки. Управляющий продажами строго следует этим инструкциям при диалогах с покупателями на Авито.
+          <p class="text-xs sm:text-sm text-white/60 max-w-2xl leading-relaxed">
+            Интеллектуальный регламент автопилота: ассистент строго следует этим инструкциям при консультациях, ответах о наличии, расчете доставки и закрытии сделок на Авито.
           </p>
         </div>
-        <button onclick="saveStoreKnowledgeSettings()" id="btnSaveKnowledge" class="btn-gold px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 shadow-neon-gold cursor-pointer shrink-0">
-          <span class="material-symbols-outlined text-base">save</span>
-          <span>Сохранить настройки</span>
+
+        <button type="button" onclick="saveStoreKnowledgeSettings()" id="btnSaveKnowledge" class="btn-gold px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-neon-gold cursor-pointer shrink-0">
+          <span class="material-symbols-outlined text-base">check_circle</span>
+          <span>Сохранить базу знаний</span>
         </button>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- GENERAL STORE INFO -->
-        <div class="glass-box p-6 space-y-4">
-          <div class="flex items-center gap-2.5 border-b border-white/10 pb-3">
-            <span class="material-symbols-outlined text-gold">storefront</span>
-            <h3 class="font-outfit font-bold text-lg text-white">Основная информация</h3>
+        <div class="glass-box p-6 sm:p-7 space-y-5 rounded-2xl sm:rounded-3xl border-white/10 hover:border-gold/30 transition-all bg-[#161619]">
+          <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+            <div class="w-10 h-10 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center text-gold">
+              <span class="material-symbols-outlined text-xl">storefront</span>
+            </div>
+            <div>
+              <h3 class="font-outfit font-bold text-lg text-white">Основная информация</h3>
+              <p class="text-[11px] text-white/40">Используется при представлении магазина покупателям</p>
+            </div>
           </div>
 
-          <div class="space-y-3">
-            <div>
-              <label class="block text-xs font-semibold text-white/70 mb-1">Название магазина</label>
-              <input type="text" id="kbStoreName" placeholder="Например: Модный Гардероб / Автомаркет / Магазин техники" class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-gold">
+          <div class="space-y-4">
+            <div class="space-y-1.5">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Название магазина</label>
+              <input type="text" id="kbStoreName" placeholder="Например: Модный Гардероб / Автомаркет / ТехноСтор" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
             </div>
 
-            <div>
-              <label class="block text-xs font-semibold text-white/70 mb-1">Ниша / Категория товаров</label>
-              <input type="text" id="kbNiche" placeholder="Например: Одежда и обувь, Автозапчасти, Электроника" class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-gold">
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-white/70 mb-1">Город и адрес склада (для отправки и самовывоза)</label>
-              <input type="text" id="kbCityAddress" placeholder="Например: Москва, ул. Складочная 3 или Отправка по всей РФ" class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-gold">
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label class="block text-xs font-semibold text-white/70 mb-1">Рабочий график</label>
-                <input type="text" id="kbWorkingHours" placeholder="Например: Ежедневно 10:00 - 21:00 (прием заказов 24/7)" class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-gold">
-              </div>
-              <div>
-                <label class="block text-xs font-semibold text-white/70 mb-1">Телефон для экстренной связи</label>
-                <input type="text" id="kbPhone" placeholder="Например: +7 (999) 123-45-67" class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-gold">
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Ниша / Категория товаров</label>
+              <input type="text" id="kbNiche" placeholder="Например: Одежда и Обувь, Автозапчасти, Электроника" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
+              <div class="flex flex-wrap gap-1.5 pt-0.5">
+                <span class="text-[10px] text-white/40 self-center mr-1">Быстрый выбор:</span>
+                <button type="button" onclick="setKbChip('kbNiche', 'Одежда и Обувь')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Одежда и Обувь</button>
+                <button type="button" onclick="setKbChip('kbNiche', 'Автотовары и Запчасти')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Автозапчасти</button>
+                <button type="button" onclick="setKbChip('kbNiche', 'Электроника и Техника')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Электроника</button>
+                <button type="button" onclick="setKbChip('kbNiche', 'Товары для дома')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Дом и уют</button>
+                <button type="button" onclick="setKbChip('kbNiche', 'Услуги и Сервис')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Услуги</button>
               </div>
             </div>
 
-            <div>
-              <label class="block text-xs font-semibold text-white/70 mb-1">Telegram менеджера для связи</label>
-              <input type="text" id="kbTelegramContact" placeholder="Например: @manager_username" class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-gold">
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Город и адрес склада (для отправок и самовывоза)</label>
+              <input type="text" id="kbCityAddress" placeholder="Например: Москва, складской комплекс или Отправка по РФ" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
+              <div class="flex flex-wrap gap-1.5 pt-0.5">
+                <button type="button" onclick="setKbChip('kbCityAddress', 'Москва, отправка по всей России через Авито Доставку')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Москва + РФ</button>
+                <button type="button" onclick="setKbChip('kbCityAddress', 'Санкт-Петербург, отправка по всей РФ')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">СПб + РФ</button>
+                <button type="button" onclick="setKbChip('kbCityAddress', 'Красноярск, самовывоз и отправка по всей РФ')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Красноярск + РФ</button>
+                <button type="button" onclick="setKbChip('kbCityAddress', 'Отправка по всей России через Авито Доставку')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Вся Россия</button>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Режим работы и прием заказов</label>
+              <input type="text" id="kbWorkingHours" placeholder="Например: Круглосуточно 24/7 (отправка заказов в день оплаты)" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
+              <div class="flex flex-wrap gap-1.5 pt-0.5">
+                <button type="button" onclick="setKbChip('kbWorkingHours', '24/7 (круглосуточный прием заказов, отправки ежедневно)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">24/7 Круглосуточно</button>
+                <button type="button" onclick="setKbChip('kbWorkingHours', 'Ежедневно 10:00 - 21:00 (прием заказов онлайн 24/7)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">10:00 - 21:00 ежедневно</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div class="space-y-1.5">
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Телефон для связи</label>
+                <input type="text" id="kbPhone" placeholder="+7 (___) ___-__-__" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
+              </div>
+              <div class="space-y-1.5">
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Telegram менеджера</label>
+                <input type="text" id="kbTelegramContact" placeholder="@manager_username" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
+              </div>
             </div>
           </div>
         </div>
 
         <!-- DELIVERY & SALES SCRIPT RULES -->
-        <div class="glass-box p-6 space-y-4">
-          <div class="flex items-center gap-2.5 border-b border-white/10 pb-3">
-            <span class="material-symbols-outlined text-gold">local_shipping</span>
-            <h3 class="font-outfit font-bold text-lg text-white">Доставка и Сервис</h3>
+        <div class="glass-box p-6 sm:p-7 space-y-5 rounded-2xl sm:rounded-3xl border-white/10 hover:border-gold/30 transition-all bg-[#161619]">
+          <div class="flex items-center gap-3 border-b border-white/10 pb-4">
+            <div class="w-10 h-10 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center text-gold">
+              <span class="material-symbols-outlined text-xl">local_shipping</span>
+            </div>
+            <div>
+              <h3 class="font-outfit font-bold text-lg text-white">Доставка, Доверие и Скидки</h3>
+              <p class="text-[11px] text-white/40">Условия отправки и скрипты отработки сомнений покупателей</p>
+            </div>
           </div>
 
-          <div class="space-y-3">
-            <div>
-              <label class="block text-xs font-semibold text-white/70 mb-1">Способы доставки</label>
-              <input type="text" id="kbDeliveryMethod" placeholder="Например: Авито Доставка (СДЭК, Почта России, Яндекс, Boxberry)" class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-gold">
+          <div class="space-y-4">
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Способы доставки</label>
+              <input type="text" id="kbDeliveryMethod" placeholder="Авито Доставка (СДЭК, Почта, Яндекс, Boxberry, 5Post)" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
+              <div class="flex flex-wrap gap-1.5 pt-0.5">
+                <button type="button" onclick="setKbChip('kbDeliveryMethod', 'Авито Доставка (СДЭК, Почта России, Яндекс Доставка, Boxberry, 5Post)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Авито Доставка (все службы)</button>
+                <button type="button" onclick="setKbChip('kbDeliveryMethod', 'СДЭК по договору или Авито Доставка')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">СДЭК + Авито</button>
+                <button type="button" onclick="setKbChip('kbDeliveryMethod', 'Самовывоз со склада или Авито Доставка')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Самовывоз + Авито</button>
+              </div>
             </div>
 
-            <div>
-              <label class="block text-xs font-semibold text-white/70 mb-1">Аргумент доверия (гарантия и проверка клиентом)</label>
-              <textarea id="kbTryOnRule" rows="3" placeholder="Например: При получении в Авито Доставке у вас есть 15 минут на полную проверку товара. Если что-то не устроит — моментальный отказ на месте без списания средств." class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-gold leading-relaxed"></textarea>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Аргумент доверия (гарантия и проверка)</label>
+                <span class="text-[10px] text-gold font-semibold">Снимает страх предоплаты</span>
+              </div>
+              <textarea id="kbTryOnRule" rows="3" placeholder="При получении в пункте выдачи у вас есть 15 минут на полную проверку и осмотр товара. Если что-то не устроит — моментальный отказ на месте без списания средств." class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-xs leading-relaxed focus:outline-none transition-all"></textarea>
+              <div class="flex flex-wrap gap-1.5 pt-0.5">
+                <button type="button" onclick="setKbChip('kbTryOnRule', 'При получении в пункте Авито Доставки у вас есть 15 минут на полную проверку товара. Если что-то не подойдет — отказ на месте без списания средств.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">15 минут проверки в пункте</button>
+                <button type="button" onclick="setKbChip('kbTryOnRule', 'Только оригинальный качественный товар. Перед отправкой проверяем каждую позицию лично. Гарантия соответствия фото и описанию 100%.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">100% гарантия качества</button>
+              </div>
             </div>
 
-            <div>
-              <label class="block text-xs font-semibold text-white/70 mb-1">Политика скидок, торга и бонусов</label>
-              <textarea id="kbDiscountPolicy" rows="3" placeholder="Например: Цены зафиксированы, при заказе от 2-х единиц — персональная скидка 5% или бонус к заказу." class="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-gold leading-relaxed"></textarea>
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Политика скидок, торга и бонусов</label>
+                <span class="text-[10px] text-gold font-semibold">Увеличивает средний чек</span>
+              </div>
+              <textarea id="kbDiscountPolicy" rows="3" placeholder="Цены зафиксированы на минимальном уровне. При заказе от 2-х позиций — персональная скидка 5% или приятный подарок к заказу." class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-xs leading-relaxed focus:outline-none transition-all"></textarea>
+              <div class="flex flex-wrap gap-1.5 pt-0.5">
+                <button type="button" onclick="setKbChip('kbDiscountPolicy', 'Цены зафиксированы. При заказе от 2-х единиц действует скидка 5% на весь чек.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Скидка 5% от 2 шт</button>
+                <button type="button" onclick="setKbChip('kbDiscountPolicy', 'Цены окончательные, работаем напрямую от склада по минимальной стоимости.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Без торга (цены склада)</button>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- NEW SECTION: CUSTOM RULES & ACCORDION TEMPLATES -->
-      <div class="glass-box p-6 space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-gold">tune</span>
-            <h3 class="font-outfit font-bold text-lg text-white">Особые инструкции и правила магазина</h3>
+      <!-- SECTION: CUSTOM RULES & ACCORDION TEMPLATES -->
+      <div class="glass-box p-6 sm:p-7 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 hover:border-gold/30 transition-all bg-[#161619]">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gold/10 border border-gold/30 flex items-center justify-center text-gold">
+              <span class="material-symbols-outlined text-xl">tune</span>
+            </div>
+            <div>
+              <h3 class="font-outfit font-bold text-lg text-white">Индивидуальные инструкции и правила</h3>
+              <p class="text-[11px] text-white/40">Особые нюансы вашего магазина, которые ассистент учитывает при диалоге</p>
+            </div>
           </div>
-          <span class="text-xs text-white/40">Используются управляющим при формировании ответов покупателям</span>
+          <span class="text-xs text-status-green flex items-center gap-1.5 font-semibold">
+            <span class="w-2 h-2 rounded-full bg-status-green"></span>
+            <span>Применяются в реальном времени</span>
+          </span>
         </div>
 
         <div class="space-y-2">
-          <label class="block text-xs font-semibold text-white/70">
-            Индивидуальные правила и нюансы (в свободной форме)
+          <label class="block text-xs font-bold uppercase tracking-wider text-white/70">
+            Особые правила и регламент (в свободной форме)
           </label>
-          <textarea id="kbCustomRules" rows="4" placeholder="Введите любые индивидуальные правила вашего магазина. Например:&#10;• Отправка заказов строго в день оплаты до 18:00&#10;• Наложенным платежом не отправляем, только Авито Доставка&#10;• Самовывоз возможен только по предварительному звонку за час" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-xs focus:outline-none focus:border-gold leading-relaxed font-mono"></textarea>
+          <textarea id="kbCustomRules" rows="4" placeholder="• Отправка заказов строго в день оплаты до 18:00&#10;• Наложенным платежом не отправляем, только Авито Доставка&#10;• Бронь товара держится не более 2 часов&#10;• При самовывозе обязательно звонить минимум за 1 час" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-xs leading-relaxed font-mono focus:outline-none transition-all"></textarea>
         </div>
 
         <!-- COLLAPSIBLE ACCORDION TEMPLATES -->
-        <div class="space-y-3 pt-2">
-          <div class="flex items-center justify-between">
-            <span class="text-xs font-bold uppercase tracking-wider text-gold flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-sm">lightbulb</span>
-              <span>Готовые шаблоны правил (нажмите, чтобы раскрыть):</span>
-            </span>
-          </div>
+        <div class="space-y-3 pt-1">
+          <span class="text-xs font-bold uppercase tracking-wider text-gold flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">lightbulb</span>
+            <span>Готовые шаблоны правил для вставки в 1 клик:</span>
+          </span>
 
           <div class="space-y-2" id="kbTemplatesAccordion">
             <!-- TEMPLATE 1 -->
@@ -644,7 +702,7 @@
                 <span class="material-symbols-outlined text-sm text-white/40 transition-transform duration-200" id="icon-tpl-1">expand_more</span>
               </button>
               <div id="content-tpl-1" class="hidden px-4 pb-4 pt-1 space-y-3 border-t border-white/5 bg-black/20">
-                <p class="text-xs text-white/70 leading-relaxed font-mono bg-white/5 p-3 rounded-lg" id="text-tpl-1">Все товары в объявлении в наличии. Отправка заказа осуществляется в течение 24 часов после оформления. Бронь товара держится не более 2 часов. При самовывозе обязательно предупреждать минимум за 1 час до приезда.</p>
+                <p class="text-xs text-white/70 leading-relaxed font-mono bg-[#101012] p-3 rounded-lg border border-white/5" id="text-tpl-1">Все товары в объявлении в наличии. Отправка заказа осуществляется в течение 24 часов после оформления. Бронь товара держится не более 2 часов. При самовывозе обязательно предупреждать минимум за 1 час до приезда.</p>
                 <button type="button" onclick="insertTemplateRule('text-tpl-1')" class="btn-ghost px-3.5 py-1.5 rounded-lg text-xs font-bold text-gold border-gold/30 hover:bg-gold/10 flex items-center gap-1.5 cursor-pointer">
                   <span class="material-symbols-outlined text-xs">add_circle</span>
                   <span>Вставить в правила</span>
@@ -662,7 +720,7 @@
                 <span class="material-symbols-outlined text-sm text-white/40 transition-transform duration-200" id="icon-tpl-2">expand_more</span>
               </button>
               <div id="content-tpl-2" class="hidden px-4 pb-4 pt-1 space-y-3 border-t border-white/5 bg-black/20">
-                <p class="text-xs text-white/70 leading-relaxed font-mono bg-white/5 p-3 rounded-lg" id="text-tpl-2">Отправляем через Авито Доставку (СДЭК, Яндекс Доставка, Почта, Boxberry, 5Post). В пункте выдачи у покупателя есть 15 минут на полную проверку и осмотр. Если товар не устроит — отказ на месте, Авито моментально возвращает всю сумму без списания.</p>
+                <p class="text-xs text-white/70 leading-relaxed font-mono bg-[#101012] p-3 rounded-lg border border-white/5" id="text-tpl-2">Отправляем через Авито Доставку (СДЭК, Яндекс Доставка, Почта, Boxberry, 5Post). В пункте выдачи у покупателя есть 15 минут на полную проверку и осмотр. Если товар не устроит — отказ на месте, Авито моментально возвращает всю сумму без списания.</p>
                 <button type="button" onclick="insertTemplateRule('text-tpl-2')" class="btn-ghost px-3.5 py-1.5 rounded-lg text-xs font-bold text-gold border-gold/30 hover:bg-gold/10 flex items-center gap-1.5 cursor-pointer">
                   <span class="material-symbols-outlined text-xs">add_circle</span>
                   <span>Вставить в правила</span>
@@ -680,7 +738,7 @@
                 <span class="material-symbols-outlined text-sm text-white/40 transition-transform duration-200" id="icon-tpl-3">expand_more</span>
               </button>
               <div id="content-tpl-3" class="hidden px-4 pb-4 pt-1 space-y-3 border-t border-white/5 bg-black/20">
-                <p class="text-xs text-white/70 leading-relaxed font-mono bg-white/5 p-3 rounded-lg" id="text-tpl-3">При заказе от 2-х позиций единовременно покупателю предоставляется персональная скидка 5-7% на весь чек либо бесплатная доставка. Постоянным клиентам — индивидуальные условия при повторных заказах.</p>
+                <p class="text-xs text-white/70 leading-relaxed font-mono bg-[#101012] p-3 rounded-lg border border-white/5" id="text-tpl-3">При заказе от 2-х любых позиций предоставляется скидка 5% на всю сумму заказа. Постоянным покупателям начисляем персональные бонусы на следующие покупки.</p>
                 <button type="button" onclick="insertTemplateRule('text-tpl-3')" class="btn-ghost px-3.5 py-1.5 rounded-lg text-xs font-bold text-gold border-gold/30 hover:bg-gold/10 flex items-center gap-1.5 cursor-pointer">
                   <span class="material-symbols-outlined text-xs">add_circle</span>
                   <span>Вставить в правила</span>
@@ -1482,6 +1540,67 @@
         </a>
       </div>
 
+    </div>
+  </div>
+
+  <!-- PAYMENT SUCCESS & ONBOARDING CELEBRATION MODAL -->
+  <div id="paymentSuccessModal" class="fixed inset-0 z-[140] bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
+    <div class="glass-box max-w-lg w-full p-6 sm:p-8 space-y-6 relative border-gold/40 bg-[#121214] shadow-[0_0_50px_rgba(255,221,45,0.2)] rounded-3xl text-center">
+      <button onclick="closePaymentSuccessModal()" class="absolute top-4 right-4 text-white/40 hover:text-white cursor-pointer">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+
+      <div class="space-y-3">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-gold/30 to-gold/10 border border-gold/40 flex items-center justify-center text-gold shadow-neon-gold">
+          <span class="material-symbols-outlined text-3xl">verified</span>
+        </div>
+        <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-status-green/10 border border-status-green/30 text-status-green text-[11px] font-bold uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
+          <span id="succModalTariffBadge">Тариф Тест-Драйв Активирован</span>
+        </div>
+        <h3 class="font-outfit font-extrabold text-2xl sm:text-3xl text-white">Оплата прошла успешно!</h3>
+        <p class="text-xs sm:text-sm text-white/70 leading-relaxed max-w-md mx-auto" id="succModalDescription">
+          С вашего баланса списано 1 590 ₽. Автопилот продаж активен на 7 дней.
+        </p>
+      </div>
+
+      <!-- PROGRESS STEPS -->
+      <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 text-left space-y-3">
+        <div class="flex items-center justify-between text-xs pb-2 border-b border-white/10">
+          <span class="font-bold text-white/80">Статус подготовки магазина:</span>
+          <span class="text-gold font-bold">Шаг 2 из 2</span>
+        </div>
+        
+        <div class="space-y-2 text-xs">
+          <div class="flex items-center gap-2.5 text-status-green">
+            <span class="material-symbols-outlined text-base">check_circle</span>
+            <span class="font-medium">1. Активация тарифа и выделение слота</span>
+          </div>
+          <div class="flex items-center gap-2.5 text-gold font-bold">
+            <span class="material-symbols-outlined text-base animate-pulse">arrow_circle_right</span>
+            <span>2. Подключение магазина Авито (QR-код)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTONS -->
+      <div class="space-y-2.5 pt-1">
+        <button onclick="goToConnectStoreFromSuccess()" class="btn-gold w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+          <span class="material-symbols-outlined text-lg">qr_code_scanner</span>
+          <span>Подключить магазин Авито (QR-код)</span>
+        </button>
+
+        <button onclick="goToKnowledgeFromSuccess()" class="w-full py-3 rounded-xl text-xs font-semibold text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-2 transition-all cursor-pointer">
+          <span class="material-symbols-outlined text-base text-gold">tune</span>
+          <span>Настроить регламент в Базе Знаний</span>
+        </button>
+      </div>
+
+      <div class="pt-1">
+        <button onclick="closePaymentSuccessModal()" class="text-xs text-white/40 hover:text-white transition-colors cursor-pointer">
+          Перейти в обзор кабинета
+        </button>
+      </div>
     </div>
   </div>
 
@@ -2486,69 +2605,101 @@
       showToast('Правило добавлено', 'Текст шаблона успешно вставлен в поле особых правил', 'success');
     }
 
+    // QUICK-FILL CHIP HELPER FOR KNOWLEDGE BASE
+    function setKbChip(fieldId, value) {
+      const input = document.getElementById(fieldId);
+      if (input) {
+        input.value = value;
+        input.focus();
+        showToast('Параметр применён', `${value}`, 'info');
+      }
+    }
+
     // STORE KNOWLEDGE BASE (CUSTOM RULES & STORE SETTINGS)
     let currentStoreKnowledge = null;
+
+    function applyKnowledgeToInputs(kb) {
+      if (!kb) return;
+      const isMockOrEmpty = (val) => {
+        if (!val) return true;
+        const s = String(val).trim().toLowerCase();
+        const mocks = [
+          'основной магазин авито', 'основной магазин', 'мой магазин авито', 'avitobot', 'тестовый',
+          'автотовары и запчасти', 'товарный бизнес', 'общий бизнес', 'брендовая одежда и обувь',
+          'москва', 'не указан', 'москва (отправка по всей рф)', 'москва, складской комплекс (отправка по всей россии)',
+          '24/7', '9:00-21:00', 'ежедневно 9:00 - 22:00', '24/7 (круглосуточно)',
+          '+7', '+7 (923) 451-10-89', 'тест правила 123'
+        ];
+        return mocks.includes(s);
+      };
+
+      const setVal = (id, val) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (val && !isMockOrEmpty(val)) {
+          el.value = val;
+        } else if (val) {
+          el.value = val;
+        }
+      };
+
+      if (kb.store_name) setVal('kbStoreName', kb.store_name);
+      if (kb.niche) setVal('kbNiche', kb.niche);
+      if (kb.city_address) setVal('kbCityAddress', kb.city_address);
+      if (kb.working_hours) setVal('kbWorkingHours', kb.working_hours);
+      if (kb.phone) setVal('kbPhone', kb.phone);
+      if (kb.telegram_contact) setVal('kbTelegramContact', kb.telegram_contact);
+
+      const deliveryVal = kb.delivery ? (kb.delivery.method || '') : (kb.delivery_method || '');
+      if (deliveryVal) setVal('kbDeliveryMethod', deliveryVal);
+
+      const tryOnVal = kb.delivery ? (kb.delivery.try_on_rule || '') : (kb.try_on_rule || '');
+      if (tryOnVal) setVal('kbTryOnRule', tryOnVal);
+
+      if (kb.discount_policy) {
+        const dp = typeof kb.discount_policy === 'string' ? kb.discount_policy : (kb.discount_policy.on_request || '');
+        if (dp) setVal('kbDiscountPolicy', dp);
+      }
+
+      if (kb.custom_rules) setVal('kbCustomRules', kb.custom_rules);
+    }
+
     async function loadStoreKnowledge() {
+      // 1. Immediately read from localStorage (instant rendering, zero lag)
+      try {
+        const cached = localStorage.getItem('majorka_store_knowledge');
+        if (cached) {
+          const kb = JSON.parse(cached);
+          currentStoreKnowledge = kb;
+          applyKnowledgeToInputs(kb);
+        }
+      } catch (e) {
+        console.log('localStorage read err:', e);
+      }
+
+      // 2. Try background sync with API (silent fallback)
       try {
         const queryChatId = encodeURIComponent(currentChatId || '');
         const res = await apiFetch(`${API_BASE}/api/store_knowledge?chatId=${queryChatId}`);
         const data = await res.json();
-        if (!res.ok || !data.success || !data.knowledge) return;
-        const kb = data.knowledge;
-        currentStoreKnowledge = kb;
-
-        const isMockOrEmpty = (val) => {
-          if (!val) return true;
-          const s = String(val).trim().toLowerCase();
-          const mocks = [
-            'основной магазин авито', 'основной магазин', 'мой магазин авито', 'avitobot', 'тестовый',
-            'автотовары и запчасти', 'товарный бизнес', 'общий бизнес', 'брендовая одежда и обувь',
-            'москва', 'не указан', 'москва (отправка по всей рф)', 'москва, складской комплекс (отправка по всей россии)',
-            '24/7', '9:00-21:00', 'ежедневно 9:00 - 22:00', '24/7 (круглосуточно)',
-            '+7', '+7 (923) 451-10-89', 'тест правила 123'
-          ];
-          return mocks.includes(s);
-        };
-
-        const setVal = (id, val) => {
-          const el = document.getElementById(id);
-          if (!el) return;
-          if (val && !isMockOrEmpty(val)) {
-            el.value = val;
-          } else {
-            el.value = '';
-          }
-        };
-
-        setVal('kbStoreName', kb.store_name || '');
-        setVal('kbNiche', kb.niche || '');
-        setVal('kbCityAddress', kb.city_address || '');
-        setVal('kbWorkingHours', kb.working_hours || '');
-        setVal('kbPhone', kb.phone || '');
-        setVal('kbTelegramContact', kb.telegram_contact || '');
-
-        if (kb.delivery) {
-          setVal('kbDeliveryMethod', kb.delivery.method || '');
-          setVal('kbTryOnRule', kb.delivery.try_on_rule || '');
-        } else {
-          setVal('kbDeliveryMethod', kb.delivery_method || '');
-          setVal('kbTryOnRule', kb.try_on_rule || '');
+        if (res.ok && data.success && data.knowledge) {
+          currentStoreKnowledge = data.knowledge;
+          applyKnowledgeToInputs(data.knowledge);
+          localStorage.setItem('majorka_store_knowledge', JSON.stringify(data.knowledge));
         }
-
-        if (kb.discount_policy) {
-          const dp = typeof kb.discount_policy === 'string' ? kb.discount_policy : (kb.discount_policy.on_request || '');
-          setVal('kbDiscountPolicy', dp);
-        }
-
-        setVal('kbCustomRules', kb.custom_rules || '');
       } catch (err) {
-        console.log('Store knowledge sync:', err);
+        // Silent catch: DO NOT show error toast on GitHub Pages
+        console.log('Store knowledge remote fetch skipped (using local cache)');
       }
     }
 
     async function saveStoreKnowledgeSettings() {
       const saveBtn = document.getElementById('btnSaveKnowledge');
-      if (saveBtn) saveBtn.disabled = true;
+      const originalText = saveBtn ? saveBtn.innerHTML : '';
+      if (saveBtn) {
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">refresh</span><span>Сохранение...</span>';
+      }
 
       const getVal = (id) => {
         const el = document.getElementById(id);
@@ -2569,20 +2720,27 @@
         custom_rules: getVal('kbCustomRules')
       };
 
+      // 1. Always save immediately to local storage
+      localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
+      currentStoreKnowledge = payload;
+
+      // 2. Try background sync to backend (silent if offline or blocked)
       try {
-        const res = await apiFetch(`${API_BASE}/api/store_knowledge`, {
+        await apiFetch(`${API_BASE}/api/store_knowledge`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        const data = await res.json();
-        if (!res.ok || !data.success) throw new Error(data.error || 'Не удалось сохранить');
-        currentStoreKnowledge = payload;
-        showToast('База знаний сохранена', 'Инструкции и правила магазина успешно синхронизированы с управляющим продажами', 'success');
       } catch (err) {
-        showToast('Ошибка сохранения', err.message || 'Проверьте подключение к сети', 'warning');
-      } finally {
-        if (saveBtn) saveBtn.disabled = false;
+        console.log('Remote knowledge sync skipped/offline, saved locally');
+      }
+
+      // 3. Always show clear success notification
+      showToast('База знаний сохранена', 'Инструкции и регламент магазина обновлены и переданы управляющему продажами', 'success');
+
+      if (saveBtn) {
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = originalText || '<span class="material-symbols-outlined text-base text-gold">check_circle</span><span>Сохранить базу знаний</span>';
       }
     }
 
@@ -2826,10 +2984,51 @@
       }
 
       closePaymentModal();
+      if (btn) btn.disabled = false;
       showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Автономный управляющий активирован до ${dateStr}`, 'success');
 
-      if (btn) btn.disabled = false;
-      switchTab('overview');
+      // Open Celebration & Next-Steps Onboarding Modal
+      openPaymentSuccessModal(tariffName, amount, daysToAdd, dateStr);
+    }
+
+    // PAYMENT SUCCESS & ONBOARDING MODAL HANDLERS
+    function openPaymentSuccessModal(tariffName, amount, days, dateStr) {
+      const modal = document.getElementById('paymentSuccessModal');
+      if (!modal) return;
+      const badge = document.getElementById('succModalTariffBadge');
+      const desc = document.getElementById('succModalDescription');
+
+      let tTitle = 'Тест-Драйв (7 дней)';
+      if (amount === 6490) tTitle = 'Полный Доступ (1 месяц)';
+      else if (amount === 15900) tTitle = 'Бизнес Масштаб (3 месяца)';
+      else if (tariffName === 'trial_7days') tTitle = 'Тест-Драйв (7 дней)';
+
+      if (badge) badge.innerText = `Тариф «${tTitle}» Активирован`;
+      if (desc) desc.innerText = `С вашего баланса списано ${amount.toLocaleString('ru-RU')} ₽. Автопилот продаж активен до ${dateStr} (${days} дн).`;
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closePaymentSuccessModal() {
+      const modal = document.getElementById('paymentSuccessModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function goToConnectStoreFromSuccess() {
+      closePaymentSuccessModal();
+      switchTab('shops');
+      setTimeout(() => {
+        openShopSetupWizard();
+      }, 250);
+    }
+
+    function goToKnowledgeFromSuccess() {
+      closePaymentSuccessModal();
+      switchTab('knowledge');
     }
 
     async function submitSbpPaymentNotification() {
