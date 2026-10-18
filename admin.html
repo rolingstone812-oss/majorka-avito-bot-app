@@ -285,7 +285,7 @@
         ]);
 
         if (statsRes.status === 403 || usersRes.status === 403) {
-          const promptToken = prompt('🔒 Доступ закрыт. Введите ключ администратора (Admin Token):');
+          const promptToken = prompt('Доступ закрыт. Введите ключ администратора (Admin Token):');
           if (promptToken) {
             localStorage.setItem('majorka_admin_token', promptToken.trim());
             return loadAdminData();
@@ -358,7 +358,7 @@
       let html = '';
       sessions.forEach(s => {
         const isPaid = s.is_paid == 1;
-        const statusText = isPaid ? '🟢 Активен 24/7' : '🔑 Ожидает QR';
+        const statusText = isPaid ? 'Активен 24/7' : 'Ожидает QR';
         const emuSlot = `Выделенный Сервер #${escapeHtml(s.emulator_index || '0')}`;
         const safeChatId = escapeHtml(s.chatId || s.chat_id || '');
         const safeSessionName = escapeHtml(s.session_name || 'Основной магазин');
@@ -373,7 +373,7 @@
             <td class="py-3.5 px-4 text-white/60">${safeNiche} (${safeCity})</td>
             <td class="py-3.5 px-4"><span class="text-xs font-semibold ${isPaid ? 'text-emerald-400' : 'text-brand-gold'}">${statusText}</span></td>
             <td class="py-3.5 px-4 text-right">
-              <button onclick="alert('📱 QR-код запрошен для слота ' + '${safeSessionName}')" class="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-semibold text-white/80 transition-colors cursor-pointer">
+              <button onclick="alert('QR-код запрошен для слота ' + '${safeSessionName}')" class="px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs font-semibold text-white/80 transition-colors cursor-pointer">
                 QR Код
               </button>
             </td>
