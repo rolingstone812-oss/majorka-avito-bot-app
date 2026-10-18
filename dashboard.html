@@ -1397,13 +1397,43 @@
       </div>
 
       <!-- PAYMENT METHOD TABS -->
-      <div class="flex gap-2 bg-white/5 p-1 rounded-xl border border-white/10">
-        <button type="button" onclick="switchPaymentMethod('card')" id="payTabCard" class="flex-1 py-2 rounded-lg text-xs font-bold bg-gold text-black transition-all">Онлайн-карта / ЮMoney</button>
-        <button type="button" onclick="switchPaymentMethod('sbp')" id="payTabSbp" class="flex-1 py-2 rounded-lg text-xs font-bold text-white/60 hover:text-white transition-all">Перевод СБП (Т-Банк)</button>
+      <div class="grid grid-cols-3 gap-1.5 bg-white/5 p-1 rounded-xl border border-white/10">
+        <button type="button" onclick="switchPaymentMethod('balance')" id="payTabBalance" class="py-2 px-1 rounded-lg text-xs font-bold bg-gold text-black transition-all text-center">С баланса</button>
+        <button type="button" onclick="switchPaymentMethod('card')" id="payTabCard" class="py-2 px-1 rounded-lg text-xs font-bold text-white/60 hover:text-white transition-all text-center">Карта онлайн</button>
+        <button type="button" onclick="switchPaymentMethod('sbp')" id="payTabSbp" class="py-2 px-1 rounded-lg text-xs font-bold text-white/60 hover:text-white transition-all text-center">СБП (Т-Банк)</button>
+      </div>
+
+      <!-- METHOD 0: FROM INTERNAL USER BALANCE -->
+      <div id="payPaneBalance" class="space-y-4 text-left">
+        <div class="p-4 bg-gold/10 rounded-xl border border-gold/30 space-y-3 text-xs">
+          <div class="flex items-center justify-between">
+            <span class="text-white/60 font-medium">Ваш текущий баланс:</span>
+            <span class="font-outfit font-extrabold text-base text-gold" id="modalBalanceAvailable">0 ₽</span>
+          </div>
+          <div class="flex items-center justify-between border-t border-white/10 pt-2">
+            <span class="text-white/60 font-medium">К списанию за тариф:</span>
+            <span class="font-outfit font-bold text-sm text-white" id="modalBalanceCharge">1 590 ₽</span>
+          </div>
+          <div class="flex items-center justify-between border-t border-white/10 pt-2">
+            <span class="text-white/60 font-medium">Остаток на балансе:</span>
+            <span class="font-outfit font-semibold text-xs text-status-green" id="modalBalanceRemainder">0 ₽</span>
+          </div>
+        </div>
+
+        <div id="payBalanceInsufficientWarning" class="hidden p-3 bg-red-500/10 border border-red-500/30 rounded-xl text-xs text-red-400 text-center">
+          Недостаточно средств на балансе. Пожалуйста, пополните баланс картой или через СБП.
+        </div>
+
+        <button type="button" id="btnPayFromBalance" onclick="payFromUserBalance()" class="btn-gold w-full py-4 rounded-xl text-base font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+          <span class="material-symbols-outlined">payments</span>
+          <span id="btnPayFromBalanceText">Оплатить 1 590 ₽ с баланса</span>
+        </button>
+
+        <p class="text-[11px] text-center text-white/40">Мгновенная активация тарифа без комиссии и ожидания</p>
       </div>
 
       <!-- METHOD 1: YOOMONEY FORM -->
-      <div id="payPaneCard" class="space-y-4">
+      <div id="payPaneCard" class="hidden space-y-4">
         <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-xs text-white/60 flex items-center gap-2">
           <span class="material-symbols-outlined text-gold text-base">bolt</span>
           <span>Мгновенное автоматическое зачисление баланса</span>
@@ -1823,11 +1853,11 @@
         }
       } catch (err) {
         console.log('Stats sync fallback:', err);
-        if (currentChatId === '6940082004' && isLocalHost) {
-          userBalanceVal = 50000;
-          userTrialUsed = 1;
+        if (currentChatId === '6940082004') {
+          userBalanceVal = Number(localStorage.getItem('majorka_balance') ?? 50000);
+          userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
           const balEl = document.getElementById('userBalanceText');
-          if (balEl) balEl.innerText = '50 000 ₽';
+          if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
           const overDetails = document.getElementById('overviewSubDetails');
           const overPill = document.getElementById('overviewSubPill');
           if (overDetails) overDetails.innerText = 'Автономная работа 24/7 • Оплачен до 31.12.2099';
@@ -2588,7 +2618,7 @@
       showToast('Аналитика PRO', 'Отображаются динамические метрики активности магазина', 'info');
     }
 
-    // PAYMENT MODAL (YOOMONEY + SBP)
+    // PAYMENT MODAL (BALANCE + YOOMONEY + SBP)
     function openPaymentModal(amount, title) {
       const modal = document.getElementById('paymentModal');
       const val = amount || '6490';
@@ -2618,16 +2648,69 @@
         succUrl.value = window.location.origin + window.location.pathname + '?payment=success&chatId=' + encodeURIComponent(currentChatId);
       }
 
+      // If user has enough balance, default to Balance tab, otherwise Card tab
+      if (userBalanceVal >= Number(val)) {
+        switchPaymentMethod('balance');
+      } else {
+        switchPaymentMethod('card');
+      }
+
       modal.classList.remove('hidden');
       modal.classList.add('flex');
     }
 
     function updatePaymentAmount(val) {
       const numVal = Math.max(10, Number(val) || 0);
-      document.getElementById('modalPaymentSumInput').value = numVal;
-      document.getElementById('modalPaymentBtnText').innerText = 'Оплатить картой ' + numVal.toLocaleString('ru-RU') + ' ₽';
+      const sumInp = document.getElementById('modalPaymentSumInput');
+      if (sumInp) sumInp.value = numVal;
+
+      const cardBtnText = document.getElementById('modalPaymentBtnText');
+      if (cardBtnText) cardBtnText.innerText = 'Оплатить картой ' + numVal.toLocaleString('ru-RU') + ' ₽';
+
       const sbpDisp = document.getElementById('sbpAmountDisplay');
       if (sbpDisp) sbpDisp.innerText = numVal.toLocaleString('ru-RU') + ' ₽';
+
+      // Update Balance Pane Elements
+      const balAvail = document.getElementById('modalBalanceAvailable');
+      if (balAvail) balAvail.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
+
+      const balCharge = document.getElementById('modalBalanceCharge');
+      if (balCharge) balCharge.innerText = numVal.toLocaleString('ru-RU') + ' ₽';
+
+      const balRemainder = document.getElementById('modalBalanceRemainder');
+      const rem = userBalanceVal - numVal;
+      if (balRemainder) {
+        if (rem >= 0) {
+          balRemainder.innerText = rem.toLocaleString('ru-RU') + ' ₽';
+          balRemainder.className = 'font-outfit font-semibold text-xs text-status-green';
+        } else {
+          balRemainder.innerText = 'Недостаточно (' + rem.toLocaleString('ru-RU') + ' ₽)';
+          balRemainder.className = 'font-outfit font-semibold text-xs text-red-400';
+        }
+      }
+
+      const balBtnText = document.getElementById('btnPayFromBalanceText');
+      if (balBtnText) balBtnText.innerText = 'Оплатить ' + numVal.toLocaleString('ru-RU') + ' ₽ с баланса';
+
+      const balBtn = document.getElementById('btnPayFromBalance');
+      const warnBox = document.getElementById('payBalanceInsufficientWarning');
+      const tabBalance = document.getElementById('payTabBalance');
+
+      if (userBalanceVal < numVal) {
+        if (balBtn) {
+          balBtn.disabled = true;
+          balBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+        if (warnBox) warnBox.classList.remove('hidden');
+        if (tabBalance) tabBalance.innerText = 'С баланса (мало)';
+      } else {
+        if (balBtn) {
+          balBtn.disabled = false;
+          balBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+        }
+        if (warnBox) warnBox.classList.add('hidden');
+        if (tabBalance) tabBalance.innerText = 'С баланса';
+      }
     }
 
     function setPresetAmount(presetVal) {
@@ -2642,22 +2725,111 @@
     }
 
     function switchPaymentMethod(method) {
+      const tabBalance = document.getElementById('payTabBalance');
       const tabCard = document.getElementById('payTabCard');
       const tabSbp = document.getElementById('payTabSbp');
+      const paneBalance = document.getElementById('payPaneBalance');
       const paneCard = document.getElementById('payPaneCard');
       const paneSbp = document.getElementById('payPaneSbp');
 
-      if (method === 'card') {
-        tabCard.className = 'flex-1 py-2 rounded-lg text-xs font-bold bg-gold text-black transition-all';
-        tabSbp.className = 'flex-1 py-2 rounded-lg text-xs font-bold text-white/60 hover:text-white transition-all';
-        paneCard.classList.remove('hidden');
-        paneSbp.classList.add('hidden');
-      } else {
-        tabSbp.className = 'flex-1 py-2 rounded-lg text-xs font-bold bg-gold text-black transition-all';
-        tabCard.className = 'flex-1 py-2 rounded-lg text-xs font-bold text-white/60 hover:text-white transition-all';
-        paneSbp.classList.remove('hidden');
-        paneCard.classList.add('hidden');
+      const activeClass = 'py-2 px-1 rounded-lg text-xs font-bold bg-gold text-black transition-all text-center';
+      const inactiveClass = 'py-2 px-1 rounded-lg text-xs font-bold text-white/60 hover:text-white transition-all text-center';
+
+      if (tabBalance) tabBalance.className = (method === 'balance') ? activeClass : inactiveClass;
+      if (tabCard) tabCard.className = (method === 'card') ? activeClass : inactiveClass;
+      if (tabSbp) tabSbp.className = (method === 'sbp') ? activeClass : inactiveClass;
+
+      if (paneBalance) {
+        if (method === 'balance') paneBalance.classList.remove('hidden');
+        else paneBalance.classList.add('hidden');
       }
+      if (paneCard) {
+        if (method === 'card') paneCard.classList.remove('hidden');
+        else paneCard.classList.add('hidden');
+      }
+      if (paneSbp) {
+        if (method === 'sbp') paneSbp.classList.remove('hidden');
+        else paneSbp.classList.add('hidden');
+      }
+    }
+
+    async function payFromUserBalance() {
+      const amount = Number(document.getElementById('modalPaymentSumInput')?.value) || 1590;
+      if (userBalanceVal < amount) {
+        showToast('Недостаточно средств', `На вашем балансе ${userBalanceVal.toLocaleString('ru-RU')} ₽. Пополните картой или через СБП`, 'warning');
+        switchPaymentMethod('card');
+        return;
+      }
+
+      const btn = document.getElementById('btnPayFromBalance');
+      if (btn) btn.disabled = true;
+
+      const tariffName = amount === 1590 ? 'trial_7days' : (amount === 6490 ? 'month' : 'custom');
+
+      // 1. Try to sync with backend API if online
+      try {
+        await apiFetch(`${API_BASE}/api/pay_tariff`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chatId: currentChatId,
+            amount: amount,
+            tariff: tariffName
+          })
+        });
+      } catch (e) {
+        console.log('Backend sync skipped or local mode:', e);
+      }
+
+      // 2. Deduct balance locally & persist
+      userBalanceVal = Math.max(0, userBalanceVal - amount);
+      localStorage.setItem('majorka_balance', userBalanceVal);
+
+      const daysToAdd = amount === 1590 ? 7 : (amount === 15900 ? 90 : 30);
+      const paidUntil = new Date(Date.now() + daysToAdd * 86400000);
+      localStorage.setItem('majorka_paid_until', paidUntil.toISOString());
+
+      // 3. Update dashboard UI
+      const balEl = document.getElementById('userBalanceText');
+      if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
+
+      const overDetails = document.getElementById('overviewSubDetails');
+      const overPill = document.getElementById('overviewSubPill');
+      const dateStr = paidUntil.toLocaleDateString('ru-RU');
+
+      if (overDetails) overDetails.innerText = `Автономная работа 24/7 • Оплачен до ${dateStr}`;
+      if (overPill) {
+        overPill.innerText = 'Активен 24/7';
+        overPill.className = 'text-xs font-semibold px-3 py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20';
+      }
+
+      if (amount === 1590) {
+        userTrialUsed = 1;
+        localStorage.setItem('majorka_trial_used', '1');
+        const trialBtn = document.getElementById('btnTariffTrial');
+        const trialBtnText = document.getElementById('btnTariffTrialText');
+        const trialTag = document.getElementById('trialBadgeTag');
+        const preset1590 = document.getElementById('presetBtn-1590');
+        if (trialBtn) {
+          trialBtn.disabled = true;
+          trialBtn.className = 'w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed';
+        }
+        if (trialBtnText) trialBtnText.innerText = 'Использован (1 раз)';
+        if (trialTag) {
+          trialTag.innerText = 'ИСПОЛЬЗОВАН';
+          trialTag.className = 'text-[10px] font-bold text-white/40 bg-white/5 px-2 py-0.5 rounded border border-white/10';
+        }
+        if (preset1590) {
+          preset1590.disabled = true;
+          preset1590.className = 'p-2.5 bg-white/5 border border-white/5 rounded-xl text-xs font-bold text-white/30 flex items-center justify-between cursor-not-allowed';
+        }
+      }
+
+      closePaymentModal();
+      showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Автономный управляющий активирован до ${dateStr}`, 'success');
+
+      if (btn) btn.disabled = false;
+      switchTab('overview');
     }
 
     async function submitSbpPaymentNotification() {
