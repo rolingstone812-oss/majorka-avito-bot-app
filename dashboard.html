@@ -1541,47 +1541,43 @@
 
       <div class="space-y-3">
         <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-gold/30 to-gold/10 border border-gold/40 flex items-center justify-center text-gold shadow-neon-gold">
-          <span class="material-symbols-outlined text-3xl">verified</span>
+          <span class="material-symbols-outlined text-3xl">celebration</span>
         </div>
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-status-green/10 border border-status-green/30 text-status-green text-[11px] font-bold uppercase tracking-wider">
           <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
-          <span id="succModalTariffBadge">Тариф Тест-Драйв Активирован</span>
+          <span id="succModalTariffBadge">Тариф «Тест-Драйв (7 дней)» Активирован</span>
         </div>
-        <h3 class="font-outfit font-extrabold text-2xl sm:text-3xl text-white">Оплата прошла успешно!</h3>
+        <h3 class="font-outfit font-extrabold text-2xl sm:text-3xl text-white">Поздравляем с приобретением бота!</h3>
         <p class="text-xs sm:text-sm text-white/70 leading-relaxed max-w-md mx-auto" id="succModalDescription">
-          С вашего баланса списано 1 590 ₽. Автопилот продаж активен на 7 дней.
+          С вашего баланса списано 1 590 ₽. Автопилот продаж успешно активирован на 7 дней.
         </p>
       </div>
 
-      <!-- PROGRESS STEPS -->
+      <!-- STATUS & NEXT STEP CARD -->
       <div class="p-4 rounded-2xl bg-white/[0.03] border border-white/10 text-left space-y-3">
         <div class="flex items-center justify-between text-xs pb-2 border-b border-white/10">
-          <span class="font-bold text-white/80">Статус подготовки магазина:</span>
-          <span class="text-gold font-bold">Шаг 2 из 2</span>
+          <span class="font-bold text-white/80">Статус управляющего:</span>
+          <span class="text-status-green font-bold flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
+            Слот #1 Активен 24/7
+          </span>
         </div>
         
-        <div class="space-y-2 text-xs">
-          <div class="flex items-center gap-2.5 text-status-green">
-            <span class="material-symbols-outlined text-base">check_circle</span>
-            <span class="font-medium">1. Активация тарифа и выделение слота</span>
-          </div>
-          <div class="flex items-center gap-2.5 text-gold font-bold">
-            <span class="material-symbols-outlined text-base animate-pulse">arrow_circle_right</span>
-            <span>2. Настройка магазина и регламента продаж</span>
-          </div>
-        </div>
+        <p class="text-xs text-white/70 leading-relaxed">
+          Система готова к приему клиентов. Чтобы бот отвечал на Авито строго по вашим правилам, укажите информацию о доставке, складе и скидках в Базе Знаний.
+        </p>
       </div>
 
       <!-- ACTION BUTTONS -->
       <div class="space-y-2.5 pt-1">
-        <button onclick="goToConnectStoreFromSuccess()" class="btn-gold w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
-          <span class="material-symbols-outlined text-lg">storefront</span>
-          <span>Перейти к настройке магазина</span>
+        <button onclick="goToKnowledgeFromSuccess()" class="btn-gold w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+          <span class="material-symbols-outlined text-lg">tune</span>
+          <span>Настроить регламент в Базе Знаний</span>
         </button>
 
-        <button onclick="goToKnowledgeFromSuccess()" class="w-full py-3 rounded-xl text-xs font-semibold text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-2 transition-all cursor-pointer">
-          <span class="material-symbols-outlined text-base text-gold">tune</span>
-          <span>Регламент в Базе Знаний</span>
+        <button onclick="goToSimulatorFromSuccess()" class="w-full py-3 rounded-xl text-xs font-semibold text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-2 transition-all cursor-pointer">
+          <span class="material-symbols-outlined text-base text-gold">smart_toy</span>
+          <span>Проверить диалог в Симуляторе</span>
         </button>
       </div>
 
@@ -3076,6 +3072,18 @@
     function goToKnowledgeFromSuccess() {
       closePaymentSuccessModal();
       switchTab('knowledge');
+    }
+
+    function goToSimulatorFromSuccess() {
+      closePaymentSuccessModal();
+      switchTab('overview');
+      setTimeout(() => {
+        const simInput = document.getElementById('testChatInput');
+        if (simInput) {
+          simInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          simInput.focus();
+        }
+      }, 300);
     }
 
     async function submitSbpPaymentNotification() {
