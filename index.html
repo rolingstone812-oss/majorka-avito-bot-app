@@ -123,6 +123,16 @@
       localStorage.clear();
       document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     }
+    // Telegram WebApp Full-Height Mobile Initialization
+    if (window.Telegram?.WebApp) {
+      try {
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+        if (tg.setHeaderColor) tg.setHeaderColor('#09090b');
+        if (tg.setBackgroundColor) tg.setBackgroundColor('#09090b');
+      } catch(e) {}
+    }
   </script>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-brand-gold selection:text-black">
@@ -130,7 +140,7 @@
   <div class="min-h-screen w-full flex flex-col lg:flex-row">
 
     <!-- ==================== LEFT COLUMN: AUTHENTICATION FORM ==================== -->
-    <div class="w-full lg:w-[45%] xl:w-[42%] flex flex-col justify-between p-6 sm:p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-white/5 bg-[#09090b] relative z-20">
+    <div class="w-full lg:w-[45%] xl:w-[42%] flex flex-col justify-between p-4 sm:p-8 lg:p-14 border-b lg:border-b-0 lg:border-r border-white/5 bg-[#09090b] relative z-20">
       
       <!-- TOP: BRAND LOGO -->
       <div class="flex items-center justify-between">
@@ -334,7 +344,7 @@
     </div>
 
     <!-- ==================== RIGHT COLUMN: 3D ISOMETRIC LUXURY SHOWCASE ==================== -->
-    <div class="flex-1 min-h-[600px] lg:min-h-screen relative overflow-hidden flex flex-col justify-between p-8 sm:p-12 lg:p-16 bg-[#08080a]" style="background: radial-gradient(circle at 65% 42%, #0e1e36 0%, #0a1120 45%, #08080a 90%);">
+    <div class="flex-1 min-h-[420px] lg:min-h-screen relative overflow-hidden flex flex-col justify-between p-4 sm:p-8 lg:p-16 bg-[#08080a]" style="background: radial-gradient(circle at 65% 42%, #0e1e36 0%, #0a1120 45%, #08080a 90%);">
       
       <!-- AMBIENT GLOW BACKDROPS -->
       <div class="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-blue-600/10 blur-[120px] pointer-events-none anim-pulse-glow"></div>
@@ -348,8 +358,8 @@
         </div>
       </div>
 
-      <!-- CENTER: 3D ISOMETRIC GLASS HUB & FLOATING CARDS -->
-      <div class="relative w-full max-w-[620px] mx-auto my-auto py-10 z-10 flex items-center justify-center min-h-[380px]">
+      <!-- CENTER: 3D ISOMETRIC GLASS HUB & FLOATING CARDS (DESKTOP ONLY) -->
+      <div class="hidden lg:flex relative w-full max-w-[620px] mx-auto my-auto py-10 z-10 items-center justify-center min-h-[380px]">
         
         <!-- SVG CONNECTING CIRCUITS & ISOMETRIC PLATFORM -->
         <svg class="absolute inset-0 w-full h-full pointer-events-none overflow-visible" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -523,8 +533,77 @@
 
       </div>
 
+      <!-- MOBILE ONLY: ULTRA-CLEAN HIGH-CONVERTING METRIC CARDS -->
+      <div class="flex lg:hidden flex-col gap-3 my-4 sm:my-6 z-10 w-full max-w-md mx-auto">
+        <!-- Live Store Status Banner -->
+        <div class="glass-card p-3 rounded-2xl border-brand-gold/30 bg-gradient-to-r from-brand-gold/10 via-[#141418] to-[#09090b] flex items-center justify-between shadow-lg">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#141418] border border-brand-gold/40 flex items-center justify-center shadow-inner">
+              <svg class="w-6 h-6" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 29L7.5 7L13 18L10 29H4Z" fill="url(#idx_m_facet_left)"/>
+                <path d="M7.5 7L18 23.5L13 18L7.5 7Z" fill="url(#idx_m_facet_mid_l)"/>
+                <path d="M28.5 7L18 23.5L23 18L28.5 7Z" fill="url(#idx_m_facet_mid_r)"/>
+                <path d="M32 29L28.5 7L23 18L26 29H32Z" fill="url(#idx_m_facet_right)"/>
+                <polygon points="18,17 20,20.5 18,24 16,20.5" fill="url(#idx_m_gem)"/>
+              </svg>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-white tracking-wider">MAJORKA Платформа</div>
+              <div class="text-[10px] text-emerald-400 flex items-center gap-1 font-medium">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                Управляющий продажами 24/7
+              </div>
+            </div>
+          </div>
+          <span class="text-[10px] font-bold text-brand-gold bg-brand-gold/15 px-2 py-0.5 rounded-lg border border-brand-gold/30">PRO</span>
+        </div>
+
+        <!-- 2x2 Grid of High-Converting Metric Cards -->
+        <div class="grid grid-cols-2 gap-2.5">
+          <!-- Card 1: Conversion -->
+          <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
+            <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
+              <span>Конверсия</span>
+              <span class="text-emerald-400 font-bold bg-emerald-400/10 px-1.5 py-0.5 rounded text-[9px]">+42%</span>
+            </div>
+            <div class="text-lg font-black text-white font-outfit">78%</div>
+            <div class="text-[9px] text-white/40 mt-1">Отклик &lt; 15 сек</div>
+          </div>
+
+          <!-- Card 2: Sales -->
+          <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
+            <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
+              <span>Оборот</span>
+              <span class="material-symbols-outlined text-xs text-brand-gold">trending_up</span>
+            </div>
+            <div class="text-lg font-black text-brand-gold font-outfit">284 500 ₽</div>
+            <div class="text-[9px] text-white/40 mt-1">Средний за неделю</div>
+          </div>
+
+          <!-- Card 3: Avito Sync -->
+          <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
+            <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
+              <span>Авито Слот</span>
+              <span class="material-symbols-outlined text-xs text-cyan-400">sync</span>
+            </div>
+            <div class="text-xs font-bold text-white">QR-код 2 мин</div>
+            <div class="text-[9px] text-emerald-400 mt-1 font-medium">Синхронизирован</div>
+          </div>
+
+          <!-- Card 4: Orders & Delivery -->
+          <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
+            <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
+              <span>Заказы</span>
+              <span class="material-symbols-outlined text-xs text-emerald-400">local_shipping</span>
+            </div>
+            <div class="text-xs font-bold text-white">Авито Доставка</div>
+            <div class="text-[9px] text-emerald-400 font-bold mt-1">100% автопилот</div>
+          </div>
+        </div>
+      </div>
+
       <!-- BOTTOM: HEADLINE & PUNCHLINE TYPOGRAPHY -->
-      <div class="z-10 pt-8">
+      <div class="z-10 pt-4 sm:pt-8">
         <h2 class="font-outfit text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-[1.1]">
           Все продажи<br>в одном кабинете
         </h2>
