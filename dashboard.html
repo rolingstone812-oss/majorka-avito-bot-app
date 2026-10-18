@@ -485,7 +485,7 @@
         </div>
 
         <!-- TARIFF PROMO CARD -->
-        <div class="glass-box p-6 space-y-4 border-gold/20 bg-gold/[0.02]">
+        <div id="overviewPromoCard" class="glass-box p-6 space-y-4 border-gold/20 bg-gold/[0.02]">
           <div class="flex items-center justify-between">
             <span class="text-xs font-bold uppercase tracking-wider text-gold px-3 py-1 bg-gold/10 rounded-full border border-gold/30">Спецпредложение</span>
             <span class="font-outfit font-extrabold text-gold text-2xl">1 590 ₽</span>
@@ -532,7 +532,7 @@
               <span id="shopsQuotaBadge" class="px-2.5 py-0.5 rounded-full bg-status-green/10 text-status-green font-bold text-[11px] border border-status-green/30">1 активен (лимит: 1)</span>
             </div>
             <p id="shopsQuotaDesc" class="text-white/70 text-xs leading-relaxed max-w-xl">
-              У вас доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо по подписке на 1 месяц. Для запуска 2-го и последующих магазинов приобретите дополнительный слот в разделе «Тарифы».
+              У вас доступно <strong>1 создание бота</strong> по вашей подписке. Пробный доступ сгорает после первой покупки. Для запуска 2-го и последующих магазинов приобретите дополнительный слот в разделе «Тарифы».
             </p>
           </div>
         </div>
@@ -799,7 +799,7 @@
             <div>
               <h3 class="font-outfit font-bold text-2xl text-white">Пробный доступ на 7 дней</h3>
               <div class="font-outfit font-extrabold text-4xl text-gold mt-3">1 590 ₽</div>
-              <div class="text-xs text-white/40 mt-1">Доступ на 7 дней (только 1 раз)</div>
+              <div id="trialSubNote" class="text-xs text-white/40 mt-1">Доступ на 7 дней (сгорает после первой покупки)</div>
             </div>
 
             <ul class="space-y-3 pt-4 text-xs text-white/70">
@@ -1902,6 +1902,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       initTelegramSession();
+      renderTrialStatusUI();
       loadUserStats();
       loadMyBots();
       loadLiveChatLogs();
@@ -1927,6 +1928,66 @@
       window.location.href = './index.html';
     }
 
+    // RENDER TRIAL STATUS UI (BURNS AFTER FIRST PURCHASE)
+    function renderTrialStatusUI() {
+      const trialBtn = document.getElementById('btnTariffTrial');
+      const trialBtnText = document.getElementById('btnTariffTrialText');
+      const trialTag = document.getElementById('trialBadgeTag');
+      const trialSub = document.getElementById('trialSubNote');
+      const preset1590 = document.getElementById('presetBtn-1590');
+      const promoCard = document.getElementById('overviewPromoCard');
+
+      if (userTrialUsed === 1) {
+        if (trialBtn) {
+          trialBtn.disabled = true;
+          trialBtn.className = 'w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed opacity-60';
+        }
+        if (trialBtnText) trialBtnText.innerText = 'Сгорел после первой покупки';
+        if (trialTag) {
+          trialTag.innerText = 'СГОРЕЛ ПОСЛЕ ПОКУПКИ';
+          trialTag.className = 'text-[10px] font-bold text-red-400/90 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20';
+        }
+        if (trialSub) trialSub.innerText = 'Пробный доступ сгорел после первой покупки';
+        if (preset1590) {
+          preset1590.disabled = true;
+          preset1590.className = 'p-2.5 bg-white/5 border border-white/5 rounded-xl text-xs font-bold text-white/20 flex items-center justify-between cursor-not-allowed opacity-40 line-through';
+          preset1590.title = 'Пробный доступ сгорает после первой покупки';
+        }
+        if (promoCard) {
+          promoCard.innerHTML = `
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-gold px-3 py-1 bg-gold/10 rounded-full border border-gold/30">Активная подписка</span>
+              <span class="font-outfit font-extrabold text-gold text-2xl">6 490 ₽</span>
+            </div>
+            <div>
+              <h3 class="font-outfit font-bold text-xl text-white">Полный Доступ на 1 Месяц</h3>
+              <p class="text-xs text-white/50 mt-1">30 дней непрерывных продаж 24/7. Пробный доступ сгорел после первой покупки.</p>
+            </div>
+            <button onclick="switchTab('tariffs')" class="btn-gold w-full py-3 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
+              <span>Управление тарифами</span>
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+          `;
+        }
+      } else {
+        if (trialBtn) {
+          trialBtn.disabled = false;
+          trialBtn.className = 'btn-ghost w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer text-gold border-gold/30 hover:bg-gold/10';
+        }
+        if (trialBtnText) trialBtnText.innerText = 'Оплатить 1 590 ₽ и Создать Магазин';
+        if (trialTag) {
+          trialTag.innerText = '1 РАЗ НА АККАУНТ';
+          trialTag.className = 'text-[10px] font-bold text-gold bg-gold/10 px-2 py-0.5 rounded border border-gold/30';
+        }
+        if (trialSub) trialSub.innerText = 'Доступ на 7 дней (сгорает после первой покупки)';
+        if (preset1590) {
+          preset1590.disabled = false;
+          preset1590.className = 'p-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer';
+          preset1590.title = '';
+        }
+      }
+    }
+
     // STATS, SUBSCRIPTION & BALANCE SYNC
     async function loadUserStats() {
       try {
@@ -1936,7 +1997,13 @@
         
         if (data.user) {
           userBalanceVal = Number(data.user.balance || 0);
-          userTrialUsed = Number(data.user.trial_used || 0);
+          const totalPurchases = Number(data.user.total_purchases || 0);
+          if (Number(data.user.trial_used || 0) === 1 || totalPurchases > 0 || currentChatId === '6940082004') {
+            userTrialUsed = 1;
+            localStorage.setItem('majorka_trial_used', '1');
+          } else {
+            userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
+          }
           userSlotsCount = Math.max(userSlotsCount, Number(data.user.slots_count || 1));
           localStorage.setItem('majorka_slots_count', userSlotsCount);
           
@@ -1954,29 +2021,6 @@
             if (overPill) {
               overPill.innerText = 'Активен 24/7';
               overPill.className = 'text-xs font-semibold px-3 py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20';
-            }
-          }
-
-
-          // Update Trial Button in Tariffs Tab
-          const trialBtn = document.getElementById('btnTariffTrial');
-          const trialBtnText = document.getElementById('btnTariffTrialText');
-          const trialTag = document.getElementById('trialBadgeTag');
-          const preset1590 = document.getElementById('presetBtn-1590');
-
-          if (userTrialUsed === 1) {
-            if (trialBtn) {
-              trialBtn.disabled = true;
-              trialBtn.className = 'w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed';
-            }
-            if (trialBtnText) trialBtnText.innerText = 'Использован (1 раз)';
-            if (trialTag) {
-              trialTag.innerText = 'ИСПОЛЬЗОВАН';
-              trialTag.className = 'text-[10px] font-bold text-white/40 bg-white/5 px-2 py-0.5 rounded border border-white/10';
-            }
-            if (preset1590) {
-              preset1590.disabled = true;
-              preset1590.className = 'p-2.5 bg-white/5 border border-white/5 rounded-xl text-xs font-bold text-white/30 flex items-center justify-between cursor-not-allowed';
             }
           }
         }
@@ -1998,7 +2042,8 @@
         console.log('Stats sync fallback:', err);
         if (currentChatId === '6940082004') {
           userBalanceVal = Number(localStorage.getItem('majorka_balance') ?? 50000);
-          userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
+          userTrialUsed = 1;
+          localStorage.setItem('majorka_trial_used', '1');
           userSlotsCount = Math.max(2, Number(localStorage.getItem('majorka_slots_count') || 2));
           const balEl = document.getElementById('userBalanceText');
           if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
@@ -2024,11 +2069,16 @@
           }
         }
       }
+      renderTrialStatusUI();
       updateQuotaBannerUI();
     }
 
     // DIRECT TARIFF PURCHASE FROM BALANCE & SHOP CREATION
     async function selectTariffAndStart(tariffType, amount) {
+      if ((tariffType === 'trial_7days' || Number(amount) === 1590) && userTrialUsed === 1) {
+        showToast('Пробный доступ сгорел', 'Пробный доступ на 7 дней сгорает после первой покупки. Выберите тариф на 1 месяц или дополнительный слот.', 'warning');
+        return;
+      }
       const isExternal = window.location.protocol === 'https:' || (!isLocalHost);
 
       // On external hosted site or if balance is less than required amount -> Open payment window directly
@@ -2225,13 +2275,17 @@
 
       if (desc) {
         if (total === 1) {
-          desc.innerHTML = 'Вам доступно <strong>1 создание бота</strong> по вашей подписке. Для подключения 2-го магазина приобретите дополнительный слот в разделе «Тарифы».';
+          if (userTrialUsed === 1) {
+            desc.innerHTML = 'Вам доступно <strong>1 создание бота</strong> по вашей активной подписке (пробный доступ сгорел после первой покупки). Для подключения 2-го магазина приобретите дополнительный слот в разделе «Тарифы».';
+          } else {
+            desc.innerHTML = 'Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней). Обратите внимание: пробный доступ сгорает после первой покупки.';
+          }
         } else {
           const remaining = Math.max(0, total - active);
           if (remaining > 0) {
-            desc.innerHTML = `У вас оплачено и доступно <strong>${total} слотов для ботов</strong> (${active} создано, доступно для запуска еще: <strong>${remaining}</strong>). Нажмите «Добавить магазин» для настройки следующего бота!`;
+            desc.innerHTML = `У вас оплачено и доступно <strong>${total} слотов для ботов</strong> (${active} создано, доступно для запуска еще: <strong>${remaining}</strong>). Пробный доступ сгорел после первой покупки. Нажмите «Добавить магазин» для настройки следующего бота!`;
           } else {
-            desc.innerHTML = `У вас активно <strong>${active} из ${total} оплаченных ботов</strong> (все слоты работают 24/7). Для запуска следующего магазина приобретите дополнительный слот в разделе «Тарифы».`;
+            desc.innerHTML = `У вас активно <strong>${active} из ${total} оплаченных ботов</strong> (все слоты работают 24/7). Пробный доступ сгорел после первой покупки. Для запуска следующего магазина приобретите дополнительный слот в разделе «Тарифы».`;
           }
         }
       }
@@ -2362,9 +2416,11 @@
 
       if (sQuota) {
         if (userSlotsCount > 1) {
-          sQuota.innerHTML = `У вас оплачено слотов: <strong>${userSlotsCount}</strong> (активно магазинов: ${(userBotsList || []).length}). Дополнительный магазин готов к привязке!`;
+          sQuota.innerHTML = `У вас оплачено слотов: <strong>${userSlotsCount}</strong> (активно магазинов: ${(userBotsList || []).length}). Пробный доступ сгорел после первой покупки. Дополнительный магазин готов к привязке!`;
+        } else if (userTrialUsed === 1) {
+          sQuota.innerHTML = `У вас активна подписка на <strong>1 магазин</strong> (пробный доступ сгорел после первой покупки). Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».`;
         } else {
-          sQuota.innerHTML = `Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».`;
+          sQuota.innerHTML = `Вам доступно <strong>1 создание бота</strong> по пробному периоду. Обратите внимание: пробный доступ сгорает после первой покупки.`;
         }
       }
 
@@ -2397,8 +2453,10 @@
 
         const remaining = Math.max(0, userSlotsCount - ((userBotsList || []).length + 1));
         const toastDesc = userSlotsCount > 1
-          ? `Магазин «${name}» на автопилоте 24/7. Всего слотов: ${userSlotsCount} (осталось свободных: ${remaining}).`
-          : `Магазин «${name}» на автопилоте 24/7. Вам доступно 1 создание бота по пробной подписке (7 дней) либо на 1 месяц.`;
+          ? `Магазин «${name}» на автопилоте 24/7. Всего слотов: ${userSlotsCount} (осталось свободных: ${remaining}). Пробный доступ сгорел.`
+          : (userTrialUsed === 1
+              ? `Магазин «${name}» на автопилоте 24/7. Подписка активна (пробный доступ сгорел после первой покупки).`
+              : `Магазин «${name}» на автопилоте 24/7. Пробный доступ сгорает после первой покупки.`);
 
         showToast('Бот успешно запущен!', toastDesc, 'success');
         await loadUserStats();
@@ -2915,9 +2973,13 @@
     // PAYMENT MODAL (BALANCE + YOOMONEY + SBP)
     function openPaymentModal(amount, title) {
       const modal = document.getElementById('paymentModal');
-      const val = amount || '6490';
+      let val = amount || '6490';
+      if (userTrialUsed === 1 && Number(val) === 1590) {
+        val = '6490';
+      }
       document.getElementById('customPaymentAmount').value = val;
       updatePaymentAmount(val);
+      renderTrialStatusUI();
 
       const titleEl = document.getElementById('modalPaymentTitle');
       if (titleEl) {
@@ -3008,6 +3070,10 @@
     }
 
     function setPresetAmount(presetVal) {
+      if (userTrialUsed === 1 && Number(presetVal) === 1590) {
+        showToast('Пробный доступ сгорел', 'Пробный период на 7 дней сгорает после первой покупки и доступен только новым клиентам.', 'warning');
+        return;
+      }
       document.getElementById('customPaymentAmount').value = presetVal;
       updatePaymentAmount(presetVal);
     }
@@ -3105,27 +3171,10 @@
         overPill.className = 'text-xs font-semibold px-3 py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20';
       }
 
-      if (amount === 1590) {
-        userTrialUsed = 1;
-        localStorage.setItem('majorka_trial_used', '1');
-        const trialBtn = document.getElementById('btnTariffTrial');
-        const trialBtnText = document.getElementById('btnTariffTrialText');
-        const trialTag = document.getElementById('trialBadgeTag');
-        const preset1590 = document.getElementById('presetBtn-1590');
-        if (trialBtn) {
-          trialBtn.disabled = true;
-          trialBtn.className = 'w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed';
-        }
-        if (trialBtnText) trialBtnText.innerText = 'Использован (1 раз)';
-        if (trialTag) {
-          trialTag.innerText = 'ИСПОЛЬЗОВАН';
-          trialTag.className = 'text-[10px] font-bold text-white/40 bg-white/5 px-2 py-0.5 rounded border border-white/10';
-        }
-        if (preset1590) {
-          preset1590.disabled = true;
-          preset1590.className = 'p-2.5 bg-white/5 border border-white/5 rounded-xl text-xs font-bold text-white/30 flex items-center justify-between cursor-not-allowed';
-        }
-      }
+      // ANY purchase permanently burns trial access!
+      userTrialUsed = 1;
+      localStorage.setItem('majorka_trial_used', '1');
+      renderTrialStatusUI();
 
       closePaymentModal();
       if (btn) btn.disabled = false;
@@ -3163,9 +3212,11 @@
 
       if (quotaText) {
         if (userSlotsCount > 1) {
-          quotaText.innerHTML = `Вам оплачено и доступно <strong>${userSlotsCount} слотов</strong> для создания ботов. Вы можете запустить еще один магазин прямо сейчас!`;
+          quotaText.innerHTML = `Вам оплачено и доступно <strong>${userSlotsCount} слотов</strong> для создания ботов. Пробный доступ сгорел после первой покупки. Вы можете запустить еще один магазин прямо сейчас!`;
+        } else if (userTrialUsed === 1) {
+          quotaText.innerHTML = `Подписка успешно активирована на 1 магазин. Пробный доступ сгорел после первой покупки. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».`;
         } else {
-          quotaText.innerHTML = `Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».`;
+          quotaText.innerHTML = `Вам доступно <strong>1 создание бота</strong>. Обратите внимание: пробный доступ сгорает после первой покупки.`;
         }
       }
 
