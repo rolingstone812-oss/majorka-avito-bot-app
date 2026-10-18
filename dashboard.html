@@ -531,7 +531,7 @@
               <span class="font-outfit font-bold text-white text-sm sm:text-base">Лимит создания ботов</span>
               <span id="shopsQuotaBadge" class="px-2.5 py-0.5 rounded-full bg-status-green/10 text-status-green font-bold text-[11px] border border-status-green/30">1 активен (лимит: 1)</span>
             </div>
-            <p class="text-white/70 text-xs leading-relaxed max-w-xl">
+            <p id="shopsQuotaDesc" class="text-white/70 text-xs leading-relaxed max-w-xl">
               У вас доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо по подписке на 1 месяц. Для запуска 2-го и последующих магазинов приобретите дополнительный слот в разделе «Тарифы».
             </p>
           </div>
@@ -1273,7 +1273,7 @@
               <span class="material-symbols-outlined text-base mt-0.5 shrink-0">info</span>
               <div class="space-y-0.5">
                 <p class="font-bold">Лимит создания ботов:</p>
-                <p class="text-white/80 leading-relaxed">Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».</p>
+                <p id="wizStep4QuotaText" class="text-white/80 leading-relaxed">Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».</p>
               </div>
             </div>
 
@@ -1589,11 +1589,11 @@
           <span class="font-bold text-white/80">Статус управляющего:</span>
           <span class="text-status-green font-bold flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
-            Слот #1 Активен 24/7
+            <span id="succModalSlotBadge">Слот #1 Активен 24/7</span>
           </span>
         </div>
         
-        <p class="text-xs text-white/70 leading-relaxed">
+        <p class="text-xs text-white/70 leading-relaxed" id="succModalReadyText">
           Система готова к приему клиентов. Чтобы бот отвечал на Авито строго по вашим правилам, укажите информацию о доставке, складе и скидках в Базе Знаний.
         </p>
 
@@ -1601,16 +1601,16 @@
           <span class="material-symbols-outlined text-base mt-0.5 shrink-0">info</span>
           <div class="space-y-0.5">
             <p class="font-bold">Лимит создания ботов:</p>
-            <p class="text-white/80 leading-relaxed">Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».</p>
+            <p class="text-white/80 leading-relaxed" id="succModalQuotaText">Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».</p>
           </div>
         </div>
       </div>
 
       <!-- ACTION BUTTONS -->
       <div class="space-y-2.5 pt-1">
-        <button onclick="goToKnowledgeFromSuccess()" class="btn-gold w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
-          <span class="material-symbols-outlined text-lg">tune</span>
-          <span>Настроить регламент в Базе Знаний</span>
+        <button onclick="goToNextActionFromSuccess()" class="btn-gold w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+          <span class="material-symbols-outlined text-lg" id="succModalBtnMainIcon">tune</span>
+          <span id="succModalBtnMainText">Настроить регламент в Базе Знаний</span>
         </button>
 
         <button onclick="goToSimulatorFromSuccess()" class="w-full py-3 rounded-xl text-xs font-semibold text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-2 transition-all cursor-pointer">
@@ -1853,7 +1853,7 @@
     // USER & SUBSCRIPTION STATE
     let userBalanceVal = 0;
     let userTrialUsed = 0;
-    let userSlotsCount = 1;
+    let userSlotsCount = Math.max(1, Number(localStorage.getItem('majorka_slots_count') || (currentChatId === '6940082004' ? 2 : 1)));
     let userBotsList = [];
 
     // TOAST NOTIFICATION ENGINE
@@ -1937,7 +1937,8 @@
         if (data.user) {
           userBalanceVal = Number(data.user.balance || 0);
           userTrialUsed = Number(data.user.trial_used || 0);
-          userSlotsCount = Number(data.user.slots_count || 1);
+          userSlotsCount = Math.max(userSlotsCount, Number(data.user.slots_count || 1));
+          localStorage.setItem('majorka_slots_count', userSlotsCount);
           
           const bal = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
           const balEl = document.getElementById('userBalanceText');
@@ -1998,6 +1999,7 @@
         if (currentChatId === '6940082004') {
           userBalanceVal = Number(localStorage.getItem('majorka_balance') ?? 50000);
           userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
+          userSlotsCount = Math.max(2, Number(localStorage.getItem('majorka_slots_count') || 2));
           const balEl = document.getElementById('userBalanceText');
           if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
           const overDetails = document.getElementById('overviewSubDetails');
@@ -2010,6 +2012,7 @@
         } else {
           userBalanceVal = Number(localStorage.getItem('majorka_balance') || 0);
           userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
+          userSlotsCount = Math.max(1, Number(localStorage.getItem('majorka_slots_count') || 1));
           const balEl = document.getElementById('userBalanceText');
           if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
           const overDetails = document.getElementById('overviewSubDetails');
@@ -2021,6 +2024,7 @@
           }
         }
       }
+      updateQuotaBannerUI();
     }
 
     // DIRECT TARIFF PURCHASE FROM BALANCE & SHOP CREATION
@@ -2200,11 +2204,43 @@
         if (heroDesc) heroDesc.innerText = `Управляющий продажами активен 24/7. Ниша: ${primaryBot.niche || 'Товары'}. Консультирует покупателей, отвечает о наличии и закрывает сделки.`;
         if (heroBadge) heroBadge.innerText = 'Управляющий активен 24/7';
       }
+
+      updateQuotaBannerUI();
+    }
+
+    function updateQuotaBannerUI() {
+      const badge = document.getElementById('shopsQuotaBadge');
+      const desc = document.getElementById('shopsQuotaDesc');
+      const total = Math.max(1, userSlotsCount || 1);
+      const active = (userBotsList || []).length;
+
+      if (badge) {
+        badge.innerText = `${active} из ${total} активно`;
+        if (active < total) {
+          badge.className = 'px-2.5 py-0.5 rounded-full bg-status-green/10 text-status-green font-bold text-[11px] border border-status-green/30 animate-pulse';
+        } else {
+          badge.className = 'px-2.5 py-0.5 rounded-full bg-gold/10 text-gold font-bold text-[11px] border border-gold/30';
+        }
+      }
+
+      if (desc) {
+        if (total === 1) {
+          desc.innerHTML = 'Вам доступно <strong>1 создание бота</strong> по вашей подписке. Для подключения 2-го магазина приобретите дополнительный слот в разделе «Тарифы».';
+        } else {
+          const remaining = Math.max(0, total - active);
+          if (remaining > 0) {
+            desc.innerHTML = `У вас оплачено и доступно <strong>${total} слотов для ботов</strong> (${active} создано, доступно для запуска еще: <strong>${remaining}</strong>). Нажмите «Добавить магазин» для настройки следующего бота!`;
+          } else {
+            desc.innerHTML = `У вас активно <strong>${active} из ${total} оплаченных ботов</strong> (все слоты работают 24/7). Для запуска следующего магазина приобретите дополнительный слот в разделе «Тарифы».`;
+          }
+        }
+      }
     }
 
     function addNewShopAction() {
-      if (userBotsList.length >= userSlotsCount && userBotsList.some(b => b.is_paid == 1)) {
-        showToast('Лимит создания ботов', 'Вам доступно 1 создание бота по пробной подписке (7 дней) либо на 1 месяц. Для запуска 2-го магазина выберите дополнительный слот в разделе «Тарифы».', 'warning');
+      const total = Math.max(1, userSlotsCount || 1);
+      if (userBotsList.length >= total && userBotsList.some(b => b.is_paid == 1)) {
+        showToast('Все слоты заняты', `У вас активно ${userBotsList.length} из ${total} ботов. Для запуска еще одного магазина приобретите дополнительный слот в разделе «Тарифы».`, 'warning');
         switchTab('tariffs');
         return;
       }
@@ -2317,11 +2353,20 @@
       const sNiche = document.getElementById('sumNiche');
       const sCity = document.getElementById('sumCity');
       const sAuth = document.getElementById('sumAuthMode');
+      const sQuota = document.getElementById('wizStep4QuotaText');
 
       if (sName) sName.innerText = name;
       if (sNiche) sNiche.innerText = niche;
       if (sCity) sCity.innerText = `${city} (${hours})`;
       if (sAuth) sAuth.innerText = selectedAuthMode === 'phone' ? ('Номер телефона ' + phone) : 'Telegram-бот @avito_deployer_bot';
+
+      if (sQuota) {
+        if (userSlotsCount > 1) {
+          sQuota.innerHTML = `У вас оплачено слотов: <strong>${userSlotsCount}</strong> (активно магазинов: ${(userBotsList || []).length}). Дополнительный магазин готов к привязке!`;
+        } else {
+          sQuota.innerHTML = `Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».`;
+        }
+      }
 
       wizGoToStep(4);
     }
@@ -2350,7 +2395,12 @@
         const createData = await createRes.json();
         if (!createRes.ok || !createData.success) throw new Error(createData.error || 'Не удалось сохранить магазин');
 
-        showToast('Бот успешно запущен!', `Магазин «${name}» на автопилоте 24/7. Вам доступно 1 создание бота по пробной подписке (7 дней) либо на 1 месяц.`, 'success');
+        const remaining = Math.max(0, userSlotsCount - ((userBotsList || []).length + 1));
+        const toastDesc = userSlotsCount > 1
+          ? `Магазин «${name}» на автопилоте 24/7. Всего слотов: ${userSlotsCount} (осталось свободных: ${remaining}).`
+          : `Магазин «${name}» на автопилоте 24/7. Вам доступно 1 создание бота по пробной подписке (7 дней) либо на 1 месяц.`;
+
+        showToast('Бот успешно запущен!', toastDesc, 'success');
         await loadUserStats();
         await loadMyBots();
         switchTab('shops');
@@ -3029,6 +3079,14 @@
       userBalanceVal = Math.max(0, userBalanceVal - amount);
       localStorage.setItem('majorka_balance', userBalanceVal);
 
+      // INCREMENT SLOTS COUNT
+      if (userBotsList.length >= 1 || amount === 6490 || amount === 15900) {
+        userSlotsCount = Math.max(userSlotsCount + 1, (userBotsList ? userBotsList.length + 1 : 2), 2);
+      } else {
+        userSlotsCount = Math.max(userSlotsCount, 1);
+      }
+      localStorage.setItem('majorka_slots_count', userSlotsCount);
+
       const daysToAdd = amount === 1590 ? 7 : (amount === 15900 ? 90 : 30);
       const paidUntil = new Date(Date.now() + daysToAdd * 86400000);
       localStorage.setItem('majorka_paid_until', paidUntil.toISOString());
@@ -3071,7 +3129,10 @@
 
       closePaymentModal();
       if (btn) btn.disabled = false;
-      showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Автономный управляющий активирован до ${dateStr}`, 'success');
+      updateQuotaBannerUI();
+      try { loadMyBots(); } catch(e){}
+
+      showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Доступно слотов для ботов: ${userSlotsCount}.`, 'success');
 
       // Open Celebration & Next-Steps Onboarding Modal
       openPaymentSuccessModal(tariffName, amount, daysToAdd, dateStr);
@@ -3083,6 +3144,10 @@
       if (!modal) return;
       const badge = document.getElementById('succModalTariffBadge');
       const desc = document.getElementById('succModalDescription');
+      const slotBadge = document.getElementById('succModalSlotBadge');
+      const quotaText = document.getElementById('succModalQuotaText');
+      const btnText = document.getElementById('succModalBtnMainText');
+      const btnIcon = document.getElementById('succModalBtnMainIcon');
 
       let tTitle = 'Тест-Драйв (7 дней)';
       if (amount === 6490) tTitle = 'Полный Доступ (1 месяц)';
@@ -3090,7 +3155,29 @@
       else if (tariffName === 'trial_7days') tTitle = 'Тест-Драйв (7 дней)';
 
       if (badge) badge.innerText = `Тариф «${tTitle}» Активирован`;
-      if (desc) desc.innerText = `С вашего баланса списано ${amount.toLocaleString('ru-RU')} ₽. Автопилот продаж активен до ${dateStr} (${days} дн).`;
+      if (desc) desc.innerText = `С вашего баланса списано ${amount.toLocaleString('ru-RU')} ₽. Всего доступно слотов: ${userSlotsCount} (активны до ${dateStr}).`;
+
+      if (slotBadge) {
+        slotBadge.innerText = `Слот #${userSlotsCount} Активен 24/7`;
+      }
+
+      if (quotaText) {
+        if (userSlotsCount > 1) {
+          quotaText.innerHTML = `Вам оплачено и доступно <strong>${userSlotsCount} слотов</strong> для создания ботов. Вы можете запустить еще один магазин прямо сейчас!`;
+        } else {
+          quotaText.innerHTML = `Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».`;
+        }
+      }
+
+      if (btnText && btnIcon) {
+        if (userSlotsCount > (userBotsList || []).length) {
+          btnIcon.innerText = 'add_business';
+          btnText.innerText = 'Настроить следующий магазин';
+        } else {
+          btnIcon.innerText = 'tune';
+          btnText.innerText = 'Настроить регламент в Базе Знаний';
+        }
+      }
 
       modal.classList.remove('hidden');
       modal.classList.add('flex');
@@ -3101,6 +3188,16 @@
       if (modal) {
         modal.classList.add('hidden');
         modal.classList.remove('flex');
+      }
+    }
+
+    function goToNextActionFromSuccess() {
+      closePaymentSuccessModal();
+      if (userSlotsCount > (userBotsList || []).length) {
+        switchTab('wizard');
+        wizGoToStep(1);
+      } else {
+        switchTab('knowledge');
       }
     }
 
