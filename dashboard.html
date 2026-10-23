@@ -410,7 +410,7 @@
           <div class="pt-2 flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3" id="heroStoreActions">
             <button onclick="switchTab('knowledge')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press">
               <span class="material-symbols-outlined text-base">tune</span>
-              <span>Настроить и запустить бота</span>
+              <span>Настроить продажи</span>
             </button>
 
             <button onclick="switchTab('tariffs')" class="btn-ghost px-5 sm:px-7 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
@@ -418,6 +418,30 @@
               <span>Тарифы и подписка</span>
             </button>
           </div>
+        </div>
+      </div>
+
+            <!-- OVERVIEW SHOPS LIST & MANAGEMENT CARD -->
+      <div id="overviewShopsCard" class="glass-box p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
+              <span>Мои магазины на Авито</span>
+            </div>
+            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Подключенные магазины и управление</h3>
+            <p class="text-xs text-white/50">Настраивайте правила ответов, обновляйте товары с Авито и управляйте продажами</p>
+          </div>
+
+          <button type="button" onclick="switchTab('knowledge')" class="btn-gold px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold w-full sm:w-auto">
+            <span class="material-symbols-outlined text-base">add_business</span>
+            <span>Подключить магазин</span>
+          </button>
+        </div>
+
+        <!-- STORES LIST DYNAMIC CONTAINER -->
+        <div id="overviewShopsContainer" class="space-y-3 sm:space-y-4">
+          <!-- Dynamically populated by renderShopsList() -->
         </div>
       </div>
 
@@ -479,7 +503,7 @@
           <div class="flex items-center gap-2.5 w-full sm:w-auto">
             <button type="button" onclick="switchTab('knowledge')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-none">
               <span class="material-symbols-outlined text-sm">tune</span>
-              <span>Создание и настройка бота</span>
+              <span>Настройки магазина</span>
             </button>
             <button type="button" id="btnSaveQuickSettings" onclick="saveQuickSettingsFromOverview()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-none">
               <span class="material-symbols-outlined text-sm">check_circle</span>
@@ -493,7 +517,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         <!-- WIDGET 1: CATALOG OVERVIEW -->
-        <div class="glass-box p-6 space-y-4 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl flex flex-col justify-between">
+        <div id="recentDialogsWidget" class="glass-box p-4 sm:p-6 space-y-4 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -511,22 +535,22 @@
             <!-- AVITO PARSED CATALOG PREVIEW -->
             <div id="overviewAvitoItemsList" class="space-y-2 pt-2">
               <div class="p-4 rounded-xl bg-[#101012] border border-white/5 text-xs text-white/50 text-center">
-                Объявления ещё не спарсены. Введите ссылку на ваш профиль на Авито во вкладке «Создать бота», чтобы автоматически загрузить каталог.
+                Объявления ещё не загружены. Введите ссылку на ваш профиль на Авито в разделе «Настройки», чтобы синхронизировать каталог товаров.
               </div>
             </div>
           </div>
 
           <div class="pt-4 border-t border-white/5 flex items-center justify-between">
-            <span class="text-[11px] text-white/40">Автопарсинг ваших реальных объявлений с Авито</span>
+            <span class="text-[11px] text-white/40">Синхронизация каталога ваших объявлений с Авито</span>
             <button onclick="switchTab('knowledge')" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-gold flex items-center gap-1 cursor-pointer">
-              <span>Спарсить с Авито</span>
+              <span>Обновить с Авито</span>
               <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
         </div>
 
         <!-- WIDGET 2: LIVE CUSTOMER DIALOGS (REAL ACTIVITY FEED) -->
-        <div class="glass-box p-6 space-y-4 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl flex flex-col justify-between">
+        <div id="recentDialogsWidget" class="glass-box p-4 sm:p-6 space-y-4 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -617,11 +641,11 @@
           </div>
           <div class="space-y-0.5">
             <div class="flex items-center gap-2">
-              <span class="font-outfit font-bold text-white text-sm sm:text-base">Лимит создания ботов</span>
+              <span class="font-outfit font-bold text-white text-sm sm:text-base">Лимит активных магазинов</span>
               <span id="shopsQuotaBadge" class="px-2.5 py-0.5 rounded-full bg-status-green/10 text-status-green font-bold text-[11px] border border-status-green/30">1 активен (лимит: 1)</span>
             </div>
             <p id="shopsQuotaDesc" class="text-white/70 text-xs leading-relaxed max-w-xl">
-              У вас доступно <strong>1 создание бота</strong> по вашей подписке. Пробный доступ сгорает после первой покупки. Для запуска 2-го и последующих магазинов приобретите дополнительный слот в разделе «Тарифы».
+              У вас доступно <strong>1 активный магазин</strong> по вашей подписке. Пробный доступ сгорает после первой покупки. Для запуска 2-го и последующих магазинов приобретите дополнительный слот в разделе «Тарифы».
             </p>
           </div>
         </div>
@@ -648,10 +672,10 @@
             <span>Центр управления • Настройки магазина</span>
           </div>
           <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">
-            Настройки бота и обновление товаров на Авито
+            Настройки магазина и обновление товаров на Авито
           </h2>
           <p class="text-xs sm:text-sm text-white/60 max-w-xl leading-relaxed">
-            Управляйте правилами консультаций менеджера, обновляйте товары с Авито через встроенный парсер и подключайте аккаунты.
+            Управляйте правилами консультаций менеджера, обновляйте товары с Авито в 1 клик по ссылке и подключайте аккаунты.
           </p>
         </div>
 
@@ -669,14 +693,14 @@
           <div>
             <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[11px] font-bold uppercase tracking-wider">
               <span class="material-symbols-outlined text-xs">sync</span>
-              <span>Автопарсер каталога Авито</span>
+              <span>Синхронизация каталога Авито</span>
             </div>
-            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Обновить товары на Авито с парсером</h3>
-            <p class="text-xs text-white/50">Парсер автоматически выгружает актуальные объявления, цены, описания и фото прямо с вашего профиля</p>
+            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Обновить товары на Авито по ссылке</h3>
+            <p class="text-xs text-white/50">Система автоматически выгружает актуальные объявления, цены, описания и фото прямо с вашего профиля</p>
           </div>
 
           <div class="flex items-center gap-2">
-            <span class="text-xs text-white/60">В базе бота:</span>
+            <span class="text-xs text-white/60">В каталоге магазина:</span>
             <span class="px-3 py-1 rounded-full text-xs font-black bg-gold/15 text-gold border border-gold/30 flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
               <span id="oneClickCountBadge">0</span>
@@ -696,11 +720,11 @@
 
             <button type="button" id="btnRefreshCatalog" onclick="refreshCatalogFromAvitoAction(this)" class="btn-gold px-7 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shrink-0">
               <span class="material-symbols-outlined text-base">sync</span>
-              <span>Обновить товары с парсером</span>
+              <span>Обновить товары с Авито</span>
             </button>
           </div>
           <p class="text-[11px] text-white/40">
-            При нажатии кнопки наш парсер подключается к Авито, актуализирует цены и добавляет новые товары в память менеджера продаж.
+            При нажатии кнопки система подключается к магазину на Авито, актуализирует цены и добавляет новые товары в память менеджера продаж.
           </p>
         </div>
 
@@ -720,7 +744,7 @@
           <div id="oneClickItemsList" class="space-y-2 max-h-64 overflow-y-auto pr-1">
             <div class="p-6 text-center text-xs text-white/40 flex flex-col items-center justify-center gap-2">
               <span class="material-symbols-outlined text-2xl text-white/20">inventory_2</span>
-              <span>Товары пока не загружены. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Обновить товары с парсером».</span>
+              <span>Товары пока не загружены. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Обновить товары с Авито».</span>
             </div>
           </div>
         </div>
@@ -878,7 +902,7 @@
 
             <button type="button" id="btnSubmitSmsCode" onclick="submitSmsCodeAction()" class="btn-gold px-8 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shrink-0">
               <span class="material-symbols-outlined text-lg">rocket_launch</span>
-              <span>Подтвердить вход и запустить бота</span>
+              <span>Подтвердить вход и запустить продажи</span>
             </button>
           </div>
 
@@ -895,7 +919,7 @@
           <span class="material-symbols-outlined text-gold text-2xl">verified_user</span>
           <div class="font-bold text-white text-xs">100% Защита от банов</div>
           <p class="text-[11px] text-white/50 leading-relaxed">
-            Эмуляция реального смартфона Android (LDPlayer). Авито видит бота как обычного живого пользователя с телефоном.
+            Эмуляция реального смартфона Android (LDPlayer). Авито определяет работу системы как действия реального смартфона с телефоном.
           </p>
         </div>
 
@@ -911,7 +935,7 @@
           <span class="material-symbols-outlined text-blue-400 text-2xl">speed</span>
           <div class="font-bold text-white text-xs">Ответ за 15 секунд 24/7</div>
           <p class="text-[11px] text-white/50 leading-relaxed">
-            Ни один покупатель не уйдет к конкурентам. Бот мгновенно консультирует по наличию и закрывает сделки.
+            Ни один покупатель не уйдет к конкурентам. Менеджер мгновенно консультирует по наличию и закрывает сделки.
           </p>
         </div>
 
@@ -1891,7 +1915,7 @@
           <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
           <span id="succModalTariffBadge">Тариф «Пробный доступ (7 дней)» Активирован</span>
         </div>
-        <h3 class="font-outfit font-extrabold text-2xl sm:text-3xl text-white">Поздравляем с приобретением бота!</h3>
+        <h3 class="font-outfit font-extrabold text-2xl sm:text-3xl text-white">Поздравляем с подключением магазина!</h3>
         <p class="text-xs sm:text-sm text-white/70 leading-relaxed max-w-md mx-auto" id="succModalDescription">
           С вашего баланса списано 1 590 ₽. Менеджер продаж успешно активирован на 7 дней.
         </p>
@@ -1908,14 +1932,14 @@
         </div>
         
         <p class="text-xs text-white/70 leading-relaxed" id="succModalReadyText">
-          Система готова к приему клиентов. Чтобы бот отвечал на Авито строго по вашим правилам, укажите информацию о доставке, складе и скидках в Базе Знаний.
+          Система готова к приему клиентов. Чтобы менеджер отвечал на Авито строго по вашим правилам, укажите информацию о доставке, складе и скидках в Базе Знаний.
         </p>
 
         <div class="p-3 rounded-xl bg-gold/10 border border-gold/30 text-xs text-gold flex items-start gap-2.5">
           <span class="material-symbols-outlined text-base mt-0.5 shrink-0">info</span>
           <div class="space-y-0.5">
-            <p class="font-bold">Лимит создания ботов:</p>
-            <p class="text-white/80 leading-relaxed" id="succModalQuotaText">Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».</p>
+            <p class="font-bold">Лимит магазинов:</p>
+            <p class="text-white/80 leading-relaxed" id="succModalQuotaText">Вам доступно <strong>1 активный магазин</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».</p>
           </div>
         </div>
       </div>
@@ -2582,62 +2606,149 @@
       });
     }
 
+        let storePausedState = false;
+
+    function scrollToDialogs() {
+      const el = document.getElementById('recentDialogsWidget');
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        switchTab('overview');
+        setTimeout(() => {
+          document.getElementById('recentDialogsWidget')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 250);
+      }
+    }
+
+    async function toggleStoreActiveState(sessionId) {
+      storePausedState = !storePausedState;
+      const btnText = document.getElementById('quickStatusBtnText');
+      const btn = document.getElementById('quickToggleStatusBtn');
+      const heroBadge = document.getElementById('heroStoreBadge');
+      const heroDot = document.getElementById('heroStoreDot');
+
+      if (storePausedState) {
+        if (btnText) btnText.innerText = 'На паузе';
+        if (btn) {
+          btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-2 cursor-pointer transition-all';
+        }
+        if (heroBadge) heroBadge.innerText = 'Менеджер на паузе';
+        if (heroDot) heroDot.className = 'w-2 h-2 rounded-full bg-amber-400';
+        showToast('Режим изменен', 'Менеджер продаж временно на паузе', 'info');
+      } else {
+        if (btnText) btnText.innerText = 'В сети 24/7';
+        if (btn) {
+          btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 cursor-pointer transition-all';
+        }
+        if (heroBadge) heroBadge.innerText = 'Менеджер продаж в сети 24/7';
+        if (heroDot) heroDot.className = 'w-2 h-2 rounded-full bg-status-green animate-pulse';
+        showToast('Режим изменен', 'Менеджер продаж активен и отвечает 24/7', 'success');
+      }
+
+      // Re-render store cards with updated state
+      renderShopsList(userBotsList);
+
+      try {
+        await apiFetch(`${API_BASE}/api/toggle_pause`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: currentChatId, is_paused: storePausedState ? 1 : 0 })
+        });
+      } catch (e) {}
+    }
+
     function renderShopsList(bots) {
-      const container = document.getElementById('shopsListContainer');
-      if (!container) return;
+      const containerTab = document.getElementById('shopsListContainer');
+      const containerOverview = document.getElementById('overviewShopsContainer');
+
+      const count = currentCatalogProducts ? currentCatalogProducts.length : 0;
+      const prodsCountText = count > 0 ? `${count} объявлений` : 'Каталог готов к загрузке';
+
+      const renderEmptyHtml = () => `
+        <div class="glass-box p-6 sm:p-8 text-center space-y-4 max-w-md mx-auto">
+          <span class="material-symbols-outlined text-gold text-4xl">storefront</span>
+          <h3 class="font-outfit font-bold text-lg text-white">У вас пока нет активных магазинов</h3>
+          <p class="text-xs text-white/50">Вставьте ссылку на ваш профиль на Авито в настройках, чтобы подключить магазин.</p>
+          <button onclick="switchTab('knowledge')" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-2 mx-auto cursor-pointer shadow-neon-gold">
+            <span class="material-symbols-outlined text-sm">tune</span>
+            <span>Настроить первый магазин</span>
+          </button>
+        </div>
+      `;
 
       if (!bots || bots.length === 0) {
-        container.innerHTML = `
-          <div class="glass-box p-8 text-center space-y-4 max-w-md mx-auto">
-            <span class="material-symbols-outlined text-gold text-4xl">storefront</span>
-            <h3 class="font-outfit font-bold text-lg text-white">У вас пока нет активных магазинов</h3>
-            <p class="text-xs text-white/50">Приобретите тариф или нажмите «Настроить магазин», чтобы подключить профиль Авито.</p>
-            <button onclick="openShopSetupWizard()" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-2 mx-auto cursor-pointer shadow-neon-gold">
-              <span>Настроить первый магазин</span>
-              <span class="material-symbols-outlined text-sm">arrow_forward</span>
-            </button>
-          </div>
-        `;
+        if (containerTab) containerTab.innerHTML = renderEmptyHtml();
+        if (containerOverview) containerOverview.innerHTML = renderEmptyHtml();
         return;
       }
 
-      let html = '';
-      bots.forEach((bot, index) => {
-        const isPaid = bot.is_paid == 1;
-        const statusClass = isPaid ? 'text-status-green' : 'text-gold';
-        const dateStr = bot.paid_until ? new Date(bot.paid_until).toLocaleDateString('ru-RU') : '30 дней';
-        const statusText = isPaid ? `В сети 24/7 (до ${dateStr})` : 'Ожидает подключения';
-        const emuSlot = `Слот магазина #${bot.emulator_index || (index + 1)}`;
-        const botName = bot.session_name || bot.name || `Магазин #${index + 1}`;
+      const buildCardsHtml = () => {
+        let cardsHtml = '';
+        bots.forEach((bot, index) => {
+          const isPaid = bot.is_paid == 1;
+          const isPaused = storePausedState;
+          const statusClass = isPaused ? 'text-amber-400' : (isPaid ? 'text-status-green' : 'text-gold');
+          const dateStr = bot.paid_until ? new Date(bot.paid_until).toLocaleDateString('ru-RU') : '30 дней';
+          const statusText = isPaused ? 'На паузе' : (isPaid ? `В сети 24/7 (до ${dateStr})` : 'Ожидает подключения');
+          const emuSlot = `Слот #${bot.emulator_index !== undefined && bot.emulator_index !== null ? bot.emulator_index : index}`;
+          const botName = bot.session_name || bot.name || 'Основной магазин на Авито';
+          const savedUrl = bot.avito_profile_url || localStorage.getItem('majorka_avito_url') || '';
+          const savedPhone = bot.phone || localStorage.getItem('majorka_bot_phone') || '';
 
-        html += `
-          <div class="glass-box p-4 sm:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
-            <div class="flex items-center gap-3.5">
-              <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/30 flex items-center justify-center text-gold text-base sm:text-lg font-black font-outfit shadow-neon-gold shrink-0">
-                #${index + 1}
-              </div>
-              <div>
-                <h3 class="font-outfit font-bold text-lg sm:text-xl text-white">${escapeHtml(botName)}</h3>
-                <div class="flex flex-wrap items-center gap-2 mt-1 text-xs">
-                  <span class="${statusClass} flex items-center gap-1 font-semibold"><span class="w-2 h-2 rounded-full bg-current animate-pulse"></span><span>${escapeHtml(statusText)}</span></span>
-                  <span class="text-white/30">•</span>
-                  <span class="text-white/50">${escapeHtml(emuSlot)}</span>
-                  ${bot.niche ? `<span class="text-white/30">•</span><span class="text-gold font-medium">${escapeHtml(bot.niche)}</span>` : ''}
+          cardsHtml += `
+            <div class="p-4 sm:p-5 rounded-2xl bg-[#121214] border border-white/10 hover:border-gold/30 transition-all flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+              <div class="flex items-center gap-3.5 min-w-0">
+                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-b from-[#25221b] to-[#141416] border border-gold/30 flex items-center justify-center text-gold text-base font-black font-outfit shrink-0">
+                  #${index + 1}
+                </div>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 class="font-outfit font-extrabold text-base sm:text-lg text-white truncate">${escapeHtml(botName)}</h4>
+                    <span class="${statusClass} px-2 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1 bg-white/5 border border-white/10">
+                      <span class="w-1.5 h-1.5 rounded-full bg-current ${isPaused ? '' : 'animate-pulse'}"></span>
+                      <span>${escapeHtml(statusText)}</span>
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2 mt-1 text-xs text-white/50 flex-wrap">
+                    <span>${escapeHtml(emuSlot)}</span>
+                    <span>•</span>
+                    <span class="text-gold font-medium">${prodsCountText}</span>
+                    ${savedPhone ? `<span>•</span><span class="text-white/60">${escapeHtml(savedPhone)}</span>` : ''}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full md:w-auto pt-2 md:pt-0 border-t border-white/5 md:border-t-0">
-              <button data-action="settings" data-session-id="${Number(bot.id) || 0}" class="btn-ghost px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"><span class="material-symbols-outlined text-base">tune</span><span>Настройки</span></button>
-              <button onclick="switchTab('knowledge')" class="btn-ghost px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer text-gold hover:bg-gold/10 border-gold/30"><span class="material-symbols-outlined text-base">book</span><span>Регламент</span></button>
-              <button onclick="openShopSetupWizard()" class="btn-gold px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer"><span class="material-symbols-outlined text-base">sync</span><span>Каталог</span></button>
-              <button data-action="delete" data-session-id="${Number(bot.id) || 0}" class="px-3 py-2 sm:px-3.5 sm:py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer transition-colors"><span class="material-symbols-outlined text-base">delete</span><span>Удалить</span></button>
-            </div>
-          </div>
-        `;
-      });
 
-      container.innerHTML = html;
-      bindShopActions();
+              <!-- ACTION BUTTONS: ERGONOMIC 2x2 ON MOBILE, ROW ON DESKTOP -->
+              <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full lg:w-auto pt-2 lg:pt-0 border-t border-white/5 lg:border-t-0">
+                <button type="button" onclick="focusRulesSection()" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-gold/40 hover:text-gold min-h-[42px]" title="Настроить правила продаж">
+                  <span class="material-symbols-outlined text-sm text-gold">tune</span>
+                  <span>Настроить правила</span>
+                </button>
+
+                <button type="button" onclick="focusCatalogUpdate()" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-blue-400/40 hover:text-blue-400 min-h-[42px]" title="Обновить товары с Авито">
+                  <span class="material-symbols-outlined text-sm text-blue-400">sync</span>
+                  <span>Обновить товары</span>
+                </button>
+
+                <button type="button" onclick="toggleStoreActiveState(${bot.id || 0})" class="px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer border border-white/10 bg-white/5 hover:bg-white/10 text-white/80 transition-all min-h-[42px]" title="Пауза или запуск 24/7">
+                  <span class="material-symbols-outlined text-sm">${isPaused ? 'play_arrow' : 'pause'}</span>
+                  <span>${isPaused ? 'Запустить 24/7' : 'На паузу'}</span>
+                </button>
+
+                <button type="button" onclick="scrollToDialogs()" class="px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white transition-all min-h-[42px]" title="Посмотреть диалоги покупателей">
+                  <span class="material-symbols-outlined text-sm">forum</span>
+                  <span>Диалоги</span>
+                </button>
+              </div>
+            </div>
+          `;
+        });
+        return cardsHtml;
+      };
+
+      const renderedHtml = buildCardsHtml();
+      if (containerTab) containerTab.innerHTML = renderedHtml;
+      if (containerOverview) containerOverview.innerHTML = renderedHtml;
 
       const countTag = document.getElementById('headerBotsCountTag');
       const navBadge = document.getElementById('tabShopsCountBadge');
@@ -2660,7 +2771,7 @@
         const rawName = (primaryBot.session_name || primaryBot.name || 'MAJORKA').replace(/\s+Store\b/gi, '').trim();
         if (heroTitle) heroTitle.innerText = `«${rawName}» — Твой Менеджер Продаж`;
         if (heroDesc) heroDesc.innerText = `Управляющий продажами активен 24/7. Ниша: ${primaryBot.niche || 'Товары'}. Консультирует покупателей, отвечает о наличии и закрывает сделки.`;
-        if (heroBadge) heroBadge.innerText = 'Управляющий активен 24/7';
+        if (heroBadge) heroBadge.innerText = storePausedState ? 'Менеджер на паузе' : 'Управляющий активен 24/7';
       }
 
       updateQuotaBannerUI();
@@ -2688,16 +2799,16 @@
       if (desc) {
         if (total === 1) {
           if (userTrialUsed === 1) {
-            desc.innerHTML = 'Вам доступно <strong>1 создание бота</strong> по вашей активной подписке (пробный доступ сгорел после первой покупки). Для подключения 2-го магазина приобретите дополнительный слот в разделе «Тарифы».';
+            desc.innerHTML = 'Вам доступно <strong>1 активный магазин</strong> по вашей активной подписке (пробный доступ сгорел после первой покупки). Для подключения 2-го магазина приобретите дополнительный слот в разделе «Тарифы».';
           } else {
-            desc.innerHTML = 'Вам доступно <strong>1 создание бота</strong> по пробной подписке (7 дней). Обратите внимание: пробный доступ сгорает после первой покупки.';
+            desc.innerHTML = 'Вам доступно <strong>1 активный магазин</strong> по пробной подписке (7 дней). Обратите внимание: пробный доступ сгорает после первой покупки.';
           }
         } else {
           const remaining = Math.max(0, total - active);
           if (remaining > 0) {
-            desc.innerHTML = `У вас оплачено и доступно <strong>${total} слотов для ботов</strong> (${active} создано, доступно для запуска еще: <strong>${remaining}</strong>). Пробный доступ сгорел после первой покупки. Нажмите «Добавить магазин» для настройки следующего бота!`;
+            desc.innerHTML = `У вас оплачено и доступно <strong>${total} слотов для магазинов</strong> (${active} создано, доступно для запуска еще: <strong>${remaining}</strong>). Пробный доступ сгорел после первой покупки. Нажмите «Добавить магазин» для настройки следующего бота!`;
           } else {
-            desc.innerHTML = `У вас активно <strong>${active} из ${total} оплаченных ботов</strong> (все слоты работают 24/7). Пробный доступ сгорел после первой покупки. Для запуска следующего магазина приобретите дополнительный слот в разделе «Тарифы».`;
+            desc.innerHTML = `У вас активно <strong>${active} из ${total} оплаченных магазинов</strong> (все слоты работают 24/7). Пробный доступ сгорел после первой покупки. Для запуска следующего магазина приобретите дополнительный слот в разделе «Тарифы».`;
           }
         }
       }
@@ -3195,7 +3306,7 @@
       if (count === 0) {
         container.innerHTML = `
           <div class="p-4 text-center text-xs text-white/40">
-            Каталог пока не спарсен. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Спарсить весь каталог и создать бота».
+            Каталог пока не спарсен. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Загрузить товары и запустить продажи».
           </div>
         `;
         return;
@@ -3296,7 +3407,7 @@
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Парсер выгружает товары с Авито...</span>';
+        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Загрузка товаров с Авито...</span>';
       }
 
       if (statusContainer) {
@@ -3304,7 +3415,7 @@
         statusContainer.innerHTML = `
           <div class="p-3.5 rounded-xl bg-blue-950/40 border border-blue-500/30 text-blue-300 flex items-center gap-2.5 text-xs">
             <span class="material-symbols-outlined text-base animate-spin text-blue-400">sync</span>
-            <span>Парсер подключился к профилю Авито. Выгружаем актуальные цены и объявления...</span>
+            <span>Подключение к профилю Авито. Загрузка активных объявлений...</span>
           </div>
         `;
       }
@@ -3337,7 +3448,7 @@
                   <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
                   <span>Товары успешно обновлены с Авито! Загружено ${data.items.length} активных объявлений.</span>
                 </span>
-                <span class="text-white/60 text-[11px]">Бот готов</span>
+                <span class="text-white/60 text-[11px]">Каталог готов</span>
               </div>
             `;
           }
@@ -3352,10 +3463,10 @@
             }, 3500);
           }
 
-          showToast('Товары обновлены!', `Парсер синхронизировал ${data.items.length} объявлений с Авито`, 'success');
+          showToast('Товары обновлены!', `Синхронизировано ${data.items.length} объявлений с Авито`, 'success');
         } else {
           localStorage.setItem('majorka_avito_url', url);
-          showToast('Синхронизировано', 'Ссылка на магазин сохранена в базе бота', 'success');
+          showToast('Синхронизировано', 'Ссылка на магазин сохранена в каталоге магазина', 'success');
           if (statusContainer) {
             statusContainer.innerHTML = `
               <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center gap-2 text-xs">
@@ -3371,7 +3482,7 @@
         }
       } catch (err) {
         console.warn('refreshCatalog error:', err);
-        showToast('Синхронизировано', 'Ссылка сохранена в настройках бота', 'info');
+        showToast('Синхронизировано', 'Ссылка сохранена в настройках магазина', 'info');
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = origHtml;
@@ -3402,7 +3513,7 @@
         statusContainer.innerHTML = `
           <div class="p-3.5 rounded-xl bg-blue-950/40 border border-blue-500/30 text-blue-300 flex items-center gap-2.5 text-xs">
             <span class="material-symbols-outlined text-base animate-spin text-blue-400">sync</span>
-            <span>Наш парсер подключился к профилю Авито и выгружает объявления...</span>
+            <span>Подключение к профилю Авито. Выгружаем активные объявления...</span>
           </div>
         `;
       }
@@ -3432,7 +3543,7 @@
               <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center justify-between text-xs">
                 <span class="flex items-center gap-2 font-bold">
                   <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
-                  <span>Успешно спарсено ${data.items.length} объявлений с Авито! Каталог загружен в бота.</span>
+                  <span>Успешно загружено ${data.items.length} объявлений с Авито! Каталог загружен в систему продаж.</span>
                 </span>
                 <span class="text-white/60 text-[11px]">Готов к автоответам</span>
               </div>
@@ -3441,7 +3552,7 @@
           showToast('Каталог спарсен!', `Загружено ${data.items.length} объявлений с Авито`, 'success');
         } else {
           // Profile link recorded and parser connected
-          showToast('Парсер подключен', 'Ссылка на профиль Авито сохранена. Объявления синхронизируются.', 'success');
+          showToast('Магазин подключен', 'Ссылка на профиль Авито сохранена. Объявления синхронизируются.', 'success');
           if (statusContainer) {
             statusContainer.innerHTML = `
               <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center gap-2 text-xs">
@@ -3453,7 +3564,7 @@
         }
       } catch (err) {
         console.log('Parser request error:', err);
-        showToast('Парсер подключен', 'Ссылка на магазин Авито сохранена в базе бота', 'success');
+        showToast('Магазин подключен', 'Ссылка на магазин Авито сохранена в каталоге магазина', 'success');
         if (statusContainer) {
           statusContainer.innerHTML = `
             <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center gap-2 text-xs">
@@ -3588,10 +3699,10 @@
 
         if (btn) {
           btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
-          btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Бот на Авито успешно авторизован и запущен 24/7!</span>';
+          btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Магазин на Авито успешно подключен и активен 24/7!</span>';
         }
 
-        showToast('Бот запущен 24/7!', 'Вход в аккаунт Авито подтвержден. Менеджер продаж активен и отвечает круглосуточно.', 'success');
+        showToast('Менеджер продаж активен 24/7!', 'Вход в аккаунт Авито подтвержден. Менеджер продаж активен и отвечает круглосуточно.', 'success');
 
         if (typeof loadMyBots === 'function') loadMyBots();
 
@@ -3599,9 +3710,9 @@
         console.warn('submitSmsCodeAction err:', err);
         if (btn) {
           btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
-          btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Бот на Авито успешно авторизован и запущен 24/7!</span>';
+          btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Магазин на Авито успешно подключен и активен 24/7!</span>';
         }
-        showToast('Бот запущен 24/7!', 'СМС-код принят. Менеджер продаж работает 24/7.', 'success');
+        showToast('Менеджер продаж активен 24/7!', 'СМС-код принят. Менеджер продаж работает 24/7.', 'success');
         if (typeof loadMyBots === 'function') loadMyBots();
       }
     }
@@ -3637,13 +3748,13 @@
       const url = urlInput ? urlInput.value.trim() : '';
 
       if (!url && currentCatalogProducts.length === 0) {
-        showToast('Шаг 1 не выполнен', 'Вставьте ссылку на ваш профиль на Авито для парсинга каталога', 'error');
+        showToast('Шаг 1 не выполнен', 'Вставьте ссылку на ваш профиль на Авито для синхронизации каталога', 'error');
         if (urlInput) urlInput.focus();
         return;
       }
 
       if (!phone) {
-        showToast('Укажите номер', 'Введите номер телефона профиля Авито для подключения бота', 'error');
+        showToast('Укажите номер', 'Введите номер телефона профиля Авито для подключения магазина', 'error');
         if (phoneInput) phoneInput.focus();
         return;
       }
@@ -3651,7 +3762,7 @@
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Запуск эмулятора и бота...</span>';
+        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Запуск магазина и управляющего...</span>';
       }
 
       const payload = {
@@ -3678,10 +3789,10 @@
 
       if (btn) {
         btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
-        btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Бот на Авито успешно запущен 24/7!</span>';
+        btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Управляющий продажами запущен 24/7!</span>';
       }
 
-      showToast('Бот запущен 24/7!', 'Эмулятор подключен, каталог загружен. Менеджер принимает сообщения покупателей.', 'success');
+      showToast('Менеджер продаж активен 24/7!', 'Эмулятор подключен, каталог загружен. Менеджер принимает сообщения покупателей.', 'success');
 
       setTimeout(() => {
         if (btn) {
@@ -3804,7 +3915,7 @@
           btn.innerHTML = origHtml;
         }, 3000);
       }
-      showToast('Настройки сохранены', 'Параметры бота обновлены', 'success');
+      showToast('Настройки сохранены', 'Параметры магазина обновлены', 'success');
     }
 
     // TAB SWITCHER
@@ -4087,7 +4198,7 @@
       updateQuotaBannerUI();
       try { loadMyBots(); } catch(e){}
 
-      showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Доступно слотов для ботов: ${userSlotsCount}.`, 'success');
+      showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Доступно слотов для магазинов: ${userSlotsCount}.`, 'success');
 
       // Open Celebration & Next-Steps Onboarding Modal
       openPaymentSuccessModal(tariffName, amount, daysToAdd, dateStr);
@@ -4118,11 +4229,11 @@
 
       if (quotaText) {
         if (userSlotsCount > 1) {
-          quotaText.innerHTML = `Вам оплачено и доступно <strong>${userSlotsCount} слотов</strong> для создания ботов. Пробный доступ сгорел после первой покупки. Вы можете запустить еще один магазин прямо сейчас!`;
+          quotaText.innerHTML = `Вам оплачено и доступно <strong>${userSlotsCount} слотов</strong> для создания магазинов. Пробный доступ сгорел после первой покупки. Вы можете запустить еще один магазин прямо сейчас!`;
         } else if (userTrialUsed === 1) {
           quotaText.innerHTML = `Подписка успешно активирована на 1 магазин. Пробный доступ сгорел после первой покупки. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».`;
         } else {
-          quotaText.innerHTML = `Вам доступно <strong>1 создание бота</strong>. Обратите внимание: пробный доступ сгорает после первой покупки.`;
+          quotaText.innerHTML = `Вам доступно <strong>1 активный магазин</strong>. Обратите внимание: пробный доступ сгорает после первой покупки.`;
         }
       }
 
