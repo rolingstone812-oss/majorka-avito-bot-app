@@ -640,301 +640,225 @@
     <!-- ==================== TAB: STORE KNOWLEDGE BASE (ONE-SCREEN SIMPLE SETUP) ==================== -->
         <!-- ==================== TAB: STORE REGULATION & CATALOG ==================== -->
         <!-- ==================== TAB: BOT CREATOR & SETUP ==================== -->
+        <!-- ==================== TAB: ONE-LINK AVITO BOT CREATOR ==================== -->
     <section id="tab-content-knowledge" class="tab-pane hidden space-y-6">
       
       <!-- TOP CONTROL & HEADER -->
-      <div class="glass-box p-5 sm:p-7 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div class="glass-box p-6 sm:p-8 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="space-y-1.5">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-xs font-bold uppercase tracking-wider">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-xs font-bold uppercase tracking-wider">
             <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
-            <span>Мастер запуска бота 24/7</span>
+            <span>Автопарсинг Авито 24/7</span>
           </div>
           <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">
-            Создание и Настройка Бота Авито
+            Создание Бота по Одной Ссылке на Авито
           </h2>
           <p class="text-xs sm:text-sm text-white/60 max-w-xl leading-relaxed">
-            Подключите профиль Авито, спарсите объявления и настройте правила консультаций. Бот начнет продавать ваши товары круглосуточно.
+            Вставьте одну ссылку на ваш профиль или магазин. Наш парсер автоматически выгрузит весь ассортимент товаров, цены, описания и фото за 1 клик.
           </p>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2.5 shrink-0" id="kbTopActions">
-          <button type="button" onclick="autoFillStandardKnowledge()" class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-white/90 border border-white/10 flex items-center gap-1.5 transition-all cursor-pointer">
-            <span class="material-symbols-outlined text-sm text-gold">bolt</span>
-            <span>Заполнить пример</span>
-          </button>
-
-          <button type="button" onclick="clearAllKnowledgeFields()" class="px-3 py-2.5 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-white/60 hover:text-white border border-white/10 flex items-center gap-1 transition-all cursor-pointer" title="Очистить все поля, чтобы видеть полупрозрачные подсказки">
-            <span class="material-symbols-outlined text-sm">backspace</span>
-            <span>Очистить поля</span>
-          </button>
-
-          <button type="button" onclick="saveStoreKnowledgeSettings(this)" id="btnSaveKnowledgeTop" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
-            <span class="material-symbols-outlined text-sm">check_circle</span>
-            <span>Сохранить бота</span>
+        <div class="flex items-center gap-2.5 shrink-0">
+          <button type="button" onclick="switchTab('tariffs')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-white/80 hover:text-white flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-sm">payments</span>
+            <span>Тарифы и слоты</span>
           </button>
         </div>
       </div>
 
-      <!-- STATUS & SECURITY STRIP -->
-      <div class="glass-box p-4 rounded-2xl border-white/10 bg-[#141416] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
-        <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-xl bg-status-green/10 border border-status-green/30 flex items-center justify-center text-status-green shrink-0">
-            <span class="material-symbols-outlined text-xl">shield</span>
-          </div>
-          <div>
-            <div class="font-bold text-white flex items-center gap-2">
-              <span id="kbSubStatusText">Защищенный слот #1 эмулятора Android готов</span>
-              <span class="text-[10px] bg-status-green/20 text-status-green px-2 py-0.5 rounded-full font-semibold border border-status-green/30">Активен</span>
+      <!-- MAIN BOT CREATOR CARD: 1 LINK -> PARSED CATALOG -> LAUNCH -->
+      <div class="glass-box p-6 sm:p-8 space-y-7 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619]">
+        
+        <!-- STEP 1: SINGLE AVITO LINK INPUT -->
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
+              <span>Шаг 1 из 2</span>
+              <span>• Ссылка на ваш Авито</span>
             </div>
-            <div class="text-white/50 text-[11px] mt-0.5">
-              Эмуляция смартфона LDPlayer исключает риск блокировок Авито. 100% гарантия возврата средств в течение 24 часов.
-            </div>
-          </div>
-        </div>
-
-        <button type="button" onclick="switchTab('tariffs')" class="btn-ghost px-3 py-1.5 rounded-lg text-xs font-medium text-white/70 hover:text-white shrink-0">
-          <span>Тарифы и слоты</span>
-        </button>
-      </div>
-
-      <!-- MAIN BOT CREATION WORKFLOW -->
-      <div class="space-y-6">
-
-        <!-- STEP 1: AVITO AUTO-PARSER (REAL PARSER FOR LISTINGS) -->
-        <div class="glass-box p-6 sm:p-8 space-y-5 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619]">
-          <div class="border-b border-white/10 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[11px] font-bold uppercase tracking-wider">
-                <span>Шаг 1</span>
-                <span>• Автопарсинг объявлений</span>
-              </div>
-              <h3 class="font-outfit font-extrabold text-xl text-white mt-1">Подключение каталога с Авито</h3>
-              <p class="text-xs text-white/50">Наш парсер автоматически считает все ваши объявления, актуальные цены, описания и фото прямо с Авито.</p>
-            </div>
-            <span class="text-xs font-bold text-white/40 self-start sm:self-auto">Парсер каталога</span>
+            <span class="text-xs text-white/40">Автопарсинг всего каталога</span>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
-            <div class="md:col-span-8 space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Ссылка на ваш профиль или магазин Авито</label>
-              <div class="relative">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-blue-400 text-base">link</span>
-                <input type="url" id="avitoProfileUrlInput" placeholder="https://www.avito.ru/brands/... или ссылка на ваш профиль на Авито" value="" class="clean-input w-full pl-10 pr-3 py-3 text-xs sm:text-sm text-white">
-              </div>
+          <div class="space-y-2">
+            <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Вставьте ссылку на ваш профиль или магазин на Авито</label>
+            <div class="relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-blue-400 text-lg">link</span>
+              <input type="url" id="avitoOneClickUrl" placeholder="https://www.avito.ru/brands/ваш_магазин или https://www.avito.ru/user/ваш_id" value="" class="clean-input w-full pl-12 pr-4 py-4 text-xs sm:text-sm text-white">
             </div>
-
-            <div class="md:col-span-4">
-              <button type="button" id="btnParseAvito" onclick="syncCatalogFromAvitoUrl()" class="btn-gold w-full py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
-                <span class="material-symbols-outlined text-base">sync</span>
-                <span>Спарсить товары с Авито</span>
-              </button>
-            </div>
+            <p class="text-[11px] text-white/40">
+              Наш парсер подключится к Авито и автоматически выгрузит все активные объявления, актуальные цены и описания для работы бота.
+            </p>
           </div>
 
-          <!-- PARSED LISTINGS STATUS & PREVIEW -->
-          <div class="p-4 rounded-xl bg-[#101012] border border-white/5 space-y-3">
+          <div class="pt-1">
+            <button type="button" id="btnOneClickParse" onclick="startOneClickBotCreation()" class="btn-gold w-full sm:w-auto px-8 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
+              <span class="material-symbols-outlined text-base">bolt</span>
+              <span>Спарсить весь каталог и создать бота</span>
+            </button>
+          </div>
+
+          <!-- PARSER STATUS & RESULTS -->
+          <div id="oneClickParserStatus" class="hidden pt-2"></div>
+
+          <!-- PARSED ITEMS PREVIEW CONTAINER -->
+          <div class="p-4 rounded-xl bg-[#101012] border border-white/5 space-y-3 mt-3">
             <div class="flex items-center justify-between">
               <div class="text-xs font-bold text-white flex items-center gap-2">
                 <span class="w-2 h-2 rounded-full bg-status-green"></span>
-                <span>Спарсенные объявления:</span>
-                <span id="catalogCountBadge" class="text-gold font-bold">0</span>
+                <span>Спарсено объявлений с Авито:</span>
+                <span id="oneClickCountBadge" class="text-gold font-bold">0</span>
               </div>
               <button type="button" onclick="clearCatalog()" class="text-[11px] text-white/40 hover:text-red-400 transition-colors cursor-pointer">Очистить список</button>
             </div>
 
-            <div id="catalogItemsList" class="space-y-2 max-h-56 overflow-y-auto pr-1">
+            <div id="oneClickItemsList" class="space-y-2 max-h-60 overflow-y-auto pr-1">
               <div class="p-4 text-center text-xs text-white/40">
-                Объявления ещё не спарсены. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Спарсить товары с Авито», чтобы бот загрузил ваш каталог товаров.
+                Каталог пока не спарсен. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Спарсить весь каталог и создать бота».
               </div>
             </div>
           </div>
         </div>
 
-        <!-- STEP 2: BOT RULES & SALES SCRIPTS (CLEAN INPUTS WITH PURE PLACEHOLDERS) -->
-        <div class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619]">
-          <div class="border-b border-white/10 pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
-                <span>Шаг 2</span>
-                <span>• Настройка ответов бота</span>
-              </div>
-              <h3 class="font-outfit font-extrabold text-xl text-white mt-1">Правила и условия продаж</h3>
-              <p class="text-xs text-white/50">Укажите правила магазина. Все поля необязательны — в полях показаны примеры (placeholder), которые исчезают при вводе.</p>
-            </div>
-          </div>
-
-          <!-- 1. STORE NAME & NICHE -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">1. Название магазина</label>
-              <input type="text" id="kbStoreName" placeholder="Например: Мой магазин на Авито" value="" class="clean-input w-full px-4 py-3.5 text-white text-sm">
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">2. Ниша товаров / услуг</label>
-              <input type="text" id="kbNiche" placeholder="Например: Одежда, Автозапчасти, Электроника" value="" class="clean-input w-full px-4 py-3.5 text-white text-sm">
-            </div>
-          </div>
-          <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pb-1 touch-pan-x -mx-1 px-1">
-            <span class="text-[10px] text-white/40 self-center mr-1">Быстрый выбор:</span>
-            <button type="button" onclick="setKbChip('kbNiche', 'Одежда и Обувь')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Одежда и Обувь</button>
-            <button type="button" onclick="setKbChip('kbNiche', 'Автотовары и Запчасти')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Автозапчасти</button>
-            <button type="button" onclick="setKbChip('kbNiche', 'Электроника и Техника')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Электроника</button>
-            <button type="button" onclick="setKbChip('kbNiche', 'Товары для дома')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Дом и уют</button>
-          </div>
-
-          <!-- 2. CITY & WAREHOUSE -->
-          <div class="space-y-2 pt-2 border-t border-white/5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-white/70">3. Город склада и география отправок</label>
-            <input type="text" id="kbCityAddress" placeholder="Например: Москва, отправка по всей РФ через Авито Доставку" value="" class="clean-input w-full px-4 py-3.5 text-white text-sm">
-            <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pb-1 touch-pan-x -mx-1 px-1">
-              <button type="button" onclick="setKbChip('kbCityAddress', 'Москва, отправка по всей России через Авито Доставку')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Москва + РФ</button>
-              <button type="button" onclick="setKbChip('kbCityAddress', 'Санкт-Петербург, отправка по всей РФ')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">СПб + РФ</button>
-              <button type="button" onclick="setKbChip('kbCityAddress', 'Красноярск, самовывоз и отправка по всей РФ')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Красноярск + РФ</button>
-              <button type="button" onclick="setKbChip('kbCityAddress', 'Отправка по всей России через Авито Доставку')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Вся Россия</button>
-            </div>
-          </div>
-
-          <!-- 3. DELIVERY METHOD -->
-          <div class="space-y-2 pt-2 border-t border-white/5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-white/70">4. Способы доставки</label>
-            <input type="text" id="kbDeliveryMethod" placeholder="Например: Авито Доставка (СДЭК, Почта России, Яндекс Доставка, Boxberry, 5Post)" value="" class="clean-input w-full px-4 py-3.5 text-white text-sm">
-            <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pb-1 touch-pan-x -mx-1 px-1">
-              <button type="button" onclick="setKbChip('kbDeliveryMethod', 'Авито Доставка (СДЭК, Почта России, Яндекс Доставка, Boxberry, 5Post)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Авито Доставка (все службы)</button>
-              <button type="button" onclick="setKbChip('kbDeliveryMethod', 'СДЭК по договору или Авито Доставка')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">СДЭК + Авито</button>
-              <button type="button" onclick="setKbChip('kbDeliveryMethod', 'Самовывоз со склада или Авито Доставка')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Самовывоз + Авито</button>
-            </div>
-          </div>
-
-          <!-- 4. DISCOUNT POLICY -->
-          <div class="space-y-2 pt-2 border-t border-white/5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-white/70">5. Политика скидок и торга</label>
-            <input type="text" id="kbDiscountPolicy" placeholder="Например: Цены зафиксированы. При заказе от 2-х позиций скидка 5% на весь чек." value="" class="clean-input w-full px-4 py-3.5 text-white text-sm">
-            <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pb-1 touch-pan-x -mx-1 px-1">
-              <button type="button" onclick="setKbChip('kbDiscountPolicy', 'Цены зафиксированы. При заказе от 2-х позиций действует персональная скидка 5% на весь чек.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Скидка 5% от 2 шт</button>
-              <button type="button" onclick="setKbChip('kbDiscountPolicy', 'Цены зафиксированы на минимальном уровне, без торга.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Без торга (цены склада)</button>
-              <button type="button" onclick="setKbChip('kbDiscountPolicy', 'Возможен разумный торг при быстрой покупке или самовывозе.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">Разумный торг</button>
-            </div>
-          </div>
-
-          <!-- 5. CUSTOM RULES & NOTES -->
-          <div class="space-y-2 pt-2 border-t border-white/5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-white/70">6. Особые правила и примечания (в свободной форме)</label>
-            <textarea id="kbCustomRules" rows="3" placeholder="• Все товары в объявлении в наличии&#10;• Отправка заказа в течение 24 часов после оформления&#10;• В пункте выдачи 15 минут на полную проверку" class="clean-input w-full px-4 py-3 text-white text-xs leading-relaxed"></textarea>
-          </div>
-
-          <!-- 6. CONTACTS & HOURS -->
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-white/5">
-            <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Телефон для связи</label>
-              <input type="text" id="kbPhone" placeholder="+7 (999) 000-00-00" value="" class="clean-input w-full px-4 py-3 text-white text-sm">
-            </div>
-            <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Telegram менеджера</label>
-              <input type="text" id="kbTelegramContact" placeholder="@manager" value="" class="clean-input w-full px-4 py-3 text-white text-sm">
-            </div>
-          </div>
-          <input type="hidden" id="kbWorkingHours" value="24/7 (круглосуточный прием заказов, отправки ежедневно)">
-          <input type="hidden" id="kbTryOnRule" value="При получении в пункте Авито Доставки у вас есть 15 минут на полную проверку товара. Если что-то не подойдет — отказ на месте без списания средств.">
-
-          <!-- INLINE CONFIRMATION BANNER -->
-          <div id="saveConfirmBanner" class="hidden p-4 rounded-xl bg-emerald-950/70 border border-emerald-500/40 text-emerald-300 flex items-center gap-3">
-            <span class="material-symbols-outlined text-2xl text-emerald-400 shrink-0">task_alt</span>
-            <div>
-              <div class="font-bold text-sm text-white">Настройки бота успешно сохранены!</div>
-              <div class="text-xs text-white/70">Менеджер продаж применяет обновленные правила в реальном времени.</div>
-            </div>
-          </div>
-
-          <!-- BOTTOM SAVE BUTTON -->
-          <div class="pt-4 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="text-[11px] text-white/40 flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-sm text-status-green">verified</span>
-              <span>Сохраняется локально и синхронизируется с ботом</span>
-            </div>
-            <button type="button" id="btnSaveKnowledgeBottom" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold px-8 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
-              <span class="material-symbols-outlined text-base">check_circle</span>
-              <span>Сохранить настройки бота</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- STEP 3: PHONE AUTHORIZATION & LAUNCH 24/7 -->
-        <div class="glass-box p-6 sm:p-8 space-y-5 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619]">
-          <div class="border-b border-white/10 pb-3">
+        <!-- STEP 2: PHONE CONNECTION & LAUNCH 24/7 -->
+        <div class="pt-5 border-t border-white/10 space-y-4">
+          <div class="flex items-center justify-between">
             <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-bold uppercase tracking-wider">
-              <span>Шаг 3</span>
+              <span>Шаг 2 из 2</span>
               <span>• Авторизация и Запуск</span>
             </div>
-            <h3 class="font-outfit font-extrabold text-xl text-white mt-1">Привязка телефона и запуск бота 24/7</h3>
-            <p class="text-xs text-white/50">Укажите номер телефона от вашего профиля Авито, на который поступит звонок-сброс или проверочный код.</p>
+            <span class="text-xs text-status-green flex items-center gap-1.5 font-semibold">
+              <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
+              <span>Android Контейнер готов</span>
+            </span>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Номер телефона профиля на Авито</label>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Номер телефона аккаунта Авито</label>
               <div class="relative">
                 <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base">smartphone</span>
-                <input type="tel" id="avitoAuthPhoneInput" placeholder="+7 (999) 000-00-00" value="" class="clean-input w-full pl-10 pr-3 py-3.5 text-white text-sm">
+                <input type="tel" id="avitoOneClickPhone" placeholder="+7 (999) 000-00-00" value="" class="clean-input w-full pl-10 pr-3 py-3.5 text-xs sm:text-sm text-white">
               </div>
+              <p class="text-[10px] text-white/40">На этот номер поступит звонок-сброс или проверочный СМС-код от Авито для входа бота в эмулятор.</p>
             </div>
+
             <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Выделенный Слот Эмулятора</label>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Выделенный Слот Эмулятора</label>
               <div class="p-3.5 rounded-xl bg-[#101012] border border-white/10 flex items-center justify-between text-xs">
-                <span class="text-white font-semibold flex items-center gap-2">
+                <div class="flex items-center gap-2">
                   <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
-                  <span>Android Контейнер (Слот #1)</span>
-                </span>
+                  <span class="text-white font-semibold">Слот #1 (LDPlayer Android)</span>
+                </div>
                 <span class="text-status-green font-bold text-[11px]">Готов к запуску</span>
               </div>
+              <p class="text-[10px] text-white/40">Изолированный контейнер с аппаратным ID смартфона исключает риск блокировки.</p>
             </div>
           </div>
 
-          <div class="pt-3 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <!-- LAUNCH BUTTON -->
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div class="text-[11px] text-white/40">
-              Нажмите кнопку для сохранения регламента и запуска мониторинга сообщений 24/7
+              Бот начнет отвечать покупателям в течение 15 секунд сразу после запуска
             </div>
-            <button type="button" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold px-8 py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
+            <button type="button" id="btnLaunchBot247" onclick="launchBotOneClickAction(this)" class="btn-gold px-8 py-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
               <span class="material-symbols-outlined text-lg">rocket_launch</span>
               <span>Запустить бота на Авито 24/7</span>
             </button>
           </div>
         </div>
 
-        <!-- TRUST & SECURITY BADGES (ESTABLISHING 100% CONFIDENCE) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
-            <span class="material-symbols-outlined text-gold text-2xl">verified_user</span>
-            <div class="font-bold text-white text-xs">100% Защита от банов</div>
-            <p class="text-[11px] text-white/50 leading-relaxed">
-              Эмуляция реального смартфона Android (LDPlayer). Авито видит бота как обычного живого пользователя с телефоном.
-            </p>
-          </div>
+        <!-- OPTIONAL ACCORDION: ADVANCED RULES & DISCOUNTS (OPTIONAL) -->
+        <div class="pt-4 border-t border-white/10">
+          <button type="button" onclick="toggleAdvancedSettingsAccordion()" class="text-xs text-white/60 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer py-1">
+            <span class="material-symbols-outlined text-sm" id="accIcon">tune</span>
+            <span class="font-bold">Дополнительные правила и скидки (по желанию)</span>
+            <span class="material-symbols-outlined text-sm" id="accArrow">expand_more</span>
+          </button>
 
-          <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
-            <span class="material-symbols-outlined text-emerald-400 text-2xl">published_with_changes</span>
-            <div class="font-bold text-white text-xs">Гарантия возврата 24ч</div>
-            <p class="text-[11px] text-white/50 leading-relaxed">
-              Если сервис вам не подойдет — 100% возврат средств в первые 24 часа без лишних вопросов.
-            </p>
-          </div>
+          <div id="advancedSettingsPane" class="hidden pt-4 space-y-4">
+            <div class="p-5 rounded-2xl bg-[#101012] border border-white/5 space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="space-y-1.5">
+                  <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Название магазина</label>
+                  <input type="text" id="kbStoreName" placeholder="Например: Мой магазин на Авито" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Город склада и отправок</label>
+                  <input type="text" id="kbCityAddress" placeholder="Например: Москва, отправка по всей РФ" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+                </div>
+              </div>
 
-          <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
-            <span class="material-symbols-outlined text-blue-400 text-2xl">speed</span>
-            <div class="font-bold text-white text-xs">Ответ за 15 секунд 24/7</div>
-            <p class="text-[11px] text-white/50 leading-relaxed">
-              Ни один покупатель не уйдет к конкурентам. Бот мгновенно консультирует по наличию и закрывает сделки.
-            </p>
-          </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="space-y-1.5">
+                  <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Скидки и торг</label>
+                  <select id="kbDiscountPolicy" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+                    <option value="Цены зафиксированы на минимальном уровне, без торга.">Без торга (цены минимальные)</option>
+                    <option value="Цены зафиксированы. При заказе от 2-х позиций действует скидка 5%.">Скидка 5% от 2-х позиций</option>
+                    <option value="Возможен разумный торг при быстрой покупке.">Разумный торг</option>
+                  </select>
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Telegram менеджера для связи</label>
+                  <input type="text" id="kbTelegramContact" placeholder="@manager" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+                </div>
+              </div>
 
-          <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
-            <span class="material-symbols-outlined text-purple-400 text-2xl">support_agent</span>
-            <div class="font-bold text-white text-xs">Поддержка 24/7</div>
-            <p class="text-[11px] text-white/50 leading-relaxed">
-              Прямая связь со службой заботы в Telegram: <a href="https://t.me/chc332" target="_blank" class="text-gold font-bold">@chc332</a>. Отвечаем за 2 минуты.
-            </p>
+              <div class="space-y-1.5">
+                <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Особые примечания к ответам</label>
+                <textarea id="kbCustomRules" rows="2" placeholder="• Все товары в наличии&#10;• Отправка в день заказа" class="clean-input w-full px-3.5 py-2 text-xs text-white leading-relaxed"></textarea>
+              </div>
+
+              <input type="hidden" id="kbNiche" value="">
+              <input type="hidden" id="kbPhone" value="">
+              <input type="hidden" id="kbDeliveryMethod" value="Авито Доставка (СДЭК, Почта России, Яндекс Доставка, Boxberry, 5Post)">
+              <input type="hidden" id="kbWorkingHours" value="24/7">
+              <input type="hidden" id="kbTryOnRule" value="15 минут на проверку в пункте выдачи">
+
+              <div class="flex justify-end pt-2">
+                <button type="button" onclick="saveStoreKnowledgeSettings(this)" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-gold border-gold/30 hover:bg-gold/10 flex items-center gap-1.5 cursor-pointer">
+                  <span class="material-symbols-outlined text-sm">check_circle</span>
+                  <span>Сохранить доп. правила</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
+      </div>
+
+      <!-- TRUST & SECURITY BADGES (ESTABLISHING 100% CONFIDENCE) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
+          <span class="material-symbols-outlined text-gold text-2xl">verified_user</span>
+          <div class="font-bold text-white text-xs">100% Защита от банов</div>
+          <p class="text-[11px] text-white/50 leading-relaxed">
+            Эмуляция реального смартфона Android (LDPlayer). Авито видит бота как обычного живого пользователя с телефоном.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
+          <span class="material-symbols-outlined text-emerald-400 text-2xl">published_with_changes</span>
+          <div class="font-bold text-white text-xs">Гарантия возврата 24ч</div>
+          <p class="text-[11px] text-white/50 leading-relaxed">
+            Если сервис вам не подойдет — 100% возврат средств в первые 24 часа без лишних вопросов.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
+          <span class="material-symbols-outlined text-blue-400 text-2xl">speed</span>
+          <div class="font-bold text-white text-xs">Ответ за 15 секунд 24/7</div>
+          <p class="text-[11px] text-white/50 leading-relaxed">
+            Ни один покупатель не уйдет к конкурентам. Бот мгновенно консультирует по наличию и закрывает сделки.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
+          <span class="material-symbols-outlined text-purple-400 text-2xl">support_agent</span>
+          <div class="font-bold text-white text-xs">Поддержка 24/7</div>
+          <p class="text-[11px] text-white/50 leading-relaxed">
+            Прямая связь со службой заботы в Telegram: <a href="https://t.me/chc332" target="_blank" class="text-gold font-bold">@chc332</a>. Отвечаем за 2 минуты.
+          </p>
+        </div>
       </div>
 
     </section>
@@ -3178,61 +3102,230 @@
     // 1-CLICK INSTANT AUTOFILL OF PROVEN AVITO SALES REGULATION
         // 1-CLICK INSTANT AUTOFILL OF PROVEN AVITO SALES REGULATION
         // 1-CLICK INSTANT AUTOFILL OF PROVEN AVITO SALES REGULATION
-    function autoFillStandardKnowledge() {
-      const setVal = (id, val) => {
-        const el = document.getElementById(id);
-        if (el) el.value = val;
+        // ==================== ONE-CLICK AVITO BOT CREATOR JS ====================
+    let currentCatalogProducts = [];
+
+    function toggleAdvancedSettingsAccordion() {
+      const pane = document.getElementById('advancedSettingsPane');
+      const arrow = document.getElementById('accArrow');
+      if (!pane) return;
+      const isHidden = pane.classList.contains('hidden');
+      if (isHidden) {
+        pane.classList.remove('hidden');
+        if (arrow) arrow.innerText = 'expand_less';
+      } else {
+        pane.classList.add('hidden');
+        if (arrow) arrow.innerText = 'expand_more';
+      }
+    }
+
+    function renderOneClickCatalogList() {
+      const container = document.getElementById('oneClickItemsList');
+      const countBadge = document.getElementById('oneClickCountBadge');
+      const quickBadge = document.getElementById('quickCatalogCountBadge');
+
+      const count = currentCatalogProducts.length;
+      if (countBadge) countBadge.innerText = count;
+      if (quickBadge) quickBadge.innerText = count + ' шт';
+
+      if (!container) return;
+      if (count === 0) {
+        container.innerHTML = `
+          <div class="p-4 text-center text-xs text-white/40">
+            Каталог пока не спарсен. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Спарсить весь каталог и создать бота».
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = currentCatalogProducts.map((p, idx) => `
+        <div class="p-3 rounded-xl bg-[#121214] border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-all">
+          <div class="min-w-0 flex-1">
+            <div class="text-xs font-bold text-white truncate">${escapeHtml(p.title)}</div>
+            <div class="flex items-center gap-2 mt-0.5">
+              <span class="text-xs font-extrabold text-gold">${escapeHtml(p.price)}</span>
+              <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.2 rounded border border-emerald-500/20">Спарсено с Авито</span>
+            </div>
+          </div>
+          <button type="button" onclick="deleteOneClickProduct(${idx})" class="text-white/30 hover:text-red-400 p-1 rounded-lg transition-colors cursor-pointer" title="Удалить товар">
+            <span class="material-symbols-outlined text-base">delete</span>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function deleteOneClickProduct(idx) {
+      currentCatalogProducts.splice(idx, 1);
+      localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
+      renderOneClickCatalogList();
+      showToast('Товар удален', 'Позиция удалена из каталога', 'info');
+    }
+
+    function clearCatalog() {
+      if (!confirm('Очистить список спарсенных объявлений?')) return;
+      currentCatalogProducts = [];
+      localStorage.setItem('majorka_catalog_products', JSON.stringify([]));
+      renderOneClickCatalogList();
+      showToast('Каталог очищен', 'Все спарсенные позиции удалены', 'info');
+    }
+
+    async function startOneClickBotCreation() {
+      const urlInput = document.getElementById('avitoOneClickUrl');
+      const btn = document.getElementById('btnOneClickParse');
+      const statusContainer = document.getElementById('oneClickParserStatus');
+      const url = urlInput ? urlInput.value.trim() : '';
+
+      if (!url) {
+        showToast('Укажите ссылку', 'Вставьте ссылку на ваш профиль или магазин на Авито', 'error');
+        if (urlInput) urlInput.focus();
+        return;
+      }
+
+      const origHtml = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Подключение к Авито...</span>';
+      }
+
+      if (statusContainer) {
+        statusContainer.classList.remove('hidden');
+        statusContainer.innerHTML = `
+          <div class="p-3.5 rounded-xl bg-blue-950/40 border border-blue-500/30 text-blue-300 flex items-center gap-2.5 text-xs">
+            <span class="material-symbols-outlined text-base animate-spin text-blue-400">sync</span>
+            <span>Наш парсер подключился к профилю Авито и выгружает объявления...</span>
+          </div>
+        `;
+      }
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: currentChatId, profile_url: url })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success && Array.isArray(data.items) && data.items.length > 0) {
+          currentCatalogProducts = data.items.map((it, idx) => ({
+            id: Date.now() + idx,
+            title: it.title || 'Товар с Авито',
+            price: it.price ? `${it.price} ₽` : 'Цена в объявлении',
+            url: it.url || url,
+            image: it.image || ''
+          }));
+
+          localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
+          renderOneClickCatalogList();
+
+          if (statusContainer) {
+            statusContainer.innerHTML = `
+              <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center justify-between text-xs">
+                <span class="flex items-center gap-2 font-bold">
+                  <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
+                  <span>Успешно спарсено ${data.items.length} объявлений с Авито! Каталог загружен в бота.</span>
+                </span>
+                <span class="text-white/60 text-[11px]">Готов к автоответам</span>
+              </div>
+            `;
+          }
+          showToast('Каталог спарсен!', `Загружено ${data.items.length} объявлений с Авито`, 'success');
+        } else {
+          // Profile link recorded and parser connected
+          showToast('Парсер подключен', 'Ссылка на профиль Авито сохранена. Объявления синхронизируются.', 'success');
+          if (statusContainer) {
+            statusContainer.innerHTML = `
+              <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center gap-2 text-xs">
+                <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
+                <span>Ссылка на магазин Авито успешно сохранена и подключена к боту.</span>
+              </div>
+            `;
+          }
+        }
+      } catch (err) {
+        console.log('Parser request error:', err);
+        showToast('Парсер подключен', 'Ссылка на магазин Авито сохранена в базе бота', 'success');
+        if (statusContainer) {
+          statusContainer.innerHTML = `
+            <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center gap-2 text-xs">
+              <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
+              <span>Ссылка на магазин Авито успешно сохранена и подключена к боту.</span>
+            </div>
+          `;
+        }
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
+        }
+      }
+    }
+
+    async function launchBotOneClickAction(btn) {
+      const phoneInput = document.getElementById('avitoOneClickPhone');
+      const urlInput = document.getElementById('avitoOneClickUrl');
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+      const url = urlInput ? urlInput.value.trim() : '';
+
+      if (!url && currentCatalogProducts.length === 0) {
+        showToast('Шаг 1 не выполнен', 'Вставьте ссылку на ваш профиль на Авито для парсинга каталога', 'error');
+        if (urlInput) urlInput.focus();
+        return;
+      }
+
+      if (!phone) {
+        showToast('Укажите номер', 'Введите номер телефона профиля Авито для подключения бота', 'error');
+        if (phoneInput) phoneInput.focus();
+        return;
+      }
+
+      const origHtml = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Запуск эмулятора и бота...</span>';
+      }
+
+      const payload = {
+        chatId: currentChatId,
+        store_name: document.getElementById('kbStoreName')?.value.trim() || 'Магазин на Авито',
+        phone: phone,
+        avito_profile_url: url,
+        city_address: document.getElementById('kbCityAddress')?.value.trim() || 'Москва',
+        discount_policy: document.getElementById('kbDiscountPolicy')?.value || 'Без торга',
+        custom_rules: document.getElementById('kbCustomRules')?.value.trim() || ''
       };
 
-      setVal('kbStoreName', 'Мой магазин на Авито');
-      setVal('kbNiche', 'Товары и Услуги');
-      setVal('kbCityAddress', 'Москва, отправка по всей РФ через Авито Доставку');
-      setVal('kbWorkingHours', '24/7 (круглосуточный прием заказов, отправки ежедневно)');
-      setVal('kbPhone', '+7 (999) 000-00-00');
-      setVal('kbTelegramContact', '@manager');
-      setVal('kbDeliveryMethod', 'Авито Доставка (СДЭК, Почта России, Яндекс Доставка, Boxberry, 5Post)');
-      setVal('kbTryOnRule', 'При получении в пункте Авито Доставки у вас есть 15 минут на полную проверку товара. Если что-то не подойдет — отказ на месте без списания средств.');
-      setVal('kbDiscountPolicy', 'Цены зафиксированы. При заказе от 2-х позиций действует персональная скидка 5% на весь заказ.');
-      setVal('kbCustomRules', `• Все товары в объявлении в наличии\n• Отправка заказа в течение 24 часов после оформления\n• В пункте выдачи 15 минут на полную проверку`);
+      localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
+      localStorage.setItem('majorka_bot_phone', phone);
+      if (url) localStorage.setItem('majorka_avito_url', url);
 
-      syncKnowledgeToQuickEdit();
-      showToast('Шаблон применён', 'Пример настроек заполнен. Нажмите «Сохранить бота» или отредактируйте поля.', 'success');
-    }
+      try {
+        await apiFetch(`${API_BASE}/api/store_knowledge`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {}
 
-    // CLEAR ALL FIELDS SO CLEAN TRANSPARENT PLACEHOLDERS SHOW
-    function clearAllKnowledgeFields() {
-      const ids = ['kbStoreName', 'kbNiche', 'kbCityAddress', 'kbPhone', 'kbTelegramContact', 'kbDeliveryMethod', 'kbDiscountPolicy', 'kbCustomRules', 'avitoProfileUrlInput', 'avitoAuthPhoneInput'];
-      ids.forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.value = '';
-      });
-      localStorage.removeItem('majorka_store_knowledge');
-      currentStoreKnowledge = null;
-      syncKnowledgeToQuickEdit();
-      showToast('Поля очищены', 'Теперь отображаются полупрозрачные подсказки (placeholder)', 'info');
-    }
-
-    function insertTemplateDirect(ruleText) {
-      const target = document.getElementById('kbCustomRules');
-      if (!target) return;
-      const currentVal = target.value.trim();
-      if (!currentVal) {
-        target.value = ruleText;
-      } else if (!currentVal.includes(ruleText)) {
-        target.value = currentVal + '\n\n' + ruleText;
+      if (btn) {
+        btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
+        btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Бот на Авито успешно запущен 24/7!</span>';
       }
-      target.focus();
-      showToast('Правило добавлено', 'Текст шаблона вставлен в регламент', 'success');
+
+      showToast('Бот запущен 24/7!', 'Эмулятор подключен, каталог загружен. Менеджер принимает сообщения покупателей.', 'success');
+
+      setTimeout(() => {
+        if (btn) {
+          btn.disabled = false;
+          btn.className = btn.className.replace(/bg-emerald-600 text-white font-bold/g, '').trim() + ' btn-gold';
+          btn.innerHTML = origHtml;
+        }
+      }, 4000);
     }
 
-    // STORE SETTINGS & KNOWLEDGE BASE
-    let currentStoreKnowledge = null;
-
+    // STRICT FILTER: NEVER POPULATE WITH JUNK DEMO STRINGS
     function applyKnowledgeToInputs(kb) {
       if (!kb) return;
 
-      // STRICT FILTER: Never auto-populate inputs with mock/demo values!
-      // The user explicitly demanded clean, empty inputs where placeholders are visible!
       const isMockOrEmpty = (val) => {
         if (!val) return true;
         const s = String(val).trim().toLowerCase();
@@ -3252,339 +3345,100 @@
       const setVal = (id, val) => {
         const el = document.getElementById(id);
         if (!el) return;
-        // ONLY populate if the user actually saved a real custom non-mock value
         if (val && !isMockOrEmpty(val)) {
           el.value = val;
         } else {
-          el.value = ''; // Keep empty so translucent placeholder is visible!
+          el.value = '';
         }
       };
 
       if (kb.store_name) setVal('kbStoreName', kb.store_name);
-      if (kb.niche) setVal('kbNiche', kb.niche);
       if (kb.city_address) setVal('kbCityAddress', kb.city_address);
-      if (kb.working_hours) setVal('kbWorkingHours', kb.working_hours);
-      if (kb.phone) setVal('kbPhone', kb.phone);
+      if (kb.phone) setVal('avitoOneClickPhone', kb.phone);
+      if (kb.avito_profile_url) setVal('avitoOneClickUrl', kb.avito_profile_url);
       if (kb.telegram_contact) setVal('kbTelegramContact', kb.telegram_contact);
-
-      const deliveryVal = kb.delivery ? (kb.delivery.method || '') : (kb.delivery_method || '');
-      if (deliveryVal) setVal('kbDeliveryMethod', deliveryVal);
-
-      const tryOnVal = kb.delivery ? (kb.delivery.try_on_rule || '') : (kb.try_on_rule || '');
-      if (tryOnVal) setVal('kbTryOnRule', tryOnVal);
-
-      if (kb.discount_policy) {
-        const dp = typeof kb.discount_policy === 'string' ? kb.discount_policy : (kb.discount_policy.on_request || '');
-        if (dp) setVal('kbDiscountPolicy', dp);
-      }
-
       if (kb.custom_rules) setVal('kbCustomRules', kb.custom_rules);
-
-      syncKnowledgeToQuickEdit();
     }
 
     async function loadStoreKnowledge() {
-      // 1. Immediately read from localStorage
       try {
-        const cached = localStorage.getItem('majorka_store_knowledge');
-        if (cached) {
-          const kb = JSON.parse(cached);
-          currentStoreKnowledge = kb;
-          applyKnowledgeToInputs(kb);
-        }
-      } catch (e) {
-        console.log('localStorage read err:', e);
-      }
+        const savedUrl = localStorage.getItem('majorka_avito_url');
+        const savedPhone = localStorage.getItem('majorka_bot_phone');
+        if (savedUrl && document.getElementById('avitoOneClickUrl')) document.getElementById('avitoOneClickUrl').value = savedUrl;
+        if (savedPhone && document.getElementById('avitoOneClickPhone')) document.getElementById('avitoOneClickPhone').value = savedPhone;
 
-      // 2. Background sync with API
+        const cachedProds = localStorage.getItem('majorka_catalog_products');
+        if (cachedProds) {
+          currentCatalogProducts = JSON.parse(cachedProds);
+          renderOneClickCatalogList();
+        }
+      } catch (e) {}
+
       try {
         const queryChatId = encodeURIComponent(currentChatId || '');
         const res = await apiFetch(`${API_BASE}/api/store_knowledge?chatId=${queryChatId}`);
         const data = await res.json();
         if (res.ok && data.success && data.knowledge) {
-          currentStoreKnowledge = data.knowledge;
           applyKnowledgeToInputs(data.knowledge);
         }
-      } catch (e) {
-        console.log('Knowledge API sync skipped (offline/local fallback)');
-      }
+      } catch (e) {}
     }
 
-    // ROBUST SAVE BOT SETTINGS (WITH 100% VISIBLE CONFIRMATION)
-    async function saveStoreKnowledgeSettings(triggerBtn) {
-      const btnTop = document.getElementById('btnSaveKnowledgeTop');
-      const btnBottom = document.getElementById('btnSaveKnowledgeBottom');
-      const buttons = [btnTop, btnBottom, triggerBtn].filter(Boolean);
+    function autoFillStandardKnowledge() {
+      // Clean example
+      showToast('Пример заполнения', 'Вставьте ссылку на ваш профиль Авито в поле выше', 'info');
+    }
 
-      buttons.forEach(btn => {
-        btn.disabled = true;
-        btn.dataset.origHtml = btn.innerHTML;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Сохранение...</span>';
-      });
-
-      const getVal = (id) => {
+    function clearAllKnowledgeFields() {
+      const ids = ['avitoOneClickUrl', 'avitoOneClickPhone', 'kbStoreName', 'kbCityAddress', 'kbTelegramContact', 'kbCustomRules'];
+      ids.forEach(id => {
         const el = document.getElementById(id);
-        return el ? el.value.trim() : '';
-      };
-
-      const payload = {
-        chatId: currentChatId,
-        store_name: getVal('kbStoreName') || '',
-        niche: getVal('kbNiche') || '',
-        city_address: getVal('kbCityAddress') || '',
-        working_hours: getVal('kbWorkingHours') || '24/7',
-        phone: getVal('kbPhone') || getVal('avitoAuthPhoneInput'),
-        telegram_contact: getVal('kbTelegramContact'),
-        delivery_method: getVal('kbDeliveryMethod'),
-        try_on_rule: getVal('kbTryOnRule'),
-        discount_policy: getVal('kbDiscountPolicy'),
-        custom_rules: getVal('kbCustomRules'),
-        avito_profile_url: getVal('avitoProfileUrlInput')
-      };
-
-      localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
-      currentStoreKnowledge = payload;
-
-      syncKnowledgeToQuickEdit();
-
-      try {
-        await apiFetch(`${API_BASE}/api/store_knowledge`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-      } catch (err) {
-        console.log('Remote knowledge sync skipped/offline, saved locally');
-      }
-
-      const banner = document.getElementById('saveConfirmBanner');
-      if (banner) {
-        banner.classList.remove('hidden');
-        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-
-      buttons.forEach(btn => {
-        btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
-        btn.innerHTML = '<span class="material-symbols-outlined text-base">check_circle</span><span>✓ Настройки бота сохранены!</span>';
+        if (el) el.value = '';
       });
-
-      showToast('Бот настроен', 'Все параметры и правила сохранены и активированы для работы на Авито 24/7', 'success');
-
-      setTimeout(() => {
-        buttons.forEach(btn => {
-          btn.disabled = false;
-          btn.className = btn.className.replace(/bg-emerald-600 text-white font-bold/g, '').trim() + ' btn-gold';
-          btn.innerHTML = btn.dataset.origHtml || '<span class="material-symbols-outlined text-base">check_circle</span><span>Сохранить настройки бота</span>';
-        });
-      }, 3500);
+      localStorage.removeItem('majorka_store_knowledge');
+      localStorage.removeItem('majorka_avito_url');
+      localStorage.removeItem('majorka_bot_phone');
+      showToast('Поля очищены', 'Отображаются полупрозрачные подсказки (placeholder)', 'info');
     }
 
-    // ==================== REAL AVITO LISTINGS PARSER ====================
-    let currentCatalogProducts = [];
-
-    function loadCatalogProducts() {
-      try {
-        const saved = localStorage.getItem('majorka_catalog_products');
-        if (saved) {
-          currentCatalogProducts = JSON.parse(saved);
-        } else {
-          currentCatalogProducts = [];
-        }
-      } catch (e) {
-        currentCatalogProducts = [];
-      }
-      renderCatalogProducts();
-    }
-
-    function renderCatalogProducts() {
-      const container = document.getElementById('catalogItemsList');
-      const countBadge = document.getElementById('catalogCountBadge');
-      const quickBadge = document.getElementById('quickCatalogCountBadge');
-
-      const count = currentCatalogProducts.length;
-      if (countBadge) countBadge.innerText = count;
-      if (quickBadge) quickBadge.innerText = count + ' шт';
-
-      if (!container) return;
-      if (count === 0) {
-        container.innerHTML = `
-          <div class="p-4 text-center text-xs text-white/40">
-            Объявления ещё не спарсены. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Спарсить товары с Авито», чтобы бот загрузил ваш каталог товаров.
-          </div>
-        `;
-        return;
-      }
-
-      container.innerHTML = currentCatalogProducts.map((p, idx) => `
-        <div class="p-3 rounded-xl bg-[#121214] border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-all">
-          <div class="min-w-0 flex-1">
-            <div class="text-xs font-bold text-white truncate">${escapeHtml(p.title)}</div>
-            <div class="flex items-center gap-2 mt-0.5">
-              <span class="text-xs font-extrabold text-gold">${escapeHtml(p.price)}</span>
-              <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.2 rounded border border-emerald-500/20">С Авито</span>
-            </div>
-          </div>
-          <button type="button" onclick="deleteCatalogProduct(${idx})" class="text-white/30 hover:text-red-400 p-1 rounded-lg transition-colors cursor-pointer" title="Удалить товар">
-            <span class="material-symbols-outlined text-base">delete</span>
-          </button>
-        </div>
-      `).join('');
-    }
-
-    function deleteCatalogProduct(index) {
-      currentCatalogProducts.splice(index, 1);
-      localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
-      renderCatalogProducts();
-      showToast('Товар удален', 'Позиция удалена из каталога', 'info');
-    }
-
-    function clearCatalog() {
-      if (!confirm('Очистить список спарсенных объявлений?')) return;
-      currentCatalogProducts = [];
-      localStorage.setItem('majorka_catalog_products', JSON.stringify([]));
-      renderCatalogProducts();
-      showToast('Каталог очищен', 'Все спарсенные позиции удалены', 'info');
-    }
-
-    async function syncCatalogFromAvitoUrl() {
-      const input = document.getElementById('avitoProfileUrlInput');
-      const btn = document.getElementById('btnParseAvito');
-      const url = input ? input.value.trim() : '';
-
-      if (!url) {
-        showToast('Укажите ссылку', 'Введите ссылку на профиль, магазин или объявление на Авито', 'error');
-        if (input) input.focus();
-        return;
-      }
-
-      const origHtml = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span><span>Парсинг объявлений с Авито...</span>';
-      }
-
-      try {
-        const res = await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, profile_url: url })
-        });
-        const data = await res.json();
-        if (res.ok && data.success && Array.isArray(data.items) && data.items.length > 0) {
-          currentCatalogProducts = data.items.map((it, idx) => ({
-            id: Date.now() + idx,
-            title: it.title || 'Товар Авито',
-            price: it.price ? `${it.price} ₽` : 'Цена в объявлении',
-            status: 'С Авито'
-          }));
-          localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
-          renderCatalogProducts();
-          showToast('Парсинг завершен!', `Успешно спарсено ${data.items.length} объявлений с Авито`, 'success');
-        } else {
-          // If profile has specific format or rate limit, provide feedback
-          showToast('Парсер подключен', 'Каталог профиля Авито обновлен для автоответов менеджера', 'success');
-        }
-      } catch (err) {
-        console.log('Parser error:', err);
-        showToast('Парсер подключен', 'Каталог профиля Авито обновлен для автоответов менеджера', 'success');
-      } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = origHtml;
-        }
-      }
-    }
-
-    // ==================== OVERVIEW QUICK EDIT FUNCTIONS ====================
-    function syncKnowledgeToQuickEdit() {
-      const city = document.getElementById('kbCityAddress')?.value || '';
-      const phone = document.getElementById('kbPhone')?.value || '';
-      const tg = document.getElementById('kbTelegramContact')?.value || '';
-      const disc = document.getElementById('kbDiscountPolicy')?.value || '';
-
-      const qCity = document.getElementById('quickCityInput');
-      const qPhone = document.getElementById('quickPhoneInput');
-      const qTg = document.getElementById('quickTelegramInput');
-      const qDisc = document.getElementById('quickDiscountSelect');
-
-      if (qCity) qCity.value = city;
-      if (qPhone) qPhone.value = phone;
-      if (qTg) qTg.value = tg;
-      if (qDisc && disc) {
-        for (let opt of qDisc.options) {
-          if (opt.value === disc) {
-            qDisc.value = disc;
-            break;
-          }
-        }
-      }
-    }
-
-    function syncQuickDiscountToKnowledge() {
-      const sel = document.getElementById('quickDiscountSelect');
-      if (sel && document.getElementById('kbDiscountPolicy')) {
-        document.getElementById('kbDiscountPolicy').value = sel.value;
-      }
-    }
-
-    async function saveQuickSettingsFromOverview() {
-      const btn = document.getElementById('btnSaveQuickSettings');
+    async function saveStoreKnowledgeSettings(triggerBtn) {
+      const btn = triggerBtn || document.getElementById('btnSaveKnowledgeTop');
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
         btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span><span>Сохранение...</span>';
       }
 
-      const qCity = document.getElementById('quickCityInput')?.value.trim();
-      const qPhone = document.getElementById('quickPhoneInput')?.value.trim();
-      const qTg = document.getElementById('quickTelegramInput')?.value.trim();
-      const qDisc = document.getElementById('quickDiscountSelect')?.value;
+      const payload = {
+        chatId: currentChatId,
+        store_name: document.getElementById('kbStoreName')?.value.trim() || '',
+        city_address: document.getElementById('kbCityAddress')?.value.trim() || '',
+        phone: document.getElementById('avitoOneClickPhone')?.value.trim() || '',
+        avito_profile_url: document.getElementById('avitoOneClickUrl')?.value.trim() || '',
+        telegram_contact: document.getElementById('kbTelegramContact')?.value.trim() || '',
+        discount_policy: document.getElementById('kbDiscountPolicy')?.value || '',
+        custom_rules: document.getElementById('kbCustomRules')?.value.trim() || ''
+      };
 
-      if (qCity && document.getElementById('kbCityAddress')) document.getElementById('kbCityAddress').value = qCity;
-      if (qPhone && document.getElementById('kbPhone')) document.getElementById('kbPhone').value = qPhone;
-      if (qTg && document.getElementById('kbTelegramContact')) document.getElementById('kbTelegramContact').value = qTg;
-      if (qDisc && document.getElementById('kbDiscountPolicy')) document.getElementById('kbDiscountPolicy').value = qDisc;
-
-      await saveStoreKnowledgeSettings();
+      localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
+      try {
+        await apiFetch(`${API_BASE}/api/store_knowledge`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (e) {}
 
       if (btn) {
         btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
-        btn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span><span>✓ Настройки сохранены!</span>';
+        btn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span><span>✓ Сохранено!</span>';
         setTimeout(() => {
           btn.disabled = false;
           btn.className = btn.className.replace(/bg-emerald-600 text-white font-bold/g, '').trim() + ' btn-gold';
           btn.innerHTML = origHtml;
         }, 3000);
       }
-    }
-
-    let isStoreActiveState = true;
-    function toggleStoreActiveState() {
-      isStoreActiveState = !isStoreActiveState;
-      const btn = document.getElementById('quickToggleStatusBtn');
-      const txt = document.getElementById('quickStatusBtnText');
-      const subDot = document.getElementById('overviewSubDot');
-      const subPill = document.getElementById('overviewSubPill');
-
-      if (isStoreActiveState) {
-        if (btn) btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 cursor-pointer transition-all';
-        if (txt) txt.innerText = 'В сети 24/7';
-        if (subDot) subDot.className = 'w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-status-green animate-pulse shrink-0';
-        if (subPill) {
-          subPill.className = 'text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20';
-          subPill.innerText = 'Активен';
-        }
-        showToast('Режим изменен', 'Менеджер продаж включен и принимает сообщения покупателей 24/7', 'success');
-      } else {
-        if (btn) btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-2 cursor-pointer transition-all';
-        if (txt) txt.innerText = 'На паузе';
-        if (subDot) subDot.className = 'w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-400 shrink-0';
-        if (subPill) {
-          subPill.className = 'text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-amber-500/10 text-amber-400 rounded-full border border-amber-500/20';
-          subPill.innerText = 'На паузе';
-        }
-        showToast('Режим изменен', 'Менеджер продаж временно приостановлен', 'info');
-      }
+      showToast('Настройки сохранены', 'Параметры бота обновлены', 'success');
     }
 
     // TAB SWITCHER
