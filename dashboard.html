@@ -352,11 +352,11 @@
           </div>
 
           <h2 id="heroStoreTitle" class="font-outfit text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight">
-            «MAJORKA» на Автопилоте Продаж
+            «MAJORKA» — Твой Менеджер Продаж
           </h2>
 
           <p id="heroStoreDesc" class="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed">
-            Система непрерывно ведет диалоги с покупателями на Авито, консультирует по наличию и доставке, отрабатывает возражения и закрывает сделки 24/7.
+            Менеджер непрерывно общается с покупателями на Авито, консультирует по наличию и доставке, отрабатывает возражения и закрывает сделки 24/7.
           </p>
 
           <div class="pt-2 flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3">
@@ -377,30 +377,6 @@
               </button>
             </div>
           </div>
-        </div>
-      </div>
-
-      <!-- TELEGRAM SYNERGY ONBOARDING CARD -->
-      <div id="tgSyncBanner" class="p-4 sm:p-6 rounded-2xl bg-gradient-to-r from-[#0d1e3a] via-[#161f30] to-[#121214] border border-blue-500/35 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-5 shadow-[0_4px_25px_rgba(0,136,204,0.15)]">
-        <div class="flex items-start sm:items-center gap-3.5 sm:gap-4">
-          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 text-white flex items-center justify-center shadow-neon-blue shrink-0 mt-0.5 sm:mt-0">
-            <svg class="w-5 h-5 sm:w-6 sm:h-6 fill-white" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
-          </div>
-          <div>
-            <div class="flex flex-wrap items-center gap-2">
-              <h4 class="font-outfit font-extrabold text-base sm:text-lg text-white">Канал уведомлений и синергия с Telegram</h4>
-              <span class="text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full bg-status-green/15 text-status-green border border-status-green/30">Активно 24/7</span>
-            </div>
-            <p class="text-xs text-white/70 mt-1 leading-relaxed">
-              Зарегистрируйте и привяжите ваш Telegram-канал/чат к магазину, чтобы в реальном времени получать актуальные вопросы покупателей, информацию о магазине и уведомления о каждой продаже на Авито.
-            </p>
-          </div>
-        </div>
-        <div class="flex items-center gap-3 shrink-0 w-full md:w-auto">
-          <a id="btnConnectTgBanner" href="https://t.me/avito_deployer_bot?start=connect_6940082004" target="_blank" class="btn-avito px-5 sm:px-6 py-3 sm:py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 w-full md:w-auto shadow-neon-blue cursor-pointer">
-            <span>Подключить Telegram-бот</span>
-            <span class="material-symbols-outlined text-base">arrow_forward</span>
-          </a>
         </div>
       </div>
 
@@ -2364,7 +2340,7 @@
         const heroDesc = document.getElementById('heroStoreDesc');
         const heroBadge = document.getElementById('heroStoreBadge');
         const rawName = (primaryBot.session_name || primaryBot.name || 'MAJORKA').replace(/\s+Store\b/gi, '').trim();
-        if (heroTitle) heroTitle.innerText = `«${rawName}» на Автопилоте Продаж`;
+        if (heroTitle) heroTitle.innerText = `«${rawName}» — Твой Менеджер Продаж`;
         if (heroDesc) heroDesc.innerText = `Управляющий продажами активен 24/7. Ниша: ${primaryBot.niche || 'Товары'}. Консультирует покупателей, отвечает о наличии и закрывает сделки.`;
         if (heroBadge) heroBadge.innerText = 'Управляющий активен 24/7';
       }
@@ -2406,6 +2382,11 @@
     }
 
     function addNewShopAction() {
+      if ((userSlotsCount || 0) <= 0 && currentChatId !== '6940082004') {
+        showToast('Требуется тариф', 'Для запуска нового магазина выберите подходящий тариф доступа', 'info');
+        switchTab('tariffs');
+        return;
+      }
       const total = Math.max(1, userSlotsCount || 1);
       if (userBotsList.length >= total && userBotsList.some(b => b.is_paid == 1)) {
         showToast('Все слоты заняты', `У вас активно ${userBotsList.length} из ${total} ботов. Для запуска еще одного магазина приобретите дополнительный слот в разделе «Тарифы».`, 'warning');
@@ -2563,7 +2544,14 @@
           })
         });
         const createData = await createRes.json();
-        if (!createRes.ok || !createData.success) throw new Error(createData.error || 'Не удалось сохранить магазин');
+        if (!createRes.ok || !createData.success) {
+          if (createData.error === 'payment_required') {
+            showToast('Требуется оплата', createData.message || 'Для запуска магазина необходимо выбрать тариф', 'warning');
+            switchTab('tariffs');
+            return;
+          }
+          throw new Error(createData.message || createData.error || 'Не удалось сохранить магазин');
+        }
 
         const remaining = Math.max(0, userSlotsCount - ((userBotsList || []).length + 1));
         const toastDesc = userSlotsCount > 1
