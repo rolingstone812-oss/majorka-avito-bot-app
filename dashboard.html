@@ -352,7 +352,7 @@
           </div>
 
           <h2 id="heroStoreTitle" class="font-outfit text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight">
-            «MAJORka» на Автопилоте Продаж
+            «MAJORKA» на Автопилоте Продаж
           </h2>
 
           <p id="heroStoreDesc" class="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed">
@@ -465,35 +465,6 @@
               <span class="material-symbols-outlined text-sm">send</span>
             </button>
           </div>
-        </div>
-      </div>
-
-      <!-- LIVE REALTIME AVITO CHAT FEED -->
-      <div id="liveChatFeedSection" class="glass-box p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-5 border-white/10 hidden">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-status-green/10 border border-status-green/30 flex items-center justify-center text-status-green shrink-0">
-              <span class="material-symbols-outlined">forum</span>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="font-outfit font-extrabold text-xl text-white">Живая Лента Диалогов с Авито</h3>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-status-green/10 text-status-green border border-status-green/20">
-                  <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
-                  Управляющий 24/7
-                </span>
-              </div>
-              <p class="text-xs text-white/50 mt-0.5">Реальные сообщения покупателей и мгновенные ответы управляющего продажами</p>
-            </div>
-          </div>
-          <button onclick="loadLiveChatLogs()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 text-white/70 hover:text-gold self-start sm:self-auto cursor-pointer">
-            <span class="material-symbols-outlined text-sm" id="liveFeedRefreshIcon">refresh</span>
-            <span>Обновить</span>
-          </button>
-        </div>
-
-        <div id="liveChatLogsContainer" class="space-y-3 max-h-96 overflow-y-auto pr-1">
-          <div class="p-8 text-center text-white/40 text-xs">Загрузка последних диалогов...</div>
         </div>
       </div>
 
@@ -2046,9 +2017,9 @@
       renderTrialStatusUI();
       loadUserStats();
       loadMyBots();
-      loadLiveChatLogs();
+      
       loadStoreKnowledge();
-      setInterval(loadLiveChatLogs, 8000);
+      
     });
 
     function initTelegramSession() {
@@ -2278,7 +2249,7 @@
         if (currentChatId === '6940082004') {
           userBotsList = [{
             id: 100016,
-            session_name: 'MAJORka',
+            session_name: 'MAJORKA',
             is_paid: 1,
             paid_until: '2026-11-17T12:42:49.192467',
             emulator_index: 0,
@@ -2392,7 +2363,7 @@
         const heroTitle = document.getElementById('heroStoreTitle');
         const heroDesc = document.getElementById('heroStoreDesc');
         const heroBadge = document.getElementById('heroStoreBadge');
-        const rawName = (primaryBot.session_name || primaryBot.name || 'MAJORka').replace(/\s+Store\b/gi, '').trim();
+        const rawName = (primaryBot.session_name || primaryBot.name || 'MAJORKA').replace(/\s+Store\b/gi, '').trim();
         if (heroTitle) heroTitle.innerText = `«${rawName}» на Автопилоте Продаж`;
         if (heroDesc) heroDesc.innerText = `Управляющий продажами активен 24/7. Ниша: ${primaryBot.niche || 'Товары'}. Консультирует покупателей, отвечает о наличии и закрывает сделки.`;
         if (heroBadge) heroBadge.innerText = 'Управляющий активен 24/7';
@@ -2801,63 +2772,7 @@
     }
 
     // LIVE AVITO CHAT FEED LOGIC
-    let isChatLogsLoading = false;
-    async function loadLiveChatLogs() {
-      if (isChatLogsLoading) return;
-      const section = document.getElementById('liveChatFeedSection');
-      const container = document.getElementById('liveChatLogsContainer');
-      const spinIcon = document.getElementById('liveFeedRefreshIcon');
-      if (spinIcon) spinIcon.classList.add('animate-spin');
-      isChatLogsLoading = true;
-      try {
-        const res = await apiFetch(`${API_BASE}/api/chat_logs?chatId=${encodeURIComponent(currentChatId || '6940082004')}`);
-        const data = await res.json();
-        if (!data.success || !Array.isArray(data.logs) || data.logs.length === 0) {
-          if (section) section.classList.add('hidden');
-          return;
-        }
-        if (section) section.classList.remove('hidden');
-        container.dataset.hasData = 'true';
-        let html = '';
-        data.logs.slice(0, 20).forEach(log => {
-          const isUser = log.role === 'user';
-          const roleName = isUser ? 'Покупатель Авито' : 'Управляющий продажами';
-          const roleBadge = isUser
-            ? '<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Покупатель</span>'
-            : '<span class="text-[10px] font-bold px-2 py-0.5 rounded bg-gold/10 text-gold border border-gold/20">Управляющий</span>';
-          const avatar = isUser
-            ? '<div class="w-8 h-8 rounded-full bg-white/10 text-white/80 flex items-center justify-center text-xs font-bold shrink-0">П</div>'
-            : '<div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/40 text-gold flex items-center justify-center text-xs font-black font-outfit shrink-0 shadow-neon-gold">M</div>';
-          const bubbleClass = isUser
-            ? 'bg-white/5 border border-white/10 text-white/80'
-            : 'bg-gold/[0.08] border border-gold/20 text-white/95';
-
-          html += `
-            <div class="flex items-start gap-3 p-2.5 rounded-xl transition-all hover:bg-white/[0.02]">
-              ${avatar}
-              <div class="flex-1 space-y-1">
-                <div class="flex items-center justify-between text-[11px]">
-                  <div class="flex items-center gap-2">
-                    <span class="font-semibold text-white/90">${roleName}</span>
-                    ${roleBadge}
-                  </div>
-                  <span class="text-white/30 text-[10px]">${log.timestamp ? escapeHtml(log.timestamp.slice(11, 16) || log.timestamp) : 'Только что'}</span>
-                </div>
-                <div class="p-3 rounded-2xl rounded-tl-none ${bubbleClass} text-xs leading-relaxed">
-                  ${escapeHtml(log.message)}
-                </div>
-              </div>
-            </div>
-          `;
-        });
-        container.innerHTML = html;
-      } catch (e) {
-        console.log('chat_logs sync:', e);
-      } finally {
-        isChatLogsLoading = false;
-        if (spinIcon) spinIcon.classList.remove('animate-spin');
-      }
-    }
+    
 
     // ACCORDION HANDLERS FOR KNOWLEDGE BASE
     function toggleKbAccordion(tplId) {
@@ -3106,7 +3021,7 @@
         if (moreBtn) moreBtn.classList.add('bnav-active');
       }
 
-      if (tabId === 'overview') loadLiveChatLogs();
+      
       if (tabId === 'shops') loadMyBots();
       if (tabId === 'analytics') loadUserStats();
       if (tabId === 'knowledge') loadStoreKnowledge();
