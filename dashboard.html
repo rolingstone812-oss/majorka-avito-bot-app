@@ -2137,6 +2137,7 @@
         
         if (data.user) {
           userBalanceVal = Number(data.user.balance || 0);
+          localStorage.setItem('majorka_balance', userBalanceVal);
           const totalPurchases = Number(data.user.total_purchases || 0);
           if (Number(data.user.trial_used || 0) === 1 || totalPurchases > 0 || currentChatId === '6940082004') {
             userTrialUsed = 1;
@@ -2181,7 +2182,7 @@
       } catch (err) {
         console.log('Stats sync fallback:', err);
         if (currentChatId === '6940082004') {
-          userBalanceVal = Number(localStorage.getItem('majorka_balance') ?? 50000);
+          userBalanceVal = Number(localStorage.getItem('majorka_balance') ?? 16922);
           userTrialUsed = 1;
           localStorage.setItem('majorka_trial_used', '1');
           userSlotsCount = Math.max(2, Number(localStorage.getItem('majorka_slots_count') || 2));
@@ -2275,14 +2276,14 @@
         console.log('My bots sync fallback:', err);
         if (currentChatId === '6940082004') {
           userBotsList = [{
-            id: 1,
-            session_name: 'Основной магазин Авито',
+            id: 100016,
+            session_name: 'MAJORKA Store',
             is_paid: 1,
-            paid_until: '2099-12-31',
+            paid_until: '2026-11-17T12:42:49.192467',
             emulator_index: 0,
-            niche: 'Автотовары и Запчасти',
-            city_address: 'Москва',
-            working_hours: '24/7'
+            niche: 'Премиальная брендовая одежда и обувь',
+            city_address: 'Москва, складской комплекс (быстрая отправка по всей РФ)',
+            working_hours: 'Ежедневно 10:00 - 22:00'
           }];
           renderShopsList(userBotsList);
         } else {
