@@ -371,75 +371,8 @@
                 <span>Магазины</span>
               </button>
 
-              <button onclick="document.getElementById('testChatInput')?.focus(); document.getElementById('testChatInput')?.scrollIntoView({behavior:'smooth', block:'center'});" class="px-3 sm:px-4 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-1.5 transition-all cursor-pointer touch-press">
-                <span class="material-symbols-outlined text-sm text-gold">chat</span>
-                <span>Симулятор</span>
-              </button>
+              
             </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- INTERACTIVE AI CHAT SIMULATOR -->
-      <div class="glass-box p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 border-gold/30 bg-gradient-to-br from-gold/[0.02] to-transparent">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-white/10 pb-3 sm:pb-4">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-gold text-xl sm:text-2xl">chat_bubble</span>
-              <h3 class="font-outfit font-extrabold text-lg sm:text-xl text-white">Проверка работы Личного управляющего</h3>
-            </div>
-            <p class="text-xs text-white/50 mt-0.5">Задайте вопрос от лица покупателя — ассистент ответит по правилам вашего магазина</p>
-          </div>
-          <span class="text-xs text-status-green bg-status-green/10 px-2.5 sm:px-3 py-1 rounded-full border border-status-green/20 flex items-center gap-1.5 self-start sm:self-auto">
-            <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
-            <span>Готов к диалогу</span>
-          </span>
-        </div>
-
-        <!-- PRODUCT SELECTOR CONTEXT -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 bg-white/[0.03] p-2.5 sm:p-3 rounded-xl border border-white/10">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-outlined text-gold text-sm">inventory_2</span>
-            <span class="text-xs text-white/70 font-semibold">Контекст товара для проверки:</span>
-          </div>
-          <select id="simulatorProductSelect" class="w-full sm:w-auto bg-black/50 border border-white/15 rounded-lg px-2.5 sm:px-3 py-1.5 text-xs text-white focus:outline-none focus:border-gold">
-            <option value="">Общие правила магазина (самовывоз / доставка / график)</option>
-            <option value="Кроссовки Nike Dunk Low Retro">Кроссовки Nike Dunk Low Retro (6 990 ₽)</option>
-            <option value="Худи Stone Island черное">Худи Stone Island черное (4 990 ₽)</option>
-            <option value="Фара передняя левая LED (оригинал)">Фара передняя левая LED (14 500 ₽)</option>
-            <option value="Бампер передний в сборе">Бампер передний в сборе (9 800 ₽)</option>
-          </select>
-        </div>
-
-        <!-- QUICK CHIPS (HORIZONTAL SWIPE CAROUSEL ON MOBILE) -->
-        <div class="space-y-1.5">
-          <span class="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40">Быстрые примеры вопросов покупателей:</span>
-          <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 sm:gap-2 pb-1 touch-pan-x -mx-1 px-1">
-            <button onclick="sendQuickChatMessage('Здравствуйте! Есть ли в наличии и актуальна ли цена?')" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all touch-press whitespace-nowrap">«В наличии и актуальна цена?»</button>
-            <button onclick="sendQuickChatMessage('Где вы находитесь? Можно сегодня забрать самовывозом?')" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all touch-press whitespace-nowrap">«Где забрать самовывозом?»</button>
-            <button onclick="sendQuickChatMessage('Отправляете ли вы Авито Доставкой или СДЭК?')" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all touch-press whitespace-nowrap">«Отправляете Доставкой?»</button>
-            <button onclick="sendQuickChatMessage('Напишите номер телефона для связи с менеджером')" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all touch-press whitespace-nowrap">«Дайте номер для связи»</button>
-          </div>
-        </div>
-
-        <!-- CHAT WINDOW -->
-        <div class="space-y-3 sm:space-y-4">
-          <div id="testChatHistory" class="bg-black/40 border border-white/10 rounded-2xl p-3.5 sm:p-5 h-60 sm:h-64 overflow-y-auto space-y-3 font-sans text-sm">
-            <div class="flex items-start gap-2.5">
-              <div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/40 flex items-center justify-center text-gold text-xs font-black font-outfit shrink-0 shadow-neon-gold">M</div>
-              <div class="p-3 rounded-2xl rounded-tl-none bg-white/10 border border-white/10 text-white/90 max-w-md text-xs leading-relaxed">
-                Здравствуйте! Я ваш персональный Управляющий продажами на Авито. Напишите любой вопрос, как если бы вы были покупателем — я отвечу по правилам вашего магазина!
-              </div>
-            </div>
-          </div>
-
-          <!-- INPUT FORM -->
-          <div class="flex gap-2">
-            <input type="text" id="testChatInput" onkeypress="if(event.key==='Enter') sendTestChatMessage();" placeholder="Напишите сообщение от лица покупателя..." class="flex-1 min-w-0 px-3.5 sm:px-4 py-3 sm:py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder-white/30 text-xs sm:text-sm focus:outline-none focus:border-gold transition-colors">
-            <button onclick="sendTestChatMessage()" id="testChatSendBtn" class="btn-gold px-3.5 sm:px-6 py-3 sm:py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-neon-gold shrink-0">
-              <span class="hidden sm:inline">Отправить</span>
-              <span class="material-symbols-outlined text-sm">send</span>
-            </button>
           </div>
         </div>
       </div>
@@ -1675,10 +1608,7 @@
           <span id="succModalBtnMainText">Настроить регламент в Базе Знаний</span>
         </button>
 
-        <button onclick="goToSimulatorFromSuccess()" class="w-full py-3 rounded-xl text-xs font-semibold text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-2 transition-all cursor-pointer">
-          <span class="material-symbols-outlined text-base text-gold">smart_toy</span>
-          <span>Проверить диалог в Симуляторе</span>
-        </button>
+        <button onclick="goToConnectStoreFromSuccess()" class="w-full py-3 rounded-xl text-xs font-semibold text-white/80 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-2 transition-all cursor-pointer"><span class="material-symbols-outlined text-base text-gold">storefront</span><span>Мои Магазины</span></button>
       </div>
 
       <div class="pt-1">
@@ -2115,10 +2045,7 @@
                 <span class="material-symbols-outlined text-base">storefront</span>
                 <span>Магазины</span>
               </button>
-              <button onclick="document.getElementById('testChatInput')?.focus(); document.getElementById('testChatInput')?.scrollIntoView({behavior:'smooth', block:'center'});" class="px-3 sm:px-4 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-1.5 transition-all cursor-pointer touch-press">
-                <span class="material-symbols-outlined text-sm text-gold">chat</span>
-                <span>Симулятор</span>
-              </button>
+              
             </div>
           `;
         }
@@ -2543,7 +2470,7 @@
       setEl('wizShopName', 'MAJORKA');
       setEl('wizNiche', 'Одежда и Обувь');
       setEl('wizCity', 'Москва, отправка по всей РФ через Авито Доставку');
-      setEl('wizCustomRules', '• Все товары в объявлении в наличии\n• Отправка заказа в день оплаты\n• В пункте выдачи 15 минут на полную проверку');
+      setEl('wizCustomRules', `• Все товары в объявлении в наличии\n• Отправка заказа в день оплаты\n• В пункте выдачи 15 минут на полную проверку`);
       const d1 = document.getElementById('wizDelAvito'); if (d1) d1.checked = true;
       const d2 = document.getElementById('wizDelCdek'); if (d2) d2.checked = true;
       const d3 = document.getElementById('wizDelPickup'); if (d3) d3.checked = true;
@@ -2931,9 +2858,7 @@
       setVal('kbDeliveryMethod', 'Авито Доставка (СДЭК, Почта России, Яндекс Доставка, Boxberry, 5Post)');
       setVal('kbTryOnRule', 'При получении в пункте Авито Доставки у вас есть 15 минут на полную проверку товара. Если что-то не подойдет — отказ на месте без списания средств.');
       setVal('kbDiscountPolicy', 'Цены зафиксированы. При заказе от 2-х позиций действует персональная скидка 5% на весь заказ.');
-      setVal('kbCustomRules', '• Все товары в объявлении в наличии
-• Отправка заказа в течение 24 часов после оформления
-• В пункте выдачи 15 минут на полную проверку');
+      setVal('kbCustomRules', `• Все товары в объявлении в наличии\n• Отправка заказа в течение 24 часов после оформления\n• В пункте выдачи 15 минут на полную проверку`);
 
       showToast('Шаблон применён!', 'Стандартный регламент продаж для Авито успешно заполнен. Нажмите «Сохранить регламент».', 'success');
     }
