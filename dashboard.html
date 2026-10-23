@@ -157,6 +157,36 @@
     .toast-anim {
       animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
+    /* Mobile-first ergonomic touch & horizontal swipe utilities */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .touch-press {
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+    .touch-press:active {
+      transform: scale(0.96);
+      opacity: 0.88;
+    }
+    @keyframes slideUpModal {
+      from { transform: translateY(100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .animate-slide-up {
+      animation: slideUpModal 0.26s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    /* Mobile bottom navigation active state */
+    .bnav-btn.bnav-active {
+      color: #FFDD2D !important;
+    }
+    .bnav-btn.bnav-active span.material-symbols-outlined {
+      filter: drop-shadow(0 0 8px rgba(255, 221, 45, 0.5));
+    }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-gold selection:text-black">
@@ -240,32 +270,40 @@
 
       <!-- RIGHT USER BALANCE & TOP UP -->
       <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
-        <!-- USER PROFILE BADGE (DESKTOP / TABLET) -->
+        <!-- MOBILE QUICK BALANCE PILL (TAPPABLE TO RECHARGE) -->
+        <button onclick="openPaymentModal('6490')" class="sm:hidden flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-gold/15 border border-gold/40 text-gold active:scale-95 transition-all shadow-[0_2px_12px_rgba(240,192,72,0.15)] touch-press" title="Пополнить баланс">
+          <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
+          <span id="userBalanceTextMobile" class="font-outfit font-black text-xs text-white tracking-tight">0 ₽</span>
+          <span class="material-symbols-outlined text-sm text-gold font-bold">add_circle</span>
+        </button>
+
+        <!-- MOBILE MORE MENU TRIGGER (OPENS BOTTOM SHEET) -->
+        <button onclick="toggleMobileMoreSheet(true)" class="sm:hidden p-2 rounded-xl bg-white/5 active:bg-white/10 border border-white/10 text-white/70 active:scale-95 transition-all flex items-center justify-center cursor-pointer touch-press" aria-label="Меню действий">
+          <span class="material-symbols-outlined text-lg">more_vert</span>
+        </button>
+
+        <!-- DESKTOP / TABLET CONTROLS -->
         <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/70">
           <span class="w-2 h-2 rounded-full bg-status-green"></span>
           <span id="headerUserLabel" class="font-medium truncate max-w-[120px]">Владелец</span>
         </div>
 
-        <!-- BALANCE BADGE (RESPONSIVE NO-OVERFLOW) -->
-        <div class="bg-gold/10 border border-gold/30 px-2 sm:px-3.5 py-1 sm:py-1.5 rounded-full flex items-center gap-1 shrink-0 whitespace-nowrap">
-          <span class="text-[10px] sm:text-[11px] text-white/50 font-medium uppercase tracking-wider hidden md:inline">Баланс:</span>
-          <span id="userBalanceText" class="font-outfit font-black text-gold text-xs sm:text-sm tracking-tight whitespace-nowrap">0 ₽</span>
+        <div class="hidden sm:flex bg-gold/10 border border-gold/30 px-3.5 py-1.5 rounded-full items-center gap-1 shrink-0 whitespace-nowrap">
+          <span class="text-[11px] text-white/50 font-medium uppercase tracking-wider hidden md:inline">Баланс:</span>
+          <span id="userBalanceText" class="font-outfit font-black text-gold text-sm tracking-tight whitespace-nowrap">0 ₽</span>
         </div>
 
-        <!-- TOP UP BUTTON (ONLY SOURCE OF RECHARGE) -->
-        <button onclick="openPaymentModal('6490')" class="btn-gold px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-1 cursor-pointer shrink-0" title="Пополнить баланс">
-          <span class="material-symbols-outlined text-sm sm:text-base">add_card</span>
-          <span class="hidden sm:inline">Пополнить</span>
+        <button onclick="openPaymentModal('6490')" class="hidden sm:flex btn-gold px-4 py-2 rounded-xl text-sm font-bold items-center gap-1 cursor-pointer shrink-0" title="Пополнить баланс">
+          <span class="material-symbols-outlined text-base">add_card</span>
+          <span>Пополнить</span>
         </button>
 
-        <!-- BACK TO WELCOME SCREEN -->
-        <a href="./index.html" class="p-1.5 sm:p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-gold transition-colors cursor-pointer shrink-0" title="Начальный экран">
-          <span class="material-symbols-outlined text-sm sm:text-base">home</span>
+        <a href="./index.html" class="hidden sm:flex p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-gold transition-colors cursor-pointer shrink-0" title="Начальный экран">
+          <span class="material-symbols-outlined text-base">home</span>
         </a>
 
-        <!-- LOGOUT -->
-        <button onclick="logoutUser()" class="p-1.5 sm:p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white transition-colors cursor-pointer shrink-0" title="Выйти из аккаунта">
-          <span class="material-symbols-outlined text-sm sm:text-base">logout</span>
+        <button onclick="logoutUser()" class="hidden sm:flex p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white transition-colors cursor-pointer shrink-0" title="Выйти из аккаунта">
+          <span class="material-symbols-outlined text-base">logout</span>
         </button>
       </div>
 
@@ -278,28 +316,28 @@
     <!-- ==================== TAB 1: OVERVIEW ==================== -->
     <section id="tab-content-overview" class="tab-pane space-y-5 sm:space-y-8">
       
-      <!-- STATUS STRIP -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-        <div class="glass-box p-4 sm:p-5 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <span class="w-3 h-3 rounded-full bg-status-green animate-pulse shadow-neon-green"></span>
-            <div>
-              <div class="font-outfit font-bold text-sm sm:text-base text-white">Управляющий Продажами в сети</div>
-              <div class="text-xs text-white/40" id="overviewSubDetails">Автономная работа 24/7 • Слот магазина #1</div>
+      <!-- STATUS STRIP (SLEEK COMPACT 2-COL WIDGET ON MOBILE) -->
+      <div class="grid grid-cols-2 gap-2 sm:gap-4">
+        <div class="glass-box p-3 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl sm:rounded-2xl">
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <span class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-status-green animate-pulse shadow-neon-green shrink-0"></span>
+            <div class="min-w-0">
+              <div class="font-outfit font-bold text-xs sm:text-base text-white truncate">Управляющий 24/7</div>
+              <div class="text-[10px] sm:text-xs text-white/40 truncate" id="overviewSubDetails">Автономно • Слот #1</div>
             </div>
           </div>
-          <span id="overviewSubPill" class="text-xs font-semibold px-2.5 sm:px-3 py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20">Активен</span>
+          <span id="overviewSubPill" class="text-[10px] sm:text-xs font-semibold px-2 py-0.5 sm:px-3 sm:py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20 self-start sm:self-auto shrink-0">Активен</span>
         </div>
 
-        <div class="glass-box p-4 sm:p-5 flex items-center justify-between">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-gold text-2xl">speed</span>
-            <div>
-              <div class="font-outfit font-bold text-sm sm:text-base text-white">Скорость реакции ассистента</div>
-              <div class="text-xs text-white/40">Мгновенный ответ покупателям Авито</div>
+        <div class="glass-box p-3 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 rounded-xl sm:rounded-2xl">
+          <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+            <span class="material-symbols-outlined text-gold text-xl sm:text-2xl shrink-0">speed</span>
+            <div class="min-w-0">
+              <div class="font-outfit font-bold text-xs sm:text-base text-white truncate">Скорость ответа</div>
+              <div class="text-[10px] sm:text-xs text-white/40 truncate">Мгновенно Авито</div>
             </div>
           </div>
-          <span class="font-outfit font-bold text-gold text-base sm:text-lg">&lt; 15 сек</span>
+          <span class="font-outfit font-black text-gold text-xs sm:text-lg self-start sm:self-auto shrink-0">&lt; 15 сек</span>
         </div>
       </div>
 
@@ -321,21 +359,23 @@
             Система непрерывно ведет диалоги с покупателями на Авито, консультирует по наличию и доставке, отрабатывает возражения и закрывает сделки 24/7.
           </p>
 
-          <div class="pt-2 flex flex-wrap gap-3">
-            <button onclick="switchTab('knowledge')" class="btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+          <div class="pt-2 flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3">
+            <button onclick="switchTab('knowledge')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold touch-press">
               <span class="material-symbols-outlined text-base">tune</span>
               <span>Регламент продаж (База Знаний)</span>
             </button>
 
-            <button onclick="switchTab('shops')" class="btn-ghost px-5 sm:px-6 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer">
-              <span class="material-symbols-outlined text-base">storefront</span>
-              <span>Мои магазины</span>
-            </button>
+            <div class="grid grid-cols-2 gap-2 sm:flex sm:gap-3 w-full sm:w-auto">
+              <button onclick="switchTab('shops')" class="btn-ghost px-3 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
+                <span class="material-symbols-outlined text-base">storefront</span>
+                <span>Магазины</span>
+              </button>
 
-            <button onclick="document.getElementById('testChatInput')?.focus(); document.getElementById('testChatInput')?.scrollIntoView({behavior:'smooth', block:'center'});" class="w-full sm:w-auto px-4 py-3 rounded-xl sm:rounded-2xl text-xs text-white/60 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-1.5 transition-all cursor-pointer">
-              <span class="material-symbols-outlined text-sm text-gold">chat</span>
-              <span>Проверить в симуляторе</span>
-            </button>
+              <button onclick="document.getElementById('testChatInput')?.focus(); document.getElementById('testChatInput')?.scrollIntoView({behavior:'smooth', block:'center'});" class="px-3 sm:px-4 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs text-white/70 hover:text-white bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center gap-1.5 transition-all cursor-pointer touch-press">
+                <span class="material-symbols-outlined text-sm text-gold">chat</span>
+                <span>Симулятор</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -395,14 +435,14 @@
           </select>
         </div>
 
-        <!-- QUICK CHIPS -->
-        <div class="space-y-2">
+        <!-- QUICK CHIPS (HORIZONTAL SWIPE CAROUSEL ON MOBILE) -->
+        <div class="space-y-1.5">
           <span class="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider text-white/40">Быстрые примеры вопросов покупателей:</span>
-          <div class="flex flex-wrap gap-1.5 sm:gap-2">
-            <button onclick="sendQuickChatMessage('Здравствуйте! Есть ли в наличии и актуальна ли цена?')" class="px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all">«В наличии и актуальна цена?»</button>
-            <button onclick="sendQuickChatMessage('Где вы находитесь? Можно сегодня забрать самовывозом?')" class="px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all">«Где забрать самовывозом?»</button>
-            <button onclick="sendQuickChatMessage('Отправляете ли вы Авито Доставкой или СДЭК?')" class="px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all">«Отправляете Доставкой?»</button>
-            <button onclick="sendQuickChatMessage('Напишите номер телефона для связи с менеджером')" class="px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all">«Дайте номер для связи»</button>
+          <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 sm:gap-2 pb-1 touch-pan-x -mx-1 px-1">
+            <button onclick="sendQuickChatMessage('Здравствуйте! Есть ли в наличии и актуальна ли цена?')" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all touch-press whitespace-nowrap">«В наличии и актуальна цена?»</button>
+            <button onclick="sendQuickChatMessage('Где вы находитесь? Можно сегодня забрать самовывозом?')" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all touch-press whitespace-nowrap">«Где забрать самовывозом?»</button>
+            <button onclick="sendQuickChatMessage('Отправляете ли вы Авито Доставкой или СДЭК?')" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all touch-press whitespace-nowrap">«Отправляете Доставкой?»</button>
+            <button onclick="sendQuickChatMessage('Напишите номер телефона для связи с менеджером')" class="shrink-0 px-2.5 sm:px-3 py-1.5 rounded-lg sm:rounded-xl bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 text-[11px] sm:text-xs text-white/80 hover:text-gold transition-all touch-press whitespace-nowrap">«Дайте номер для связи»</button>
           </div>
         </div>
 
@@ -579,19 +619,22 @@
         </div>
       </div>
 
-      <!-- STEP / SUBTAB NAVIGATION SWITCHER -->
-      <div class="flex items-center gap-2 p-1.5 bg-[#121214] border border-white/10 rounded-2xl max-w-2xl">
-        <button type="button" onclick="switchKbSubTab(1)" id="kbTabBtn-1" class="flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-gold text-black shadow-neon-gold cursor-pointer">
-          <span class="material-symbols-outlined text-base">storefront</span>
-          <span>1. О Магазине</span>
+      <!-- STEP / SUBTAB NAVIGATION SWITCHER (RESPONSIVE LABELS NO-WRAP) -->
+      <div class="flex items-center gap-1.5 sm:gap-2 p-1.5 bg-[#121214] border border-white/10 rounded-2xl max-w-2xl">
+        <button type="button" onclick="switchKbSubTab(1)" id="kbTabBtn-1" class="flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 bg-gold text-black shadow-neon-gold cursor-pointer whitespace-nowrap touch-press">
+          <span class="material-symbols-outlined text-sm sm:text-base">storefront</span>
+          <span class="hidden sm:inline">1. О Магазине</span>
+          <span class="sm:hidden">1. Магазин</span>
         </button>
-        <button type="button" onclick="switchKbSubTab(2)" id="kbTabBtn-2" class="flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-white/60 hover:text-white cursor-pointer">
-          <span class="material-symbols-outlined text-base">local_shipping</span>
-          <span>2. Доставка и Склад</span>
+        <button type="button" onclick="switchKbSubTab(2)" id="kbTabBtn-2" class="flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 text-white/60 hover:text-white cursor-pointer whitespace-nowrap touch-press">
+          <span class="material-symbols-outlined text-sm sm:text-base">local_shipping</span>
+          <span class="hidden sm:inline">2. Доставка и Склад</span>
+          <span class="sm:hidden">2. Доставка</span>
         </button>
-        <button type="button" onclick="switchKbSubTab(3)" id="kbTabBtn-3" class="flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-white/60 hover:text-white cursor-pointer">
-          <span class="material-symbols-outlined text-base">chat_bubble</span>
-          <span>3. Скрипт Продаж</span>
+        <button type="button" onclick="switchKbSubTab(3)" id="kbTabBtn-3" class="flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl text-[11px] sm:text-xs font-bold transition-all flex items-center justify-center gap-1.5 sm:gap-2 text-white/60 hover:text-white cursor-pointer whitespace-nowrap touch-press">
+          <span class="material-symbols-outlined text-sm sm:text-base">chat_bubble</span>
+          <span class="hidden sm:inline">3. Скрипт Продаж</span>
+          <span class="sm:hidden">3. Скрипты</span>
         </button>
       </div>
 
@@ -615,13 +658,13 @@
             <div class="space-y-2">
               <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Ниша товаров / услуг</label>
               <input type="text" id="kbNiche" placeholder="Например: Одежда и Обувь, Автозапчасти, Электроника" class="w-full px-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
-              <div class="flex flex-wrap gap-1.5 pt-0.5">
+              <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pt-0.5 pb-1 touch-pan-x -mx-1 px-1">
                 <span class="text-[10px] text-white/40 self-center mr-1">Быстрый выбор:</span>
-                <button type="button" onclick="setKbChip('kbNiche', 'Одежда и Обувь')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Одежда и Обувь</button>
-                <button type="button" onclick="setKbChip('kbNiche', 'Автотовары и Запчасти')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Автозапчасти</button>
-                <button type="button" onclick="setKbChip('kbNiche', 'Электроника и Техника')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Электроника</button>
-                <button type="button" onclick="setKbChip('kbNiche', 'Товары для дома')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Дом и уют</button>
-                <button type="button" onclick="setKbChip('kbNiche', 'Услуги и Сервис')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Услуги</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbNiche', 'Одежда и Обувь')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Одежда и Обувь</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbNiche', 'Автотовары и Запчасти')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Автозапчасти</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbNiche', 'Электроника и Техника')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Электроника</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbNiche', 'Товары для дома')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Дом и уют</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbNiche', 'Услуги и Сервис')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Услуги</button>
               </div>
             </div>
 
@@ -661,30 +704,30 @@
             <div class="space-y-2">
               <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Город и склад (для отправок и самовывоза)</label>
               <input type="text" id="kbCityAddress" placeholder="Например: Москва, отправка по всей РФ через Авито Доставку" class="w-full px-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
-              <div class="flex flex-wrap gap-1.5 pt-0.5">
-                <button type="button" onclick="setKbChip('kbCityAddress', 'Москва, отправка по всей России через Авито Доставку')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Москва + РФ</button>
-                <button type="button" onclick="setKbChip('kbCityAddress', 'Санкт-Петербург, отправка по всей РФ')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">СПб + РФ</button>
-                <button type="button" onclick="setKbChip('kbCityAddress', 'Красноярск, самовывоз и отправка по всей РФ')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Красноярск + РФ</button>
-                <button type="button" onclick="setKbChip('kbCityAddress', 'Отправка по всей России через Авито Доставку')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Вся Россия</button>
+              <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pt-0.5 pb-1 touch-pan-x -mx-1 px-1">
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbCityAddress', 'Москва, отправка по всей России через Авито Доставку')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Москва + РФ</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbCityAddress', 'Санкт-Петербург, отправка по всей РФ')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">СПб + РФ</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbCityAddress', 'Красноярск, самовывоз и отправка по всей РФ')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Красноярск + РФ</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbCityAddress', 'Отправка по всей России через Авито Доставку')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Вся Россия</button>
               </div>
             </div>
 
             <div class="space-y-2">
               <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Способы доставки</label>
               <input type="text" id="kbDeliveryMethod" placeholder="Авито Доставка (СДЭК, Почта, Яндекс, Boxberry, 5Post)" class="w-full px-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
-              <div class="flex flex-wrap gap-1.5 pt-0.5">
-                <button type="button" onclick="setKbChip('kbDeliveryMethod', 'Авито Доставка (СДЭК, Почта России, Яндекс Доставка, Boxberry, 5Post)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Авито Доставка (все службы)</button>
-                <button type="button" onclick="setKbChip('kbDeliveryMethod', 'СДЭК по договору или Авито Доставка')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">СДЭК + Авито</button>
-                <button type="button" onclick="setKbChip('kbDeliveryMethod', 'Самовывоз со склада или Авито Доставка')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Самовывоз + Авито</button>
+              <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pt-0.5 pb-1 touch-pan-x -mx-1 px-1">
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbDeliveryMethod', 'Авито Доставка (СДЭК, Почта России, Яндекс Доставка, Boxberry, 5Post)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Авито Доставка (все службы)</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbDeliveryMethod', 'СДЭК по договору или Авито Доставка')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">СДЭК + Авито</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbDeliveryMethod', 'Самовывоз со склада или Авито Доставка')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Самовывоз + Авито</button>
               </div>
             </div>
 
             <div class="space-y-2">
               <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Режим работы и отправки заказов</label>
               <input type="text" id="kbWorkingHours" placeholder="Например: Круглосуточно 24/7 (отправка заказов в день оплаты)" class="w-full px-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-sm focus:outline-none transition-all">
-              <div class="flex flex-wrap gap-1.5 pt-0.5">
-                <button type="button" onclick="setKbChip('kbWorkingHours', '24/7 (круглосуточный прием заказов, отправки ежедневно)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">24/7 Круглосуточно</button>
-                <button type="button" onclick="setKbChip('kbWorkingHours', 'Ежедневно 10:00 - 21:00 (прием заказов онлайн 24/7)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">10:00 - 21:00 ежедневно</button>
+              <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pt-0.5 pb-1 touch-pan-x -mx-1 px-1">
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbWorkingHours', '24/7 (круглосуточный прием заказов, отправки ежедневно)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">24/7 Круглосуточно</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbWorkingHours', 'Ежедневно 10:00 - 21:00 (прием заказов онлайн 24/7)')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">10:00 - 21:00 ежедневно</button>
               </div>
             </div>
           </div>
@@ -720,9 +763,9 @@
                 <span class="text-[10px] text-gold font-semibold">Снимает страх предоплаты</span>
               </div>
               <textarea id="kbTryOnRule" rows="2" placeholder="При получении в пункте выдачи у вас есть 15 минут на полную проверку и осмотр товара. Если что-то не устроит — моментальный отказ на месте без списания средств." class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-xs leading-relaxed focus:outline-none transition-all"></textarea>
-              <div class="flex flex-wrap gap-1.5 pt-0.5">
-                <button type="button" onclick="setKbChip('kbTryOnRule', 'При получении в пункте Авито Доставки у вас есть 15 минут на полную проверку товара. Если что-то не подойдет — отказ на месте без списания средств.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">15 минут проверки в пункте</button>
-                <button type="button" onclick="setKbChip('kbTryOnRule', 'Только оригинальный качественный товар. Перед отправкой проверяем каждую позицию лично. Гарантия соответствия фото и описанию 100%.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">100% гарантия качества</button>
+              <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pt-0.5 pb-1 touch-pan-x -mx-1 px-1">
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbTryOnRule', 'При получении в пункте Авито Доставки у вас есть 15 минут на полную проверку товара. Если что-то не подойдет — отказ на месте без списания средств.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">15 минут проверки в пункте</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbTryOnRule', 'Только оригинальный качественный товар. Перед отправкой проверяем каждую позицию лично. Гарантия соответствия фото и описанию 100%.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">100% гарантия качества</button>
               </div>
             </div>
 
@@ -732,9 +775,9 @@
                 <span class="text-[10px] text-gold font-semibold">Увеличивает средний чек</span>
               </div>
               <textarea id="kbDiscountPolicy" rows="2" placeholder="Цены зафиксированы на минимальном уровне. При заказе от 2-х позиций — персональная скидка 5% или приятный подарок к заказу." class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold focus:ring-2 focus:ring-gold/20 rounded-xl text-white text-xs leading-relaxed focus:outline-none transition-all"></textarea>
-              <div class="flex flex-wrap gap-1.5 pt-0.5">
-                <button type="button" onclick="setKbChip('kbDiscountPolicy', 'Цены зафиксированы. При заказе от 2-х единиц действует скидка 5% на весь чек.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Скидка 5% от 2 шт</button>
-                <button type="button" onclick="setKbChip('kbDiscountPolicy', 'Цены окончательные, работаем напрямую от склада по минимальной стоимости.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Без торга (цены склада)</button>
+              <div class="flex flex-nowrap overflow-x-auto no-scrollbar gap-1.5 pt-0.5 pb-1 touch-pan-x -mx-1 px-1">
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbDiscountPolicy', 'Цены зафиксированы. При заказе от 2-х единиц действует скидка 5% на весь чек.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Скидка 5% от 2 шт</button>
+                <button type="button" class="shrink-0 touch-press" onclick="setKbChip('kbDiscountPolicy', 'Цены окончательные, работаем напрямую от склада по минимальной стоимости.')" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 hover:border-gold/30 transition-all cursor-pointer">Без торга (цены склада)</button>
               </div>
             </div>
 
@@ -1409,33 +1452,130 @@
 
   </div> <!-- END MAIN APP CONTAINER -->
 
-  <!-- MOBILE BOTTOM NAV BAR (WITH IOS SAFE-AREA SUPPORT) -->
-  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#121214]/95 backdrop-blur-xl border-t border-glass-border px-1.5 py-2 flex items-center justify-around" style="padding-bottom: max(0.5rem, env(safe-area-inset-bottom));">
-    <button onclick="switchTab('overview')" id="bnav-overview" class="bnav-btn bnav-active flex flex-col items-center gap-1 p-1 text-white/50 transition-colors">
-      <span class="material-symbols-outlined text-xl">dashboard</span>
-      <span class="text-[9px] font-medium">Обзор</span>
+  <!-- MOBILE BOTTOM NAV BAR (PREMIUM 5-BUTTON ERGONOMIC BAR WITH SAFE AREA SUPPORT) -->
+  <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#121214]/95 backdrop-blur-2xl border-t border-glass-border px-1.5 py-1.5 flex items-center justify-around shadow-[0_-8px_30px_rgba(0,0,0,0.6)]" style="padding-bottom: max(0.6rem, env(safe-area-inset-bottom));">
+    <button onclick="switchTab('overview')" id="bnav-overview" class="bnav-btn bnav-active flex-1 flex flex-col items-center justify-center gap-0.5 py-1 text-white/50 hover:text-white transition-all active:scale-95 touch-press">
+      <span class="material-symbols-outlined text-xl sm:text-2xl">dashboard</span>
+      <span class="text-[10px] font-semibold tracking-tight">Обзор</span>
     </button>
-    <button onclick="switchTab('shops')" id="bnav-shops" class="bnav-btn flex flex-col items-center gap-1 p-1 text-white/50 transition-colors">
-      <span class="material-symbols-outlined text-xl">storefront</span>
-      <span class="text-[9px] font-medium">Магазины</span>
+    <button onclick="switchTab('shops')" id="bnav-shops" class="bnav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-1 text-white/50 hover:text-white transition-all active:scale-95 touch-press">
+      <span class="material-symbols-outlined text-xl sm:text-2xl">storefront</span>
+      <span class="text-[10px] font-semibold tracking-tight">Магазины</span>
     </button>
-    <button onclick="switchTab('analytics')" id="bnav-analytics" class="bnav-btn flex flex-col items-center gap-1 p-1 text-white/50 transition-colors">
-      <span class="material-symbols-outlined text-xl">monitoring</span>
-      <span class="text-[9px] font-medium">Аналитика</span>
+    <button onclick="switchTab('knowledge')" id="bnav-knowledge" class="bnav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-1 text-white/50 hover:text-white transition-all active:scale-95 touch-press">
+      <span class="material-symbols-outlined text-xl sm:text-2xl">tune</span>
+      <span class="text-[10px] font-semibold tracking-tight">Регламент</span>
     </button>
-    <button onclick="switchTab('knowledge')" id="bnav-knowledge" class="bnav-btn flex flex-col items-center gap-1 p-1 text-white/50 transition-colors">
-      <span class="material-symbols-outlined text-xl">tune</span>
-      <span class="text-[9px] font-medium">База</span>
+    <button onclick="switchTab('tariffs')" id="bnav-tariffs" class="bnav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-1 text-white/50 hover:text-white transition-all active:scale-95 touch-press">
+      <span class="material-symbols-outlined text-xl sm:text-2xl">payments</span>
+      <span class="text-[10px] font-semibold tracking-tight">Тарифы</span>
     </button>
-    <button onclick="switchTab('tariffs')" id="bnav-tariffs" class="bnav-btn flex flex-col items-center gap-1 p-1 text-white/50 transition-colors">
-      <span class="material-symbols-outlined text-xl">payments</span>
-      <span class="text-[9px] font-medium">Тарифы</span>
-    </button>
-    <button onclick="switchTab('referrals')" id="bnav-referrals" class="bnav-btn flex flex-col items-center gap-1 p-1 text-white/50 transition-colors">
-      <span class="material-symbols-outlined text-xl">group</span>
-      <span class="text-[9px] font-medium">Рефералы</span>
+    <button onclick="toggleMobileMoreSheet(true)" id="bnav-more" class="bnav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-1 text-white/50 hover:text-white transition-all active:scale-95 touch-press">
+      <div class="relative flex items-center justify-center">
+        <span class="material-symbols-outlined text-xl sm:text-2xl">widgets</span>
+        <span class="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-gold"></span>
+      </div>
+      <span class="text-[10px] font-semibold tracking-tight">Меню</span>
     </button>
   </nav>
+
+  <!-- MOBILE QUICK ACTIONS BOTTOM SHEET MODAL -->
+  <div id="mobileMoreSheet" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md hidden flex-col justify-end transition-opacity duration-300">
+    <div class="absolute inset-0" onclick="toggleMobileMoreSheet(false)"></div>
+    <div class="relative w-full bg-[#161619] border-t border-glass-border rounded-t-3xl p-5 pt-3 pb-8 max-w-lg mx-auto z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.8)] animate-slide-up" style="padding-bottom: max(2rem, env(safe-area-inset-bottom));">
+      
+      <!-- DRAG HANDLE -->
+      <div class="w-12 h-1.5 bg-white/20 rounded-full mx-auto mb-4 cursor-pointer" onclick="toggleMobileMoreSheet(false)"></div>
+      
+      <!-- SHEET HEADER -->
+      <div class="flex items-center justify-between pb-3.5 border-b border-white/10 mb-4">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold">
+            <span class="material-symbols-outlined text-lg">widgets</span>
+          </div>
+          <div>
+            <div class="font-outfit font-bold text-sm text-white">Меню и Навигация</div>
+            <div class="text-[11px] text-white/40">Быстрый доступ ко всем разделам</div>
+          </div>
+        </div>
+        <button onclick="toggleMobileMoreSheet(false)" class="p-2 rounded-xl bg-white/5 active:bg-white/10 text-white/50 active:text-white transition-colors" aria-label="Закрыть">
+          <span class="material-symbols-outlined text-base">close</span>
+        </button>
+      </div>
+
+      <!-- BALANCE & TOPUP BAR -->
+      <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mb-4 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <div class="w-2 h-2 rounded-full bg-status-green animate-pulse"></div>
+          <div>
+            <div class="text-[10px] text-white/40 font-medium uppercase tracking-wider">Ваш баланс:</div>
+            <div id="moreSheetBalanceText" class="font-outfit font-black text-base text-gold">0 ₽</div>
+          </div>
+        </div>
+        <button onclick="toggleMobileMoreSheet(false); openPaymentModal('6490');" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all">
+          <span class="material-symbols-outlined text-sm font-bold">add_card</span>
+          <span>Пополнить</span>
+        </button>
+      </div>
+
+      <!-- NAVIGATION ACTIONS GRID -->
+      <div class="grid grid-cols-2 gap-2.5 mb-4">
+        <!-- ANALYTICS PRO -->
+        <button onclick="toggleMobileMoreSheet(false); switchTab('analytics');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-gold/30 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
+          <div class="flex items-center justify-between w-full">
+            <span class="material-symbols-outlined text-gold text-2xl">monitoring</span>
+            <span class="text-[9px] bg-gold/20 text-gold px-1.5 py-0.5 rounded font-extrabold border border-gold/30">PRO</span>
+          </div>
+          <div>
+            <div class="font-outfit font-bold text-xs text-white">Аналитика</div>
+            <div class="text-[10px] text-white/40">Конверсии и сделки</div>
+          </div>
+        </button>
+
+        <!-- REFERRALS -->
+        <button onclick="toggleMobileMoreSheet(false); switchTab('referrals');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-gold/30 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
+          <div class="flex items-center justify-between w-full">
+            <span class="material-symbols-outlined text-amber-400 text-2xl">group</span>
+            <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-extrabold border border-emerald-500/30">10%</span>
+          </div>
+          <div>
+            <div class="font-outfit font-bold text-xs text-white">Рефералы</div>
+            <div class="text-[10px] text-white/40">Партнерский доход</div>
+          </div>
+        </button>
+
+        <!-- SUPPORT -->
+        <a href="https://t.me/chc332" target="_blank" onclick="toggleMobileMoreSheet(false);" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-blue-500/10 border border-white/10 hover:border-blue-400/30 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
+          <div class="flex items-center justify-between w-full">
+            <span class="material-symbols-outlined text-blue-400 text-2xl">support_agent</span>
+            <span class="text-[9px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded font-bold">24/7</span>
+          </div>
+          <div>
+            <div class="font-outfit font-bold text-xs text-white">Поддержка</div>
+            <div class="text-[10px] text-white/40">Telegram @chc332</div>
+          </div>
+        </a>
+
+        <!-- HOME -->
+        <a href="./index.html" onclick="toggleMobileMoreSheet(false);" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-white/10 border border-white/10 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
+          <div class="flex items-center justify-between w-full">
+            <span class="material-symbols-outlined text-white/60 text-2xl">home</span>
+          </div>
+          <div>
+            <div class="font-outfit font-bold text-xs text-white">Главная</div>
+            <div class="text-[10px] text-white/40">Начальный экран</div>
+          </div>
+        </a>
+      </div>
+
+      <!-- LOGOUT BUTTON -->
+      <button onclick="toggleMobileMoreSheet(false); logoutUser();" class="w-full py-3 px-4 rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 text-xs font-bold flex items-center justify-center gap-2 active:scale-98 transition-all">
+        <span class="material-symbols-outlined text-sm">logout</span>
+        <span>Выйти из аккаунта</span>
+      </button>
+
+    </div>
+  </div>
 
   <!-- PAYMENT MODAL (YOOMONEY + SBP T-BANK) -->
   <div id="paymentModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
@@ -1575,7 +1715,7 @@
         </div>
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-status-green/10 border border-status-green/30 text-status-green text-[11px] font-bold uppercase tracking-wider">
           <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
-          <span id="succModalTariffBadge">Тариф «Тест-Драйв (7 дней)» Активирован</span>
+          <span id="succModalTariffBadge">Тариф «Пробный доступ (7 дней)» Активирован</span>
         </div>
         <h3 class="font-outfit font-extrabold text-2xl sm:text-3xl text-white">Поздравляем с приобретением бота!</h3>
         <p class="text-xs sm:text-sm text-white/70 leading-relaxed max-w-md mx-auto" id="succModalDescription">
@@ -2009,7 +2149,7 @@
           
           const bal = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
           const balEl = document.getElementById('userBalanceText');
-          if (balEl) balEl.innerText = bal;
+          if (balEl) renderUserBalance(userBalanceVal);
 
           // Update Overview Store Status
           const overDetails = document.getElementById('overviewSubDetails');
@@ -2046,7 +2186,7 @@
           localStorage.setItem('majorka_trial_used', '1');
           userSlotsCount = Math.max(2, Number(localStorage.getItem('majorka_slots_count') || 2));
           const balEl = document.getElementById('userBalanceText');
-          if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
+          if (balEl) renderUserBalance(userBalanceVal);
           const overDetails = document.getElementById('overviewSubDetails');
           const overPill = document.getElementById('overviewSubPill');
           if (overDetails) overDetails.innerText = 'Автономная работа 24/7 • Оплачен до 31.12.2099';
@@ -2059,7 +2199,7 @@
           userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
           userSlotsCount = Math.max(1, Number(localStorage.getItem('majorka_slots_count') || 1));
           const balEl = document.getElementById('userBalanceText');
-          if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
+          if (balEl) renderUserBalance(userBalanceVal);
           const overDetails = document.getElementById('overviewSubDetails');
           const overPill = document.getElementById('overviewSubPill');
           if (overDetails) overDetails.innerText = 'Тариф не активен • Выберите тариф для старта';
@@ -2107,7 +2247,7 @@
         if (data.new_balance !== undefined) {
           userBalanceVal = Number(data.new_balance);
           const balEl = document.getElementById('userBalanceText');
-          if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
+          if (balEl) renderUserBalance(userBalanceVal);
         }
 
         showToast('Тариф успешно активирован', `Списано ${amount.toLocaleString('ru-RU')} ₽. Переходим к мастеру настройки магазина...`, 'success');
@@ -2558,7 +2698,7 @@
         if (!qrRes.ok || !qrData.success) throw new Error(qrData.error || 'Не удалось отправить запрос');
       } catch (err) {}
 
-      showToast('QR-код запрошен', 'Откройте Telegram-бот @avito_deployer_bot — QR-код отправлен в диалог для сканирования.', 'info');
+      showToast('Авторизация', 'Откройте Telegram-бот @avito_deployer_bot для ввода номера телефона и СМС-кода.', 'info');
       if (window.Telegram?.WebApp) {
         try { window.Telegram.WebApp.HapticFeedback?.notificationOccurred('success'); } catch(e){}
       }
@@ -2956,7 +3096,12 @@
 
       document.querySelectorAll('.bnav-btn').forEach(btn => btn.classList.remove('bnav-active'));
       const activeBnavBtn = document.getElementById('bnav-' + tabId);
-      if (activeBnavBtn) activeBnavBtn.classList.add('bnav-active');
+      if (activeBnavBtn) {
+        activeBnavBtn.classList.add('bnav-active');
+      } else if (tabId === 'analytics' || tabId === 'referrals') {
+        const moreBtn = document.getElementById('bnav-more');
+        if (moreBtn) moreBtn.classList.add('bnav-active');
+      }
 
       if (tabId === 'overview') loadLiveChatLogs();
       if (tabId === 'shops') loadMyBots();
@@ -2964,6 +3109,36 @@
       if (tabId === 'knowledge') loadStoreKnowledge();
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // MOBILE ACTION SHEET TOGGLE
+    function toggleMobileMoreSheet(forceState) {
+      const sheet = document.getElementById('mobileMoreSheet');
+      if (!sheet) return;
+      const isHidden = sheet.classList.contains('hidden');
+      const show = (forceState !== undefined) ? forceState : isHidden;
+      if (show) {
+        renderUserBalance();
+        sheet.classList.remove('hidden');
+        sheet.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      } else {
+        sheet.classList.add('hidden');
+        sheet.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+    }
+
+    // CENTRALIZED BALANCE RENDERER (DESKTOP + MOBILE HEADER + BOTTOM SHEET)
+    function renderUserBalance(val) {
+      if (val !== undefined && !isNaN(val)) {
+        userBalanceVal = Number(val);
+      }
+      const formatted = Number(userBalanceVal || 0).toLocaleString('ru-RU') + ' ₽';
+      ['userBalanceText', 'userBalanceTextMobile', 'moreSheetBalanceText'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.innerText = formatted;
+      });
     }
 
     function toggleAnalyticsDemo() {
@@ -2986,7 +3161,7 @@
         if (title) {
           titleEl.innerText = title;
         } else if (Number(val) === 1590) {
-          titleEl.innerText = 'Тест-Драйв (7 дней)';
+          titleEl.innerText = 'Пробный доступ (7 дней)';
         } else if (Number(val) === 6490) {
           titleEl.innerText = 'Полный Доступ (1 месяц)';
         } else if (Number(val) === 15900) {
@@ -3159,7 +3334,7 @@
 
       // 3. Update dashboard UI
       const balEl = document.getElementById('userBalanceText');
-      if (balEl) balEl.innerText = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
+      if (balEl) renderUserBalance(userBalanceVal);
 
       const overDetails = document.getElementById('overviewSubDetails');
       const overPill = document.getElementById('overviewSubPill');
@@ -3198,10 +3373,10 @@
       const btnText = document.getElementById('succModalBtnMainText');
       const btnIcon = document.getElementById('succModalBtnMainIcon');
 
-      let tTitle = 'Тест-Драйв (7 дней)';
+      let tTitle = 'Пробный доступ (7 дней)';
       if (amount === 6490) tTitle = 'Полный Доступ (1 месяц)';
       else if (amount === 15900) tTitle = 'Бизнес Масштаб (3 месяца)';
-      else if (tariffName === 'trial_7days') tTitle = 'Тест-Драйв (7 дней)';
+      else if (tariffName === 'trial_7days') tTitle = 'Пробный доступ (7 дней)';
 
       if (badge) badge.innerText = `Тариф «${tTitle}» Активирован`;
       if (desc) desc.innerText = `С вашего баланса списано ${amount.toLocaleString('ru-RU')} ₽. Всего доступно слотов: ${userSlotsCount} (активны до ${dateStr}).`;
