@@ -352,7 +352,7 @@
           </div>
 
           <h2 id="heroStoreTitle" class="font-outfit text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight">
-            Магазин на Автопилоте Продаж
+            «MAJORka» на Автопилоте Продаж
           </h2>
 
           <p id="heroStoreDesc" class="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed">
@@ -2278,7 +2278,7 @@
         if (currentChatId === '6940082004') {
           userBotsList = [{
             id: 100016,
-            session_name: 'MAJORKA Store',
+            session_name: 'MAJORka',
             is_paid: 1,
             paid_until: '2026-11-17T12:42:49.192467',
             emulator_index: 0,
@@ -2392,7 +2392,8 @@
         const heroTitle = document.getElementById('heroStoreTitle');
         const heroDesc = document.getElementById('heroStoreDesc');
         const heroBadge = document.getElementById('heroStoreBadge');
-        if (heroTitle) heroTitle.innerText = `Магазин «${primaryBot.session_name || primaryBot.name || 'Авито'}» на Автопилоте`;
+        const rawName = (primaryBot.session_name || primaryBot.name || 'MAJORka').replace(/\s+Store\b/gi, '').trim();
+        if (heroTitle) heroTitle.innerText = `«${rawName}» на Автопилоте Продаж`;
         if (heroDesc) heroDesc.innerText = `Управляющий продажами активен 24/7. Ниша: ${primaryBot.niche || 'Товары'}. Консультирует покупателей, отвечает о наличии и закрывает сделки.`;
         if (heroBadge) heroBadge.innerText = 'Управляющий активен 24/7';
       }
