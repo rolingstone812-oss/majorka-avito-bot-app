@@ -1049,37 +1049,45 @@
           </button>
         </div>
 
-        <!-- CARD 3: FINANSIST BONUS (FREE) -->
-        <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-status-green/30 bg-status-green/[0.02]">
+        <!-- CARD 3: QUARTER 3 MONTHS (MAX BENEFIT) -->
+        <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-white/10 hover:border-gold/40 transition-all duration-300">
           <div class="space-y-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-status-green px-3 py-1 bg-status-green/10 rounded-full border border-status-green/30">Бонус</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-gold px-3 py-1 bg-gold/10 rounded-full border border-gold/30">Максимальная выгода</span>
             
             <div>
-              <h3 class="font-outfit font-bold text-2xl text-white">Управляющий «Финансист»</h3>
-              <div class="font-outfit font-extrabold text-3xl text-status-green mt-3">БЕСПЛАТНО</div>
-              <div class="text-xs text-white/40 mt-1">Учет доходов и расходов магазина</div>
+              <h3 class="font-outfit font-bold text-2xl text-white">Квартал на 3 Месяца</h3>
+              <div class="flex items-baseline gap-2 mt-3">
+                <span class="text-xs text-white/30 line-through">38 970 ₽</span>
+                <span class="font-outfit font-extrabold text-4xl text-white">15 900 ₽</span>
+                <span class="text-xs text-white/40">/ 3 мес</span>
+              </div>
+              <div class="text-xs text-white/40 mt-1">90 дней бесперебойных продаж 24/7 (5 300 ₽/мес)</div>
             </div>
 
             <ul class="space-y-3 pt-4 text-xs text-white/70">
               <li class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-status-green text-base">mic</span>
-                <span>Распознавание голосовых сообщений в TG</span>
+                <span class="material-symbols-outlined text-gold text-base">check_circle</span>
+                <span>Всё, что входит в тариф на 1 месяц</span>
               </li>
               <li class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-status-green text-base">calculate</span>
-                <span>Авто-расчет чистой прибыли и маржи</span>
+                <span class="material-symbols-outlined text-gold text-base">check_circle</span>
+                <span>Экономия 3 570 ₽ по сравнению с помесячной оплатой</span>
               </li>
               <li class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-status-green text-base">analytics</span>
-                <span>Мгновенная аналитика по запросу</span>
+                <span class="material-symbols-outlined text-gold text-base">check_circle</span>
+                <span>Персональная помощь с настройкой регламента</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="material-symbols-outlined text-gold text-base">check_circle</span>
+                <span>Приоритетная линия поддержки 24/7</span>
               </li>
             </ul>
           </div>
 
-          <a href="https://t.me/finans_majorka_bot" target="_blank" class="btn-ghost w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer text-status-green border-status-green/40 hover:bg-status-green/10">
-            <span class="material-symbols-outlined text-base">send</span>
-            <span>Запустить Финансиста (Бесплатно)</span>
-          </a>
+          <button onclick="selectTariffAndStart('quarter', 15900)" class="btn-ghost w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer border-white/20 text-white hover:border-gold hover:text-gold transition-colors">
+            <span class="material-symbols-outlined text-base">verified</span>
+            <span>Выбрать на 3 Месяца за 15 900 ₽</span>
+          </button>
         </div>
 
       </div>
