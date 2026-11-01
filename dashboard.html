@@ -403,13 +403,13 @@
           </h2>
 
           <p id="heroStoreDesc" class="text-white/70 text-xs sm:text-sm md:text-base leading-relaxed max-w-2xl">
-            Менеджер непрерывно общается с покупателями на Авито, консультирует по наличию товаров из каталога, условиям отправки и закрывает сделки в режиме 24/7 без пауз и выходных.
+            Отвечает за считанные секунды и удерживает покупателей, пока они не ушли к другим продавцам. Работает круглосуточно — хоть в 2 часа ночи, хоть в 6 утра, в любое время без пауз и выходных. Экспертно ведёт клиента к закрытию сделки, кратно увеличивает конверсию и экономит вам время на личную жизнь и сон.
           </p>
 
           <div class="pt-2 flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3" id="heroStoreActions">
-            <button onclick="switchTab('knowledge')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press">
-              <span class="material-symbols-outlined text-base">tune</span>
-              <span>Настроить продажи</span>
+            <button onclick="openPaymentModal('1590', 'Пробный период на 7 дней')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold touch-press">
+              <span class="material-symbols-outlined text-base">bolt</span>
+              <span>Пробный период за 1 590 ₽</span>
             </button>
 
             <button onclick="switchTab('tariffs')" class="btn-ghost px-5 sm:px-7 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
@@ -531,7 +531,7 @@
                   <span class="text-xs text-white/50">Менеджер продает товары по актуальным ценам</span>
                 </div>
               </div>
-              <span id="quickCatalogCountBadge" class="text-xs font-bold px-2.5 py-1 bg-gold/10 text-gold border border-gold/20 rounded-full">0 объявлений</span>
+              <span id="catalogSectionCountBadge" class="text-xs font-bold px-2.5 py-1 bg-white/5 text-white/80 border border-white/10 rounded-full">0 объявлений</span>
             </div>
 
             <!-- AUTO SYNC DIRECTLY FROM AVITO APP -->
@@ -547,6 +547,15 @@
                 <span class="material-symbols-outlined text-sm">sync</span>
                 <span>Синхронизировать товары</span>
               </button>
+            </div>
+
+            <!-- SUPPORT NOTE: TELEGRAM CONTACT -->
+            <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-white/70">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-gold text-base shrink-0">help</span>
+                <span>Если не отображаются ваши объявления — напишите в Telegram: <a href="https://t.me/chc332" target="_blank" class="text-gold font-bold hover:underline">@chc332</a></span>
+              </div>
+              <a href="https://t.me/chc332" target="_blank" class="px-3 py-1.5 rounded-lg bg-gold/15 text-gold border border-gold/30 text-xs font-bold hover:bg-gold/25 text-center shrink-0">Написать в Telegram</a>
             </div>
 
             <!-- REAL ITEMS LIST FROM DATABASE -->
@@ -575,14 +584,10 @@
                   <span class="material-symbols-outlined">monitoring</span>
                 </div>
                 <div>
-                  <h3 class="font-outfit font-bold text-lg text-white">Операционный статус 24/7</h3>
-                  <span class="text-xs text-white/50">Круглосуточный патруль входящих обращений</span>
+                  <h3 class="font-outfit font-bold text-lg text-white">Аналитика продаж 24/7</h3>
+                  <span class="text-xs text-white/50">Круглосуточный мониторинг входящих диалогов</span>
                 </div>
               </div>
-              <span class="text-xs text-white/70 bg-white/5 px-2.5 py-1 rounded-full border border-white/10 flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
-                <span>В сети</span>
-              </span>
             </div>
 
             <!-- REAL METRICS 2x2 GRID -->
@@ -2965,13 +2970,10 @@
           const bName = (userBotsList && userBotsList.length > 0 && userBotsList[0].session_name) ? userBotsList[0].session_name : 'MAJORKA';
           heroTitle.innerText = `«${bName}» — Твой Менеджер Продаж`;
         }
-        if (heroDesc) heroDesc.innerText = 'Менеджер непрерывно общается с покупателями на Авито, консультирует по наличию и доставке, отрабатывает возражения и закрывает сделки 24/7.';
+        if (heroDesc) heroDesc.innerText = 'Отвечает за считанные секунды и удерживает покупателей, пока они не ушли к другим продавцам. Работает круглосуточно — хоть в 2 часа ночи, хоть в 6 утра, в любое время без пауз и выходных. Экспертно ведёт клиента к закрытию сделки, кратно увеличивает конверсию и экономит вам время на личную жизнь и сон.';
         if (heroActions) {
           heroActions.innerHTML = `
-            <button onclick="switchTab('knowledge')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold touch-press">
-              <span class="material-symbols-outlined text-base">tune</span>
-              <span>Регламент и каталог</span>
-            </button>
+            <button onclick="openPaymentModal('1590', 'Пробный период на 7 дней')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold touch-press"><span class="material-symbols-outlined text-base">bolt</span><span>Пробный период за 1 590 ₽</span></button>
             <div class="grid grid-cols-2 gap-2 sm:flex sm:gap-3 w-full sm:w-auto">
               <button onclick="switchTab('shops')" class="btn-ghost px-3 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
                 <span class="material-symbols-outlined text-base">storefront</span>
@@ -3292,7 +3294,7 @@
           cardsHtml += `
             <div class="p-4 sm:p-5 rounded-2xl bg-[#121214] border border-white/10 hover:border-gold/30 transition-all flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
               <div class="flex items-center gap-3.5 min-w-0">
-                <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-b from-[#25221b] to-[#141416] border border-gold/30 flex items-center justify-center text-gold text-base font-black font-outfit shrink-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/80 text-sm font-bold font-outfit shrink-0">
                   #${index + 1}
                 </div>
                 <div class="min-w-0">
@@ -3374,7 +3376,7 @@
         const heroBadge = document.getElementById('heroStoreBadge');
         const rawName = (primaryBot.session_name || primaryBot.name || 'MAJORKA').replace(/\s+Store\b/gi, '').trim();
         if (heroTitle) heroTitle.innerText = `«${rawName}» — Твой Менеджер Продаж`;
-        if (heroDesc) heroDesc.innerText = `Управляющий продажами активен 24/7. Ниша: ${primaryBot.niche || 'Товары'}. Консультирует покупателей, отвечает о наличии и закрывает сделки.`;
+        if (heroDesc) heroDesc.innerText = `Отвечает за считанные секунды и удерживает покупателей, пока они не ушли к другим продавцам. Работает круглосуточно — хоть в 2 часа ночи, хоть в 6 утра, в любое время без пауз и выходных. Экспертно ведёт клиента к закрытию сделки, кратно увеличивает конверсию и экономит вам время на личную жизнь и сон.`;
         if (heroBadge) heroBadge.innerText = storePausedState ? 'Менеджер на паузе' : 'Управляющий активен 24/7';
       }
 
@@ -3898,8 +3900,10 @@
       const analyticsTable = document.getElementById('analyticsCatalogTable');
 
       const count = (currentCatalogProducts && Array.isArray(currentCatalogProducts)) ? currentCatalogProducts.length : 0;
+      const catalogSectionBadge = document.getElementById('catalogSectionCountBadge');
       if (countBadge) countBadge.innerText = count;
       if (quickBadge) quickBadge.innerText = count + ' объявлений';
+      if (catalogSectionBadge) catalogSectionBadge.innerText = count + ' объявлений';
       if (analyticsBadge) analyticsBadge.innerText = count + ' товаров';
 
       const emptyHtml = `
