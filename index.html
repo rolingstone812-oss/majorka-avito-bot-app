@@ -318,6 +318,13 @@
               <span id="emailActionText">Войти в кабинет</span>
               <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
+              <!-- 152-FZ & OFFER CONSENT NOTICE -->
+              <p class="text-[10px] text-white/40 text-center leading-tight pt-1">
+                Нажимая кнопку, вы принимаете условия 
+                <a href="oferta.html" target="_blank" class="text-brand-gold hover:underline">Публичной оферты</a> 
+                и даёте согласие на обработку данных по 
+                <a href="privacy.html" target="_blank" class="text-brand-gold hover:underline">152-ФЗ РФ</a>.
+              </p>
           </div>
         </div>
 
@@ -909,7 +916,8 @@
 
   <!-- JAVASCRIPT LOGIC & HANDSHAKE -->
   <script>
-    const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    const isLocalHost = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:' || !window.location.hostname);
+    const API_BASE = isLocalHost
       ? (window.location.port === '8085' ? '' : 'http://127.0.0.1:8085')
       : 'https://immensurable-paleaceous-marcella.ngrok-free.dev';
 
@@ -925,7 +933,11 @@
         target += '?chatId=' + tgUser.id;
       } else {
         const saved = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId');
-        if (saved) target += '?chatId=' + saved;
+        if (saved && !saved.startsWith('client_')) {
+          target += '?chatId=' + saved;
+        } else if (isLocalHost) {
+          target += '?chatId=6940082004';
+        }
       }
       window.location.href = target;
     }
