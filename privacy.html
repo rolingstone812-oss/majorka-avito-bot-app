@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Политика конфиденциальности — Платформа MAJORKA</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: '#121214',
+            surface: '#1A1A1E',
+            gold: '#FFDD2D',
+            goldHover: '#E6C628',
+            borderSubtle: 'rgba(255, 255, 255, 0.08)'
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #121214;
+      color: #E2E8F0;
+    }
+    .glass-card {
+      background: rgba(26, 26, 30, 0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-gold selection:text-black">
+
+  <!-- HEADER -->
+  <header class="border-b border-white/10 sticky top-0 bg-[#121214]/90 backdrop-blur-md z-50">
+    <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="/shop/dashboard.html" class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-xl bg-gold flex items-center justify-center text-black font-outfit font-black text-xl shadow-lg shadow-gold/20">
+          M
+        </div>
+        <span class="font-outfit font-black text-xl tracking-wider text-white">MAJORKA</span>
+      </a>
+      <div class="flex items-center gap-4">
+        <a href="/shop/dashboard.html" class="text-xs font-semibold text-white/70 hover:text-gold transition-colors flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-sm">dashboard</span>
+          <span>Личный кабинет</span>
+        </a>
+        <a href="https://t.me/chc332" target="_blank" class="px-3 py-1.5 rounded-lg bg-gold/10 hover:bg-gold/20 text-gold text-xs font-bold border border-gold/30 transition-all flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">support_agent</span>
+          <span>Поддержка 24/7</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 max-w-4xl mx-auto px-4 py-10 w-full">
+    <div class="mb-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 border border-gold/20 text-gold text-xs font-bold mb-3">
+        <span class="material-symbols-outlined text-sm">verified_user</span>
+        <span>Федеральный закон № 152-ФЗ РФ</span>
+      </div>
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-white font-outfit mb-2">
+        Политика конфиденциальности и обработки персональных данных
+      </h1>
+      <p class="text-white/50 text-xs">
+        Редакция от 29 октября 2026 года • Вступает в силу с момента размещения
+      </p>
+    </div>
+
+    <!-- DOCUMENT BODY -->
+    <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-6 text-sm text-white/80 leading-relaxed border border-white/10">
+      
+      <section>
+        <h2 class="text-lg font-bold text-white font-outfit mb-2 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-gold"></span>
+          1. Общие положения
+        </h2>
+        <p>
+          1.1. Настоящая Политика конфиденциальности (далее — «Политика») определяет порядок обработки и защиты персональных данных Пользователей онлайн-платформы <strong>MAJORKA</strong> (далее — «Сервис», «Платформа»), доступной по веб-адресу Личного Кабинета и в Telegram-боте.
+        </p>
+        <p class="mt-2">
+          1.2. Оператором обработки персональных данных является Администрация Платформы MAJORKA (далее — «Оператор»). Связь со службой защиты данных и технической поддержкой осуществляется круглосуточно через Telegram: <a href="https://t.me/chc332" class="text-gold hover:underline font-medium">@chc332</a>.
+        </p>
+        <p class="mt-2">
+          1.3. Использование Личного Кабинета, регистрация, вход по номеру телефона, Telegram или e-mail, а также оплата услуг означает полное и безоговорочное согласие Пользователя с настоящей Политикой.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-white font-outfit mb-2 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-gold"></span>
+          2. Состав собираемых персональных данных
+        </h2>
+        <p>Оператор может обрабатывать следующие данные, предоставляемые Пользователем добровольно:</p>
+        <ul class="list-disc list-inside mt-2 space-y-1 text-white/70 pl-2">
+          <li>Идентификатор Telegram (Telegram User ID / Chat ID), имя пользователя (username), указанное имя;</li>
+          <li>Адрес электронной почты (e-mail) — при входе по почте;</li>
+          <li>Номер мобильного телефона — при привязке магазина к выделенному серверу;</li>
+          <li>Технические данные: IP-адрес, тип браузера, cookies сессии (session_token), время обращений к Личному Кабинету;</li>
+          <li>Данные о платежах и подписках (статус транзакции, сумма). Платежные реквизиты банковских карт обрабатываются исключительно лицензированным платёжным шлюзом (ЮKassa / ЮMoney) в защищенном PCI DSS контуре, Сервис не хранит полные номера карт и CVC-коды.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-white font-outfit mb-2 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-gold"></span>
+          3. Цели обработки персональных данных
+        </h2>
+        <p>Персональные данные собираются исключительно для следующих законных целей:</p>
+        <ul class="list-disc list-inside mt-2 space-y-1 text-white/70 pl-2">
+          <li>Идентификация Пользователя в Личном Кабинете и сохранение настроек магазина;</li>
+          <li>Предоставление доступа к функционалу Платформы («Личный Управляющий Продажами», «Ассистент Магазина 24/7»);</li>
+          <li>Выделение изолированного вычислительного сервера магазина для круглосуточной связи с покупателями;</li>
+          <li>Оказание круглосуточной оперативной технической поддержки через Telegram: @chc332;</li>
+          <li>Уведомление Пользователя о статусе заказов, балансе и окончании оплаченного периода;</li>
+          <li>Исполнение обязательств по 100% возврату средств в течение 24 часов в случае обращения Пользователя.</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-white font-outfit mb-2 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-gold"></span>
+          4. Защита и конфиденциальность данных
+        </h2>
+        <p>
+          4.1. Оператор применяет современные технические, криптографические и организационные меры безопасности в соответствии с требованиями Федерального закона № 152-ФЗ «О персональных данных» и стандартами NIST CSF 2.0.
+        </p>
+        <p class="mt-2">
+          4.2. Передача данных осуществляется по защищенному протоколу TLS/HTTPS с шифрованием. База данных защищена механизмами изоляции, токены сессий генерируются криптографически стойким генератором случайных чисел.
+        </p>
+        <p class="mt-2">
+          4.3. Оператор <strong>никогда не продаёт и не передаёт</strong> персональные данные Пользователей третьим лицам в маркетинговых или рекламных целях.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-bold text-white font-outfit mb-2 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-gold"></span>
+          5. Права Пользователя и отзыв согласия
+        </h2>
+        <p>
+          5.1. Пользователь имеет право на получение сведений о своих обрабатываемых данных, их уточнение, блокирование или уничтожение.
+        </p>
+        <p class="mt-2">
+          5.2. Пользователь вправе в любой момент отозвать согласие на обработку персональных данных, направив соответствующее требование в службу поддержки Telegram: <a href="https://t.me/chc332" class="text-gold hover:underline font-bold">@chc332</a>. Обработка запроса и полное удаление учетных данных осуществляются в течение 24 часов.
+        </p>
+      </section>
+
+      <section class="p-4 rounded-xl bg-gold/5 border border-gold/20">
+        <div class="flex items-center gap-2 text-gold font-bold mb-1">
+          <span class="material-symbols-outlined text-base">support_agent</span>
+          <span>Контакты для юридических запросов</span>
+        </div>
+        <p class="text-xs text-white/70">
+          Платформа MAJORKA • Официальная круглосуточная поддержка: <a href="https://t.me/chc332" class="text-gold underline">@chc332</a> • 100% Гарантия безопасности данных
+        </p>
+      </section>
+
+    </div>
+
+    <!-- BACK BUTTON -->
+    <div class="mt-8 text-center">
+      <a href="/shop/dashboard.html" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gold hover:bg-goldHover text-black font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-gold/20">
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        <span>Вернуться в Личный Кабинет</span>
+      </a>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-white/10 py-6 text-center text-xs text-white/40">
+    <p>© 2026 Платформа MAJORKA. Все права защищены. Соответствие 152-ФЗ РФ.</p>
+  </footer>
+
+</body>
+</html>
