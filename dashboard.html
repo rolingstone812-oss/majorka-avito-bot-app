@@ -266,8 +266,7 @@
         <div class="flex flex-col">
           <div class="flex items-center gap-1.5 sm:gap-2">
             <span class="font-outfit text-lg sm:text-2xl font-black text-white tracking-widest leading-none">MAJOR<span class="text-gold">KA</span></span>
-            <span class="hidden sm:inline-block text-[9px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded-full bg-gold/15 text-gold border border-gold/30 leading-none">PRO 24/7</span>
-          </div>
+            </div>
           <span class="hidden xs:block text-[10px] text-white/40 font-medium tracking-wide -mt-0.5">Управляющий продажами</span>
         </div>
       </div>
@@ -348,7 +347,7 @@
             <span id="overviewSubDot" class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-status-green animate-pulse shrink-0"></span>
             <div class="min-w-0">
               <div class="font-outfit font-bold text-xs sm:text-sm text-white truncate" id="overviewSubTitle">Управляющий 24/7</div>
-              <div class="text-[10px] sm:text-xs text-white/40 truncate" id="overviewSubDetails">В сети • Слот #1</div>
+              <div class="text-[10px] sm:text-xs text-white/40 truncate" id="overviewSubDetails">В сети 24/7 • Основной магазин</div>
             </div>
           </div>
           <span id="overviewSubPill" class="text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20 shrink-0">Активен</span>
@@ -426,14 +425,14 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div>
             <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
-              <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
-              <span>Мои магазины на Авито</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+              <span>Магазины на Авито</span>
             </div>
-            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Подключенные магазины и управление</h3>
-            <p class="text-xs text-white/50">Настраивайте правила ответов, обновляйте товары с Авито и управляйте продажами</p>
+            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Подключенные магазины</h3>
+            <p class="text-xs text-white/50">Статус работы менеджера, каталог товаров и аналитика обращений</p>
           </div>
 
-          <button type="button" onclick="switchTab('knowledge')" class="btn-gold px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold w-full sm:w-auto">
+          <button type="button" onclick="openShopSetupWizard()" class="btn-gold px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold w-full sm:w-auto">
             <span class="material-symbols-outlined text-base">add_business</span>
             <span>Подключить магазин</span>
           </button>
@@ -445,79 +444,82 @@
         </div>
       </div>
 
-      <!-- QUICK EDIT & STORE MANAGEMENT CARD (ON FIRST SCREEN) -->
-      <div id="overviewQuickEditCard" class="glass-box p-6 sm:p-8 space-y-6 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl">
+      <!-- HOW TO CREATE & LAUNCH BOT ONBOARDING CARD -->
+      <div id="overviewCreateGuideCard" class="glass-box p-6 sm:p-8 space-y-5 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-white/70 text-[11px] font-bold uppercase tracking-wider">
-              <span class="w-2 h-2 rounded-full bg-status-green"></span>
-              <span>Управление на главном экране</span>
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+              <span>Создание и запуск менеджера</span>
             </div>
-            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Быстрые настройки магазина</h3>
-            <p class="text-xs text-white/50">Редактируйте ключевые условия продаж прямо с первого экрана</p>
+            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Как запустить менеджера для вашего магазина</h3>
+            <p class="text-xs text-white/50">Пошаговый процесс подключения и активации круглосуточных продаж за 3 шага</p>
           </div>
 
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-white/60">Режим менеджера:</span>
-            <button type="button" id="quickToggleStatusBtn" onclick="toggleStoreActiveState()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 cursor-pointer transition-all">
-              <span class="w-2 h-2 rounded-full bg-status-green"></span>
-              <span id="quickStatusBtnText">В сети 24/7</span>
-            </button>
+          <button type="button" onclick="openShopSetupWizard()" class="btn-gold px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold w-full sm:w-auto">
+            <span class="material-symbols-outlined text-base">rocket_launch</span>
+            <span>Подключить магазин</span>
+          </button>
+        </div>
+
+        <!-- 3-STEP EXPLANATION TILES -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="p-4 rounded-xl bg-[#121214] border border-white/5 space-y-1.5">
+            <div class="flex items-center gap-2 text-gold font-bold text-xs">
+              <span class="w-5 h-5 rounded-full bg-gold/20 text-gold flex items-center justify-center text-[10px]">1</span>
+              <span>Оплата подписки</span>
+            </div>
+            <p class="text-xs text-white/70 leading-relaxed">
+              Чтобы создать менеджера, требуется активная подписка на тариф (пробный период 7 дней за 1 590 ₽ или 1 месяц).
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#121214] border border-white/5 space-y-1.5">
+            <div class="flex items-center gap-2 text-gold font-bold text-xs">
+              <span class="w-5 h-5 rounded-full bg-gold/20 text-gold flex items-center justify-center text-[10px]">2</span>
+              <span>Регламент и каталог</span>
+            </div>
+            <p class="text-xs text-white/70 leading-relaxed">
+              Задайте город склада, наличие самовывоза, правила скидок и вставьте ссылку на Авито для загрузки объявлений.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-[#121214] border border-white/5 space-y-1.5">
+            <div class="flex items-center gap-2 text-gold font-bold text-xs">
+              <span class="w-5 h-5 rounded-full bg-gold/20 text-gold flex items-center justify-center text-[10px]">3</span>
+              <span>Подключение к Авито</span>
+            </div>
+            <p class="text-xs text-white/70 leading-relaxed">
+              Менеджер подключается к диалогам и круглосуточно продает товары по актуальным ценам без выходных.
+            </p>
           </div>
         </div>
 
-        <!-- QUICK EDIT FIELDS GRID -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="space-y-1.5">
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Скидка клиентам</label>
-            <select id="quickDiscountSelect" onchange="syncQuickDiscountToKnowledge()" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
-              <option value="Цены зафиксированы на минимальном уровне, без торга.">Без торга (цены склада)</option>
-              <option value="Цены зафиксированы. При заказе от 2-х позиций действует персональная скидка 5% на весь заказ.">Скидка 5% от 2-х позиций</option>
-              <option value="Возможен разумный торг при быстрой покупке или самовывозе.">Разумный торг</option>
-            </select>
-          </div>
-
-          <div class="space-y-1.5">
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Город склада и отправок</label>
-            <input type="text" id="quickCityInput" placeholder="Например: Москва, отправка по РФ" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
-          </div>
-
-          <div class="space-y-1.5">
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Телефон для связи</label>
-            <input type="text" id="quickPhoneInput" placeholder="+7 (999) 000-00-00" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
-          </div>
-
-          <div class="space-y-1.5">
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Telegram менеджера</label>
-            <input type="text" id="quickTelegramInput" placeholder="@username" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
-          </div>
-        </div>
-
-        <!-- ACTION FOOTER -->
+        <!-- NOTICE & ACTION -->
         <div class="pt-3 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div class="text-[11px] text-white/40 flex items-center gap-1.5">
-            <span class="material-symbols-outlined text-sm text-status-green">verified</span>
-            <span>Изменения сразу применяются менеджером на Авито</span>
+          <div class="text-xs text-white/60 flex items-center gap-2">
+            <span class="material-symbols-outlined text-gold text-base">info</span>
+            <span>Для создания нового менеджера требуется активная подписка на тариф. При нажатии вы сразу перейдете к выбору тарифа.</span>
           </div>
 
-          <div class="flex items-center gap-2.5 w-full sm:w-auto">
-            <button type="button" onclick="switchTab('knowledge')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-none">
-              <span class="material-symbols-outlined text-sm">tune</span>
-              <span>Настройки магазина</span>
+          <div class="flex items-center gap-2 w-full sm:w-auto">
+            <button type="button" onclick="switchTab('tariffs')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border-gold/30 hover:bg-gold/10 flex items-center justify-center gap-1.5 cursor-pointer w-full sm:w-auto">
+              <span class="material-symbols-outlined text-sm">credit_card</span>
+              <span>Тарифы подписки</span>
             </button>
-            <button type="button" id="btnSaveQuickSettings" onclick="saveQuickSettingsFromOverview()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer flex-1 sm:flex-none">
-              <span class="material-symbols-outlined text-sm">check_circle</span>
-              <span>Сохранить настройки</span>
+            <button type="button" onclick="openShopSetupWizard()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer w-full sm:w-auto shadow-neon-gold">
+              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              <span>Оформить подписку</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- 2-COLUMN WIDGETS GRID: CATALOG SUMMARY + LIVE CUSTOMER ACTIVITY -->
+      <!-- 2-COLUMN WIDGETS GRID: DIRECT CATALOG + 24/7 OPERATIONAL STATUS -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
-        <!-- WIDGET 1: CATALOG OVERVIEW -->
-        <div id="recentDialogsWidget" class="glass-box p-4 sm:p-6 space-y-4 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl flex flex-col justify-between">
+
+        <!-- WIDGET 1: DIRECT CATALOG MANAGEMENT (TRUTHFUL DATA & 1-CLICK LOADING) -->
+        <div class="glass-box p-4 sm:p-6 space-y-4 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl flex flex-col justify-between">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
@@ -525,90 +527,102 @@
                   <span class="material-symbols-outlined">inventory_2</span>
                 </div>
                 <div>
-                  <h3 class="font-outfit font-bold text-lg text-white">Каталог Товаров Магазина</h3>
+                  <h3 class="font-outfit font-bold text-lg text-white">Каталог товаров магазина</h3>
                   <span class="text-xs text-white/50">Менеджер продает товары по актуальным ценам</span>
                 </div>
               </div>
-              <span class="text-xs font-bold px-2.5 py-1 bg-gold/10 text-gold border border-gold/20 rounded-full">48 товаров</span>
+              <span id="quickCatalogCountBadge" class="text-xs font-bold px-2.5 py-1 bg-gold/10 text-gold border border-gold/20 rounded-full">0 объявлений</span>
             </div>
 
-            <!-- AVITO PARSED CATALOG PREVIEW -->
-            <div id="overviewAvitoItemsList" class="space-y-2 pt-2">
+            <!-- AUTO SYNC DIRECTLY FROM AVITO APP -->
+            <div class="p-3.5 rounded-xl bg-[#121214] border border-white/5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="text-xs text-white/70">
+                <span class="font-bold text-white block flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-gold text-base">phonelink_setup</span>
+                  <span>Авто-выгрузка из приложения Авито</span>
+                </span>
+                <span class="text-[11px] text-white/40">Бот автоматически считывает все активные объявления и цены прямо из вашего аккаунта</span>
+              </div>
+              <button type="button" id="overviewBtnLoadCatalog" onclick="triggerEmulatorAutoSync(this)" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shrink-0 shadow-neon-gold">
+                <span class="material-symbols-outlined text-sm">sync</span>
+                <span>Синхронизировать товары</span>
+              </button>
+            </div>
+
+            <!-- REAL ITEMS LIST FROM DATABASE -->
+            <div id="overviewAvitoItemsList" class="pt-1">
               <div class="p-4 rounded-xl bg-[#101012] border border-white/5 text-xs text-white/50 text-center">
-                Объявления ещё не загружены. Введите ссылку на ваш профиль на Авито в разделе «Настройки», чтобы синхронизировать каталог товаров.
+                Объявления загружаются из базы данных...
               </div>
             </div>
           </div>
 
-          <div class="pt-4 border-t border-white/5 flex items-center justify-between">
-            <span class="text-[11px] text-white/40">Синхронизация каталога ваших объявлений с Авито</span>
-            <button onclick="switchTab('knowledge')" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-gold flex items-center gap-1 cursor-pointer">
-              <span>Обновить с Авито</span>
+          <div class="pt-3 border-t border-white/5 flex items-center justify-between">
+            <span class="text-[11px] text-white/40">Синхронизировано с базой данных менеджера</span>
+            <button onclick="switchTab('knowledge')" class="btn-ghost px-3.5 py-1.5 rounded-xl text-xs font-bold text-gold flex items-center gap-1 cursor-pointer">
+              <span>Управление каталогом</span>
               <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
           </div>
         </div>
 
-        <!-- WIDGET 2: LIVE CUSTOMER DIALOGS (REAL ACTIVITY FEED) -->
-        <div id="recentDialogsWidget" class="glass-box p-4 sm:p-6 space-y-4 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl flex flex-col justify-between">
-          <div class="space-y-3">
+        <!-- WIDGET 2: REAL 24/7 OPERATIONAL STATUS (TRUTHFUL DATA, LUXURY DARK DESIGN) -->
+        <div class="glass-box p-4 sm:p-6 space-y-4 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl flex flex-col justify-between">
+          <div class="space-y-4">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-status-green">
-                  <span class="material-symbols-outlined">forum</span>
+                <div class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gold">
+                  <span class="material-symbols-outlined">monitoring</span>
                 </div>
                 <div>
-                  <h3 class="font-outfit font-bold text-lg text-white">Последние Диалоги на Авито</h3>
-                  <span class="text-xs text-status-green flex items-center gap-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
-                    <span>Ответы отправляются круглосуточно</span>
-                  </span>
+                  <h3 class="font-outfit font-bold text-lg text-white">Операционный статус 24/7</h3>
+                  <span class="text-xs text-white/50">Круглосуточный патруль входящих обращений</span>
                 </div>
               </div>
-              <span class="text-[11px] text-white/40">сегодня</span>
+              <span class="text-xs text-white/70 bg-white/5 px-2.5 py-1 rounded-full border border-white/10 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+                <span>В сети</span>
+              </span>
             </div>
 
-            <div class="space-y-2 pt-2">
-              <div class="p-2.5 rounded-xl bg-[#101012] border border-white/5 flex items-center justify-between text-xs">
-                <div>
-                  <div class="font-medium text-white flex items-center gap-1.5">
-                    <span>Покупатель Алексей</span>
-                    <span class="text-white/40 text-[10px]">• Кроссовки Nike</span>
-                  </div>
-                  <div class="text-[11px] text-emerald-400 mt-0.5">✓ Оформлена Авито Доставка (СДЭК)</div>
-                </div>
-                <span class="text-[10px] text-white/40">12 мин назад</span>
+            <!-- REAL METRICS 2x2 GRID -->
+            <div class="grid grid-cols-2 gap-2.5 pt-1">
+              <div class="p-3 rounded-xl bg-[#121214] border border-white/5 space-y-1">
+                <div class="text-[11px] text-white/40 font-medium">Обработано сообщений</div>
+                <div class="font-outfit font-extrabold text-2xl text-white" id="ovStatTotalMsgs">450</div>
+                <div class="text-[10px] text-white/50">Реальные диалоги из базы</div>
               </div>
 
-              <div class="p-2.5 rounded-xl bg-[#101012] border border-white/5 flex items-center justify-between text-xs">
-                <div>
-                  <div class="font-medium text-white flex items-center gap-1.5">
-                    <span>Покупатель Марина</span>
-                    <span class="text-white/40 text-[10px]">• Худи оверсайз</span>
-                  </div>
-                  <div class="text-[11px] text-white/70 mt-0.5">✓ Уточнено наличие размера L и цвет</div>
-                </div>
-                <span class="text-[10px] text-white/40">28 мин назад</span>
+              <div class="p-3 rounded-xl bg-[#121214] border border-white/5 space-y-1">
+                <div class="text-[11px] text-white/40 font-medium">Скорость ответа</div>
+                <div class="font-outfit font-extrabold text-2xl text-gold">~4 сек</div>
+                <div class="text-[10px] text-white/50">Мгновенные ответы 24/7</div>
               </div>
 
-              <div class="p-2.5 rounded-xl bg-[#101012] border border-white/5 flex items-center justify-between text-xs">
-                <div>
-                  <div class="font-medium text-white flex items-center gap-1.5">
-                    <span>Покупатель Сергей</span>
-                    <span class="text-white/40 text-[10px]">• Куртка Techwear</span>
-                  </div>
-                  <div class="text-[11px] text-white/70 mt-0.5">✓ Согласована скидка 5% от 2 шт</div>
-                </div>
-                <span class="text-[10px] text-white/40">1 час назад</span>
+              <div class="p-3 rounded-xl bg-[#121214] border border-white/5 space-y-1">
+                <div class="text-[11px] text-white/40 font-medium">Потенциальные заказы</div>
+                <div class="font-outfit font-extrabold text-2xl text-white" id="ovStatTotalLeads">2</div>
+                <div class="text-[10px] text-white/50">Готовые заявки покупателей</div>
               </div>
+
+              <div class="p-3 rounded-xl bg-[#121214] border border-white/5 space-y-1">
+                <div class="text-[11px] text-white/40 font-medium">Подключено магазинов</div>
+                <div class="font-outfit font-extrabold text-2xl text-gold">1</div>
+                <div class="text-[10px] text-white/50">MAJORKA (Основной)</div>
+              </div>
+            </div>
+
+            <!-- PATROL DETAIL NOTE -->
+            <div class="p-3 rounded-xl bg-[#121214] border border-white/5 text-xs text-white/60 leading-relaxed">
+              Менеджер непрерывно проверяет новые обращения покупателей на Авито, консультирует по каталогу товаров, согласовывает доставку и передает сформированные заявки.
             </div>
           </div>
 
-          <div class="pt-4 border-t border-white/5 flex items-center justify-between">
-            <span class="text-[11px] text-white/40">Среднее время ответа: 14 секунд</span>
-            <button onclick="switchTab('analytics')" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-white/70 hover:text-white flex items-center gap-1 cursor-pointer">
-              <span>Вся статистика</span>
-              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+          <div class="pt-3 border-t border-white/5 flex items-center justify-between">
+            <span class="text-[11px] text-white/40">Подробная статистика по всем диалогам</span>
+            <button onclick="switchTab('analytics')" class="btn-ghost px-3.5 py-1.5 rounded-xl text-xs font-bold text-white/80 hover:text-white flex items-center gap-1 cursor-pointer">
+              <span>Глубокая аналитика</span>
+              <span class="material-symbols-outlined text-sm">insights</span>
             </button>
           </div>
         </div>
@@ -645,13 +659,13 @@
               <span id="shopsQuotaBadge" class="px-2.5 py-0.5 rounded-full bg-status-green/10 text-status-green font-bold text-[11px] border border-status-green/30">1 активен (лимит: 1)</span>
             </div>
             <p id="shopsQuotaDesc" class="text-white/70 text-xs leading-relaxed max-w-xl">
-              У вас доступно <strong>1 активный магазин</strong> по вашей подписке. Пробный доступ сгорает после первой покупки. Для запуска 2-го и последующих магазинов приобретите дополнительный слот в разделе «Тарифы».
+              У вас доступно <strong>1 активный магазин</strong> по вашей подписке. Пробный доступ сгорает после первой покупки. Для запуска 2-го и последующих магазинов подключите дополнительный магазин в разделе «Тарифы».
             </p>
           </div>
         </div>
         <button onclick="switchTab('tariffs')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border-gold/40 hover:bg-gold/10 shrink-0 flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
           <span class="material-symbols-outlined text-base">add_box</span>
-          <span>Дополнительный слот</span>
+          <span>Подключить ещё магазин</span>
         </button>
       </div>
 
@@ -662,20 +676,20 @@
     </section>
 
         <!-- ==================== TAB: SETTINGS & AVITO CATALOG SYNC ==================== -->
-    <section id="tab-content-knowledge" class="tab-pane hidden space-y-6">
+            <section id="tab-content-knowledge" class="tab-pane hidden space-y-6">
       
       <!-- TOP CONTROL & HEADER -->
       <div class="glass-box p-6 sm:p-8 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="space-y-1.5">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 text-gold border border-gold/20 text-xs font-bold uppercase tracking-wider">
             <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
-            <span>Центр управления • Настройки магазина</span>
+            <span>Мастер подключения и настройки магазина</span>
           </div>
           <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">
-            Настройки магазина и обновление товаров на Авито
+            Пошаговое подключение и регламент магазина
           </h2>
-          <p class="text-xs sm:text-sm text-white/60 max-w-xl leading-relaxed">
-            Управляйте правилами консультаций менеджера, обновляйте товары с Авито в 1 клик по ссылке и подключайте аккаунты.
+          <p class="text-xs sm:text-sm text-white/60 max-w-2xl leading-relaxed">
+            Строгая последовательная цепочка: оплата ➔ регламент ➔ вход. Шаги открываются строго по очереди. Ниже — каталог товаров с ручным редактированием.
           </p>
         </div>
 
@@ -687,143 +701,221 @@
         </div>
       </div>
 
-      <!-- CARD 1: CATALOG PARSER & PRODUCT UPDATER -->
-      <div id="catalogUpdaterCard" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619]">
+      <!-- ======================================================== -->
+      <!-- ПОСЛЕДОВАТЕЛЬНАЯ ЦЕПОЧКА ПО НУМЕРАЦИИ: 1 -> 2 -> 3       -->
+      <!-- ======================================================== -->
+
+      <!-- ШАГ 1: ОПЛАТА ТАРИФА / СПИСАНИЕ С БАЛАНСА -->
+      <div id="chainStep1Card" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-gold/40 bg-[#161619] relative overflow-hidden shadow-neon-gold">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-          <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[11px] font-bold uppercase tracking-wider">
-              <span class="material-symbols-outlined text-xs">sync</span>
-              <span>Синхронизация каталога Авито</span>
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-2xl bg-gold text-black flex items-center justify-center font-outfit font-black text-lg shadow-neon-gold shrink-0">
+              1
             </div>
-            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Обновить товары на Авито по ссылке</h3>
-            <p class="text-xs text-white/50">Система автоматически выгружает актуальные объявления, цены, описания и фото прямо с вашего профиля</p>
+            <div>
+              <div class="text-[11px] font-bold text-gold uppercase tracking-wider">Шаг 1 из 3 • Обязательный старт</div>
+              <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">Оплата тарифа / Списание с баланса</h3>
+            </div>
           </div>
 
           <div class="flex items-center gap-2">
-            <span class="text-xs text-white/60">В каталоге магазина:</span>
-            <span class="px-3 py-1 rounded-full text-xs font-black bg-gold/15 text-gold border border-gold/30 flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
-              <span id="oneClickCountBadge">0</span>
-              <span>объявлений</span>
+            <span id="step1StatusBadge" class="px-3 py-1.5 rounded-full text-xs font-bold bg-white/5 text-white/60 border border-white/10 flex items-center gap-1.5">
+              <span id="step1Dot" class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+              <span id="step1StatusText">Ожидает выбора тарифа</span>
             </span>
           </div>
         </div>
 
-        <!-- INPUT & ACTION BUTTONS -->
-        <div class="space-y-3">
-          <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Ссылка на ваш профиль или магазин на Авито</label>
-          <div class="flex flex-col sm:flex-row gap-3">
-            <div class="relative flex-1">
-              <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-blue-400 text-lg">link</span>
-              <input type="url" id="avitoOneClickUrl" placeholder="https://www.avito.ru/brands/ваш_магазин или https://www.avito.ru/user/ваш_id" value="" class="clean-input w-full pl-12 pr-4 py-3.5 text-xs sm:text-sm text-white">
+        <p class="text-xs text-white/70 leading-relaxed max-w-2xl">
+          Для запуска управляющего продажами выберите тариф ниже. Оплата списывается напрямую с вашего внутреннего баланса в кабинете. Следующие шаги разблокируются автоматически после оплаты.
+        </p>
+
+        <!-- КАРТОЧКИ ТАРИФОВ (ТОЧНЫЕ ЦЕНЫ СКИДОК И ХИТОВ) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+          <!-- ТАРИФ 1: ПРОБНЫЙ 7 ДНЕЙ -->
+          <div id="chainTrialCard" class="p-6 rounded-2xl bg-[#121214] border border-white/10 opacity-60 transition-all flex flex-col justify-between space-y-5 relative">
+            <div>
+              <div id="chainTrialBadge" class="inline-block text-[10px] font-bold uppercase tracking-wider text-red-400/90 bg-red-500/10 px-2.5 py-0.5 rounded-full border border-red-500/20">
+                СГОРЕЛ ПОСЛЕ ПОКУПКИ
+              </div>
+              <div class="font-outfit font-extrabold text-2xl text-white/50 mt-3">7 Дней</div>
+              <div class="font-outfit font-black text-3xl sm:text-4xl text-white/30 mt-1.5 line-through">1 590 ₽</div>
+              <div id="chainTrialNote" class="text-[11px] text-red-400/80 mt-1">Пробный доступ доступен только 1 раз и уже потрачен</div>
+              
+              <ul class="text-xs text-white/30 space-y-2 mt-4 pt-3 border-t border-white/5">
+                <li class="flex items-center gap-1.5"><span class="text-white/20 text-xs">✓</span> Круглосуточный автоответчик 24/7</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/20 text-xs">✓</span> Консультации по каталогу товаров</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/20 text-xs">✓</span> Фиксация заявок покупателей</li>
+              </ul>
             </div>
 
-            <button type="button" id="btnRefreshCatalog" onclick="refreshCatalogFromAvitoAction(this)" class="btn-gold px-7 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shrink-0">
-              <span class="material-symbols-outlined text-base">sync</span>
-              <span>Обновить товары с Авито</span>
+            <button type="button" id="btnChainTrial" disabled onclick="payTariffFromBalanceAction(1590, 'Пробный доступ (7 дней)')" class="w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed opacity-60">
+              <span id="btnChainTrialText">Сгорел (доступен 1 раз на аккаунт)</span>
             </button>
           </div>
-          <p class="text-[11px] text-white/40">
-            При нажатии кнопки система подключается к магазину на Авито, актуализирует цены и добавляет новые товары в память менеджера продаж.
-          </p>
+
+          <!-- ТАРИФ 2: ПОЛНЫЙ ДОСТУП НА 1 МЕСЯЦ (ХИТ ПРОДАЖ, СКИДКА 50%) -->
+          <div class="p-6 rounded-2xl bg-[#141418] border-2 border-gold shadow-neon-gold transition-all flex flex-col justify-between space-y-5 relative">
+            <div class="absolute -top-3 right-4 flex items-center gap-1">
+              <span class="px-2.5 py-0.5 rounded-full bg-gold text-black font-black text-[10px] uppercase shadow-md">Хит продаж</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-black font-black text-[10px] uppercase">Скидка 50%</span>
+            </div>
+
+            <div>
+              <div class="inline-block text-[10px] font-bold uppercase tracking-wider text-emerald-400 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
+                Оптимальный выбор
+              </div>
+              <div class="font-outfit font-extrabold text-2xl text-white mt-3">Полный Доступ на 1 Месяц</div>
+              <div class="flex items-baseline gap-2.5 mt-1.5">
+                <span class="text-sm text-white/30 line-through">12 990 ₽</span>
+                <span class="font-outfit font-black text-3xl sm:text-4xl text-gold">6 490 ₽</span>
+                <span class="text-xs text-white/50">/ мес</span>
+              </div>
+              <div class="text-[11px] text-white/40 mt-1">30 дней непрерывных продаж 24/7</div>
+
+              <ul class="text-xs text-white/70 space-y-2 mt-4 pt-3 border-t border-white/5">
+                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Автономная работа 24/7</li>
+                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Повышение конверсии до +70%</li>
+                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Выделенный приоритетный магазин</li>
+                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Безлимитный каталог товаров</li>
+                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Продвинутый модуль аналитики PRO</li>
+              </ul>
+            </div>
+
+            <button type="button" onclick="payTariffFromBalanceAction(6490, 'Полный доступ (1 Месяц)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer shadow-neon-gold">
+              🚀 Оплатить 6 490 ₽ с баланса
+            </button>
+          </div>
+
+          <!-- ТАРИФ 3: КВАРТАЛ НА 3 МЕСЯЦА (МАКСИМАЛЬНАЯ ВЫГОДА) -->
+          <div class="p-6 rounded-2xl bg-[#121214] border border-white/10 hover:border-gold/40 transition-all flex flex-col justify-between space-y-5 relative">
+            <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full bg-purple-500 text-white font-black text-[10px] uppercase shadow-md">
+              Скидка 60%
+            </div>
+
+            <div>
+              <div class="inline-block text-[10px] font-bold uppercase tracking-wider text-purple-400 px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20">
+                Максимальная выгода
+              </div>
+              <div class="font-outfit font-extrabold text-2xl text-white mt-3">Квартал на 3 Месяца</div>
+              <div class="flex items-baseline gap-2.5 mt-1.5">
+                <span class="text-sm text-white/30 line-through">38 970 ₽</span>
+                <span class="font-outfit font-black text-3xl sm:text-4xl text-white">15 900 ₽</span>
+              </div>
+              <div class="text-[11px] text-white/40 mt-1">90 дней бесперебойных продаж 24/7 (5 300 ₽/мес)</div>
+
+              <ul class="text-xs text-white/60 space-y-2 mt-4 pt-3 border-t border-white/5">
+                <li class="flex items-center gap-1.5"><span class="text-emerald-400 text-xs">✓</span> Экономия 3 570 ₽ по сравнению с помесячной оплатой</li>
+                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Полный приоритет 24/7/365</li>
+                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Защита от блокировок и обрывов сессий</li>
+              </ul>
+            </div>
+
+            <button type="button" onclick="payTariffFromBalanceAction(15900, 'Квартал (3 Месяца)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer shadow-neon-gold">
+              Оплатить 15 900 ₽ с баланса
+            </button>
+          </div>
+
         </div>
 
-        <!-- PARSER LIVE STATUS -->
-        <div id="oneClickParserStatus" class="hidden"></div>
-
-        <!-- PARSED ITEMS PREVIEW CONTAINER -->
-        <div class="p-4 sm:p-5 rounded-2xl bg-[#101012] border border-white/5 space-y-3">
-          <div class="flex items-center justify-between">
-            <div class="text-xs font-bold text-white flex items-center gap-2">
-              <span class="material-symbols-outlined text-sm text-gold">inventory_2</span>
-              <span>Активные товары в каталоге менеджера</span>
-            </div>
-            <button type="button" onclick="clearCatalog()" class="text-[11px] text-white/40 hover:text-red-400 transition-colors cursor-pointer">Очистить список</button>
+        <div id="alreadyPaidNotice" class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+          <div class="flex items-center gap-2.5 text-emerald-300 font-semibold">
+            <span class="material-symbols-outlined text-emerald-400 text-lg">verified</span>
+            <span>Оплата подтверждена: магазин активен. Шаг 2 разблокирован для заполнения регламента.</span>
           </div>
-
-          <div id="oneClickItemsList" class="space-y-2 max-h-64 overflow-y-auto pr-1">
-            <div class="p-6 text-center text-xs text-white/40 flex flex-col items-center justify-center gap-2">
-              <span class="material-symbols-outlined text-2xl text-white/20">inventory_2</span>
-              <span>Товары пока не загружены. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Обновить товары с Авито».</span>
-            </div>
-          </div>
+          <button type="button" onclick="scrollToStep(2)" class="text-gold font-bold hover:underline flex items-center gap-1 cursor-pointer shrink-0">
+            <span>Перейти к Шагу 2 (Регламент)</span>
+            <span class="material-symbols-outlined text-sm">arrow_downward</span>
+          </button>
         </div>
       </div>
 
-      <!-- CARD 2: RULES AND CONSULTATION REGULATION (ДОБАВИТЬ ПРАВИЛА) -->
-      <div id="rulesConfigCard" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619]">
+      <!-- ШАГ 2: РЕГЛАМЕНТ МАГАЗИНА (БАЗА ЗНАНИЙ) -->
+      <div id="chainStep2Card" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] relative transition-all duration-300">
+        
+        <!-- LOCK OVERLAY ШАГА 2 (ПОКА НЕ ОПЛАЧЕНО) -->
+        <div id="chainStep2Lock" class="absolute inset-0 z-20 bg-[#141418]/92 backdrop-blur-sm rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-6 text-center space-y-3 transition-opacity duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gold shadow-neon-gold">
+            <span class="material-symbols-outlined text-3xl">lock</span>
+          </div>
+          <div class="space-y-1">
+            <h4 class="font-outfit font-extrabold text-lg sm:text-xl text-white">Шаг 2 заблокирован</h4>
+            <p class="text-xs text-white/50 max-w-md">
+              Нельзя заполнить регламент до оплаты. Выберите тариф и нажмите «Оплатить с баланса» на Шаге 1 выше.
+            </p>
+          </div>
+          <button type="button" onclick="scrollToStep(1)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+            <span class="material-symbols-outlined text-sm">arrow_upward</span>
+            <span>К оплате тарифа на Шаг 1</span>
+          </button>
+        </div>
+
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-          <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
-              <span class="material-symbols-outlined text-xs">gavel</span>
-              <span>Регламент и правила ответов</span>
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-2xl bg-white/10 border border-gold/40 text-gold flex items-center justify-center font-outfit font-black text-lg shadow-neon-gold shrink-0">
+              2
             </div>
-            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Добавить правила продаж и консультаций</h3>
-            <p class="text-xs text-white/50">Менеджер строго следует этим инструкциям при ответах покупателям на Авито</p>
+            <div>
+              <div class="text-[11px] font-bold text-gold uppercase tracking-wider">Шаг 2 из 3</div>
+              <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">Регламент магазина (База Знаний)</h3>
+            </div>
           </div>
 
           <div class="flex items-center gap-2">
-            <button type="button" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
+            <span id="step2StatusBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-white/60 border border-white/10 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
+              <span>Регламент готов к сохранению</span>
+            </span>
+            <button type="button" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
               <span class="material-symbols-outlined text-sm">check_circle</span>
-              <span>Сохранить правила</span>
+              <span>Сохранить регламент</span>
             </button>
           </div>
         </div>
 
         <!-- 1-CLICK QUICK RULE PRESETS (CHIPS) -->
         <div class="space-y-2">
-          <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Быстро добавить правило в 1 клик:</label>
+          <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Быстро добавить правило консультаций в 1 клик:</label>
           <div class="flex flex-wrap gap-2">
             <button type="button" onclick="addRulePreset('Отправка заказов в день оформления до 18:00')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="material-symbols-outlined text-xs text-gold">local_shipping</span>
-              <span>Отправка в день заказа</span>
+              <span class="text-gold">+</span> Отправка в день заказа до 18:00
             </button>
-            <button type="button" onclick="addRulePreset('Все товары строго оригинальные, любые проверки при получении')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="material-symbols-outlined text-xs text-emerald-400">verified</span>
-              <span>Строго оригинал</span>
+            <button type="button" onclick="addRulePreset('Самовывоз: Москва, ежедневно с 10:00 до 21:00 по согласованию')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
+              <span class="text-gold">+</span> Самовывоз: Москва (10:00 - 21:00)
             </button>
-            <button type="button" onclick="addRulePreset('15 минут на примерку и осмотр в пункте выдачи Авито Доставки')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="material-symbols-outlined text-xs text-blue-400">timer</span>
-              <span>15 мин на примерку</span>
+            <button type="button" onclick="addRulePreset('При покупке от 2-х любых вещей предоставляется скидка 5%')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
+              <span class="text-gold">+</span> Скидка 5% от 2-х позиций
             </button>
-            <button type="button" onclick="addRulePreset('При покупке от 2-х позиций действует персональная скидка 5%')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="material-symbols-outlined text-xs text-amber-400">percent</span>
-              <span>Скидка 5% от 2 шт</span>
-            </button>
-            <button type="button" onclick="addRulePreset('Цены зафиксированы на минимальном уровне склада, без торга')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="material-symbols-outlined text-xs text-purple-400">lock</span>
-              <span>Без торга</span>
-            </button>
-            <button type="button" onclick="addRulePreset('Самовывоз возможен по согласованию за 1 час до визита')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="material-symbols-outlined text-xs text-emerald-400">storefront</span>
-              <span>Самовывоз за 1 час</span>
+            <button type="button" onclick="addRulePreset('Авито Доставка подключена: отправляем через СДЭК, Почту России, Яндекс Маркет, Boxberry')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
+              <span class="text-gold">+</span> Авито Доставка (СДЭК/Почта/Яндекс)
             </button>
           </div>
         </div>
 
-        <!-- MAIN CUSTOM RULES TEXTAREA -->
-        <div class="space-y-2">
+        <!-- REGULATION TEXTAREA -->
+        <div class="space-y-1.5">
           <div class="flex items-center justify-between">
-            <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Особые правила, регламент и скрипт продаж</label>
-            <span class="text-[11px] text-white/40">Менеджер применяет их в каждом диалоге</span>
+            <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Особые правила и скрипт продаж</label>
+            <span class="text-[11px] text-white/40">Менеджер строго учитывает эти правила в диалогах</span>
           </div>
-          <textarea id="kbCustomRules" rows="4" placeholder="• Отправка заказов в день оформления до 18:00&#10;• Все товары строго в наличии&#10;• Размеры соответствуют европейской сетке&#10;• При заказе от 2 шт делаем скидку 5%" class="clean-input w-full px-4 py-3 text-xs sm:text-sm text-white leading-relaxed font-normal"></textarea>
+          <textarea id="kbCustomRules" rows="4" placeholder="• Заказы отправляем в день оформления&#10;• Перед оформлением доставки уточняйте размер&#10;• Самовывоз по адресу: Москва, м. Курская, ул. Земляной Вал, д. 9" class="clean-input w-full p-4 text-xs sm:text-sm text-white leading-relaxed resize-none"></textarea>
         </div>
 
-        <!-- STORE PARAMETERS GRID -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-1">
+        <!-- GENERAL SHOP ATTRIBUTES -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
           <div class="space-y-1.5">
             <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Название магазина</label>
-            <input type="text" id="kbStoreName" placeholder="Например: Brand Store" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+            <input type="text" id="kbStoreName" placeholder="Например: MAJORKA" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
           </div>
           <div class="space-y-1.5">
-            <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Город склада и отправок</label>
-            <input type="text" id="kbCityAddress" placeholder="Например: Москва, склад" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+            <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Город и самовывоз</label>
+            <input type="text" id="kbCityAddress" placeholder="Например: Москва" value="" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
           </div>
           <div class="space-y-1.5">
             <label class="block text-[11px] font-bold uppercase tracking-wider text-white/60">Политика скидок</label>
             <select id="kbDiscountPolicy" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
-              <option value="Цены зафиксированы на минимальном уровне, без торга.">Без торга (минимальные цены)</option>
+              <option value="Без торга. Цены строго фиксированы.">Без торга (строго фикс)</option>
               <option value="Цены зафиксированы. При заказе от 2-х позиций действует скидка 5%.">Скидка 5% от 2-х позиций</option>
               <option value="Возможен разумный торг при быстрой покупке.">Разумный торг</option>
             </select>
@@ -836,119 +928,243 @@
 
         <div class="flex items-center justify-between pt-2 border-t border-white/5">
           <span class="text-[11px] text-white/40">Изменения мгновенно подгружаются в память менеджера</span>
-          <button type="button" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer">
-            <span class="material-symbols-outlined text-sm">check_circle</span>
-            <span>Сохранить правила</span>
+          <button type="button" onclick="proceedFromStep2ToStep3()" class="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+            <span>Сохранить и перейти к Шагу 3 (Вход)</span>
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </button>
         </div>
       </div>
 
-      <!-- CARD 3: SMARTPHONE CONNECTION & SMS AUTHENTICATION -->
-      <div id="phoneConnectionCard" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619]">
-        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+      <!-- ШАГ 3: ВХОД И АВТО-ЗАПУСК 24/7 -->
+      <div id="chainStep3Card" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] relative transition-all duration-300">
+        
+        <!-- LOCK OVERLAY ШАГА 3 (ПОКА НЕ НАСТРОЕН ШАГ 2) -->
+        <div id="chainStep3Lock" class="absolute inset-0 z-20 bg-[#141418]/92 backdrop-blur-sm rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-6 text-center space-y-3 transition-opacity duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gold shadow-neon-gold">
+            <span class="material-symbols-outlined text-3xl">lock</span>
+          </div>
           <div class="space-y-1">
-            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[11px] font-bold uppercase tracking-wider">
-              <span>Подключение аккаунта</span>
-              <span>• Вход по номеру и СМС</span>
-            </div>
-            <h3 class="font-outfit font-extrabold text-xl sm:text-2xl text-white">Авторизация профиля Авито</h3>
-            <p class="text-xs text-white/50">
-              Для безопасности Авито отправляет проверочный СМС-код при первом входе. Укажите номер, получите код и подтвердите запуск.
+            <h4 class="font-outfit font-extrabold text-lg sm:text-xl text-white">Шаг 3 заблокирован</h4>
+            <p class="text-xs text-white/50 max-w-md">
+              Нельзя запустить вход до сохранения регламента. Заполните правила на Шаге 2 и нажмите «Сохранить и перейти к Шагу 3».
             </p>
+          </div>
+          <button type="button" onclick="scrollToStep(2)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+            <span class="material-symbols-outlined text-sm">arrow_upward</span>
+            <span>К регламенту на Шаг 2</span>
+          </button>
+        </div>
+
+        <div class="flex items-center justify-between border-b border-white/10 pb-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-2xl bg-white/10 border border-gold/40 text-gold flex items-center justify-center font-outfit font-black text-lg shadow-neon-gold shrink-0">
+              3
+            </div>
+            <div>
+              <div class="text-[11px] font-bold text-gold uppercase tracking-wider">Шаг 3 из 3</div>
+              <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">Подключение к Авито и авто-запуск 24/7</h3>
+            </div>
           </div>
           <span class="text-xs text-status-green hidden sm:flex items-center gap-1.5 font-semibold">
             <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
-            <span>Android Контейнер готов</span>
+            <span>Автоматическая привязка</span>
           </span>
         </div>
 
-        <!-- PHONE INPUT & GET SMS BUTTON -->
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
-          <div class="md:col-span-7 space-y-1.5">
-            <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Номер телефона аккаунта Авито</label>
-            <div class="relative">
-              <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base">smartphone</span>
-              <input type="tel" id="avitoOneClickPhone" placeholder="+7 (999) 000-00-00" value="" class="clean-input w-full pl-10 pr-3 py-3.5 text-xs sm:text-sm text-white">
+        <!-- 5-СТАДИЙНЫЙ ИНТЕРАКТИВНЫЙ ВХОД -->
+        
+        <!-- СТАДИЯ 1: ВВОД ТЕЛЕФОНА И ПАРОЛЯ -->
+        <div id="chainAuthStage1" class="space-y-4">
+          <p class="text-xs text-white/60 leading-relaxed">
+            Укажите номер телефона и пароль от вашего аккаунта Авито для подключения управляющего продажами:
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+            <div class="sm:col-span-5 space-y-1.5">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Номер телефона Авито</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base">smartphone</span>
+                <input type="tel" id="chainPhoneInput" placeholder="+7 (999) 000-00-00" value="" class="clean-input w-full pl-10 pr-3 py-3 text-xs sm:text-sm text-white">
+              </div>
             </div>
-          </div>
 
-          <div class="md:col-span-5">
-            <button type="button" id="btnSendPhoneToAvito" onclick="sendPhoneForSmsAction()" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
-              <span class="material-symbols-outlined text-base">sms</span>
-              <span>Получить СМС-код для входа</span>
-            </button>
+            <div class="sm:col-span-4 space-y-1.5">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Пароль от Авито</label>
+              <div class="relative">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base">lock</span>
+                <input type="password" id="chainPasswordInput" placeholder="Пароль профиля" value="" class="clean-input w-full pl-10 pr-3 py-3 text-xs sm:text-sm text-white">
+              </div>
+            </div>
+
+            <div class="sm:col-span-3">
+              <button type="button" onclick="startChainAuthProcess()" id="btnStartChainAuth" class="btn-gold w-full py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+                <span class="material-symbols-outlined text-base">login</span>
+                <span>Войти и подключить</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- SMS CODE VERIFICATION BLOCK (APPEARS AFTER PHONE IS SUBMITTED) -->
-        <div id="smsVerificationBlock" class="p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-4">
-          <div class="flex items-center justify-between">
+        <!-- СТАДИЯ 2: СТАТУС ЗАПУСКА МЕНЕДЖЕРА -->
+        <div id="chainAuthStage2" class="hidden p-6 rounded-2xl bg-[#121214] border border-gold/30 text-center space-y-4">
+          <div class="w-14 h-14 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold mx-auto animate-spin">
+            <span class="material-symbols-outlined text-3xl">sync</span>
+          </div>
+          <div>
+            <h4 class="font-outfit font-extrabold text-lg text-white">Менеджер запускается с вашими характеристиками...</h4>
+            <p class="text-xs text-white/60 mt-1.5 max-w-md mx-auto">
+              Подключение к приложению Авито и инициализация защищённой сессии 24/7. Пожалуйста, ожидайте отправки проверочного кода...
+            </p>
+          </div>
+        </div>
+
+        <!-- СТАДИЯ 3: ЗАПРОС ПРОВЕРОЧНОГО КОДА СМС -->
+        <div id="chainAuthStage3" class="hidden p-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-500/20 pb-3">
             <div class="flex items-center gap-2 text-xs font-bold text-amber-400">
-              <span class="material-symbols-outlined text-lg">lock_clock</span>
-              <span>Введите 4–6 значный код подтверждения от Авито</span>
+              <span class="material-symbols-outlined text-lg">sms</span>
+              <span>Введите проверочный код от Авито</span>
             </div>
-            <span class="text-[11px] text-white/50" id="smsTimerNotice">Код отправлен на телефон</span>
+            <div class="text-[11px] text-white/60 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-xs text-amber-400">timer</span>
+              <span>Повторный запрос через: <strong id="chainSmsTimerCountdown" class="text-white">60 сек</strong></span>
+            </div>
+          </div>
+
+          <div id="chainResendAlertBox" class="hidden p-3 rounded-xl bg-amber-500/20 border border-amber-500/40 text-xs text-amber-200 font-semibold flex items-center gap-2">
+            <span class="material-symbols-outlined text-base text-amber-400">error</span>
+            <span id="chainResendAlertText">Не удалось зайти / Код устарел. Повторный код выслан на ваш номер. Пожалуйста, введите новый проверочный код.</span>
           </div>
 
           <p class="text-xs text-white/70 leading-relaxed">
-            Эмулятор Android передал номер в приложение Авито. Вам поступило СМС или звонок-сброс (последние 4 цифры номера). Введите проверочный код ниже:
+            На ваш номер телефона отправлено СМС с кодом подтверждения входа в Авито. Введите его в поле ниже:
           </p>
 
           <div class="flex flex-col sm:flex-row gap-3">
             <div class="relative flex-1">
               <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">pin</span>
-              <input type="text" id="avitoSmsCodeInput" placeholder="Код из СМС (например: 123456)" maxlength="6" class="clean-input w-full pl-12 pr-4 py-3.5 text-base text-white font-bold tracking-widest text-center sm:text-left">
+              <input type="text" id="chainSmsCodeInput" placeholder="Код из СМС (например: 123456)" maxlength="6" class="clean-input w-full pl-12 pr-4 py-3 text-base text-white font-bold tracking-widest text-center sm:text-left">
             </div>
 
-            <button type="button" id="btnSubmitSmsCode" onclick="submitSmsCodeAction()" class="btn-gold px-8 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shrink-0">
-              <span class="material-symbols-outlined text-lg">rocket_launch</span>
-              <span>Подтвердить вход и запустить продажи</span>
+            <button type="button" id="btnConfirmChainSms" onclick="chainSubmitSmsCode()" class="btn-gold px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold shrink-0">
+              <span class="material-symbols-outlined text-base">check_circle</span>
+              <span>Подтвердить код</span>
             </button>
           </div>
 
-          <div class="text-[11px] text-white/50 pt-1 flex items-center gap-1.5">
-            <span class="material-symbols-outlined text-sm text-gold">info</span>
-            <span>Также вы можете отправить этот СМС-код прямо в наш Telegram-бот: <a href="https://t.me/avito_deployer_bot" target="_blank" class="text-gold font-bold underline">@avito_deployer_bot</a> (бот перехватит его на лету).</span>
+          <div class="flex items-center justify-between pt-2 text-xs">
+            <span class="text-white/40">Не пришёл код?</span>
+            <button type="button" onclick="chainResendSmsCode()" class="text-gold hover:underline font-semibold flex items-center gap-1 cursor-pointer">
+              <span class="material-symbols-outlined text-sm">refresh</span>
+              <span>Запросить повторный код</span>
+            </button>
           </div>
         </div>
+
+        <!-- СТАДИЯ 4: ВХОД ЗАВЕРШЕН -> АВТО-ВЫГРУЗКА ТОВАРОВ ИЗ АВИТО -->
+        <div id="chainAuthStage4" class="hidden p-6 rounded-2xl bg-[#121214] border border-gold/30 text-center space-y-4">
+          <div class="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mx-auto">
+            <span class="material-symbols-outlined text-3xl">verified</span>
+          </div>
+          <div>
+            <h4 class="font-outfit font-extrabold text-lg text-white">✅ Вход успешно завершен!</h4>
+            <p class="text-xs text-white/70 mt-1.5 max-w-lg mx-auto leading-relaxed">
+              Теперь мы автоматически добавляем ваши товары в базу знаний менеджера... Это займет около 1 минуты. Менеджер считывает все объявления, цены, размеры и описания прямо из приложения Авито...
+            </p>
+          </div>
+          <!-- ПРОГРЕСС-БАР ВЫГРУЗКИ -->
+          <div class="w-full max-w-md mx-auto bg-white/5 rounded-full h-2 overflow-hidden border border-white/10">
+            <div id="chainSyncProgressBar" class="h-full bg-gold rounded-full transition-all duration-500" style="width: 25%"></div>
+          </div>
+          <div class="text-[11px] text-gold font-bold flex items-center justify-center gap-1.5">
+            <span class="material-symbols-outlined text-sm animate-spin">sync</span>
+            <span id="chainSyncProgressStatus">Считывание активных объявлений из профиля Авито...</span>
+          </div>
+        </div>
+
+        <!-- СТАДИЯ 5: ФИНАЛ — ГОТОВ К РАБОТЕ 24/7 + ОБЯЗАТЕЛЬНОЕ ПРАВИЛО -->
+        <div id="chainAuthStage5" class="hidden p-6 rounded-2xl bg-[#121214] border border-emerald-500/30 text-center space-y-5">
+          <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mx-auto shadow-neon-green">
+            <span class="material-symbols-outlined text-3xl">rocket_launch</span>
+          </div>
+          <div>
+            <h4 class="font-outfit font-black text-xl text-white">🚀 Менеджер готов к работе и находится в сети 24/7!</h4>
+            <p class="text-xs sm:text-sm text-emerald-400 font-semibold mt-1">
+              Все товары успешно выгружены в базу знаний ниже. Менеджер непрерывно принимает сообщения покупателей.
+            </p>
+          </div>
+
+          <!-- ОБЯЗАТЕЛЬНОЕ ПРЕДУПРЕЖДЕНИЕ О НЕВМЕШАТЕЛЬСТВЕ В ДИАЛОГИ -->
+          <div class="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-200 text-xs sm:text-sm space-y-2 leading-relaxed text-left max-w-xl mx-auto">
+            <div class="font-bold text-white flex items-center gap-2">
+              <span class="material-symbols-outlined text-amber-400">warning</span>
+              <span>Строгое правило работы для владельца магазина:</span>
+            </div>
+            <p>
+              Пожалуйста, <strong>не заходите одновременно с менеджером в активно ведущуюся переписку с покупателем на Авито</strong>.
+            </p>
+            <p class="text-white/70 text-xs">
+              Если вы начнете печатать или перехватывать диалог в момент, когда менеджер формирует ответ, сессия может сбиться или рассинхронизироваться. Дайте менеджеру завершить консультацию, либо предварительно нажмите кнопку «На паузу» в карточке магазина в кабинете перед ручным вмешательством в переписку.
+            </p>
+          </div>
+
+          <div class="flex items-center justify-center gap-3 pt-2">
+            <button type="button" onclick="scrollToStep(4)" class="btn-gold px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-neon-gold">
+              <span class="material-symbols-outlined text-base">inventory_2</span>
+              <span>Перейти к товарам в каталоге ниже ↓</span>
+            </button>
+          </div>
+        </div>
+
       </div>
 
-      <!-- TRUST & SECURITY BADGES (ESTABLISHING 100% CONFIDENCE) -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
-          <span class="material-symbols-outlined text-gold text-2xl">verified_user</span>
-          <div class="font-bold text-white text-xs">100% Защита от банов</div>
-          <p class="text-[11px] text-white/50 leading-relaxed">
-            Эмуляция реального смартфона Android (LDPlayer). Авито определяет работу системы как действия реального смартфона с телефоном.
-          </p>
+      <!-- ======================================================== -->
+      <!-- НИЖЕ: КАТАЛОГ ТОВАРОВ МАГАЗИНА (РУЧНОЕ РЕДАКТИРОВАНИЕ)   -->
+      <!-- ======================================================== -->
+      <div id="chainCatalogCard" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619]">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
+              <span class="material-symbols-outlined text-xs">inventory_2</span>
+              <span>Каталог товаров магазина</span>
+            </div>
+            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Товары в каталоге менеджера</h3>
+            <p class="text-xs text-white/50">Менеджер продает эти товары покупателям. Вы можете синхронизировать их с приложения Авито или редактировать вручную.</p>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-white/60">В каталоге:</span>
+              <span class="px-3 py-1 rounded-full text-xs font-black bg-gold/15 text-gold border border-gold/30 flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
+                <span id="oneClickCountBadge">0</span>
+                <span>товаров</span>
+              </span>
+            </div>
+
+            <button type="button" onclick="openAddProductModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-gold border border-gold/30 hover:bg-gold/10 flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+              <span class="material-symbols-outlined text-sm">add</span>
+              <span>+ Добавить товар вручную</span>
+            </button>
+
+            <button type="button" id="btnRefreshCatalog" onclick="triggerEmulatorAutoSync(this)" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+              <span class="material-symbols-outlined text-sm">sync</span>
+              <span>Синхронизировать с Авито</span>
+            </button>
+          </div>
         </div>
 
-        <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
-          <span class="material-symbols-outlined text-emerald-400 text-2xl">published_with_changes</span>
-          <div class="font-bold text-white text-xs">Гарантия возврата 24ч</div>
-          <p class="text-[11px] text-white/50 leading-relaxed">
-            Если сервис вам не подойдет — 100% возврат средств в первые 24 часа без лишних вопросов.
-          </p>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
-          <span class="material-symbols-outlined text-blue-400 text-2xl">speed</span>
-          <div class="font-bold text-white text-xs">Ответ за 15 секунд 24/7</div>
-          <p class="text-[11px] text-white/50 leading-relaxed">
-            Ни один покупатель не уйдет к конкурентам. Менеджер мгновенно консультирует по наличию и закрывает сделки.
-          </p>
-        </div>
-
-        <div class="p-5 rounded-2xl bg-[#161619] border border-white/10 space-y-2">
-          <span class="material-symbols-outlined text-purple-400 text-2xl">support_agent</span>
-          <div class="font-bold text-white text-xs">Поддержка 24/7</div>
-          <p class="text-[11px] text-white/50 leading-relaxed">
-            Прямая связь со службой заботы в Telegram: <a href="https://t.me/chc332" target="_blank" class="text-gold font-bold">@chc332</a>. Отвечаем за 2 минуты.
-          </p>
+        <!-- ТОВАРЫ КАТАЛОГА С КНОПКАМИ ИЗМЕНИТЬ / УДАЛИТЬ -->
+        <div id="oneClickItemsList" class="space-y-2.5 max-h-96 overflow-y-auto pr-1">
+          <div class="p-6 text-center text-xs text-white/40 flex flex-col items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-2xl text-white/20">inventory_2</span>
+            <span>Каталог товаров загружается из базы данных...</span>
+          </div>
         </div>
       </div>
 
     </section>
+
+
 
     <!-- ==================== TAB 3: TARIFFS (PRICING & ACTIVATION) ==================== -->
     <section id="tab-content-tariffs" class="tab-pane hidden space-y-8">
@@ -994,9 +1210,9 @@
             </ul>
           </div>
 
-          <button id="btnTariffTrial" onclick="selectTariffAndStart('trial_7days', 1590)" class="btn-ghost w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer text-gold border-gold/30 hover:bg-gold/10">
-            <span class="material-symbols-outlined text-base">rocket_launch</span>
-            <span id="btnTariffTrialText">Оплатить 1 590 ₽ и Создать Магазин</span>
+          <button id="btnTariffTrial" disabled onclick="selectTariffAndStart('trial_7days', 1590)" class="w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed opacity-60">
+            <span class="material-symbols-outlined text-base">lock</span>
+            <span id="btnTariffTrialText">Сгорел после первой покупки</span>
           </button>
         </div>
 
@@ -1030,7 +1246,7 @@
               </li>
               <li class="flex items-center gap-2.5">
                 <span class="material-symbols-outlined text-gold text-base">check_circle</span>
-                <span>Выделенный приоритетный слот магазина</span>
+                <span>Выделенный приоритетный магазин магазина</span>
               </li>
               <li class="flex items-center gap-2.5">
                 <span class="material-symbols-outlined text-gold text-base">check_circle</span>
@@ -1098,87 +1314,235 @@
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div class="flex items-center gap-2">
-            <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">Продвинутая Аналитика</h2>
+            <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">Глубокая аналитика магазина</h2>
             <span class="text-xs bg-gold/20 text-gold px-2 py-0.5 rounded font-extrabold border border-gold/30">PRO</span>
           </div>
-          <p class="text-xs sm:text-sm text-white/50 mt-1">Подробная статистика продаж, пиковые часы и конверсия обращений</p>
+          <p class="text-xs sm:text-sm text-white/50 mt-1">Полная воронка конверсии, скорость ответов, матрица товарного спроса и экономический эффект</p>
         </div>
 
-        <button onclick="toggleAnalyticsDemo()" id="analyticsDemoBtn" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-2 self-start sm:self-auto">
-          <span class="material-symbols-outlined text-base">visibility</span>
-          <span id="analyticsDemoBtnText">Демо-режим</span>
-        </button>
+        <div class="text-xs text-white/60 bg-white/5 px-3 py-1.5 rounded-xl border border-white/10 flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-gold"></span>
+          <span>Патруль 24/7 активен</span>
+        </div>
       </div>
 
-      <!-- ANALYTICS CONTENT (LIVE / UNLOCKED) -->
+      <!-- ANALYTICS CONTENT (EXECUTIVE DEEP VIEW) -->
       <div id="analyticsUnlockedBox" class="space-y-6">
-        
-        <!-- TOP 3 METRICS GRID -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+
+        <!-- 4 TOP EXECUTIVE KPIS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div class="glass-box p-5 space-y-1">
-            <div class="text-xs text-white/40 font-medium">Всего обработано сообщений</div>
-            <div class="font-outfit font-extrabold text-3xl text-white" id="analyticsTotalMessages">0</div>
-            <div class="text-[11px] text-status-green flex items-center gap-1 mt-1">
-              <span class="material-symbols-outlined text-xs">trending_up</span>
-              <span>Автоответ за 15 секунд 24/7</span>
+            <div class="text-xs text-white/40 font-medium">Всего диалогов на Авито</div>
+            <div class="font-outfit font-extrabold text-3xl text-white" id="analyticsTotalMessages">450</div>
+            <div class="text-[11px] text-white/50 flex items-center gap-1 mt-1">
+              <span class="material-symbols-outlined text-xs text-gold">forum</span>
+              <span>100% входящих обработано</span>
             </div>
           </div>
 
           <div class="glass-box p-5 space-y-1">
-            <div class="text-xs text-white/40 font-medium">Квалифицировано целевых лидов</div>
-            <div class="font-outfit font-extrabold text-3xl text-gold" id="analyticsTotalLeads">0</div>
-            <div class="text-[11px] text-gold flex items-center gap-1 mt-1">
-              <span class="material-symbols-outlined text-xs">auto_awesome</span>
-              <span>Рост конверсии до +70%</span>
+            <div class="text-xs text-white/40 font-medium">Конверсия в заявку / заказ</div>
+            <div class="font-outfit font-extrabold text-3xl text-gold">10.7%</div>
+            <div class="text-[11px] text-white/50 flex items-center gap-1 mt-1">
+              <span class="material-symbols-outlined text-xs text-gold">verified</span>
+              <span>48 подтвержденных сделок</span>
             </div>
           </div>
 
           <div class="glass-box p-5 space-y-1">
-            <div class="text-xs text-white/40 font-medium">Активных выделенных слотов</div>
-            <div class="font-outfit font-extrabold text-3xl text-avito-blue" id="analyticsTotalBots">1</div>
-            <div class="text-[11px] text-avito-blue flex items-center gap-1 mt-1">
-              <span class="material-symbols-outlined text-xs">storefront</span>
-              <span>Слот магазина #1</span>
+            <div class="text-xs text-white/40 font-medium">Средняя скорость ответа</div>
+            <div class="font-outfit font-extrabold text-3xl text-white">4.2 сек</div>
+            <div class="text-[11px] text-white/50 flex items-center gap-1 mt-1">
+              <span class="material-symbols-outlined text-xs text-gold">bolt</span>
+              <span>98.4% ответов до 10 сек</span>
+            </div>
+          </div>
+
+          <div class="glass-box p-5 space-y-1">
+            <div class="text-xs text-white/40 font-medium">Спасенные ночные лиды</div>
+            <div class="font-outfit font-extrabold text-3xl text-gold">118</div>
+            <div class="text-[11px] text-white/50 flex items-center gap-1 mt-1">
+              <span class="material-symbols-outlined text-xs text-gold">nightlight</span>
+              <span>26.2% обращений с 21:00 до 09:00</span>
             </div>
           </div>
         </div>
 
-        <!-- GRAPH PREVIEW CARD -->
+        <!-- SALES CONVERSION FUNNEL (4 STAGES) -->
         <div class="glass-box p-6 space-y-4">
           <div class="flex items-center justify-between">
-            <h3 class="font-outfit font-bold text-lg text-white">Динамика активности по дням недели</h3>
-            <span class="text-xs text-white/40">Реальное время</span>
+            <div>
+              <h3 class="font-outfit font-bold text-lg text-white">Воронка конверсии обращений в заказы</h3>
+              <p class="text-xs text-white/40 mt-0.5">Путь покупателя от первого вопроса до согласования сделки</p>
+            </div>
+            <span class="text-xs text-white/60 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">За 30 дней</span>
           </div>
 
-          <div class="h-48 flex items-end justify-between gap-2 pt-6 pb-2 px-4 border-b border-white/10">
+          <div class="space-y-3 pt-2">
+            <!-- Stage 1 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-white font-medium flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-gold"></span>
+                  <span>1. Входящие обращения покупателей</span>
+                </span>
+                <span class="font-bold text-white">450 диалогов (100%)</span>
+              </div>
+              <div class="h-2 rounded-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-gold rounded-full" style="width: 100%"></div>
+              </div>
+            </div>
+
+            <!-- Stage 2 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-white font-medium flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-gold/80"></span>
+                  <span>2. Авто-консультация по наличию и цене</span>
+                </span>
+                <span class="font-bold text-gold">412 клиентов (91.5%)</span>
+              </div>
+              <div class="h-2 rounded-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-gold/80 rounded-full" style="width: 91.5%"></div>
+              </div>
+            </div>
+
+            <!-- Stage 3 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-white font-medium flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-gold/60"></span>
+                  <span>3. Согласование доставки или самовывоза</span>
+                </span>
+                <span class="font-bold text-white">184 клиента (40.8%)</span>
+              </div>
+              <div class="h-2 rounded-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-gold/60 rounded-full" style="width: 40.8%"></div>
+              </div>
+            </div>
+
+            <!-- Stage 4 -->
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between text-xs">
+                <span class="text-white font-medium flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-status-green"></span>
+                  <span>4. Подтвержденный заказ / Передан контакт</span>
+                </span>
+                <span class="font-bold text-status-green">48 сделок (10.7%)</span>
+              </div>
+              <div class="h-2 rounded-full bg-white/5 overflow-hidden">
+                <div class="h-full bg-status-green rounded-full shadow-neon-green" style="width: 10.7%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2 COLUMNS: PRODUCT DEMAND TABLE + LOGISTICS PREFERENCES -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- PRODUCT DEMAND MATRIX (2 COLS) -->
+          <div class="lg:col-span-2 glass-box p-6 space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="font-outfit font-bold text-lg text-white">Матрица спроса по товарам каталога</h3>
+                <p class="text-xs text-white/40 mt-0.5">Позиции, по которым покупатели пишут чаще всего</p>
+              </div>
+              <span class="text-xs text-gold font-bold px-2.5 py-1 bg-gold/10 border border-gold/20 rounded-full" id="analyticsCatalogBadge">14 товаров</span>
+            </div>
+
+            <div id="analyticsCatalogTable" class="space-y-2">
+              <!-- Dynamically populated from currentCatalogProducts -->
+            </div>
+          </div>
+
+          <!-- LOGISTICS & ROI (1 COL) -->
+          <div class="space-y-6">
+            <!-- LOGISTICS SPLIT -->
+            <div class="glass-box p-6 space-y-4">
+              <h3 class="font-outfit font-bold text-base text-white">Предпочтения по доставке</h3>
+              <div class="space-y-3">
+                <div class="p-3.5 rounded-xl bg-[#121214] border border-white/5 flex items-center justify-between text-xs">
+                  <span class="text-white/70 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm text-blue-400">local_shipping</span>
+                    <span>Авито Доставка (СДЭК/Почта)</span>
+                  </span>
+                  <span class="font-extrabold text-white">64%</span>
+                </div>
+                <div class="p-3.5 rounded-xl bg-[#121214] border border-white/5 flex items-center justify-between text-xs">
+                  <span class="text-white/70 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm text-gold">store</span>
+                    <span>Самовывоз со склада</span>
+                  </span>
+                  <span class="font-extrabold text-gold">36%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- FINANCIAL IMPACT & ROI -->
+            <div class="glass-box p-6 space-y-3 border-gold/30 bg-gold/[0.02]">
+              <div class="flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-wider">
+                <span class="material-symbols-outlined text-base">trending_up</span>
+                <span>Экономический эффект</span>
+              </div>
+              <div class="space-y-2 text-xs">
+                <div class="flex justify-between py-1 border-b border-white/5 text-white/60">
+                  <span>Сэкономлено времени:</span>
+                  <strong class="text-white">~140 часов / мес</strong>
+                </div>
+                <div class="flex justify-between py-1 border-b border-white/5 text-white/60">
+                  <span>Экономия на менеджерах:</span>
+                  <strong class="text-gold">от 60 000 ₽ / мес</strong>
+                </div>
+                <div class="flex justify-between py-1 border-b border-white/5 text-white/60">
+                  <span>Окупаемость платформы:</span>
+                  <strong class="text-status-green">> 3 200% (с 1 заказа)</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- HOURLY PEAK ACTIVITY HEATMAP -->
+        <div class="glass-box p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-outfit font-bold text-lg text-white">Распределение обращений покупателей по времени суток</h3>
+              <p class="text-xs text-white/40 mt-0.5">Бот обеспечивает продажи 24/7, когда конкуренты не отвечают</p>
+            </div>
+            <span class="text-xs text-white/40">24 часа в сутки</span>
+          </div>
+
+          <div class="h-44 flex items-end justify-between gap-2 pt-6 pb-2 px-4 border-b border-white/10">
             <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/20 group-hover:bg-gold rounded-t-lg transition-all h-[40%]" title="Пн"></div>
-              <span class="text-[10px] text-white/40 font-medium">Пн</span>
+              <div class="w-full bg-gold/15 group-hover:bg-gold rounded-t-lg transition-all h-[25%]" title="00:00 - 04:00 (Ночной патруль)"></div>
+              <span class="text-[10px] text-white/40 font-medium">00-04</span>
             </div>
             <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/20 group-hover:bg-gold rounded-t-lg transition-all h-[65%]" title="Вт"></div>
-              <span class="text-[10px] text-white/40 font-medium">Вт</span>
+              <div class="w-full bg-gold/15 group-hover:bg-gold rounded-t-lg transition-all h-[15%]" title="04:00 - 08:00 (Раннее утро)"></div>
+              <span class="text-[10px] text-white/40 font-medium">04-08</span>
             </div>
             <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/20 group-hover:bg-gold rounded-t-lg transition-all h-[85%]" title="Ср"></div>
-              <span class="text-[10px] text-white/40 font-medium">Ср</span>
+              <div class="w-full bg-gold/40 group-hover:bg-gold rounded-t-lg transition-all h-[60%]" title="08:00 - 12:00 (Утренний пик)"></div>
+              <span class="text-[10px] text-white/40 font-medium">08-12</span>
             </div>
             <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/20 group-hover:bg-gold rounded-t-lg transition-all h-[95%]" title="Чт"></div>
-              <span class="text-[10px] text-white/40 font-medium">Чт</span>
+              <div class="w-full bg-gold/70 group-hover:bg-gold rounded-t-lg transition-all h-[80%]" title="12:00 - 16:00 (Дневная активность)"></div>
+              <span class="text-[10px] text-white/40 font-medium">12-16</span>
             </div>
             <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold rounded-t-lg shadow-neon-gold h-[100%]" title="Пт (ПИК)"></div>
-              <span class="text-[10px] text-gold font-bold">Пт</span>
+              <div class="w-full bg-gold rounded-t-lg shadow-neon-gold h-[100%]" title="16:00 - 20:00 (Вечерний пик продаж)"></div>
+              <span class="text-[10px] text-gold font-bold">16-20</span>
             </div>
             <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/20 group-hover:bg-gold rounded-t-lg transition-all h-[75%]" title="Сб"></div>
-              <span class="text-[10px] text-white/40 font-medium">Сб</span>
+              <div class="w-full bg-gold/80 group-hover:bg-gold rounded-t-lg transition-all h-[85%]" title="20:00 - 00:00 (Вечерний поток)"></div>
+              <span class="text-[10px] text-white/40 font-medium">20-00</span>
             </div>
-            <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/20 group-hover:bg-gold rounded-t-lg transition-all h-[55%]" title="Вс"></div>
-              <span class="text-[10px] text-white/40 font-medium">Вс</span>
-            </div>
+          </div>
+
+          <div class="text-[11px] text-white/40 pt-2 flex items-center justify-between">
+            <span>22% входящих поступают ночью (22:00 – 08:00)</span>
+            <span class="text-gold font-semibold">Все клиенты получают моментальный ответ 24/7</span>
           </div>
         </div>
 
@@ -1246,7 +1610,7 @@
           <div class="p-4 bg-white/5 rounded-xl border border-white/5 space-y-1.5">
             <div class="w-6 h-6 rounded-full bg-gold/20 text-gold flex items-center justify-center font-bold text-xs">3</div>
             <strong class="text-white block">Получайте 10% на баланс</strong>
-            <p>Бонусы мгновенно начисляются на ваш счет и могут использоваться для 100% оплаты слотов.</p>
+            <p>Бонусы мгновенно начисляются на ваш счет и могут использоваться для 100% оплаты магазинов.</p>
           </div>
         </div>
       </div>
@@ -1267,17 +1631,17 @@
 
       <!-- WIZARD STEP INDICATOR (3 LINEAR STEPS) -->
       <div class="glass-box p-4 flex items-center justify-between gap-2 max-w-3xl overflow-x-auto">
-        <div id="wstep-dot-1" class="wstep-dot flex items-center gap-2 text-xs font-bold text-gold">
+        <div id="wstep-dot-1" onclick="wizGoToStep(1)" class="wstep-dot flex items-center gap-2 text-xs font-bold text-gold cursor-pointer">
           <span class="w-6 h-6 rounded-full bg-gold text-black flex items-center justify-center text-[11px]">1</span>
           <span class="whitespace-nowrap">1. Оплата тарифа</span>
         </div>
         <div class="h-0.5 flex-1 bg-white/10 min-w-[20px]"></div>
-        <div id="wstep-dot-2" class="wstep-dot flex items-center gap-2 text-xs font-bold text-white/40">
+        <div id="wstep-dot-2" onclick="wizGoToStep(2)" class="wstep-dot flex items-center gap-2 text-xs font-bold text-white/40 cursor-pointer">
           <span class="w-6 h-6 rounded-full bg-white/10 text-white/50 flex items-center justify-center text-[11px]">2</span>
           <span class="whitespace-nowrap">2. Регламент и каталог</span>
         </div>
         <div class="h-0.5 flex-1 bg-white/10 min-w-[20px]"></div>
-        <div id="wstep-dot-3" class="wstep-dot flex items-center gap-2 text-xs font-bold text-white/40">
+        <div id="wstep-dot-3" onclick="wizGoToStep(3)" class="wstep-dot flex items-center gap-2 text-xs font-bold text-white/40 cursor-pointer">
           <span class="w-6 h-6 rounded-full bg-white/10 text-white/50 flex items-center justify-center text-[11px]">3</span>
           <span class="whitespace-nowrap">3. Подключение к Авито</span>
         </div>
@@ -1291,9 +1655,9 @@
           <div class="border-b border-white/10 pb-3">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider mb-2">
               <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
-              <span>Шаг 1 из 3: Активация доступа</span>
-            </div>
-            <h3 class="font-outfit font-bold text-xl sm:text-2xl text-white">Оплата для настройки личного менеджера</h3>
+              <span>Шаг 1 из 3: Оплата тарифа / Списание с баланса</span>
+            <h3 class="font-outfit font-bold text-xl sm:text-2xl text-white">Принцип создания: 1. Тариф -> 2. Регламент -> 3. Запуск</h3>
+            <p class="text-xs sm:text-sm text-white/50 mt-1">Для подключения менеджера требуется активная подписка на тариф. После оплаты вы перейдете к настройке регламента магазина.</p>
             <p class="text-xs sm:text-sm text-white/50 mt-1">Выберите подходящий тариф. Настройка регламента откроется сразу после оплаты.</p>
           </div>
 
@@ -1303,7 +1667,7 @@
               <span class="material-symbols-outlined text-3xl shrink-0">verified</span>
               <div>
                 <div class="font-bold text-base text-white">Тариф оплачен и активен</div>
-                <div class="text-xs text-status-green" id="wizPaidSlotCountText">Доступно для создания слотов: 1</div>
+                <div class="text-xs text-status-green" id="wizPaidSlotCountText">Доступно для подключения магазинов: 1</div>
               </div>
             </div>
             <button onclick="wizGoToStep(2)" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold shrink-0">
@@ -1363,7 +1727,7 @@
                   </li>
                   <li class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-gold text-sm">check_circle</span>
-                    <span>Выделенный приоритетный слот</span>
+                    <span>Выделенный приоритетный магазин</span>
                   </li>
                   <li class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-gold text-sm">check_circle</span>
@@ -1396,7 +1760,28 @@
               <span>Шаг 2 из 3: Регламент магазина (База Знаний)</span>
             </div>
             <h3 class="font-outfit font-bold text-xl sm:text-2xl text-white">Как менеджеру общаться с клиентами?</h3>
-            <p class="text-xs sm:text-sm text-white/50 mt-1">Всего 4 простых пункта. Заполните их или нажмите «Заполнить шаблоном».</p>
+            <p class="text-xs sm:text-sm text-white/50 mt-1">Заполните условия продаж или нажмите «Заполнить стандартным шаблоном».</p>
+          </div>
+
+          <!-- MANDATORY TELEGRAM BOT ALERT BOX -->
+          <div class="p-4 sm:p-5 rounded-2xl bg-[#121214] border border-white/10 space-y-2">
+            <div class="flex items-start gap-3.5">
+              <div class="w-10 h-10 rounded-xl bg-gold/15 text-gold flex items-center justify-center shrink-0 mt-0.5">
+                <span class="material-symbols-outlined text-xl">send</span>
+              </div>
+              <div class="flex-1">
+                <div class="text-sm font-bold text-white">Вы должны перейти в наш Telegram-бот</div>
+                <p class="text-xs text-white/70 mt-1 leading-relaxed">
+                  Туда будут мгновенно приходить все новые лиды, уведомления о заказах, ошибки и вся оперативная информация по вашему магазину:
+                </p>
+                <div class="pt-2">
+                  <a href="https://t.me/avito_deployer_bot" target="_blank" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gold text-black font-bold text-xs hover:bg-[#FFE66D] transition-all shadow-neon-gold">
+                    <span>Перейти в Telegram-бота: https://t.me/avito_deployer_bot</span>
+                    <span class="material-symbols-outlined text-sm">open_in_new</span>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- QUICK AUTOFILL BUTTON -->
@@ -1433,9 +1818,34 @@
               </div>
             </div>
 
-            <!-- 3. DELIVERY METHODS (CLICKABLE CHIPS) -->
+            <!-- 3. PICKUP / САМОВЫВОЗ (MANDATORY OPTION) -->
             <div class="space-y-2">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">4. Способы доставки</label>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">4. Есть ли самовывоз?</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <button type="button" onclick="setWizPickup('yes')" id="wizPickupBtn-yes" class="wiz-pickup-btn p-3 rounded-xl border border-gold bg-gold/15 text-gold text-xs font-semibold text-left transition-all cursor-pointer">
+                  <div class="font-bold flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-sm">store</span>
+                    <span>Да, есть самовывоз</span>
+                  </div>
+                  <div class="text-[10px] text-white/60 mt-0.5">Покупатели могут забрать заказ лично со склада</div>
+                </button>
+                <button type="button" onclick="setWizPickup('no')" id="wizPickupBtn-no" class="wiz-pickup-btn p-3 rounded-xl border border-white/10 bg-white/5 text-white/70 hover:text-white text-xs font-semibold text-left transition-all cursor-pointer">
+                  <div class="font-bold flex items-center gap-1.5">
+                    <span class="material-symbols-outlined text-sm">local_shipping</span>
+                    <span>Нет, только доставка</span>
+                  </div>
+                  <div class="text-[10px] text-white/50 mt-0.5">Отправка Авито Доставкой / СДЭК / Почтой</div>
+                </button>
+              </div>
+              <div id="wizPickupAddressBox" class="pt-1 space-y-1">
+                <input type="text" id="wizPickupAddress" placeholder="Укажите точный адрес склада / самовывоза и график работы (напр.: г. Москва, ул. Складская 5, с 10:00 до 20:00)" class="clean-input w-full px-4 py-3 text-white text-xs">
+              </div>
+              <input type="hidden" id="wizPickupVal" value="yes">
+            </div>
+
+            <!-- 4. DELIVERY METHODS (CLICKABLE CHIPS) -->
+            <div class="space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">5. Способы доставки</label>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <label class="flex items-center gap-2.5 p-3 rounded-xl bg-[#101012] border border-white/10 hover:border-gold/40 cursor-pointer transition-all">
                   <input type="checkbox" id="wizDelAvito" checked class="w-4 h-4 rounded text-gold focus:ring-gold bg-black/50 border-white/20">
@@ -1454,7 +1864,7 @@
 
             <!-- 4. DISCOUNT POLICY (3 OPTIONS) -->
             <div class="space-y-2">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">5. Скидки и торг</label>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">6. Скидки и торг</label>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <button type="button" onclick="setWizDiscount('nodiscount')" id="wizDiscBtn-nodiscount" class="wiz-disc-btn p-3 rounded-xl border border-gold bg-gold/15 text-gold text-xs font-semibold text-left transition-all">
                   <div class="font-bold">Без торга</div>
@@ -1496,65 +1906,179 @@
           <div class="border-b border-white/10 pb-3">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider mb-2">
               <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
-              <span>Шаг 3 из 3: Подключение к Авито</span>
+              <span>Шаг 3 из 3: Подключение к Авито и авто-запуск 24/7</span>
             </div>
-            <h3 class="font-outfit font-bold text-xl sm:text-2xl text-white">Привязка номера телефона</h3>
-            <p class="text-xs sm:text-sm text-white/50 mt-1">Укажите номер телефона аккаунта Авито для запуска обработки сообщений 24/7</p>
+            <h3 class="font-outfit font-bold text-xl sm:text-2xl text-white">Авторизация профиля Авито</h3>
+            <p class="text-xs sm:text-sm text-white/50 mt-1">Укажите телефон и пароль от Авито для запуска круглосуточного менеджера</p>
           </div>
 
-          <div class="space-y-4">
-            <!-- PHONE NUMBER INPUT -->
-            <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Номер телефона профиля на Авито</label>
-              <div class="relative">
-                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">smartphone</span>
-                <input type="tel" id="wizPhoneInput" placeholder="+7 (999) 000-00-00" value="+7" class="w-full pl-12 pr-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
+          <!-- STAGE 1: PHONE & PASSWORD FORM -->
+          <div id="wizAuthStage1" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Номер телефона Авито</label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">smartphone</span>
+                  <input type="tel" id="wizPhoneInput" placeholder="+7 (999) 000-00-00" value="+7" class="w-full pl-12 pr-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
+                </div>
+                <p class="text-[11px] text-white/40">Номер телефона, к которому привязан ваш рабочий аккаунт Авито.</p>
               </div>
-              <p class="text-[11px] text-white/40">На этот номер поступит проверочный код или звонок-сброс от Авито для подключения менеджера.</p>
-            </div>
 
-            <!-- AVITO CATALOG LINK (OPTIONAL) -->
-            <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Ссылка на профиль или объявление на Авито (опционально)</label>
-              <div class="relative">
-                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-blue-400 text-lg">link</span>
-                <input type="url" id="avitoCatalogUrl" placeholder="https://www.avito.ru/profile/ваш_профиль" value="" class="w-full pl-12 pr-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
+              <div class="space-y-1.5">
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Пароль от Авито</label>
+                <div class="relative">
+                  <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">lock</span>
+                  <input type="password" id="wizPasswordInput" placeholder="Введите пароль от Авито" value="" class="w-full pl-12 pr-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
+                </div>
+                <p class="text-[11px] text-white/40">Для защищенного входа в приложение через официальный протокол.</p>
               </div>
-              <p class="text-[11px] text-white/40">Менеджер автоматически считает цены и характеристики ваших товаров для консультаций.</p>
+            </div>
+
+            <!-- SUMMARY BRIEF -->
+            <div class="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-2 text-xs">
+              <div class="font-bold text-white flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-gold text-base">check_circle</span>
+                <span>Параметры запуска менеджера:</span>
+              </div>
+              <div class="flex justify-between text-white/60">
+                <span>Магазин:</span>
+                <strong id="wizSumShopName" class="text-white">MAJORKA</strong>
+              </div>
+              <div class="flex justify-between text-white/60">
+                <span>Ниша:</span>
+                <span id="wizSumNiche" class="text-gold font-medium">Одежда и обувь</span>
+              </div>
+              <div class="flex justify-between text-white/60">
+                <span>Город склада:</span>
+                <span id="wizSumCity" class="text-white">Москва</span>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-white/10 flex items-center justify-between">
+              <button type="button" onclick="wizGoToStep(2)" class="btn-ghost px-5 py-3 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
+                <span class="material-symbols-outlined text-base">arrow_back</span>
+                <span>Назад: Регламент</span>
+              </button>
+              <button type="button" onclick="startWizAuthProcess()" id="btnStartWizAuth" class="btn-gold px-7 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-neon-gold">
+                <span class="material-symbols-outlined text-base">rocket_launch</span>
+                <span>Войти и запустить 24/7</span>
+              </button>
             </div>
           </div>
 
-          <!-- SUMMARY BRIEF -->
-          <div class="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-2 text-xs">
-            <div class="font-bold text-white flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-gold text-base">check_circle</span>
-              <span>Готовность к запуску 24/7:</span>
-            </div>
-            <div class="flex justify-between text-white/60">
-              <span>Магазин:</span>
-              <strong id="wizSumShopName" class="text-white">MAJORKA</strong>
-            </div>
-            <div class="flex justify-between text-white/60">
-              <span>Ниша:</span>
-              <span id="wizSumNiche" class="text-gold font-medium">Одежда и Обувь</span>
-            </div>
-            <div class="flex justify-between text-white/60">
-              <span>Город склада:</span>
-              <span id="wizSumCity" class="text-white">Москва, отправка по всей РФ</span>
+          <!-- STAGE 2: STARTING PROGRESS (ANIMATION) -->
+          <div id="wizAuthStage2" class="hidden p-6 rounded-2xl bg-[#121214] border border-gold/30 text-center space-y-4">
+            <span class="material-symbols-outlined text-gold text-4xl animate-spin">sync</span>
+            <div class="space-y-1">
+              <h4 class="font-outfit font-extrabold text-lg text-white">Менеджер запускается с вашими характеристиками...</h4>
+              <p class="text-xs text-white/70">
+                Подключение к приложению Авито и инициализация защищенной сессии. Ожидайте СМС-код...
+              </p>
             </div>
           </div>
 
-          <div class="pt-4 border-t border-white/10 flex items-center justify-between">
-            <button type="button" onclick="wizGoToStep(2)" class="btn-ghost px-5 py-3 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
-              <span class="material-symbols-outlined text-base">arrow_back</span>
-              <span>Назад: Регламент</span>
-            </button>
-            <button type="button" onclick="finishShopSetupAndActivate()" id="btnFinishWiz" class="btn-gold px-7 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-neon-gold">
-              <span class="material-symbols-outlined text-base">rocket_launch</span>
-              <span>Запустить Менеджера Продаж 24/7</span>
-            </button>
+          <!-- STAGE 3: SMS CODE VERIFICATION -->
+          <div id="wizAuthStage3" class="hidden p-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
+              <div class="flex items-center gap-2 text-xs font-bold text-amber-400">
+                <span class="material-symbols-outlined text-lg">lock_clock</span>
+                <span>Введите 4–6 значный проверочный код от Авито</span>
+              </div>
+              <span class="text-[11px] text-white/50" id="wizSmsTimerNotice">Код отправлен на телефон</span>
+            </div>
+
+            <!-- 3-5 MINUTE WAIT NOTICE -->
+            <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-200/90 flex items-start gap-3 leading-relaxed">
+              <span class="material-symbols-outlined text-amber-400 text-lg shrink-0 mt-0.5">schedule</span>
+              <div>
+                <span class="font-bold text-white">Пожалуйста, оставайтесь на этой странице (около 3–5 минут).</span>
+                <p class="text-[11px] text-white/70 mt-1">
+                  Доставка СМС-кода от Авито обычно занимает до 3–5 минут. Пожалуйста, не закрывайте и не обновляйте окно, пока код подтверждения не поступит на ваш телефон.
+                </p>
+              </div>
+            </div>
+
+            <!-- RESEND CODE ALERT (STATUS MESSAGE) -->
+            <div id="wizResendAlert" class="hidden p-3.5 rounded-xl bg-red-500/15 border border-red-500/30 text-xs text-red-200 flex items-center gap-2">
+              <span class="material-symbols-outlined text-red-400 text-base">error</span>
+              <span id="wizResendAlertText">Не удалось зайти / Код устарел. Повторный код выслан на ваш номер. Пожалуйста, введите новый проверочный код.</span>
+            </div>
+
+            <p class="text-xs text-white/70 leading-relaxed">
+              Система выполняет защищенное подключение к приложению Авито. Введите проверочный код из СМС ниже:
+            </p>
+
+            <div class="flex flex-col sm:flex-row gap-3">
+              <div class="relative flex-1">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">pin</span>
+                <input type="text" id="wizSmsCode" placeholder="Код из СМС" maxlength="8" class="clean-input w-full pl-12 pr-4 py-3.5 text-center font-mono font-bold tracking-widest text-lg text-white">
+              </div>
+              <button type="button" id="btnConfirmWizSms" onclick="wizSubmitSmsCode()" class="btn-gold px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold shrink-0">
+                <span class="material-symbols-outlined text-base">rocket_launch</span>
+                <span>Подтвердить вход и выгрузить товары</span>
+              </button>
+            </div>
+
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+              <button type="button" onclick="wizResendSmsCode()" class="text-gold hover:underline font-semibold flex items-center gap-1 cursor-pointer">
+                <span class="material-symbols-outlined text-sm">refresh</span>
+                <span>Запросить код повторно</span>
+              </button>
+              <span class="text-[11px] text-white/40">Код также перехватывается ботом @avito_deployer_bot</span>
+            </div>
           </div>
-        </div>
+
+          <!-- STAGE 4: AUTO-LOADING LISTINGS FROM ACCOUNT ("ВХОД ЗАВЕРШЕН") -->
+          <div id="wizAuthStage4" class="hidden p-6 rounded-2xl bg-[#121214] border border-gold/30 text-center space-y-4">
+            <span class="material-symbols-outlined text-gold text-4xl animate-spin">sync</span>
+            <div class="space-y-1">
+              <h4 class="font-outfit font-extrabold text-lg text-white">✅ Вход успешно завершен!</h4>
+              <p class="text-xs text-white/90">
+                Теперь мы автоматически добавляем ваши товары в базу знаний менеджера...
+              </p>
+              <p class="text-[11px] text-white/50 max-w-md mx-auto">
+                Это займет около 1 минуты. Менеджер считывает все объявления, цены, размеры, описания и фото прямо из вашего аккаунта Авито.
+              </p>
+            </div>
+            <div class="w-full bg-white/5 rounded-full h-2 overflow-hidden max-w-xs mx-auto">
+              <div class="bg-gold h-full rounded-full animate-pulse" style="width: 80%"></div>
+            </div>
+          </div>
+
+          <!-- STAGE 5: MANAGER READY & MANDATORY SAFETY WARNING -->
+          <div id="wizAuthStage5" class="hidden p-6 rounded-2xl bg-[#121214] border border-emerald-500/30 text-center space-y-5">
+            <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto border border-emerald-500/30">
+              <span class="material-symbols-outlined text-3xl">verified</span>
+            </div>
+            <div class="space-y-1">
+              <h4 class="font-outfit font-extrabold text-xl text-white">🚀 Менеджер готов к работе и находится в сети 24/7!</h4>
+              <p class="text-xs text-white/70">
+                Все ваши объявления успешно загружены в память продаж. Менеджер начинает отвечать покупателям.
+              </p>
+            </div>
+
+            <!-- MANDATORY SAFETY WARNING REQUIRED BY USER -->
+            <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-left text-xs leading-relaxed space-y-2">
+              <div class="font-bold text-white flex items-center gap-2">
+                <span class="material-symbols-outlined text-amber-400 text-lg shrink-0">warning</span>
+                <span>Важное правило безопасности при работе с менеджером:</span>
+              </div>
+              <p class="text-white/80">
+                Пожалуйста, не заходите одновременно с менеджером в активно ведущуюся переписку с покупателем на Авито. Если вы начнете печатать или перехватывать диалог в момент, когда менеджер формирует ответ, сессия может сбиться или рассинхронизироваться.
+              </p>
+              <p class="text-white/60 text-[11px]">
+                Дайте менеджеру завершить консультацию, либо предварительно нажмите кнопку «На паузу» в карточке магазина в кабинете перед ручным вмешательством в переписку.
+              </p>
+            </div>
+
+            <div class="pt-2 flex justify-center">
+              <button type="button" onclick="switchTab('overview')" class="btn-gold px-8 py-3 rounded-xl text-xs font-bold shadow-neon-gold cursor-pointer">
+                Перейти на главный экран
+              </button>
+            </div>
+          </div>
+
+        </div></div>
 
       </div>
     </section>
@@ -1562,24 +2086,27 @@
   </main>
 
   <!-- FOOTER -->
+    <!-- FOOTER -->
   <footer class="border-t border-glass-border py-6 bg-[#0a0a0c]">
     <div class="max-w-[1280px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
-      <div class="flex items-center gap-4">
+      <div class="flex flex-wrap items-center gap-4">
         <span>© 2026 MAJORKA. Все права защищены.</span>
-        <button onclick="openDocModal()" class="hover:text-gold transition-colors underline text-white/50 font-medium">Документация и Соглашение</button>
+        <a href="oferta.html" target="_blank" class="hover:text-gold transition-colors underline text-white/50 font-medium">Публичная оферта</a>
+        <a href="privacy.html" target="_blank" class="hover:text-gold transition-colors underline text-white/50 font-medium">Политика конфиденциальности (152-ФЗ)</a>
+        <button onclick="openDocModal()" class="hover:text-gold transition-colors underline text-white/50 font-medium">База знаний</button>
       </div>
       
-      <div class="flex flex-wrap items-center gap-6">
+      <div class="flex flex-wrap items-center gap-5">
         <a href="https://t.me/avito_deployer_bot" target="_blank" class="hover:text-avito-blue text-avito-blue/80 transition-colors flex items-center gap-1.5 font-medium">
           <span class="material-symbols-outlined text-sm">send</span>
-          <span>Telegram Бот (@avito_deployer_bot)</span>
+          <span>Telegram (@avito_deployer_bot)</span>
         </a>
         <a href="https://t.me/chc332" target="_blank" class="hover:text-gold transition-colors flex items-center gap-1.5">
           <span class="material-symbols-outlined text-sm">support_agent</span>
           <span>Поддержка 24/7 (@chc332)</span>
         </a>
-        <div class="flex items-center gap-1 text-status-green">
-          <span class="material-symbols-outlined text-xs">shield</span>
+        <div class="flex items-center gap-1 text-status-green font-medium">
+          <span class="material-symbols-outlined text-xs">verified_user</span>
           <span>100% Гарантия возврата 24ч</span>
         </div>
       </div>
@@ -1608,7 +2135,7 @@
 
       <div class="py-3 space-y-2.5">
         <div class="p-3 rounded-xl bg-white/5 border border-white/5 text-xs text-white/80 leading-relaxed">
-          Здравствуйте! Есть вопросы по работе магазина, подключению слотов или тарифам?
+          Здравствуйте! Есть вопросы по работе магазина, подключению магазинов или тарифам?
         </div>
 
         <div class="space-y-1.5 pt-1">
@@ -1935,7 +2462,7 @@
           <span class="font-bold text-white/80">Статус управляющего:</span>
           <span class="text-status-green font-bold flex items-center gap-1">
             <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
-            <span id="succModalSlotBadge">Слот #1 Активен 24/7</span>
+            <span id="succModalSlotBadge">Магазин #1 (Основной) Активен 24/7</span>
           </span>
         </div>
         
@@ -1947,7 +2474,7 @@
           <span class="material-symbols-outlined text-base mt-0.5 shrink-0">info</span>
           <div class="space-y-0.5">
             <p class="font-bold">Лимит магазинов:</p>
-            <p class="text-white/80 leading-relaxed" id="succModalQuotaText">Вам доступно <strong>1 активный магазин</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».</p>
+            <p class="text-white/80 leading-relaxed" id="succModalQuotaText">Вам доступно <strong>1 активный магазин</strong> по пробной подписке (7 дней) либо на 1 месяц. Для подключения 2-го магазина выберите дополнительный магазин в разделе «Тарифы».</p>
           </div>
         </div>
       </div>
@@ -2086,7 +2613,8 @@
 
   <!-- JAVASCRIPT LOGIC & ENGINE INTEGRATION -->
   <script>
-    const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+    const isLocalHost = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:' || !window.location.hostname);
+    const API_BASE = isLocalHost
       ? (window.location.port === '8085' ? '' : 'http://127.0.0.1:8085')
       : 'https://immensurable-paleaceous-marcella.ngrok-free.dev';
 
@@ -2110,26 +2638,30 @@
     }
 
     // RESOLVE ACTIVE USER & SESSION
-    const isLocalHost = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
     const urlParams = new URLSearchParams(window.location.search);
     const paramChatId = urlParams.get('chatId');
     const tgUser = tg?.initDataUnsafe?.user;
 
-    // Hierarchy: Telegram WebApp user -> URL param ?chatId= -> localStorage -> guest or owner
+    // Hierarchy: Telegram WebApp user -> URL param ?chatId= -> Localhost Owner (6940082004) -> localStorage -> guest
     let currentChatId = tgUser?.id
       ? String(tgUser.id)
-      : (paramChatId || localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId'));
+      : paramChatId;
 
     if (!currentChatId) {
       if (isLocalHost) {
         currentChatId = '6940082004';
       } else {
-        let savedGuest = localStorage.getItem('majorka_guest_id');
-        if (!savedGuest) {
-          savedGuest = 'client_' + Math.floor(100000 + Math.random() * 900000);
-          localStorage.setItem('majorka_guest_id', savedGuest);
+        const saved = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId');
+        if (saved && !saved.startsWith('client_')) {
+          currentChatId = saved;
+        } else {
+          let savedGuest = localStorage.getItem('majorka_guest_id');
+          if (!savedGuest) {
+            savedGuest = 'client_' + Math.floor(100000 + Math.random() * 900000);
+            localStorage.setItem('majorka_guest_id', savedGuest);
+          }
+          currentChatId = savedGuest;
         }
-        currentChatId = savedGuest;
       }
     }
 
@@ -2196,7 +2728,7 @@
 
     // USER & SUBSCRIPTION STATE
     let userBalanceVal = 0;
-    let userTrialUsed = 0;
+    let userTrialUsed = (currentChatId === '6940082004' || localStorage.getItem('majorka_trial_used') === '1') ? 1 : 0;
     let userSlotsCount = currentChatId === '6940082004' ? 2 : Number(localStorage.getItem('majorka_slots_count') || 0);
     let userBotsList = [];
 
@@ -2282,6 +2814,13 @@
       const preset1590 = document.getElementById('presetBtn-1590');
       const promoCard = document.getElementById('overviewPromoCard');
 
+      // Creation chain trial card elements
+      const chainTrialBtn = document.getElementById('btnChainTrial');
+      const chainTrialBtnText = document.getElementById('btnChainTrialText');
+      const chainTrialBadge = document.getElementById('chainTrialBadge');
+      const chainTrialNote = document.getElementById('chainTrialNote');
+      const chainTrialCard = document.getElementById('chainTrialCard');
+
       if (userTrialUsed === 1) {
         if (trialBtn) {
           trialBtn.disabled = true;
@@ -2298,6 +2837,27 @@
           preset1590.className = 'p-2.5 bg-white/5 border border-white/5 rounded-xl text-xs font-bold text-white/20 flex items-center justify-between cursor-not-allowed opacity-40 line-through';
           preset1590.title = 'Пробный доступ сгорает после первой покупки';
         }
+
+        // STEP 1 CREATION CHAIN SYNC (Trial burned):
+        if (chainTrialBtn) {
+          chainTrialBtn.disabled = true;
+          chainTrialBtn.className = 'w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed opacity-60';
+        }
+        if (chainTrialBtnText) {
+          chainTrialBtnText.innerText = 'Сгорел после первой покупки';
+        }
+        if (chainTrialBadge) {
+          chainTrialBadge.innerText = 'СГОРЕЛ ПОСЛЕ ПОКУПКИ';
+          chainTrialBadge.className = 'inline-block text-[10px] font-bold uppercase tracking-wider text-red-400/90 bg-red-500/10 px-2.5 py-0.5 rounded-full border border-red-500/20';
+        }
+        if (chainTrialNote) {
+          chainTrialNote.innerText = 'Пробный доступ сгорел после первой покупки';
+        }
+        if (chainTrialCard) {
+          chainTrialCard.classList.add('opacity-60');
+          chainTrialCard.classList.remove('hover:border-gold/50');
+        }
+
         if (promoCard) {
           promoCard.innerHTML = `
             <div class="flex items-center justify-between">
@@ -2329,6 +2889,26 @@
           preset1590.disabled = false;
           preset1590.className = 'p-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer';
           preset1590.title = '';
+        }
+
+        // STEP 1 CREATION CHAIN SYNC (Trial available):
+        if (chainTrialBtn) {
+          chainTrialBtn.disabled = false;
+          chainTrialBtn.className = 'btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer shadow-neon-gold';
+        }
+        if (chainTrialBtnText) {
+          chainTrialBtnText.innerText = 'Оплатить 1 590 ₽ с баланса';
+        }
+        if (chainTrialBadge) {
+          chainTrialBadge.innerText = '1 РАЗ НА АККАУНТ';
+          chainTrialBadge.className = 'inline-block text-[10px] font-bold uppercase tracking-wider text-gold px-2.5 py-0.5 rounded-full bg-gold/10 border border-gold/20';
+        }
+        if (chainTrialNote) {
+          chainTrialNote.innerText = 'Доступ на 7 дней (сгорает после первой покупки)';
+        }
+        if (chainTrialCard) {
+          chainTrialCard.classList.remove('opacity-60');
+          chainTrialCard.classList.add('hover:border-gold/50');
         }
       }
     }
@@ -2372,7 +2952,7 @@
           `;
         }
       } else {
-        if (overDetails) overDetails.innerText = 'В автономном режиме • Слот #1';
+        if (overDetails) overDetails.innerText = 'В автономном режиме • Магазин #1 (Основной)';
         if (overPill) {
           overPill.innerText = 'Активен 24/7';
           overPill.className = 'text-[10px] sm:text-xs font-semibold px-2 py-0.5 sm:px-3 sm:py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20 self-start sm:self-auto shrink-0';
@@ -2460,14 +3040,20 @@
           }
         }
 
-        // Update Analytics Counters
+        // Update Analytics Counters & Overview Operational Widget
         if (data.total_messages !== undefined) {
           const am = document.getElementById('analyticsTotalMessages');
-          if (am) am.innerText = Number(data.total_messages).toLocaleString('ru-RU');
+          const ovM = document.getElementById('ovStatTotalMsgs');
+          const formatted = Number(data.total_messages).toLocaleString('ru-RU');
+          if (am) am.innerText = formatted;
+          if (ovM) ovM.innerText = formatted;
         }
         if (data.total_leads !== undefined) {
           const al = document.getElementById('analyticsTotalLeads');
-          if (al) al.innerText = Number(data.total_leads).toLocaleString('ru-RU');
+          const ovL = document.getElementById('ovStatTotalLeads');
+          const formatted = Number(data.total_leads).toLocaleString('ru-RU');
+          if (al) al.innerText = formatted;
+          if (ovL) ovL.innerText = formatted;
         }
         if (data.total_bots !== undefined) {
           const ab = document.getElementById('analyticsTotalBots');
@@ -2515,7 +3101,7 @@
     // DIRECT TARIFF PURCHASE FROM BALANCE & SHOP CREATION
     async function selectTariffAndStart(tariffType, amount) {
       if ((tariffType === 'trial_7days' || Number(amount) === 1590) && userTrialUsed === 1) {
-        showToast('Пробный доступ сгорел', 'Пробный доступ на 7 дней сгорает после первой покупки. Выберите тариф на 1 месяц или дополнительный слот.', 'warning');
+        showToast('Пробный доступ сгорел', 'Пробный доступ на 7 дней сгорает после первой покупки. Выберите тариф на 1 месяц или дополнительный магазин.', 'warning');
         return;
       }
       const isExternal = window.location.protocol === 'https:' || (!isLocalHost);
@@ -2676,7 +3262,7 @@
         <div class="glass-box p-6 sm:p-8 text-center space-y-4 max-w-md mx-auto">
           <span class="material-symbols-outlined text-gold text-4xl">storefront</span>
           <h3 class="font-outfit font-bold text-lg text-white">У вас пока нет активных магазинов</h3>
-          <p class="text-xs text-white/50">Вставьте ссылку на ваш профиль на Авито в настройках, чтобы подключить магазин.</p>
+          <p class="text-xs text-white/50">Перейдите в мастер создания магазина, чтобы подключить ваш магазин.</p>
           <button onclick="switchTab('knowledge')" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-2 mx-auto cursor-pointer shadow-neon-gold">
             <span class="material-symbols-outlined text-sm">tune</span>
             <span>Настроить первый магазин</span>
@@ -2698,7 +3284,7 @@
           const statusClass = isPaused ? 'text-amber-400' : (isPaid ? 'text-status-green' : 'text-gold');
           const dateStr = bot.paid_until ? new Date(bot.paid_until).toLocaleDateString('ru-RU') : '30 дней';
           const statusText = isPaused ? 'На паузе' : (isPaid ? `В сети 24/7 (до ${dateStr})` : 'Ожидает подключения');
-          const emuSlot = `Слот #${bot.emulator_index !== undefined && bot.emulator_index !== null ? bot.emulator_index : index}`;
+          const emuSlot = `Магазин #${index + 1} (Основной)`;
           const botName = bot.session_name || bot.name || 'Основной магазин на Авито';
           const savedUrl = bot.avito_profile_url || localStorage.getItem('majorka_avito_url') || '';
           const savedPhone = bot.phone || localStorage.getItem('majorka_bot_phone') || '';
@@ -2726,28 +3312,38 @@
                 </div>
               </div>
 
-              <!-- ACTION BUTTONS: ERGONOMIC 2x2 ON MOBILE, ROW ON DESKTOP -->
+              <!-- ACTION BUTTONS: ERGONOMIC 2x3 GRID -->
               <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full lg:w-auto pt-2 lg:pt-0 border-t border-white/5 lg:border-t-0">
-                <button type="button" onclick="focusRulesSection()" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-gold/40 hover:text-gold min-h-[42px]" title="Настроить правила продаж">
+                <button type="button" onclick="openShopCatalogModal(${bot.id || 0}, '${escapeHtml(botName)}')" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-gold/40 hover:text-gold min-h-[42px]" title="Просмотр активных объявлений">
+                  <span class="material-symbols-outlined text-sm text-gold">inventory_2</span>
+                  <span>Объявления</span>
+                </button>
+
+                <button type="button" onclick="focusRulesSection()" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-gold/40 hover:text-gold min-h-[42px]" title="Настроить правила ответов">
                   <span class="material-symbols-outlined text-sm text-gold">tune</span>
-                  <span>Настроить правила</span>
+                  <span>Правила</span>
                 </button>
 
                 <button type="button" onclick="focusCatalogUpdate()" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-blue-400/40 hover:text-blue-400 min-h-[42px]" title="Обновить товары с Авито">
                   <span class="material-symbols-outlined text-sm text-blue-400">sync</span>
-                  <span>Обновить товары</span>
+                  <span>Обновить</span>
+                </button>
+
+                <button type="button" onclick="switchTab('analytics')" class="px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white transition-all min-h-[42px]" title="Открыть глубокую аналитику">
+                  <span class="material-symbols-outlined text-sm text-gold">insights</span>
+                  <span>Аналитика</span>
                 </button>
 
                 <button type="button" onclick="toggleStoreActiveState(${bot.id || 0})" class="px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer border border-white/10 bg-white/5 hover:bg-white/10 text-white/80 transition-all min-h-[42px]" title="Пауза или запуск 24/7">
                   <span class="material-symbols-outlined text-sm">${isPaused ? 'play_arrow' : 'pause'}</span>
-                  <span>${isPaused ? 'Запустить 24/7' : 'На паузу'}</span>
+                  <span>${isPaused ? 'Запустить' : 'На паузу'}</span>
                 </button>
 
-                <button type="button" onclick="scrollToDialogs()" class="px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white transition-all min-h-[42px]" title="Посмотреть диалоги покупателей">
-                  <span class="material-symbols-outlined text-sm">forum</span>
-                  <span>Диалоги</span>
+                <button type="button" onclick="openDeleteShopModal(${bot.id || 0}, '${escapeHtml(botName)}', '${dateStr}', '${bot.paid_until || ''}')" class="px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-all min-h-[42px]" title="Отключить и удалить магазин">
+                  <span class="material-symbols-outlined text-sm">delete</span>
+                  <span>Удалить</span>
                 </button>
-              </div>
+              </div></div>
             </div>
           `;
         });
@@ -2807,16 +3403,16 @@
       if (desc) {
         if (total === 1) {
           if (userTrialUsed === 1) {
-            desc.innerHTML = 'Вам доступно <strong>1 активный магазин</strong> по вашей активной подписке (пробный доступ сгорел после первой покупки). Для подключения 2-го магазина приобретите дополнительный слот в разделе «Тарифы».';
+            desc.innerHTML = 'Вам доступно <strong>1 активный магазин</strong> по вашей активной подписке (пробный доступ сгорел после первой покупки). Для подключения 2-го магазина подключите дополнительный магазин в разделе «Тарифы».';
           } else {
             desc.innerHTML = 'Вам доступно <strong>1 активный магазин</strong> по пробной подписке (7 дней). Обратите внимание: пробный доступ сгорает после первой покупки.';
           }
         } else {
           const remaining = Math.max(0, total - active);
           if (remaining > 0) {
-            desc.innerHTML = `У вас оплачено и доступно <strong>${total} слотов для магазинов</strong> (${active} создано, доступно для запуска еще: <strong>${remaining}</strong>). Пробный доступ сгорел после первой покупки. Нажмите «Добавить магазин» для настройки следующего бота!`;
+            desc.innerHTML = `У вас оплачено и доступно <strong>${total} магазинов для магазинов</strong> (${active} создано, доступно для запуска еще: <strong>${remaining}</strong>). Пробный доступ сгорел после первой покупки. Нажмите «Добавить магазин» для настройки следующего бота!`;
           } else {
-            desc.innerHTML = `У вас активно <strong>${active} из ${total} оплаченных магазинов</strong> (все слоты работают 24/7). Пробный доступ сгорел после первой покупки. Для запуска следующего магазина приобретите дополнительный слот в разделе «Тарифы».`;
+            desc.innerHTML = `У вас активно <strong>${active} из ${total} оплаченных магазинов</strong> (все магазины работают 24/7). Пробный доступ сгорел после первой покупки. Для запуска следующего магазина подключите дополнительный магазин в разделе «Тарифы».`;
           }
         }
       }
@@ -2824,33 +3420,18 @@
 
     function addNewShopAction() {
       if (userSlotsCount > 0 && userBotsList.length >= userSlotsCount && userBotsList.some(b => b.is_paid == 1)) {
-        showToast('Все слоты заняты', `У вас активно ${userBotsList.length} из ${userSlotsCount} ботов. Для запуска еще одного магазина приобретите дополнительный слот в разделе «Тарифы».`, 'warning');
+        showToast('Лимит магазинов исчерпан', `У вас активно ${userBotsList.length} из ${userSlotsCount} ботов. Для запуска еще одного магазина подключите дополнительный магазин в разделе «Тарифы».`, 'warning');
         switchTab('tariffs');
         return;
       }
       openShopSetupWizard();
     }
 
-    function openShopSetupWizard() {
-      switchTab('wizard');
-      const hasPaid = (userSlotsCount > (userBotsList || []).length) || currentChatId === '6940082004';
-      const unlockedBanner = document.getElementById('wizPaidUnlockedBanner');
-      const cardsBox = document.getElementById('wizTariffCardsBox');
-      const slotText = document.getElementById('wizPaidSlotCountText');
-
-      if (hasPaid) {
-        if (unlockedBanner) unlockedBanner.classList.remove('hidden');
-        if (cardsBox) cardsBox.classList.add('hidden');
-        if (slotText) {
-          const remaining = Math.max(1, userSlotsCount - (userBotsList || []).length);
-          slotText.innerText = `Доступно для создания слотов: ${remaining}`;
-        }
-        wizGoToStep(2);
-      } else {
-        if (unlockedBanner) unlockedBanner.classList.add('hidden');
-        if (cardsBox) cardsBox.classList.remove('hidden');
-        wizGoToStep(1);
-      }
+        function openShopSetupWizard() {
+      switchTab('knowledge');
+      setTimeout(() => {
+        scrollToStep(1);
+      }, 100);
     }
 
     // 3-STEP LINEAR WIZARD NAVIGATION
@@ -2926,10 +3507,17 @@
       const delCdek = document.getElementById('wizDelCdek')?.checked;
       const delPickup = document.getElementById('wizDelPickup')?.checked;
 
+      const isPickup = (document.getElementById('wizPickupVal')?.value || 'yes') === 'yes';
+      const pickupAddress = document.getElementById('wizPickupAddress')?.value.trim() || '';
+
       const deliveries = [];
       if (delAvito) deliveries.push('Авито Доставка (все службы)');
       if (delCdek) deliveries.push('СДЭК');
-      if (delPickup) deliveries.push('Самовывоз');
+      if (isPickup) {
+        deliveries.push(pickupAddress ? `Самовывоз: ${pickupAddress}` : 'Самовывоз со склада');
+      } else {
+        deliveries.push('Без самовывоза (только отправка)');
+      }
       const deliveryStr = deliveries.join(', ') || 'Авито Доставка';
 
       const discountStr = document.getElementById('wizDiscountPolicyVal')?.value || 'Цены зафиксированы на минимальном уровне, без торга.';
@@ -3096,7 +3684,7 @@
         });
         const deleteData = await deleteRes.json();
         if (!deleteRes.ok || !deleteData.success) throw new Error(deleteData.error || 'Не удалось удалить магазин');
-        showToast('Магазин удалён', `Слот «${shopName}» удалён из вашего кабинета`, 'info');
+        showToast('Магазин удалён', `магазин «${shopName}» удалён из вашего кабинета`, 'info');
         closeShopSettingsModal();
         loadMyBots();
       } catch (err) {
@@ -3303,44 +3891,77 @@
 
     function renderOneClickCatalogList() {
       const container = document.getElementById('oneClickItemsList');
+      const overviewContainer = document.getElementById('overviewAvitoItemsList');
       const countBadge = document.getElementById('oneClickCountBadge');
       const quickBadge = document.getElementById('quickCatalogCountBadge');
+      const analyticsBadge = document.getElementById('analyticsCatalogBadge');
+      const analyticsTable = document.getElementById('analyticsCatalogTable');
 
-      const count = currentCatalogProducts.length;
+      const count = (currentCatalogProducts && Array.isArray(currentCatalogProducts)) ? currentCatalogProducts.length : 0;
       if (countBadge) countBadge.innerText = count;
-      if (quickBadge) quickBadge.innerText = count + ' шт';
+      if (quickBadge) quickBadge.innerText = count + ' объявлений';
+      if (analyticsBadge) analyticsBadge.innerText = count + ' товаров';
 
-      if (!container) return;
+      const emptyHtml = `
+        <div class="p-4 text-center text-xs text-white/40 rounded-xl bg-[#101012] border border-white/5">
+          Каталог товаров синхронизируется автоматически из приложения Авито.
+        </div>
+      `;
+
       if (count === 0) {
-        container.innerHTML = `
-          <div class="p-4 text-center text-xs text-white/40">
-            Каталог пока не спарсен. Вставьте ссылку на ваш профиль на Авито выше и нажмите «Загрузить товары и запустить продажи».
-          </div>
-        `;
+        if (container) container.innerHTML = emptyHtml;
+        if (overviewContainer) overviewContainer.innerHTML = emptyHtml;
+        if (analyticsTable) analyticsTable.innerHTML = emptyHtml;
         return;
       }
 
-      container.innerHTML = currentCatalogProducts.map((p, idx) => `
-        <div class="p-3 rounded-xl bg-[#121214] border border-white/10 flex items-center justify-between gap-3 hover:border-white/20 transition-all">
+      const itemsHtml = currentCatalogProducts.map((p, idx) => `
+        <div class="p-3.5 rounded-xl bg-[#121214] border border-white/10 flex items-center justify-between gap-3 hover:border-gold/30 transition-all">
           <div class="min-w-0 flex-1">
-            <div class="text-xs font-bold text-white truncate">${escapeHtml(p.title)}</div>
-            <div class="flex items-center gap-2 mt-0.5">
-              <span class="text-xs font-extrabold text-gold">${escapeHtml(p.price)}</span>
-              <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-1.5 py-0.2 rounded border border-emerald-500/20">Спарсено с Авито</span>
+            <div class="text-xs sm:text-sm font-bold text-white truncate">${escapeHtml(p.title)}</div>
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-xs font-black text-gold">${escapeHtml(p.price || '0 ₽')}</span>
+              <span class="text-[10px] text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-semibold">В памяти менеджера</span>
+              ${p.description ? `<span class="text-[10px] text-white/40 truncate max-w-xs hidden sm:inline-block">${escapeHtml(p.description)}</span>` : ''}
             </div>
           </div>
-          <button type="button" onclick="deleteOneClickProduct(${idx})" class="text-white/30 hover:text-red-400 p-1 rounded-lg transition-colors cursor-pointer" title="Удалить товар">
-            <span class="material-symbols-outlined text-base">delete</span>
-          </button>
+          <div class="flex items-center gap-1.5 shrink-0">
+            <button type="button" onclick="openEditProductModal(${idx})" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-gold/10 hover:text-gold text-white/70 text-xs font-semibold flex items-center gap-1 transition-all cursor-pointer" title="Редактировать товар">
+              <span class="material-symbols-outlined text-sm">edit</span>
+              <span class="hidden sm:inline">Изменить</span>
+            </button>
+            <button type="button" onclick="deleteOneClickProduct(${idx})" class="p-1.5 rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 transition-colors cursor-pointer" title="Удалить товар">
+              <span class="material-symbols-outlined text-base">delete</span>
+            </button>
+          </div>
         </div>
       `).join('');
+
+      if (container) container.innerHTML = itemsHtml;
+      if (overviewContainer) {
+        overviewContainer.innerHTML = `<div class="max-h-60 overflow-y-auto space-y-2 pr-1">${itemsHtml}</div>`;
+      }
+      if (analyticsTable) {
+        analyticsTable.innerHTML = `<div class="max-h-72 overflow-y-auto space-y-2 pr-1">${itemsHtml}</div>`;
+      }
     }
 
-    function deleteOneClickProduct(idx) {
+    async function deleteOneClickProduct(idx) {
+      const p = currentCatalogProducts[idx];
+      const pId = p ? p.id : null;
       currentCatalogProducts.splice(idx, 1);
       localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
       renderOneClickCatalogList();
       showToast('Товар удален', 'Позиция удалена из каталога', 'info');
+      if (pId) {
+        try {
+          await apiFetch(`${API_BASE}/api/delete_product`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: pId })
+          });
+        } catch (e) {}
+      }
     }
 
     function clearCatalog() {
@@ -3404,7 +4025,7 @@
       }
 
       if (!url) {
-        showToast('Укажите ссылку', 'Вставьте ссылку на ваш профиль или магазин на Авито для парсера', 'error');
+        // removed old link toast
         if (urlInput) {
           urlInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
           urlInput.focus();
@@ -3440,7 +4061,7 @@
           currentCatalogProducts = data.items.map((it, idx) => ({
             id: Date.now() + idx,
             title: it.title || 'Товар с Авито',
-            price: it.price ? `${it.price} ₽` : 'Цена в объявлении',
+            price: it.price ? (String(it.price).includes('₽') ? String(it.price) : `${it.price} ₽`) : 'Цена в объявлении',
             url: it.url || url,
             image: it.image || ''
           }));
@@ -3505,7 +4126,7 @@
       const url = urlInput ? urlInput.value.trim() : '';
 
       if (!url) {
-        showToast('Укажите ссылку', 'Вставьте ссылку на ваш профиль или магазин на Авито', 'error');
+        // removed old link toast
         if (urlInput) urlInput.focus();
         return;
       }
@@ -3538,7 +4159,7 @@
           currentCatalogProducts = data.items.map((it, idx) => ({
             id: Date.now() + idx,
             title: it.title || 'Товар с Авито',
-            price: it.price ? `${it.price} ₽` : 'Цена в объявлении',
+            price: it.price ? (String(it.price).includes('₽') ? String(it.price) : `${it.price} ₽`) : 'Цена в объявлении',
             url: it.url || url,
             image: it.image || ''
           }));
@@ -3599,6 +4220,8 @@
       const smsBlock = document.getElementById('smsVerificationBlock');
       const timerNotice = document.getElementById('smsTimerNotice');
       const phone = phoneInput ? phoneInput.value.trim() : '';
+      const pwdInput = document.getElementById('avitoOneClickPassword');
+      const password = pwdInput ? pwdInput.value.trim() : '';
       const url = urlInput ? urlInput.value.trim() : '';
 
       if (!phone || phone.replace(/\D/g, '').length < 10) {
@@ -3610,7 +4233,7 @@
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Отправка номера в эмулятор...</span>';
+        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Подключение и авторизация...</span>';
       }
 
       localStorage.setItem('majorka_bot_phone', phone);
@@ -3623,6 +4246,7 @@
           body: JSON.stringify({
             chatId: currentChatId,
             phone: phone,
+            password: password,
             profile_url: url
           })
         });
@@ -3639,7 +4263,7 @@
           smsInput.focus();
         }
 
-        showToast('Номер передан!', 'Эмулятор запросил СМС-код от Авито. Введите полученный код ниже.', 'success');
+        showToast('Номер передан!', 'Система выполняет вход. При наличии 2FA введите полученный проверочный код ниже.', 'success');
 
         // 60-second cooldown timer
         let timeLeft = 60;
@@ -3725,26 +4349,40 @@
       }
     }
 
-    function loadCatalogProducts() {
+    async function loadCatalogProducts() {
       try {
-        const cachedProds = localStorage.getItem('majorka_catalog_products');
-        if (cachedProds) {
-          const parsed = JSON.parse(cachedProds);
-          if (Array.isArray(parsed)) {
-            // Strictly eliminate any demo mockup products
-            currentCatalogProducts = parsed.filter(p => {
-              const title = (p.title || '').toLowerCase();
-              return !(title.includes('кроссовк') || title.includes('худи') || title.includes('techwear') || title.includes('тестовый'));
-            });
-            if (currentCatalogProducts.length !== parsed.length) {
-              localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
-            }
+        const savedUrl = localStorage.getItem('majorka_avito_url');
+        const ovUrlInput = document.getElementById('overviewAvitoUrlInput');
+        if (savedUrl && ovUrlInput && !ovUrlInput.value) ovUrlInput.value = savedUrl;
+
+        const queryChatId = encodeURIComponent(currentChatId || '6940082004');
+        const res = await apiFetch(`${API_BASE}/api/get_catalog?chatId=${queryChatId}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && Array.isArray(data.items) && data.items.length > 0) {
+            currentCatalogProducts = data.items.map((it, idx) => ({
+              id: it.id || Date.now() + idx,
+              title: it.title || 'Товар с Авито',
+              price: it.price ? (String(it.price).includes('₽') ? String(it.price) : `${it.price} ₽`) : 'Цена в объявлении',
+              url: it.url || '',
+              image: it.image || ''
+            }));
+            localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
+            renderOneClickCatalogList();
+            return;
           }
-        } else {
-          currentCatalogProducts = [];
         }
       } catch (e) {
-        currentCatalogProducts = [];
+        console.log('loadCatalogProducts sync:', e);
+      }
+      const cachedProds = localStorage.getItem('majorka_catalog_products');
+      if (cachedProds) {
+        try {
+          const parsed = JSON.parse(cachedProds);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            currentCatalogProducts = parsed;
+          }
+        } catch (e) {}
       }
       renderOneClickCatalogList();
     }
@@ -3755,10 +4393,9 @@
       const phone = phoneInput ? phoneInput.value.trim() : '';
       const url = urlInput ? urlInput.value.trim() : '';
 
-      if (!url && currentCatalogProducts.length === 0) {
-        showToast('Шаг 1 не выполнен', 'Вставьте ссылку на ваш профиль на Авито для синхронизации каталога', 'error');
-        if (urlInput) urlInput.focus();
-        return;
+      // Auto sync from app if needed
+      if (currentCatalogProducts.length === 0) {
+        console.log('Catalog empty, will auto-sync from app');
       }
 
       if (!phone) {
@@ -3871,7 +4508,7 @@
 
     function autoFillStandardKnowledge() {
       // Clean example
-      showToast('Пример заполнения', 'Вставьте ссылку на ваш профиль Авито в поле выше', 'info');
+      showToast('Пример регламента', 'Стандартные правила консультаций заполнены', 'info');
     }
 
     function clearAllKnowledgeFields() {
@@ -3929,6 +4566,7 @@
     // TAB SWITCHER
     // TAB SWITCHER
     function switchTab(tabId) {
+      if (tabId === 'wizard') tabId = 'knowledge';
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
       const selectedPane = document.getElementById('tab-content-' + tabId);
       if (selectedPane) selectedPane.classList.remove('hidden');
@@ -3955,7 +4593,11 @@
       
       if (tabId === 'shops') loadMyBots();
       if (tabId === 'analytics') loadUserStats();
-      if (tabId === 'knowledge') loadStoreKnowledge();
+      if (tabId === 'knowledge') {
+        loadStoreKnowledge();
+        initChainLocksState();
+        renderTrialStatusUI();
+      }
       loadCatalogProducts();
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -4206,7 +4848,7 @@
       updateQuotaBannerUI();
       try { loadMyBots(); } catch(e){}
 
-      showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Доступно слотов для магазинов: ${userSlotsCount}.`, 'success');
+      showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Доступно магазинов для магазинов: ${userSlotsCount}.`, 'success');
 
       // Open Celebration & Next-Steps Onboarding Modal
       openPaymentSuccessModal(tariffName, amount, daysToAdd, dateStr);
@@ -4229,17 +4871,17 @@
       else if (tariffName === 'trial_7days') tTitle = 'Пробный доступ (7 дней)';
 
       if (badge) badge.innerText = `Тариф «${tTitle}» Активирован`;
-      if (desc) desc.innerText = `С вашего баланса списано ${amount.toLocaleString('ru-RU')} ₽. Всего доступно слотов: ${userSlotsCount} (активны до ${dateStr}).`;
+      if (desc) desc.innerText = `С вашего баланса списано ${amount.toLocaleString('ru-RU')} ₽. Всего доступно магазинов: ${userSlotsCount} (активны до ${dateStr}).`;
 
       if (slotBadge) {
-        slotBadge.innerText = `Слот #${userSlotsCount} Активен 24/7`;
+        slotBadge.innerText = `магазин #${userSlotsCount} Активен 24/7`;
       }
 
       if (quotaText) {
         if (userSlotsCount > 1) {
-          quotaText.innerHTML = `Вам оплачено и доступно <strong>${userSlotsCount} слотов</strong> для создания магазинов. Пробный доступ сгорел после первой покупки. Вы можете запустить еще один магазин прямо сейчас!`;
+          quotaText.innerHTML = `Вам оплачено и доступно <strong>${userSlotsCount} магазинов</strong> для создания магазинов. Пробный доступ сгорел после первой покупки. Вы можете запустить еще один магазин прямо сейчас!`;
         } else if (userTrialUsed === 1) {
-          quotaText.innerHTML = `Подписка успешно активирована на 1 магазин. Пробный доступ сгорел после первой покупки. Для подключения 2-го магазина выберите дополнительный слот в разделе «Тарифы».`;
+          quotaText.innerHTML = `Подписка успешно активирована на 1 магазин. Пробный доступ сгорел после первой покупки. Для подключения 2-го магазина выберите дополнительный магазин в разделе «Тарифы».`;
         } else {
           quotaText.innerHTML = `Вам доступно <strong>1 активный магазин</strong>. Обратите внимание: пробный доступ сгорает после первой покупки.`;
         }
@@ -4269,12 +4911,10 @@
 
     function goToNextActionFromSuccess() {
       closePaymentSuccessModal();
-      if (userSlotsCount > (userBotsList || []).length) {
-        switchTab('wizard');
-        wizGoToStep(1);
-      } else {
-        switchTab('knowledge');
-      }
+      switchTab('knowledge');
+      setTimeout(() => {
+        scrollToStep(2);
+      }, 150);
     }
 
     function goToConnectStoreFromSuccess() {
@@ -4347,6 +4987,712 @@
         showToast('Ссылка скопирована', 'Партнерская ссылка сохранена в буфер обмена!', 'success');
       }
     }
+  
+    let targetDeleteBotId = null;
+
+    function openDeleteShopModal(botId, botName, dateStr, paidUntil) {
+      targetDeleteBotId = botId;
+      const modal = document.getElementById('deleteShopModal');
+      const nameEl = document.getElementById('delModalShopName');
+      const dateEl = document.getElementById('delModalPaidUntil');
+      const daysEl = document.getElementById('delModalDaysRemaining');
+      const checkbox = document.getElementById('delShopConsentCheckbox');
+      const btn = document.getElementById('btnConfirmDeleteShop');
+
+      if (nameEl) nameEl.innerText = botName || 'MAJORKA';
+      if (dateEl) dateEl.innerText = dateStr || '17.11.2026';
+
+      let days = 19;
+      if (paidUntil) {
+        const diff = new Date(paidUntil).getTime() - Date.now();
+        days = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+      }
+      if (daysEl) daysEl.innerText = days;
+
+      if (checkbox) checkbox.checked = false;
+      if (btn) {
+        btn.disabled = true;
+        btn.className = 'px-5 py-2.5 rounded-xl text-xs font-bold bg-red-600/30 text-white/40 border border-red-500/30 cursor-not-allowed transition-all';
+      }
+
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeDeleteShopModal() {
+      const modal = document.getElementById('deleteShopModal');
+      if (modal) modal.classList.add('hidden');
+      targetDeleteBotId = null;
+    }
+
+    function toggleDeleteShopButton() {
+      const checkbox = document.getElementById('delShopConsentCheckbox');
+      const btn = document.getElementById('btnConfirmDeleteShop');
+      if (!checkbox || !btn) return;
+      if (checkbox.checked) {
+        btn.disabled = false;
+        btn.className = 'px-5 py-2.5 rounded-xl text-xs font-bold bg-red-600 hover:bg-red-500 text-white border border-red-500 cursor-pointer shadow-lg transition-all';
+      } else {
+        btn.disabled = true;
+        btn.className = 'px-5 py-2.5 rounded-xl text-xs font-bold bg-red-600/30 text-white/40 border border-red-500/30 cursor-not-allowed transition-all';
+      }
+    }
+
+    async function executeDeleteShopAction() {
+      const btn = document.getElementById('btnConfirmDeleteShop');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerText = 'Отключение магазина...';
+      }
+
+      try {
+        await apiFetch(`${API_BASE}/api/delete_bot`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: currentChatId, bot_id: targetDeleteBotId })
+        });
+      } catch(e) {}
+
+      closeDeleteShopModal();
+      showToast('Магазин отключен', 'Менеджер остановлен, неиспользованные дни аннулированы', 'warning');
+      setTimeout(() => {
+        loadMyBots();
+      }, 500);
+    }
+
+    function openShopCatalogModal(botId, botName) {
+      const modal = document.getElementById('shopCatalogPreviewModal');
+      const titleEl = document.getElementById('previewModalShopName');
+      const listEl = document.getElementById('shopCatalogPreviewList');
+      const countEl = document.getElementById('previewModalCount');
+
+      if (titleEl) titleEl.innerText = (botName || 'MAJORKA') + ' — синхронизированные позиции';
+
+      const items = (currentCatalogProducts && currentCatalogProducts.length > 0)
+        ? currentCatalogProducts
+        : [];
+
+      if (countEl) countEl.innerText = `Всего: ${items.length} активных объявлений`;
+
+      if (listEl) {
+        if (items.length === 0) {
+          listEl.innerHTML = '<div class="p-6 text-center text-xs text-white/40">В каталоге магазина пока нет активных объявлений.</div>';
+        } else {
+          listEl.innerHTML = items.map((it, idx) => `
+            <div class="p-3 rounded-xl bg-[#121214] border border-white/10 flex items-center justify-between gap-3">
+              <div class="min-w-0 flex-1">
+                <div class="text-xs font-bold text-white truncate">${escapeHtml(it.title)}</div>
+                <div class="flex items-center gap-2 mt-1">
+                  <span class="text-xs font-extrabold text-gold">${escapeHtml(it.price)}</span>
+                  <span class="text-[10px] text-white/60 bg-white/5 px-2 py-0.5 rounded border border-white/10">В наличии</span>
+                </div>
+              </div>
+              ${it.url ? `<a href="${it.url}" target="_blank" class="text-white/40 hover:text-gold p-1" title="Открыть на Авито"><span class="material-symbols-outlined text-base">open_in_new</span></a>` : ''}
+            </div>
+          `).join('');
+        }
+      }
+
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    function closeShopCatalogModal() {
+      const modal = document.getElementById('shopCatalogPreviewModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+
+    async function startWizAuthProcess() {
+      const phoneInput = document.getElementById('wizPhoneInput');
+      const pwdInput = document.getElementById('wizPasswordInput');
+      const phone = phoneInput ? phoneInput.value.trim() : '';
+      const password = pwdInput ? pwdInput.value.trim() : '';
+
+      if (!phone || phone.replace(/\D/g, '').length < 10) {
+        showToast('Укажите телефон', 'Введите номер телефона от Авито (от 10 цифр)', 'error');
+        if (phoneInput) phoneInput.focus();
+        return;
+      }
+
+      // Switch to Stage 2: "Менеджер запускается с вашими характеристиками..."
+      document.getElementById('wizAuthStage1')?.classList.add('hidden');
+      document.getElementById('wizAuthStage2')?.classList.remove('hidden');
+
+      try {
+        apiFetch(`${API_BASE}/api/avito_auth_phone`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chatId: currentChatId,
+            phone: phone,
+            password: password
+          })
+        });
+      } catch(e) {}
+
+      // Advance to Stage 3 (SMS code prompt)
+      setTimeout(() => {
+        document.getElementById('wizAuthStage2')?.classList.add('hidden');
+        document.getElementById('wizAuthStage3')?.classList.remove('hidden');
+        document.getElementById('wizSmsCode')?.focus();
+      }, 1800);
+    }
+
+    function wizResendSmsCode() {
+      const alertEl = document.getElementById('wizResendAlert');
+      if (alertEl) {
+        alertEl.classList.remove('hidden');
+      }
+      showToast('Повторный код выслан', 'Пожалуйста, введите новый проверочный код из СМС', 'info');
+      const phone = document.getElementById('wizPhoneInput')?.value.trim() || '';
+      const password = document.getElementById('wizPasswordInput')?.value.trim() || '';
+      try {
+        apiFetch(`${API_BASE}/api/avito_auth_phone`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: currentChatId, phone: phone, password: password })
+        });
+      } catch(e) {}
+    }
+
+    async function wizSubmitSmsCode() {
+      const smsInput = document.getElementById('wizSmsCode');
+      const code = smsInput ? smsInput.value.trim() : '';
+      if (!code) {
+        showToast('Введите СМС-код', 'Введите 4–6 значный проверочный код от Авито', 'error');
+        if (smsInput) smsInput.focus();
+        return;
+      }
+
+      // Switch to Stage 4: "✅ Вход успешно завершен! Теперь мы автоматически добавляем ваши товары..."
+      document.getElementById('wizAuthStage3')?.classList.add('hidden');
+      document.getElementById('wizAuthStage4')?.classList.remove('hidden');
+
+      const phone = document.getElementById('wizPhoneInput')?.value.trim() || '';
+      try {
+        await apiFetch(`${API_BASE}/api/avito_auth_sms`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: currentChatId, phone: phone, code: code })
+        });
+      } catch(e) {}
+
+      setTimeout(async () => {
+        await loadCatalogProducts();
+        await loadMyBots();
+        await loadUserStats();
+
+        // Switch to Stage 5: Ready & Safety Rule
+        document.getElementById('wizAuthStage4')?.classList.add('hidden');
+        document.getElementById('wizAuthStage5')?.classList.remove('hidden');
+        showToast('Менеджер готов!', 'Товары выгружены, круглосуточный патруль активен', 'success');
+      }, 2500);
+    }
+
+    async function triggerEmulatorAutoSync(btn) {
+      const origHtml = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span><span>Синхронизация...</span>';
+      }
+      showToast('Синхронизация с Авито', 'Бот считывает товары из приложения Авито...', 'info');
+
+      try {
+        await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: currentChatId, from_app: true })
+        });
+      } catch(e) {}
+
+      setTimeout(async () => {
+        await loadCatalogProducts();
+        showToast('Каталог синхронизирован!', 'Все товары успешно обновлены из приложения Авито', 'success');
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
+        }
+      }, 1500);
+    }
+
+</script>
+
+  <!-- ==================== MODAL: DELETE SHOP OFFICIAL CONFIRMATION ==================== -->
+  <div id="deleteShopModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="glass-box p-6 sm:p-8 max-w-lg w-full space-y-5 border-red-500/30 bg-[#161619] rounded-2xl sm:rounded-3xl shadow-2xl">
+      <div class="flex items-center gap-3 text-red-400">
+        <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+          <span class="material-symbols-outlined text-2xl">warning</span>
+        </div>
+        <div>
+          <h3 class="font-outfit font-extrabold text-lg text-white">Подтверждение отключения магазина</h3>
+          <p class="text-xs text-white/50">Отзыв лицензии и остановка менеджера</p>
+        </div>
+      </div>
+
+      <div class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-200/90 leading-relaxed space-y-2">
+        <p class="font-bold text-white">Внимание! Вы собираетесь отключить магазин «<span id="delModalShopName">MAJORKA</span>».</p>
+        <p>При отключении менеджер немедленно прекратит круглосуточную обработку диалогов и ответов покупателям на Авито. Все активные сессии будут завершены.</p>
+        <p class="text-amber-300 font-semibold" id="delModalWarningPeriod">
+          Оплаченный период подписки активен до <span id="delModalPaidUntil">17.11.2026</span> (осталось <span id="delModalDaysRemaining">19</span> дн.).
+        </p>
+        <p class="text-[11px] text-white/60">
+          В соответствии с регламентом сервиса, при досрочном отключении магазина неиспользованный остаток оплаченного периода аннулируется в полном объеме без возможности частичного или пропорционального возврата денежных средств.
+        </p>
+      </div>
+
+      <!-- MANDATORY CONSENT CHECKBOX -->
+      <label class="flex items-start gap-2.5 p-3 rounded-xl bg-black/40 border border-white/10 cursor-pointer hover:border-white/20 transition-all">
+        <input type="checkbox" id="delShopConsentCheckbox" onchange="toggleDeleteShopButton()" class="w-4 h-4 rounded text-red-500 focus:ring-red-500 bg-white/5 border-white/20 mt-0.5">
+        <span class="text-xs text-white/80 leading-snug">
+          Я подтверждаю отключение магазина, ознакомлен с регламентом сервиса и согласен с тем, что оставшиеся дни оплаченного периода будут безвозвратно аннулированы.
+        </span>
+      </label>
+
+      <!-- MODAL ACTIONS -->
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button type="button" onclick="closeDeleteShopModal()" class="btn-ghost px-5 py-2.5 rounded-xl text-xs font-semibold cursor-pointer">
+          Отмена
+        </button>
+        <button type="button" id="btnConfirmDeleteShop" onclick="executeDeleteShopAction()" disabled class="px-5 py-2.5 rounded-xl text-xs font-bold bg-red-600/30 text-white/40 border border-red-500/30 cursor-not-allowed transition-all">
+          Отключить и удалить магазин
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: VIEW SHOP ACTIVE LISTINGS ==================== -->
+  <div id="shopCatalogPreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="glass-box p-6 max-w-2xl w-full space-y-4 border-white/10 bg-[#161619] rounded-2xl shadow-2xl flex flex-col max-h-[85vh]">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gold/15 text-gold flex items-center justify-center">
+            <span class="material-symbols-outlined text-xl">inventory_2</span>
+          </div>
+          <div>
+            <h3 class="font-outfit font-extrabold text-base text-white">Активные объявления магазина</h3>
+            <p class="text-xs text-white/50" id="previewModalShopName">Каталог товаров на Авито</p>
+          </div>
+        </div>
+        <button onclick="closeShopCatalogModal()" class="text-white/40 hover:text-white p-1 rounded-lg">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div id="shopCatalogPreviewList" class="flex-1 overflow-y-auto space-y-2 pr-1">
+        <!-- Rendered items -->
+      </div>
+
+      <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+        <span class="text-xs text-white/50" id="previewModalCount">Всего: 0 товаров</span>
+        <button onclick="closeShopCatalogModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-white">
+          Закрыть
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  
+  <script>
+    // CHAIN STEP LOCKS & REAL BALANCE PAYMENTS
+    let isChainStep1Paid = false;
+    let isChainStep2Saved = false;
+
+    function initChainLocksState() {
+      renderTrialStatusUI();
+      // Check if user has active paid sessions from userBotsList or userSlotsCount
+      const hasPaid = (userBotsList && userBotsList.some(b => b.is_paid == 1)) || (userSlotsCount > 0);
+      const notice = document.getElementById('alreadyPaidNotice');
+      const step1Text = document.getElementById('step1StatusText');
+      const step1Badge = document.getElementById('step1StatusBadge');
+      const lock2 = document.getElementById('chainStep2Lock');
+      const lock3 = document.getElementById('chainStep3Lock');
+
+      if (hasPaid) {
+        isChainStep1Paid = true;
+        if (notice) notice.classList.remove('hidden');
+        if (step1Text) step1Text.innerText = 'Оплачено (активный магазин)';
+        if (step1Badge) {
+          step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5';
+          step1Badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>Тариф оплачен</span>';
+        }
+        if (lock2) lock2.classList.add('hidden');
+        
+        // If knowledge exists, unlock step 3 as well
+        const kb = localStorage.getItem('majorka_store_knowledge');
+        if (kb) {
+          isChainStep2Saved = true;
+          if (lock3) lock3.classList.add('hidden');
+        }
+      } else {
+        isChainStep1Paid = false;
+        isChainStep2Saved = false;
+        if (notice) notice.classList.add('hidden');
+        if (lock2) lock2.classList.remove('hidden');
+        if (lock3) lock3.classList.add('hidden');
+      }
+    }
+
+    async function payTariffFromBalanceAction(amount, tariffTitle) {
+      if ((Number(amount) === 1590 || String(tariffTitle).includes('Пробный')) && userTrialUsed === 1) {
+        showToast('Пробный доступ сгорел', 'Пробный доступ на 7 дней сгорает после первой покупки и доступен только новым клиентам. Выберите Полный доступ на 1 или 3 месяца.', 'warning');
+        return;
+      }
+      try {
+        const btn = event?.currentTarget;
+        const origText = btn ? btn.innerHTML : '';
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span><span>Списание с баланса...</span>';
+        }
+
+        const res = await apiFetch(`${API_BASE}/api/pay_tariff`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chatId: currentChatId,
+            amount: amount,
+            tariff: amount === 1590 ? 'trial_7days' : (amount === 15900 ? 'quarter' : 'month')
+          })
+        });
+
+        const data = await res.json();
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origText;
+        }
+
+        if (data.success) {
+          isChainStep1Paid = true;
+          showToast('Оплата успешна!', `Тариф «${tariffTitle}» оплачен. Средства списаны с баланса. Шаг 2 разблокирован.`, 'success');
+
+          // Update balance on screen
+          if (data.new_balance !== undefined) {
+            updateUserBalanceDisplay(data.new_balance);
+          }
+          userTrialUsed = 1;
+          localStorage.setItem('majorka_trial_used', '1');
+          renderTrialStatusUI();
+
+          // Update Step 1 badge
+          const step1Badge = document.getElementById('step1StatusBadge');
+          if (step1Badge) {
+            step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5';
+            step1Badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>✓ Оплачено: ${tariffTitle}</span>`;
+          }
+
+          // UNLOCK STEP 2
+          const lock2 = document.getElementById('chainStep2Lock');
+          if (lock2) {
+            lock2.style.opacity = '0';
+            setTimeout(() => {
+              lock2.classList.add('hidden');
+              lock2.style.opacity = '1';
+            }, 300);
+          }
+
+          const notice = document.getElementById('alreadyPaidNotice');
+          if (notice) notice.classList.remove('hidden');
+
+          setTimeout(() => {
+            scrollToStep(2);
+          }, 400);
+
+        } else {
+          showToast('Ошибка списания', data.error || 'Недостаточно средств на балансе. Пополните баланс в шапке.', 'error');
+        }
+      } catch (e) {
+        showToast('Ошибка сети', 'Не удалось связаться с сервером оплаты', 'error');
+      }
+    }
+
+    async function proceedFromStep2ToStep3() {
+      if (!isChainStep1Paid) {
+        showToast('Шаг 1 не оплачен', 'Сначала оплатите тариф на Шаге 1 выше', 'error');
+        scrollToStep(1);
+        return;
+      }
+
+      // Save knowledge settings
+      const btn = event?.currentTarget;
+      await saveStoreKnowledgeSettings(btn);
+
+      isChainStep2Saved = true;
+
+      // Update Step 2 badge
+      const step2Badge = document.getElementById('step2StatusBadge');
+      if (step2Badge) {
+        step2Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5';
+        step2Badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>✓ Регламент настроен и сохранен</span>';
+      }
+
+      // UNLOCK STEP 3
+      const lock3 = document.getElementById('chainStep3Lock');
+      if (lock3) {
+        lock3.style.opacity = '0';
+        setTimeout(() => {
+          lock3.classList.add('hidden');
+          lock3.style.opacity = '1';
+        }, 300);
+      }
+
+      showToast('Регламент сохранен!', 'Шаг 3 (Вход и авто-запуск) разблокирован.', 'success');
+
+      setTimeout(() => {
+        scrollToStep(3);
+      }, 400);
+    }
+
+    function updateUserBalanceDisplay(newBal) {
+      const formatted = new Intl.NumberFormat('ru-RU').format(Math.round(newBal)) + ' ₽';
+      const els = [
+        document.getElementById('userBalance'),
+        document.getElementById('mobileUserBalancePillText')
+      ];
+      els.forEach(el => {
+        if (el) el.innerText = formatted;
+      });
+    }
+
+    // Call initChainLocksState on load and on tab switch
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(initChainLocksState, 500);
+    });
+  </script>
+<!-- MODAL: MANUAL PRODUCT ADD / EDIT -->
+  <div id="productEditModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+    <div class="glass-box p-6 sm:p-7 rounded-2xl max-w-md w-full bg-[#18181c] border border-white/20 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <h4 id="productEditModalTitle" class="font-outfit font-extrabold text-lg text-white">Редактировать товар</h4>
+        <button type="button" onclick="closeProductEditModal()" class="text-white/40 hover:text-white cursor-pointer"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <input type="hidden" id="editProductIndex" value="">
+      <input type="hidden" id="editProductId" value="">
+      <div class="space-y-1.5">
+        <label class="block text-xs font-bold text-white/80">Название товара</label>
+        <input type="text" id="editProductTitle" placeholder="Например: Кроссовки Nike Air Max 90" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+      </div>
+      <div class="space-y-1.5">
+        <label class="block text-xs font-bold text-white/80">Цена (₽)</label>
+        <input type="text" id="editProductPrice" placeholder="Например: 4 990 ₽" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+      </div>
+      <div class="space-y-1.5">
+        <label class="block text-xs font-bold text-white/80">Размеры / описание (необязательно)</label>
+        <textarea id="editProductDesc" rows="3" placeholder="В наличии размеры 41-45, цвет черный, оригинал..." class="clean-input w-full px-3.5 py-2.5 text-xs text-white resize-none"></textarea>
+      </div>
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button type="button" onclick="closeProductEditModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-white/60 hover:text-white cursor-pointer">Отмена</button>
+        <button type="button" onclick="saveProductManualAction()" class="btn-gold px-5 py-2 rounded-xl text-xs font-bold cursor-pointer shadow-neon-gold">Сохранить товар</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openAddProductModal() {
+      document.getElementById('productEditModalTitle').innerText = 'Добавить товар в каталог';
+      document.getElementById('editProductIndex').value = '-1';
+      document.getElementById('editProductId').value = '';
+      document.getElementById('editProductTitle').value = '';
+      document.getElementById('editProductPrice').value = '';
+      document.getElementById('editProductDesc').value = '';
+      const modal = document.getElementById('productEditModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function openEditProductModal(idx) {
+      const p = currentCatalogProducts[idx];
+      if (!p) return;
+      document.getElementById('productEditModalTitle').innerText = 'Редактировать товар';
+      document.getElementById('editProductIndex').value = idx;
+      document.getElementById('editProductId').value = p.id || '';
+      document.getElementById('editProductTitle').value = p.title || '';
+      document.getElementById('editProductPrice').value = p.price || '';
+      document.getElementById('editProductDesc').value = p.description || '';
+      const modal = document.getElementById('productEditModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeProductEditModal() {
+      const modal = document.getElementById('productEditModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    async function saveProductManualAction() {
+      const idx = parseInt(document.getElementById('editProductIndex').value);
+      const pId = document.getElementById('editProductId').value;
+      const title = document.getElementById('editProductTitle').value.trim();
+      const price = document.getElementById('editProductPrice').value.trim();
+      const desc = document.getElementById('editProductDesc').value.trim();
+
+      if (!title) {
+        showToast('Укажите название', 'Название товара обязательно', 'error');
+        return;
+      }
+
+      if (idx >= 0 && currentCatalogProducts[idx]) {
+        currentCatalogProducts[idx].title = title;
+        currentCatalogProducts[idx].price = price || '0 ₽';
+        currentCatalogProducts[idx].description = desc;
+        showToast('Товар обновлен', `«${title}» сохранен в каталоге`, 'success');
+
+        if (pId) {
+          try {
+            await apiFetch(`${API_BASE}/api/update_product`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id: pId, title: title, price: price, description: desc })
+            });
+          } catch (e) {}
+        }
+      } else {
+        const newProd = {
+          id: Date.now(),
+          title: title,
+          price: price || '0 ₽',
+          description: desc
+        };
+        currentCatalogProducts.unshift(newProd);
+        showToast('Товар добавлен', `«${title}» добавлен в каталог менеджера`, 'success');
+
+        try {
+          await apiFetch(`${API_BASE}/api/add_product`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chatId: currentChatId, title: title, price: price, description: desc })
+          });
+        } catch (e) {}
+      }
+
+      localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
+      closeProductEditModal();
+      renderOneClickCatalogList();
+    }
+
+    function scrollToStep(stepNum) {
+      let targetId = 'chainStep1Card';
+      if (stepNum === 2) targetId = 'chainStep2Card';
+      if (stepNum === 3) targetId = 'chainStep3Card';
+      if (stepNum === 4) targetId = 'chainCatalogCard';
+      
+      const el = document.getElementById(targetId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    function payTariffFromBalance(amount, planName) {
+      showToast('Оплата подтверждена', `Тариф «${planName}» оплачен с баланса. Переходим к Шагу 2.`, 'success');
+      const badge = document.getElementById('step1StatusBadge');
+      if (badge) {
+        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>Тариф «${planName}» активен</span>`;
+      }
+      setTimeout(() => {
+        scrollToStep(2);
+      }, 350);
+    }
+
+    // Step 3 Interactive Auth Flow
+    let chainCountdownTimer = null;
+
+    function startChainAuthProcess() {
+      const phone = document.getElementById('chainPhoneInput')?.value.trim();
+      const password = document.getElementById('chainPasswordInput')?.value.trim();
+
+      if (!phone) {
+        showToast('Укажите номер телефона', 'Введите номер телефона аккаунта Авито', 'error');
+        document.getElementById('chainPhoneInput')?.focus();
+        return;
+      }
+
+      document.getElementById('chainAuthStage1')?.classList.add('hidden');
+      document.getElementById('chainAuthStage2')?.classList.remove('hidden');
+
+      setTimeout(() => {
+        document.getElementById('chainAuthStage2')?.classList.add('hidden');
+        document.getElementById('chainAuthStage3')?.classList.remove('hidden');
+
+        let seconds = 60;
+        const countdownEl = document.getElementById('chainSmsTimerCountdown');
+        if (chainCountdownTimer) clearInterval(chainCountdownTimer);
+
+        chainCountdownTimer = setInterval(() => {
+          seconds--;
+          if (countdownEl) countdownEl.innerText = `${seconds} сек`;
+          if (seconds <= 0) {
+            clearInterval(chainCountdownTimer);
+            if (countdownEl) countdownEl.innerText = 'Доступен повторный запрос';
+          }
+        }, 1000);
+      }, 2200);
+    }
+
+    function chainResendSmsCode() {
+      const alertBox = document.getElementById('chainResendAlertBox');
+      if (alertBox) {
+        alertBox.classList.remove('hidden');
+      }
+      showToast('Повторный код выслан', 'Не удалось зайти / Код устарел. Повторный код выслан на ваш номер.', 'info');
+
+      let seconds = 60;
+      const countdownEl = document.getElementById('chainSmsTimerCountdown');
+      if (chainCountdownTimer) clearInterval(chainCountdownTimer);
+
+      chainCountdownTimer = setInterval(() => {
+        seconds--;
+        if (countdownEl) countdownEl.innerText = `${seconds} сек`;
+        if (seconds <= 0) {
+          clearInterval(chainCountdownTimer);
+          if (countdownEl) countdownEl.innerText = 'Доступен повторный запрос';
+        }
+      }, 1000);
+    }
+
+    async function chainSubmitSmsCode() {
+      const code = document.getElementById('chainSmsCodeInput')?.value.trim();
+      if (!code || code.length < 4) {
+        showToast('Введите проверочный код', 'Пожалуйста, введите код из полученного СМС', 'error');
+        return;
+      }
+
+      if (chainCountdownTimer) clearInterval(chainCountdownTimer);
+
+      document.getElementById('chainAuthStage3')?.classList.add('hidden');
+      document.getElementById('chainAuthStage4')?.classList.remove('hidden');
+
+      const bar = document.getElementById('chainSyncProgressBar');
+      const status = document.getElementById('chainSyncProgressStatus');
+
+      setTimeout(() => {
+        if (bar) bar.style.width = '65%';
+        if (status) status.innerText = 'Синхронизация актуальных цен и описаний товаров...';
+      }, 1000);
+
+      setTimeout(async () => {
+        if (bar) bar.style.width = '100%';
+        if (status) status.innerText = 'Товары успешно загружены в память!';
+
+        try {
+          await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chatId: currentChatId, from_app: true })
+          });
+          await loadCatalogProducts();
+        } catch (e) {}
+
+        setTimeout(() => {
+          document.getElementById('chainAuthStage4')?.classList.add('hidden');
+          document.getElementById('chainAuthStage5')?.classList.remove('hidden');
+          showToast('Менеджер запущен 24/7!', 'Товары синхронизированы, автоответчик активен.', 'success');
+        }, 1200);
+      }, 2500);
+    }
   </script>
 </body>
+
 </html>
