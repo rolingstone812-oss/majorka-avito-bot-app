@@ -2706,6 +2706,7 @@
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
             body: JSON.stringify({
+              initData: window.Telegram?.WebApp?.initData || '',
               chatId: String(tgUser.id),
               first_name: tgUser.first_name || '',
               username: tgUser.username || ''
