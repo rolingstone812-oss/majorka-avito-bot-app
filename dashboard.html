@@ -437,6 +437,25 @@
 
       <!-- MAIN HERO CARD -->
       <div id="overviewHeroCard" class="glass-box p-6 sm:p-8 md:p-10 relative overflow-hidden bg-gradient-to-br from-white/[0.03] via-[#161619] to-[#121214] border-white/10 rounded-2xl sm:rounded-3xl">
+        <!-- TOP-RIGHT COMPACT AVITO STATUS WIDGET -->
+        <div class="hidden md:flex absolute top-6 right-6 lg:top-8 lg:right-8 items-center gap-3 p-3 rounded-2xl bg-white/[0.03] border border-white/10 backdrop-blur-md">
+          <div class="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none">
+              <circle cx="8" cy="8" r="4" fill="#00AAFF"/>
+              <circle cx="16" cy="7.5" r="3" fill="#4BDB4B"/>
+              <circle cx="15.5" cy="15.5" r="3.5" fill="#FF4053"/>
+              <circle cx="7.5" cy="15.5" r="2.5" fill="#8844EE"/>
+            </svg>
+          </div>
+          <div class="space-y-0.5">
+            <div class="flex items-center gap-1.5">
+              <span class="text-xs font-bold text-white">Авито Магазин</span>
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+            </div>
+            <div class="text-[11px] text-white/50">В сети 24/7 • Ответ &lt;15с</div>
+          </div>
+        </div>
+
         <div class="max-w-3xl relative z-10 space-y-4 sm:space-y-5">
           <div class="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-white/80 text-[11px] sm:text-xs font-bold uppercase tracking-wider">
             <span class="w-2 h-2 rounded-full bg-emerald-400" id="heroStoreDot"></span>
@@ -467,95 +486,7 @@
 
             <!-- OVERVIEW SHOPS LIST & MANAGEMENT CARD -->
             <!-- ==================== LIVE EMULATOR MONITOR (INLINE WIDGET) ==================== -->
-      <!-- Direct real-time streaming of Android Emulator index 0 (127.0.0.1:5555) -->
-      <div id="overviewLiveStreamCard" class="glass-box p-6 sm:p-8 space-y-5 border-white/10 bg-[#141417] rounded-2xl sm:rounded-3xl relative">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
-          <div class="flex items-center gap-3.5">
-            <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 text-white flex items-center justify-center font-outfit font-black shrink-0">
-              <span class="material-symbols-outlined text-xl">tv</span>
-            </div>
-            <div>
-              <div class="flex items-center gap-2">
-                <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">Прямой эфир Android-эмулятора</h3>
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>В сети 24/7</span>
-                </span>
-              </div>
-              <p class="text-xs text-white/50 mt-0.5">Живой экран управляющего продажами на Авито (LDPlayer #0 • 127.0.0.1:5555)</p>
-            </div>
-          </div>
-
-          <!-- Controls -->
-          <div class="flex items-center gap-2">
-            <button type="button" onclick="refreshLiveMonitorFrame()" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 cursor-pointer hover:bg-white/10">
-              <span class="material-symbols-outlined text-sm">refresh</span>
-              <span>Обновить</span>
-            </button>
-            <button type="button" onclick="openLiveMonitorModal(0)" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
-              <span class="material-symbols-outlined text-sm">fullscreen</span>
-              <span>Во весь экран</span>
-            </button>
-          </div>
-        </div>
-
-        <!-- STREAM FRAME & TELEMETRY -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          <!-- Screen Frame -->
-          <div class="lg:col-span-5 flex justify-center">
-            <div class="relative bg-black rounded-2xl border border-white/15 p-2 shadow-2xl max-w-[280px] w-full">
-              <div class="relative rounded-xl overflow-hidden bg-[#0A0A0C] min-h-[420px] flex items-center justify-center">
-                <img id="overviewLiveStreamImg" src="" alt="Экран эмулятора" class="w-full h-auto object-contain rounded-lg">
-                <div id="overviewLiveStreamLoader" class="absolute inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center gap-2 text-xs text-white/70">
-                  <span class="material-symbols-outlined text-sm animate-spin text-white">sync</span>
-                  <span>Синхронизация экрана...</span>
-                </div>
-              </div>
-              <div class="flex items-center justify-between px-2 pt-2 text-[10px] text-white/40">
-                <span>720 × 1280 • 60 FPS</span>
-                <span id="overviewLiveStreamPing">Пинг: 32 ms</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Live Telemetry Details -->
-          <div class="lg:col-span-7 space-y-4">
-            <div class="space-y-1.5">
-              <h4 class="font-outfit font-bold text-lg text-white">Автономное управление диалогами</h4>
-              <p class="text-xs text-white/60 leading-relaxed">
-                Эмулятор работает на защищенном выделенном порту без спящего режима. Любое входящее обращение покупателя распознается системой в течение 3–5 секунд и передается в контур менеджера продаж.
-              </p>
-            </div>
-
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
-              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-                <div class="text-[10px] text-white/40 uppercase font-bold">Слот магазина</div>
-                <div class="font-outfit font-black text-sm text-white">Индекс 0 (leidian0)</div>
-                <div class="text-[10px] text-emerald-400">127.0.0.1:5555</div>
-              </div>
-
-              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
-                <div class="text-[10px] text-white/40 uppercase font-bold">Частота снимков</div>
-                <div class="font-outfit font-black text-sm text-white">1 кадр / 2 сек</div>
-                <div class="text-[10px] text-white/40">Автообновление ВКЛ</div>
-              </div>
-
-              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1 col-span-2 sm:col-span-1">
-                <div class="text-[10px] text-white/40 uppercase font-bold">Статус сессии</div>
-                <div class="font-outfit font-black text-sm text-emerald-400">Активна 24/7</div>
-                <div class="text-[10px] text-white/40">Watchdog запущен</div>
-              </div>
-            </div>
-
-            <div class="flex items-center gap-4 pt-1">
-              <label class="flex items-center gap-2 text-xs text-white/70 cursor-pointer select-none">
-                <input type="checkbox" id="overviewAutoRefreshToggle" checked onchange="toggleLiveAutoRefresh()" class="rounded border-white/20 bg-white/5 text-gold">
-                <span>Автоматическое обновление стрима каждые 2 сек</span>
-              </label>
-            </div>
-          </div>
-        </div>
-      </div>
+      
 
 
       
@@ -3602,8 +3533,6 @@
       initOverviewChart();
       loadHarveyLeads();
       // Start live emulator monitor stream automatically
-      refreshLiveMonitorFrame();
-      startLiveMonitorPolling();
       initTelegramSession();
       renderTrialStatusUI();
       loadUserStats();
