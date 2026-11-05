@@ -937,6 +937,8 @@
           target += '?chatId=' + saved;
         } else if (isLocalHost) {
           target += '?chatId=6940082004';
+        } else {
+          target += '?guest=1';
         }
       }
       window.location.href = target;
