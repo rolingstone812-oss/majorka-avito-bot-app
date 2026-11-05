@@ -291,7 +291,13 @@
       </nav>
 
       <!-- RIGHT USER BALANCE & TOP UP -->
-      <div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
+      <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+        <!-- PROMINENT SUPPORT 24/7 BUTTON (ALWAYS VISIBLE IN HEADER) -->
+        <a href="https://t.me/chc332" target="_blank" class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-gold/15 hover:bg-gold/25 border border-gold/40 text-gold text-xs font-bold transition-all shadow-[0_0_12px_rgba(255,221,45,0.15)] active:scale-95 touch-press" title="Поддержка 24/7 в Telegram">
+          <span class="material-symbols-outlined text-sm sm:text-base text-gold animate-pulse">support_agent</span>
+          <span class="text-[11px] sm:text-xs">Поддержка</span>
+        </a>
+
         <!-- MOBILE QUICK BALANCE PILL (TAPPABLE TO RECHARGE) -->
         <button onclick="openPaymentModal('6490')" class="sm:hidden flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-gold/15 border border-gold/40 text-gold active:scale-95 transition-all shadow-[0_2px_12px_rgba(240,192,72,0.15)] touch-press" title="Пополнить баланс">
           <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
@@ -2092,7 +2098,7 @@
 
   <!-- FOOTER -->
     <!-- FOOTER -->
-  <footer class="border-t border-glass-border py-6 bg-[#0a0a0c]">
+  <footer class="border-t border-glass-border pt-6 pb-36 sm:pb-12 bg-[#0a0a0c]">
     <div class="max-w-[1280px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
       <div class="flex flex-wrap items-center gap-4">
         <span>© 2026 MAJORKA. Все права защищены.</span>
@@ -2119,7 +2125,7 @@
   </footer>
 
   <!-- FLOATING LIVE SUPPORT WIDGET (DASHBOARD) -->
-  <div id="liveSupportWidget" class="hidden sm:flex fixed bottom-6 right-6 z-40 flex-col items-end">
+  <div id="liveSupportWidget" class="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-40 flex flex-col items-end">
     <!-- POPUP SUPPORT WINDOW -->
     <div id="supportPopupCard" class="hidden w-[340px] sm:w-[360px] glass-box rounded-2xl border border-gold/30 shadow-[0_20px_50px_rgba(0,0,0,0.7)] p-5 mb-3 transition-all duration-300">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
@@ -3346,8 +3352,20 @@
                   <span class="material-symbols-outlined text-sm">delete</span>
                   <span>Удалить</span>
                 </button>
-              </div></div>
-            </div>
+              </div>
+
+              <!-- INLINE DIRECT SUPPORT BAR ON SHOP CARD -->
+              <div class="w-full mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-xs">
+                <span class="text-white/40 text-[11px] flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
+                  <span>Управляющий на связи 24/7</span>
+                </span>
+                <a href="https://t.me/chc332" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-bold text-gold hover:underline bg-gold/10 px-2 py-0.5 rounded-md border border-gold/20">
+                  <span class="material-symbols-outlined text-xs">support_agent</span>
+                  <span>Помощь 24/7 (@chc332)</span>
+                </a>
+              </div>
+            </div></div>
           `;
         });
         return cardsHtml;
