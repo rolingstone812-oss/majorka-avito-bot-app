@@ -1131,7 +1131,24 @@
       <!-- ======================================================== -->
       <!-- НИЖЕ: КАТАЛОГ ТОВАРОВ МАГАЗИНА (РУЧНОЕ РЕДАКТИРОВАНИЕ)   -->
       <!-- ======================================================== -->
-      <div id="chainCatalogCard" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619]">
+      <div id="chainCatalogCard" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] relative transition-all duration-300">
+        
+        <!-- LOCK OVERLAY КАТАЛОГА (ПОКА НЕ ОПЛАЧЕНО) -->
+        <div id="chainCatalogLock" class="absolute inset-0 z-20 bg-[#141418]/92 backdrop-blur-sm rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-6 text-center space-y-3 transition-opacity duration-300">
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gold shadow-neon-gold">
+            <span class="material-symbols-outlined text-3xl">lock</span>
+          </div>
+          <div class="space-y-1">
+            <h4 class="font-outfit font-extrabold text-lg sm:text-xl text-white">Каталог товаров заблокирован</h4>
+            <p class="text-xs text-white/50 max-w-md">
+              Синхронизация и добавление товаров доступны после оплаты тарифа. Выберите тариф на Шаге 1 выше.
+            </p>
+          </div>
+          <button type="button" onclick="scrollToStep(1)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+            <span class="material-symbols-outlined text-sm">arrow_upward</span>
+            <span>К оплате тарифа на Шаг 1</span>
+          </button>
+        </div>
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div>
             <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
@@ -2662,36 +2679,51 @@
     const paramChatId = isForcedGuest ? null : urlParams.get('chatId');
     const tgUser = isForcedGuest ? null : tg?.initDataUnsafe?.user;
 
-    // Hierarchy: Telegram WebApp user -> URL param ?chatId= -> localStorage (clean client) -> guest
-    let currentChatId = tgUser?.id
-      ? String(tgUser.id)
-      : paramChatId;
+    // Secure multi-tenant resolution:
+    // 1. Telegram WebApp user
+    // 2. Saved authenticated session (Google / Email login)
+    // 3. Clean URL param (6940082004 allowed ONLY on localhost or with verified owner token)
+    // 4. Clean guest session client_XXXXXX
+    let currentChatId = null;
+    const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId');
 
-    if (!currentChatId) {
-      if (isLocalHost) {
-        currentChatId = '6940082004';
-      } else {
-        const saved = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId');
-        if (saved && !saved.startsWith('client_') && saved !== '6940082004') {
-          currentChatId = saved;
-        } else {
-          let savedGuest = localStorage.getItem('majorka_guest_id');
-          if (!savedGuest) {
-            savedGuest = 'client_' + Math.floor(100000 + Math.random() * 900000);
-            localStorage.setItem('majorka_guest_id', savedGuest);
-          }
-          currentChatId = savedGuest;
-        }
+    if (tgUser?.id) {
+      currentChatId = String(tgUser.id);
+    } else if (savedChatId && !savedChatId.startsWith('client_') && (savedChatId !== '6940082004' || isLocalHost)) {
+      currentChatId = savedChatId;
+    } else if (paramChatId && (paramChatId !== '6940082004' || isLocalHost)) {
+      currentChatId = paramChatId;
+    } else if (isLocalHost) {
+      currentChatId = '6940082004';
+    } else {
+      let savedGuest = localStorage.getItem('majorka_guest_id');
+      if (!savedGuest) {
+        savedGuest = 'client_' + Math.floor(100000 + Math.random() * 900000);
+        localStorage.setItem('majorka_guest_id', savedGuest);
       }
+      currentChatId = savedGuest;
     }
+
+    // Isolate browser state across different accounts
+    const lastChatId = localStorage.getItem('majorka_last_chatId');
+    if (lastChatId && lastChatId !== currentChatId) {
+      localStorage.removeItem('majorka_catalog_products');
+      localStorage.removeItem('majorka_bots');
+      localStorage.removeItem('majorka_store_knowledge');
+      localStorage.removeItem('majorka_slots_count');
+      localStorage.removeItem('majorka_trial_used');
+      localStorage.removeItem('majorka_balance');
+    }
+    localStorage.setItem('majorka_last_chatId', currentChatId);
 
     if (isForcedGuest && window.history?.replaceState) {
       window.history.replaceState({}, '', window.location.pathname);
     }
 
+    const isOwner = (currentChatId === '6940082004' && isLocalHost);
     let currentTgUser = tgUser?.username
       ? '@' + tgUser.username
-      : (tgUser?.first_name || (currentChatId === '6940082004' ? 'Владелец (Roling)' : (currentChatId.startsWith('client_') ? 'Клиент' : 'Клиент ID ' + currentChatId)));
+      : (tgUser?.first_name || (isOwner ? 'Владелец (Roling)' : (currentChatId.startsWith('client_') ? 'Клиент' : 'Клиент ID ' + currentChatId)));
 
     localStorage.setItem('userChatId', currentChatId);
     localStorage.setItem('majorka_chatId', currentChatId);
@@ -2700,7 +2732,7 @@
     // Update Header active user label
     const headerUserEl = document.getElementById('headerUserLabel');
     if (headerUserEl) {
-      headerUserEl.innerText = tgUser?.username ? ('@' + tgUser.username) : (tgUser?.first_name || (currentChatId === '6940082004' ? 'Владелец' : 'Клиент'));
+      headerUserEl.innerText = tgUser?.username ? ('@' + tgUser.username) : (tgUser?.first_name || (isOwner ? 'Владелец' : 'Клиент'));
     }
 
     // Payment Success Alert Check
@@ -2736,7 +2768,7 @@
             localStorage.setItem('session_token', tData.session_token);
           }
         } catch (e) {}
-      } else if (currentChatId === '6940082004') {
+      } else if (isOwner) {
         try {
           const qRes = await fetch(`${API_BASE}/api/auth/quick_login`, {
             method: 'POST',
@@ -2753,8 +2785,8 @@
 
     // USER & SUBSCRIPTION STATE
     let userBalanceVal = 0;
-    let userTrialUsed = (currentChatId === '6940082004' || localStorage.getItem('majorka_trial_used') === '1') ? 1 : 0;
-    let userSlotsCount = currentChatId === '6940082004' ? 2 : Number(localStorage.getItem('majorka_slots_count') || 0);
+    let userTrialUsed = isOwner ? 1 : 0;
+    let userSlotsCount = isOwner ? 2 : 0;
     let userBotsList = [];
 
     // TOAST NOTIFICATION ENGINE
@@ -4391,11 +4423,17 @@
         const ovUrlInput = document.getElementById('overviewAvitoUrlInput');
         if (savedUrl && ovUrlInput && !ovUrlInput.value) ovUrlInput.value = savedUrl;
 
-        const queryChatId = encodeURIComponent(currentChatId || '6940082004');
+        const queryChatId = encodeURIComponent(currentChatId || '');
         const res = await apiFetch(`${API_BASE}/api/get_catalog?chatId=${queryChatId}`);
         if (res.ok) {
           const data = await res.json();
-          if (data.success && Array.isArray(data.items) && data.items.length > 0) {
+          if (data.success && Array.isArray(data.items)) {
+            if (data.items.length === 0) {
+              currentCatalogProducts = [];
+              localStorage.removeItem('majorka_catalog_products');
+              renderOneClickCatalogList();
+              return;
+            }
             currentCatalogProducts = data.items.map((it, idx) => ({
               id: it.id || Date.now() + idx,
               title: it.title || 'Товар с Авито',
@@ -4411,14 +4449,18 @@
       } catch (e) {
         console.log('loadCatalogProducts sync:', e);
       }
-      const cachedProds = localStorage.getItem('majorka_catalog_products');
-      if (cachedProds) {
-        try {
-          const parsed = JSON.parse(cachedProds);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            currentCatalogProducts = parsed;
-          }
-        } catch (e) {}
+      if (isOwner) {
+        const cachedProds = localStorage.getItem('majorka_catalog_products');
+        if (cachedProds) {
+          try {
+            const parsed = JSON.parse(cachedProds);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              currentCatalogProducts = parsed;
+            }
+          } catch (e) {}
+        }
+      } else {
+        currentCatalogProducts = [];
       }
       renderOneClickCatalogList();
     }
@@ -4491,6 +4533,7 @@
       const isMockOrEmpty = (val) => {
         if (!val) return true;
         const s = String(val).trim().toLowerCase();
+        if (s.length <= 2 || s === 'aaa' || s === 'ааа' || s === 'тест' || s === 'test') return true;
         const mocks = [
           'majorka', 'основной магазин авито', 'основной магазин', 'мой магазин авито', 'avitobot', 'тестовый',
           'премиальная брендовая одежда и обувь', 'одежда и обувь', 'автотовары и запчасти', 'товарный бизнес',
@@ -4560,6 +4603,11 @@
     }
 
     async function saveStoreKnowledgeSettings(triggerBtn) {
+      if (!isChainStep1Paid) {
+        showToast('Шаг 2 заблокирован', 'Сначала оплатите тариф на Шаге 1 выше.', 'warning');
+        scrollToStep(1);
+        return;
+      }
       const btn = triggerBtn || document.getElementById('btnSaveKnowledgeTop');
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
@@ -5225,6 +5273,11 @@
     }
 
     async function triggerEmulatorAutoSync(btn) {
+      if (!isChainStep1Paid) {
+        showToast('Каталог заблокирован', 'Сначала оплатите тариф на Шаге 1 выше.', 'warning');
+        scrollToStep(1);
+        return;
+      }
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
@@ -5336,13 +5389,14 @@
 
     function initChainLocksState() {
       renderTrialStatusUI();
-      // Check if user has active paid sessions from userBotsList or userSlotsCount
-      const hasPaid = (userBotsList && userBotsList.some(b => b.is_paid == 1)) || (userSlotsCount > 0);
+      const isOwnerLocal = (currentChatId === '6940082004' && isLocalHost);
+      const hasPaid = isOwnerLocal || Boolean(userBotsList && userBotsList.length > 0 && userBotsList.some(b => Number(b.is_paid) === 1));
       const notice = document.getElementById('alreadyPaidNotice');
       const step1Text = document.getElementById('step1StatusText');
       const step1Badge = document.getElementById('step1StatusBadge');
       const lock2 = document.getElementById('chainStep2Lock');
       const lock3 = document.getElementById('chainStep3Lock');
+      const lockCatalog = document.getElementById('chainCatalogLock');
 
       if (hasPaid) {
         isChainStep1Paid = true;
@@ -5353,19 +5407,28 @@
           step1Badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>Тариф оплачен</span>';
         }
         if (lock2) lock2.classList.add('hidden');
+        if (lockCatalog) lockCatalog.classList.add('hidden');
         
         // If knowledge exists, unlock step 3 as well
         const kb = localStorage.getItem('majorka_store_knowledge');
         if (kb) {
           isChainStep2Saved = true;
           if (lock3) lock3.classList.add('hidden');
+        } else {
+          if (lock3) lock3.classList.remove('hidden');
         }
       } else {
         isChainStep1Paid = false;
         isChainStep2Saved = false;
         if (notice) notice.classList.add('hidden');
+        if (step1Text) step1Text.innerText = 'Ожидает оплаты (Шаг 1)';
+        if (step1Badge) {
+          step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-gold/15 text-gold border border-gold/30 flex items-center gap-1.5';
+          step1Badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-gold"></span><span>Ожидает оплаты</span>';
+        }
         if (lock2) lock2.classList.remove('hidden');
-        if (lock3) lock3.classList.add('hidden');
+        if (lock3) lock3.classList.remove('hidden');
+        if (lockCatalog) lockCatalog.classList.remove('hidden');
       }
     }
 
@@ -5525,6 +5588,11 @@
 
   <script>
     function openAddProductModal() {
+      if (!isChainStep1Paid) {
+        showToast('Каталог заблокирован', 'Сначала оплатите тариф на Шаге 1 выше.', 'warning');
+        scrollToStep(1);
+        return;
+      }
       document.getElementById('productEditModalTitle').innerText = 'Добавить товар в каталог';
       document.getElementById('editProductIndex').value = '-1';
       document.getElementById('editProductId').value = '';
