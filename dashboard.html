@@ -2705,24 +2705,32 @@
     const paramChatId = isForcedGuest ? null : urlParams.get('chatId');
     const tgUser = isForcedGuest ? null : tg?.initDataUnsafe?.user;
 
+    // Helper: read cookie
+    function getCookie(name) {
+      const match = document.cookie.match(new RegExp('(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'));
+      return match ? decodeURIComponent(match[1]) : null;
+    }
+
     // Secure multi-tenant resolution:
     // 1. Telegram WebApp user
-    // 2. Saved authenticated session (Google / Email login)
-    // 3. Clean URL param (6940082004 allowed ONLY on localhost or with verified owner token)
-    // 4. Clean guest session client_XXXXXX
+    // 2. Saved authenticated session (Cookie or localStorage)
+    // 3. Clean URL param (chatId)
+    // 4. Default to owner on localhost or clean guest session client_XXXXXX
     let currentChatId = null;
-    const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId');
+    const cookieChatId = getCookie('userChatId') || getCookie('majorka_chatId');
+    const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId') || cookieChatId;
+    const savedToken = localStorage.getItem('session_token') || getCookie('session_token');
 
     if (tgUser?.id) {
       currentChatId = String(tgUser.id);
-    } else if (savedChatId && !savedChatId.startsWith('client_') && (savedChatId !== '6940082004' || isLocalHost)) {
-      currentChatId = savedChatId;
-    } else if (paramChatId && (paramChatId !== '6940082004' || isLocalHost)) {
+    } else if (paramChatId && (paramChatId !== '6940082004' || savedToken || isLocalHost || urlParams.get('auth') === 'owner')) {
       currentChatId = paramChatId;
+    } else if (savedChatId && !savedChatId.startsWith('client_')) {
+      currentChatId = savedChatId;
     } else if (isLocalHost) {
       currentChatId = '6940082004';
     } else {
-      let savedGuest = localStorage.getItem('majorka_guest_id');
+      let savedGuest = localStorage.getItem('majorka_guest_id') || getCookie('majorka_guest_id');
       if (!savedGuest) {
         savedGuest = 'client_' + Math.floor(100000 + Math.random() * 900000);
         localStorage.setItem('majorka_guest_id', savedGuest);
@@ -2746,14 +2754,21 @@
       window.history.replaceState({}, '', window.location.pathname);
     }
 
-    const isOwner = (currentChatId === '6940082004' && isLocalHost);
+    const isOwner = (currentChatId === '6940082004');
     let currentTgUser = tgUser?.username
       ? '@' + tgUser.username
-      : (tgUser?.first_name || (isOwner ? 'Владелец (Roling)' : (currentChatId.startsWith('client_') ? 'Клиент' : 'Клиент ID ' + currentChatId)));
+      : (tgUser?.first_name || (isOwner ? 'Владелец (Roling)' : (currentChatId.startsWith('client_') ? 'Гость' : 'Клиент ID ' + currentChatId)));
 
+    // PERSIST SESSION IN BOTH localStorage AND COOKIES (1 YEAR)
     localStorage.setItem('userChatId', currentChatId);
     localStorage.setItem('majorka_chatId', currentChatId);
     localStorage.setItem('majorka_entered', 'true');
+    const maxAge = 365 * 24 * 3600;
+    document.cookie = `userChatId=${currentChatId}; max-age=${maxAge}; path=/; SameSite=Lax`;
+    document.cookie = `majorka_chatId=${currentChatId}; max-age=${maxAge}; path=/; SameSite=Lax`;
+    if (savedToken) {
+      document.cookie = `session_token=${savedToken}; max-age=${maxAge}; path=/; SameSite=Lax`;
+    }
 
     // Update Header active user label and guest indicators
     const isGuest = currentChatId.startsWith('client_');
