@@ -350,13 +350,13 @@
         <!-- METRIC 1: BOT STATUS -->
         <div class="glass-box p-4 sm:p-5 flex items-center justify-between gap-3 rounded-2xl border-white/10 bg-[#161619]">
           <div class="flex items-center gap-3 min-w-0">
-            <span id="overviewSubDot" class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-status-green animate-pulse shrink-0"></span>
+            <span id="overviewSubDot" class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gold animate-pulse shrink-0"></span>
             <div class="min-w-0">
-              <div class="font-outfit font-bold text-xs sm:text-sm text-white truncate" id="overviewSubTitle">Управляющий 24/7</div>
-              <div class="text-[10px] sm:text-xs text-white/40 truncate" id="overviewSubDetails">В сети 24/7 • Основной магазин</div>
+              <div class="font-outfit font-bold text-xs sm:text-sm text-white truncate" id="overviewSubTitle">Управляющий продажами</div>
+              <div class="text-[10px] sm:text-xs text-white/40 truncate" id="overviewSubDetails">Ожидает подключения магазина</div>
             </div>
           </div>
-          <span id="overviewSubPill" class="text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20 shrink-0">Активен</span>
+          <span id="overviewSubPill" class="text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-white/10 text-white/50 rounded-full border border-white/10 shrink-0">В ожидании</span>
         </div>
 
         <!-- METRIC 2: RESPONSE SPEED -->
@@ -380,7 +380,7 @@
               <div class="text-[10px] sm:text-xs text-white/40 truncate">Синхронизировано</div>
             </div>
           </div>
-          <span id="quickCatalogCountBadge" class="font-outfit font-black text-white text-xs sm:text-base shrink-0">48 шт</span>
+          <span id="quickCatalogCountBadge" class="font-outfit font-black text-white text-xs sm:text-base shrink-0">0 объявлений</span>
         </div>
 
         <!-- METRIC 4: CONVERSION -->
@@ -400,8 +400,8 @@
       <div id="overviewHeroCard" class="glass-box p-6 sm:p-8 md:p-10 relative overflow-hidden bg-gradient-to-br from-white/[0.03] via-[#161619] to-[#121214] border-white/10 rounded-2xl sm:rounded-3xl">
         <div class="max-w-3xl relative z-10 space-y-4 sm:space-y-5">
           <div class="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-white/80 text-[11px] sm:text-xs font-bold uppercase tracking-wider">
-            <span class="w-2 h-2 rounded-full bg-status-green animate-pulse" id="heroStoreDot"></span>
-            <span id="heroStoreBadge">Менеджер продаж в сети 24/7</span>
+            <span class="w-2 h-2 rounded-full bg-gold animate-pulse" id="heroStoreDot"></span>
+            <span id="heroStoreBadge">Менеджер продаж 24/7</span>
           </div>
 
           <h2 id="heroStoreTitle" class="font-outfit text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight">
@@ -878,7 +878,7 @@
               <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
               <span>Регламент готов к сохранению</span>
             </span>
-            <button type="button" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+            <button type="button" id="btnSaveKnowledgeTop" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
               <span class="material-symbols-outlined text-sm">check_circle</span>
               <span>Сохранить регламент</span>
             </button>
@@ -1388,7 +1388,7 @@
 
           <div class="glass-box p-5 space-y-1">
             <div class="text-xs text-white/40 font-medium">Спасенные ночные лиды</div>
-            <div class="font-outfit font-extrabold text-3xl text-gold">118</div>
+            <div class="font-outfit font-extrabold text-3xl text-gold" id="analyticsTotalLeads">0</div>
             <div class="text-[11px] text-white/50 flex items-center gap-1 mt-1">
               <span class="material-symbols-outlined text-xs text-gold">nightlight</span>
               <span>26.2% обращений с 21:00 до 09:00</span>
@@ -2982,7 +2982,7 @@
       const heroActions = document.getElementById('heroStoreActions');
       const heroDot = document.getElementById('heroStoreDot');
 
-      const active = hasActiveBot || isPaid || currentChatId === '6940082004';
+      const active = isOwner || hasActiveBot || (isPaid && userBotsList && userBotsList.length > 0);
 
       if (!active) {
         if (overDetails) overDetails.innerText = 'Доступ не активен • Ожидает настройки';
@@ -3039,21 +3039,7 @@
     }
 
     function updateKbUI(hasActiveBot, isPaid) {
-      const lockBanner = document.getElementById('kbLockBanner');
-      const mainCard = document.getElementById('kbMainFormCard');
-      const topActions = document.getElementById('kbTopActions');
-
-      const active = hasActiveBot || isPaid || currentChatId === '6940082004';
-
-      if (!active) {
-        if (lockBanner) lockBanner.classList.remove('hidden');
-        if (mainCard) mainCard.classList.add('hidden');
-        if (topActions) topActions.classList.add('hidden');
-      } else {
-        if (lockBanner) lockBanner.classList.add('hidden');
-        if (mainCard) mainCard.classList.remove('hidden');
-        if (topActions) topActions.classList.remove('hidden');
-      }
+      initChainLocksState();
     }
 
     async function loadUserStats() {
@@ -3066,13 +3052,13 @@
           userBalanceVal = Number(data.user.balance || 0);
           localStorage.setItem('majorka_balance', userBalanceVal);
           const totalPurchases = Number(data.user.total_purchases || 0);
-          if (Number(data.user.trial_used || 0) === 1 || totalPurchases > 0 || currentChatId === '6940082004') {
+          if (Number(data.user.trial_used || 0) === 1 || totalPurchases > 0 || isOwner) {
             userTrialUsed = 1;
             localStorage.setItem('majorka_trial_used', '1');
           } else {
-            userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
+            userTrialUsed = 0;
           }
-          const defaultSlots = currentChatId === '6940082004' ? 2 : 0;
+          const defaultSlots = isOwner ? 2 : 0;
           userSlotsCount = (data.user.slots_count !== undefined && data.user.slots_count !== null) ? Number(data.user.slots_count) : defaultSlots;
           localStorage.setItem('majorka_slots_count', userSlotsCount);
           
@@ -3115,7 +3101,7 @@
         }
       } catch (err) {
         console.log('Stats sync fallback:', err);
-        if (currentChatId === '6940082004') {
+        if (isOwner) {
           userBalanceVal = Number(localStorage.getItem('majorka_balance') ?? 16922);
           userTrialUsed = 1;
           localStorage.setItem('majorka_trial_used', '1');
@@ -3212,7 +3198,7 @@
         renderShopsList(userBotsList);
       } catch (err) {
         console.log('My bots sync fallback:', err);
-        if (currentChatId === '6940082004') {
+        if (isOwner) {
           userBotsList = [{
             id: 100016,
             session_name: 'MAJORKA',
@@ -3529,6 +3515,23 @@
       }
 
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setWizPickup(type) {
+      const btnYes = document.getElementById('wizPickupBtn-yes');
+      const btnNo = document.getElementById('wizPickupBtn-no');
+      const box = document.getElementById('wizPickupAddressBox');
+      const valInput = document.getElementById('wizPickupVal');
+      if (valInput) valInput.value = type;
+      if (type === 'yes') {
+        if (btnYes) btnYes.className = 'wiz-pickup-btn p-3 rounded-xl border border-gold bg-gold/15 text-gold text-xs font-semibold text-left transition-all cursor-pointer';
+        if (btnNo) btnNo.className = 'wiz-pickup-btn p-3 rounded-xl border border-white/10 bg-white/5 text-white/70 hover:text-white text-xs font-semibold text-left transition-all cursor-pointer';
+        if (box) box.classList.remove('hidden');
+      } else {
+        if (btnYes) btnYes.className = 'wiz-pickup-btn p-3 rounded-xl border border-white/10 bg-white/5 text-white/70 hover:text-white text-xs font-semibold text-left transition-all cursor-pointer';
+        if (btnNo) btnNo.className = 'wiz-pickup-btn p-3 rounded-xl border border-gold bg-gold/15 text-gold text-xs font-semibold text-left transition-all cursor-pointer';
+        if (box) box.classList.add('hidden');
+      }
     }
 
     function setWizDiscount(type) {
@@ -4569,8 +4572,8 @@
       try {
         const savedUrl = localStorage.getItem('majorka_avito_url');
         const savedPhone = localStorage.getItem('majorka_bot_phone');
-        if (savedUrl && document.getElementById('avitoOneClickUrl')) document.getElementById('avitoOneClickUrl').value = savedUrl;
-        if (savedPhone && document.getElementById('avitoOneClickPhone')) document.getElementById('avitoOneClickPhone').value = savedPhone;
+        const pInput = document.getElementById('chainPhoneInput') || document.getElementById('wizPhoneInput');
+        if (savedPhone && pInput && !pInput.value) pInput.value = savedPhone;
 
         loadCatalogProducts();
       } catch (e) {}
@@ -4619,8 +4622,8 @@
         chatId: currentChatId,
         store_name: document.getElementById('kbStoreName')?.value.trim() || '',
         city_address: document.getElementById('kbCityAddress')?.value.trim() || '',
-        phone: document.getElementById('avitoOneClickPhone')?.value.trim() || '',
-        avito_profile_url: document.getElementById('avitoOneClickUrl')?.value.trim() || '',
+        phone: (document.getElementById('chainPhoneInput') || document.getElementById('wizPhoneInput') || document.getElementById('avitoOneClickPhone'))?.value.trim() || '',
+        avito_profile_url: (document.getElementById('overviewAvitoUrlInput') || document.getElementById('avitoOneClickUrl'))?.value.trim() || '',
         telegram_contact: document.getElementById('kbTelegramContact')?.value.trim() || '',
         discount_policy: document.getElementById('kbDiscountPolicy')?.value || '',
         custom_rules: document.getElementById('kbCustomRules')?.value.trim() || ''
@@ -4677,6 +4680,7 @@
       
       if (tabId === 'shops') loadMyBots();
       if (tabId === 'analytics') loadUserStats();
+      if (tabId === 'referrals') updateRefLinkDisplay();
       if (tabId === 'knowledge') {
         loadStoreKnowledge();
         initChainLocksState();
@@ -5063,7 +5067,15 @@
       }
     }
 
+    function updateRefLinkDisplay() {
+      const input = document.getElementById('refLinkInput');
+      if (input && currentChatId) {
+        input.value = `https://t.me/avito_deployer_bot?start=ref_${encodeURIComponent(currentChatId)}`;
+      }
+    }
+
     function copyRefLink() {
+      updateRefLinkDisplay();
       const input = document.getElementById('refLinkInput');
       if (input) {
         input.select();
@@ -5543,14 +5555,7 @@
     }
 
     function updateUserBalanceDisplay(newBal) {
-      const formatted = new Intl.NumberFormat('ru-RU').format(Math.round(newBal)) + ' ₽';
-      const els = [
-        document.getElementById('userBalance'),
-        document.getElementById('mobileUserBalancePillText')
-      ];
-      els.forEach(el => {
-        if (el) el.innerText = formatted;
-      });
+      renderUserBalance(newBal);
     }
 
     // Call initChainLocksState on load and on tab switch
