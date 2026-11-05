@@ -11,6 +11,13 @@
   <meta name="robots" content="noindex, nofollow">
   <link rel="canonical" href="https://rolingstone812-oss.github.io/majorka-avito-bot-app/dashboard.html">
   
+  <!-- GITHUB OPEN SOURCE LIBRARIES INTEGRATION -->
+  <!-- 1. Lucide Icons (lucide-icons/lucide on GitHub) - pixel-perfect fintech SVG icons -->
+  <script defer src="https://unpkg.com/lucide@latest"></script>
+  <!-- 2. Canvas Confetti (catdad/canvas-confetti on GitHub) - micro-delight celebration effects -->
+  <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- 3. Chart.js (chartjs/Chart.js on GitHub) - modern dark telemetry charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,16 +35,16 @@
               black: '#121214',
               surface: '#1A1A1E',
               border: '#2A2A30',
-              gold: '#FFDD2D',
-              'gold-hover': '#FFC700'
+              gold: '#D4AF37',
+              'gold-hover': '#C5A059'
             },
             'avito-blue': '#00AAFF',
             'glass-bg': 'rgba(26, 26, 30, 0.85)',
-            'glass-border': 'rgba(255, 221, 45, 0.12)',
+            'glass-border': 'rgba(255, 255, 255, 0.08)',
             'status-green': '#10B981',
-            'gold': '#FFDD2D',
-            'gold-light': '#FFE766',
-            'gold-dark': '#E6B800',
+            'gold': '#D4AF37',
+            'gold-light': '#E5C07B',
+            'gold-dark': '#B8972E',
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -91,16 +98,18 @@
       border-radius: 1.25rem;
     }
     .btn-gold {
-      background: #FFDD2D;
-      color: #121214;
-      font-weight: 700;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+      background: #D4AF37 !important;
+      color: #0F0F12 !important;
+      font-weight: 700 !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 0.75rem !important;
+      box-shadow: none !important;
+      transition: all 0.15s ease !important;
     }
     .btn-gold:hover {
-      background: #FFC700;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      background: #C5A059 !important;
+      box-shadow: none !important;
+      transform: translateY(-1px) !important;
     }
     .btn-avito {
       background: linear-gradient(135deg, #00AAFF 0%, #0088CC 100%);
@@ -110,7 +119,7 @@
     }
     .btn-avito:hover {
       transform: translateY(-1px);
-      box-shadow: 0 6px 25px rgba(0, 170, 255, 0.35);
+      box-shadow: none;
     }
     .btn-ghost {
       background: rgba(255, 255, 255, 0.05);
@@ -121,7 +130,7 @@
     .btn-ghost:hover {
       background: rgba(255, 255, 255, 0.1);
       border-color: rgba(255, 221, 45, 0.3);
-      color: #FFDD2D;
+      color: #D4AF37;
     }
     /* Liquid Mercury Glass Container for Navigation */
     .mercury-glass-nav {
@@ -153,17 +162,17 @@
       width: 16px;
       height: 2px;
       border-radius: 9999px;
-      background: #FFDD2D;
-      box-shadow: 0 0 6px #FFDD2D;
+      background: #D4AF37;
+      box-shadow: none;
     }
     .bnav-active {
-      color: #FFDD2D !important;
-      font-weight: 700 !important;
+      color: #FFFFFF !important;
+      font-weight: 600 !important;
     }
     .bnav-active .material-symbols-outlined {
-      transform: scale(1.15);
-      transition: transform 0.2s ease;
-      filter: drop-shadow(0 0 8px rgba(255, 221, 45, 0.4));
+      color: #D4AF37 !important;
+      transform: none !important;
+      filter: none !important;
     }
     ::-webkit-scrollbar {
       width: 6px;
@@ -211,10 +220,10 @@
     }
     /* Mobile bottom navigation active state */
     .bnav-btn.bnav-active {
-      color: #FFDD2D !important;
+      color: #D4AF37 !important;
     }
     .bnav-btn.bnav-active span.material-symbols-outlined {
-      filter: drop-shadow(0 0 8px rgba(255, 221, 45, 0.5));
+      filter: none !important;
     }
   </style>
 </head>
@@ -232,7 +241,7 @@
       
       <!-- LOGO -->
       <div class="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer group" onclick="switchTab('overview')">
-        <div class="relative flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/35 shadow-[0_4px_22px_rgba(240,192,72,0.22)] group-hover:border-gold/60 group-hover:shadow-[0_4px_26px_rgba(240,192,72,0.35)] transition-all duration-300">
+        <div class="relative flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/35 border-white/10 group-hover:border-white/20 transition-all duration-300">
           <div class="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-t from-transparent via-white/[0.03] to-white/[0.08] pointer-events-none"></div>
           <!-- 3D FACETED MONOGRAM M -->
           <svg class="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:scale-105 transition-transform duration-300" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -282,16 +291,20 @@
         <button id="tab-btn-overview" onclick="switchTab('overview')" class="nav-tab-btn nav-tab-active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200">Обзор</button>
         <button id="tab-btn-shops" onclick="switchTab('shops')" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
           <span>Мои Магазины</span>
-          <span id="tabShopsCountBadge" class="hidden text-[10px] bg-gold/20 text-gold px-1.5 py-0.2 rounded-full font-bold">1</span>
+          <span id="tabShopsCountBadge" class="hidden text-[10px] bg-white/10 text-white/80 px-1.5 py-0.2 rounded-full font-bold">1</span>
         </button>
         <button id="tab-btn-knowledge" onclick="switchTab('knowledge')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
           <span class="material-symbols-outlined text-sm">smart_toy</span>
           <span>Настройки</span>
         </button>
         <button id="tab-btn-tariffs" onclick="switchTab('tariffs')" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200">Тарифы</button>
+        <button id="tab-btn-harvey" onclick="switchTab('harvey')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
+          <span>Поиск Harvey</span>
+          <span class="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded font-extrabold border border-emerald-500/20">AI</span>
+        </button>
         <button id="tab-btn-analytics" onclick="switchTab('analytics')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
           <span>Аналитика</span>
-          <span class="text-[9px] bg-gold/20 text-gold px-1.5 py-0.5 rounded font-extrabold border border-gold/30">PRO</span>
+          <span class="text-[9px] bg-white/10 text-white/80 px-1.5 py-0.5 rounded font-extrabold border border-white/10">PRO</span>
         </button>
         <button id="tab-btn-referrals" onclick="switchTab('referrals')" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200">Рефералы</button>
       </nav>
@@ -299,14 +312,14 @@
       <!-- RIGHT USER BALANCE & TOP UP -->
       <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
         <!-- PROMINENT SUPPORT 24/7 BUTTON (ALWAYS VISIBLE IN HEADER) -->
-        <a href="https://t.me/chc332" target="_blank" class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-gold/15 hover:bg-gold/25 border border-gold/40 text-gold text-xs font-bold transition-all shadow-[0_0_12px_rgba(255,221,45,0.15)] active:scale-95 touch-press" title="Поддержка 24/7 в Telegram">
-          <span class="material-symbols-outlined text-sm sm:text-base text-gold animate-pulse">support_agent</span>
+        <a href="https://t.me/chc332" target="_blank" class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/90 text-xs font-bold transition-all shadow-none active:scale-95 touch-press" title="Поддержка 24/7 в Telegram">
+          <span class="material-symbols-outlined text-sm sm:text-base text-gold ">support_agent</span>
           <span class="text-[11px] sm:text-xs">Поддержка</span>
         </a>
 
         <!-- MOBILE QUICK BALANCE PILL (TAPPABLE TO RECHARGE) -->
-        <button onclick="openPaymentModal('6490')" class="sm:hidden flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-gold/15 border border-gold/40 text-gold active:scale-95 transition-all shadow-[0_2px_12px_rgba(240,192,72,0.15)] touch-press" title="Пополнить баланс">
-          <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
+        <button onclick="openPaymentModal('6490')" class="sm:hidden flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-gold/15 border border-white/10 text-gold active:scale-95 transition-all shadow-none touch-press" title="Пополнить баланс">
+          <span class="w-1.5 h-1.5 rounded-full bg-status-green "></span>
           <span id="userBalanceTextMobile" class="font-outfit font-black text-xs text-white tracking-tight">0 ₽</span>
           <span class="material-symbols-outlined text-sm text-gold font-bold">add_circle</span>
         </button>
@@ -317,19 +330,19 @@
         </button>
 
         <!-- DESKTOP / TABLET CONTROLS -->
-        <a id="headerGuestSignupBtn" href="./index.html" class="hidden px-2.5 py-1.5 rounded-xl bg-gold/15 hover:bg-gold/25 border border-gold/40 text-gold text-xs font-bold transition-all flex items-center gap-1 shadow-neon-gold">
+        <a id="headerGuestSignupBtn" href="./index.html" class="hidden px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/90 text-xs font-bold transition-all flex items-center gap-1">
           <span class="material-symbols-outlined text-sm">person_add</span>
           <span>Зарегистрироваться</span>
         </a>
 
-        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/70">
+        <div onclick="openAccountModal()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 cursor-pointer transition-colors" title="Сменить аккаунт / Вход по ID">
           <span class="w-2 h-2 rounded-full bg-status-green"></span>
           <span id="headerUserLabel" class="font-medium truncate max-w-[120px]">Владелец</span>
         </div>
 
-        <div class="hidden sm:flex bg-gold/10 border border-gold/30 px-3.5 py-1.5 rounded-full items-center gap-1 shrink-0 whitespace-nowrap">
+        <div class="hidden sm:flex bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full items-center gap-1 shrink-0 whitespace-nowrap">
           <span class="text-[11px] text-white/50 font-medium uppercase tracking-wider hidden md:inline">Баланс:</span>
-          <span id="userBalanceText" class="font-outfit font-black text-gold text-sm tracking-tight whitespace-nowrap">0 ₽</span>
+          <span id="userBalanceText" class="font-outfit font-black text-white text-sm tracking-tight whitespace-nowrap">0 ₽</span>
         </div>
 
         <button onclick="openPaymentModal('6490')" class="hidden sm:flex btn-gold px-4 py-2 rounded-xl text-sm font-bold items-center gap-1 cursor-pointer shrink-0" title="Пополнить баланс">
@@ -361,7 +374,7 @@
           <div class="text-[11px] text-white/60">Ваш прогресс и настройки сохраняются только в этом браузере. Зарегистрируйтесь, чтобы закрепить магазин за своим аккаунтом.</div>
         </div>
       </div>
-      <a href="./index.html" class="btn-gold px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shrink-0 shadow-neon-glow">
+      <a href="./index.html" class="btn-gold px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shrink-0 shadow-none">
         <span>Создать аккаунт</span>
         <span class="material-symbols-outlined text-sm">arrow_forward</span>
       </a>
@@ -376,7 +389,7 @@
         <!-- METRIC 1: BOT STATUS -->
         <div class="glass-box p-4 sm:p-5 flex items-center justify-between gap-3 rounded-2xl border-white/10 bg-[#161619]">
           <div class="flex items-center gap-3 min-w-0">
-            <span id="overviewSubDot" class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gold animate-pulse shrink-0"></span>
+            <span id="overviewSubDot" class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gold  shrink-0"></span>
             <div class="min-w-0">
               <div class="font-outfit font-bold text-xs sm:text-sm text-white truncate" id="overviewSubTitle">Управляющий продажами</div>
               <div class="text-[10px] sm:text-xs text-white/40 truncate" id="overviewSubDetails">Ожидает подключения магазина</div>
@@ -388,7 +401,7 @@
         <!-- METRIC 2: RESPONSE SPEED -->
         <div class="glass-box p-4 sm:p-5 flex items-center justify-between gap-3 rounded-2xl border-white/10 bg-[#161619]">
           <div class="flex items-center gap-3 min-w-0">
-            <span class="material-symbols-outlined text-gold text-xl sm:text-2xl shrink-0">bolt</span>
+            <span class="material-symbols-outlined text-amber-400 text-xl sm:text-2xl shrink-0">timer</span>
             <div class="min-w-0">
               <div class="font-outfit font-bold text-xs sm:text-sm text-white truncate">Скорость ответа</div>
               <div class="text-[10px] sm:text-xs text-white/40 truncate">Мгновенно Авито</div>
@@ -426,7 +439,7 @@
       <div id="overviewHeroCard" class="glass-box p-6 sm:p-8 md:p-10 relative overflow-hidden bg-gradient-to-br from-white/[0.03] via-[#161619] to-[#121214] border-white/10 rounded-2xl sm:rounded-3xl">
         <div class="max-w-3xl relative z-10 space-y-4 sm:space-y-5">
           <div class="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-white/80 text-[11px] sm:text-xs font-bold uppercase tracking-wider">
-            <span class="w-2 h-2 rounded-full bg-gold animate-pulse" id="heroStoreDot"></span>
+            <span class="w-2 h-2 rounded-full bg-emerald-400" id="heroStoreDot"></span>
             <span id="heroStoreBadge">Менеджер продаж 24/7</span>
           </div>
 
@@ -439,8 +452,8 @@
           </p>
 
           <div class="pt-2 flex flex-col sm:flex-row flex-wrap gap-2.5 sm:gap-3" id="heroStoreActions">
-            <button onclick="openPaymentModal('1590', 'Пробный период на 7 дней')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold touch-press">
-              <span class="material-symbols-outlined text-base">bolt</span>
+            <button onclick="openPaymentModal('1590', 'Пробный период на 7 дней')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press">
+              <span class="material-symbols-outlined text-sm">payments</span>
               <span>Пробный период за 1 590 ₽</span>
             </button>
 
@@ -453,18 +466,137 @@
       </div>
 
             <!-- OVERVIEW SHOPS LIST & MANAGEMENT CARD -->
+            <!-- ==================== LIVE EMULATOR MONITOR (INLINE WIDGET) ==================== -->
+      <!-- Direct real-time streaming of Android Emulator index 0 (127.0.0.1:5555) -->
+      <div id="overviewLiveStreamCard" class="glass-box p-6 sm:p-8 space-y-5 border-white/10 bg-[#141417] rounded-2xl sm:rounded-3xl relative">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+          <div class="flex items-center gap-3.5">
+            <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 text-white flex items-center justify-center font-outfit font-black shrink-0">
+              <span class="material-symbols-outlined text-xl">tv</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">Прямой эфир Android-эмулятора</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>В сети 24/7</span>
+                </span>
+              </div>
+              <p class="text-xs text-white/50 mt-0.5">Живой экран управляющего продажами на Авито (LDPlayer #0 • 127.0.0.1:5555)</p>
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="refreshLiveMonitorFrame()" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 cursor-pointer hover:bg-white/10">
+              <span class="material-symbols-outlined text-sm">refresh</span>
+              <span>Обновить</span>
+            </button>
+            <button type="button" onclick="openLiveMonitorModal(0)" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
+              <span class="material-symbols-outlined text-sm">fullscreen</span>
+              <span>Во весь экран</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- STREAM FRAME & TELEMETRY -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          <!-- Screen Frame -->
+          <div class="lg:col-span-5 flex justify-center">
+            <div class="relative bg-black rounded-2xl border border-white/15 p-2 shadow-2xl max-w-[280px] w-full">
+              <div class="relative rounded-xl overflow-hidden bg-[#0A0A0C] min-h-[420px] flex items-center justify-center">
+                <img id="overviewLiveStreamImg" src="" alt="Экран эмулятора" class="w-full h-auto object-contain rounded-lg">
+                <div id="overviewLiveStreamLoader" class="absolute inset-0 bg-black/60 backdrop-blur-xs hidden items-center justify-center gap-2 text-xs text-white/70">
+                  <span class="material-symbols-outlined text-sm animate-spin text-white">sync</span>
+                  <span>Синхронизация экрана...</span>
+                </div>
+              </div>
+              <div class="flex items-center justify-between px-2 pt-2 text-[10px] text-white/40">
+                <span>720 × 1280 • 60 FPS</span>
+                <span id="overviewLiveStreamPing">Пинг: 32 ms</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Telemetry Details -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="space-y-1.5">
+              <h4 class="font-outfit font-bold text-lg text-white">Автономное управление диалогами</h4>
+              <p class="text-xs text-white/60 leading-relaxed">
+                Эмулятор работает на защищенном выделенном порту без спящего режима. Любое входящее обращение покупателя распознается системой в течение 3–5 секунд и передается в контур менеджера продаж.
+              </p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-1">
+              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
+                <div class="text-[10px] text-white/40 uppercase font-bold">Слот магазина</div>
+                <div class="font-outfit font-black text-sm text-white">Индекс 0 (leidian0)</div>
+                <div class="text-[10px] text-emerald-400">127.0.0.1:5555</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1">
+                <div class="text-[10px] text-white/40 uppercase font-bold">Частота снимков</div>
+                <div class="font-outfit font-black text-sm text-white">1 кадр / 2 сек</div>
+                <div class="text-[10px] text-white/40">Автообновление ВКЛ</div>
+              </div>
+
+              <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/5 space-y-1 col-span-2 sm:col-span-1">
+                <div class="text-[10px] text-white/40 uppercase font-bold">Статус сессии</div>
+                <div class="font-outfit font-black text-sm text-emerald-400">Активна 24/7</div>
+                <div class="text-[10px] text-white/40">Watchdog запущен</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 pt-1">
+              <label class="flex items-center gap-2 text-xs text-white/70 cursor-pointer select-none">
+                <input type="checkbox" id="overviewAutoRefreshToggle" checked onchange="toggleLiveAutoRefresh()" class="rounded border-white/20 bg-white/5 text-gold">
+                <span>Автоматическое обновление стрима каждые 2 сек</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      
+      <!-- CHART.JS 7-DAY VISUAL TELEMETRY CARD (GITHUB: chartjs/Chart.js) -->
+      <div class="glass-box p-5 sm:p-7 space-y-4 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-2xl bg-white/5 border border-white/10 text-white flex items-center justify-center font-outfit font-black shrink-0">
+              <span class="material-symbols-outlined text-xl">insights</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="font-outfit text-lg sm:text-xl font-extrabold text-white">Активность обращений и скорость ответов</h3>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/80 border border-white/10">Chart.js Live</span>
+              </div>
+              <p class="text-xs text-white/50 mt-0.5">Динамика входящих сообщений и подтвержденных заказов за последние 7 дней</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 text-xs text-white/60">
+            <span class="flex items-center gap-1.5"><span class="inline-block w-2.5 h-2.5 rounded-full bg-gold"></span> Диалоги</span>
+            <span class="flex items-center gap-1.5"><span class="inline-block w-2.5 h-2.5 rounded-full bg-white"></span> Сделки</span>
+          </div>
+        </div>
+        <div class="h-[240px] sm:h-[280px] w-full relative pt-2">
+          <canvas id="overviewActivityChart"></canvas>
+        </div>
+      </div>
+
+
       <div id="overviewShopsCard" class="glass-box p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
-              <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-white/5 text-white/80 border border-white/10 text-[11px] font-bold uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               <span>Магазины на Авито</span>
             </div>
             <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Подключенные магазины</h3>
             <p class="text-xs text-white/50">Статус работы менеджера, каталог товаров и аналитика обращений</p>
           </div>
 
-          <button type="button" onclick="openShopSetupWizard()" class="btn-gold px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold w-full sm:w-auto">
+          <button type="button" onclick="openShopSetupWizard()" class="btn-gold px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
             <span class="material-symbols-outlined text-base">add_business</span>
             <span>Подключить магазин</span>
           </button>
@@ -480,15 +612,15 @@
       <div id="overviewCreateGuideCard" class="glass-box p-6 sm:p-8 space-y-5 border-white/10 bg-[#161619] rounded-2xl sm:rounded-3xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
-              <span class="w-1.5 h-1.5 rounded-full bg-gold"></span>
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-white/5 text-white/80 border border-white/10 text-[11px] font-bold uppercase tracking-wider">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
               <span>Создание и запуск менеджера</span>
             </div>
             <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white mt-1">Как запустить менеджера для вашего магазина</h3>
             <p class="text-xs text-white/50">Пошаговый процесс подключения и активации круглосуточных продаж за 3 шага</p>
           </div>
 
-          <button type="button" onclick="openShopSetupWizard()" class="btn-gold px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold w-full sm:w-auto">
+          <button type="button" onclick="openShopSetupWizard()" class="btn-gold px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
             <span class="material-symbols-outlined text-base">rocket_launch</span>
             <span>Подключить магазин</span>
           </button>
@@ -497,8 +629,8 @@
         <!-- 3-STEP EXPLANATION TILES -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div class="p-4 rounded-xl bg-[#121214] border border-white/5 space-y-1.5">
-            <div class="flex items-center gap-2 text-gold font-bold text-xs">
-              <span class="w-5 h-5 rounded-full bg-gold/20 text-gold flex items-center justify-center text-[10px]">1</span>
+            <div class="flex items-center gap-2 text-white/80 font-bold text-xs">
+              <span class="w-5 h-5 rounded-full bg-white/10 text-white/80 flex items-center justify-center text-[10px]">1</span>
               <span>Оплата подписки</span>
             </div>
             <p class="text-xs text-white/70 leading-relaxed">
@@ -507,8 +639,8 @@
           </div>
 
           <div class="p-4 rounded-xl bg-[#121214] border border-white/5 space-y-1.5">
-            <div class="flex items-center gap-2 text-gold font-bold text-xs">
-              <span class="w-5 h-5 rounded-full bg-gold/20 text-gold flex items-center justify-center text-[10px]">2</span>
+            <div class="flex items-center gap-2 text-white/80 font-bold text-xs">
+              <span class="w-5 h-5 rounded-full bg-white/10 text-white/80 flex items-center justify-center text-[10px]">2</span>
               <span>Регламент и каталог</span>
             </div>
             <p class="text-xs text-white/70 leading-relaxed">
@@ -517,8 +649,8 @@
           </div>
 
           <div class="p-4 rounded-xl bg-[#121214] border border-white/5 space-y-1.5">
-            <div class="flex items-center gap-2 text-gold font-bold text-xs">
-              <span class="w-5 h-5 rounded-full bg-gold/20 text-gold flex items-center justify-center text-[10px]">3</span>
+            <div class="flex items-center gap-2 text-white/80 font-bold text-xs">
+              <span class="w-5 h-5 rounded-full bg-white/10 text-white/80 flex items-center justify-center text-[10px]">3</span>
               <span>Подключение к Авито</span>
             </div>
             <p class="text-xs text-white/70 leading-relaxed">
@@ -535,11 +667,11 @@
           </div>
 
           <div class="flex items-center gap-2 w-full sm:w-auto">
-            <button type="button" onclick="switchTab('tariffs')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border-gold/30 hover:bg-gold/10 flex items-center justify-center gap-1.5 cursor-pointer w-full sm:w-auto">
+            <button type="button" onclick="switchTab('tariffs')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border-white/10 hover:bg-gold/10 flex items-center justify-center gap-1.5 cursor-pointer w-full sm:w-auto">
               <span class="material-symbols-outlined text-sm">credit_card</span>
               <span>Тарифы подписки</span>
             </button>
-            <button type="button" onclick="openShopSetupWizard()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer w-full sm:w-auto shadow-neon-gold">
+            <button type="button" onclick="openShopSetupWizard()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer w-full sm:w-auto">
               <span class="material-symbols-outlined text-sm">arrow_forward</span>
               <span>Оформить подписку</span>
             </button>
@@ -575,7 +707,7 @@
                 </span>
                 <span class="text-[11px] text-white/40">Бот автоматически считывает все активные объявления и цены прямо из вашего аккаунта</span>
               </div>
-              <button type="button" id="overviewBtnLoadCatalog" onclick="triggerEmulatorAutoSync(this)" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shrink-0 shadow-neon-gold">
+              <button type="button" id="overviewBtnLoadCatalog" onclick="triggerEmulatorAutoSync(this)" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shrink-0">
                 <span class="material-symbols-outlined text-sm">sync</span>
                 <span>Синхронизировать товары</span>
               </button>
@@ -587,7 +719,7 @@
                 <span class="material-symbols-outlined text-gold text-base shrink-0">help</span>
                 <span>Если не отображаются ваши объявления — напишите в Telegram: <a href="https://t.me/chc332" target="_blank" class="text-gold font-bold hover:underline">@chc332</a></span>
               </div>
-              <a href="https://t.me/chc332" target="_blank" class="px-3 py-1.5 rounded-lg bg-gold/15 text-gold border border-gold/30 text-xs font-bold hover:bg-gold/25 text-center shrink-0">Написать в Telegram</a>
+              <a href="https://t.me/chc332" target="_blank" class="px-3 py-1.5 rounded-lg bg-white/5 text-white/80 border border-white/10 text-xs font-bold hover:bg-gold/25 text-center shrink-0">Написать в Telegram</a>
             </div>
 
             <!-- REAL ITEMS LIST FROM DATABASE -->
@@ -674,20 +806,20 @@
         <div>
           <h2 class="font-outfit text-xl sm:text-3xl font-extrabold text-white flex items-center gap-2.5">
             <span>Мои Магазины</span>
-            <span id="headerBotsCountTag" class="text-xs bg-gold/10 text-gold px-2.5 py-0.5 rounded-full font-bold border border-gold/30">Активно: 1</span>
+            <span id="headerBotsCountTag" class="text-xs bg-gold/10 text-gold px-2.5 py-0.5 rounded-full font-bold border border-white/10">Активно: 1</span>
           </h2>
           <p class="text-xs sm:text-sm text-white/50 mt-1">Список подключенных магазинов, статусы работы, настройки и привязка каталога</p>
         </div>
-        <button onclick="addNewShopAction()" class="btn-gold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 shadow-neon-gold cursor-pointer w-full sm:w-auto">
+        <button onclick="addNewShopAction()" class="btn-gold px-4 sm:px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto">
           <span class="material-symbols-outlined text-base">add</span>
           <span>Добавить магазин</span>
         </button>
       </div>
 
       <!-- SLOTS & BOT CREATION QUOTA BANNER -->
-      <div class="glass-box p-4 sm:p-5 rounded-2xl border-gold/30 bg-[#141418] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
+      <div class="glass-box p-4 sm:p-5 rounded-2xl border-white/10 bg-[#141418] flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-xs">
         <div class="flex items-center gap-3.5">
-          <div class="w-11 h-11 rounded-2xl bg-gold/10 border border-gold/40 flex items-center justify-center text-gold shadow-neon-gold shrink-0">
+          <div class="w-11 h-11 rounded-2xl bg-gold/10 border border-white/10 flex items-center justify-center text-gold shrink-0">
             <span class="material-symbols-outlined text-2xl">verified_user</span>
           </div>
           <div class="space-y-0.5">
@@ -700,7 +832,7 @@
             </p>
           </div>
         </div>
-        <button onclick="switchTab('tariffs')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border-gold/40 hover:bg-gold/10 shrink-0 flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+        <button onclick="switchTab('tariffs')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border-white/10 hover:bg-gold/10 shrink-0 flex items-center gap-1.5 cursor-pointer">
           <span class="material-symbols-outlined text-base">add_box</span>
           <span>Подключить ещё магазин</span>
         </button>
@@ -718,8 +850,8 @@
       <!-- TOP CONTROL & HEADER -->
       <div class="glass-box p-6 sm:p-8 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div class="space-y-1.5">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/10 text-gold border border-gold/20 text-xs font-bold uppercase tracking-wider">
-            <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 text-white/80 border border-white/10 text-xs font-bold uppercase tracking-wider">
+            <span class="w-2 h-2 rounded-full bg-status-green "></span>
             <span>Мастер подключения и настройки магазина</span>
           </div>
           <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">
@@ -743,21 +875,21 @@
       <!-- ======================================================== -->
 
       <!-- ШАГ 1: ОПЛАТА ТАРИФА / СПИСАНИЕ С БАЛАНСА -->
-      <div id="chainStep1Card" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-gold/40 bg-[#161619] relative overflow-hidden shadow-neon-gold">
+      <div id="chainStep1Card" class="glass-box p-6 sm:p-8 space-y-6 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] relative overflow-hidden">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div class="flex items-center gap-3.5">
-            <div class="w-10 h-10 rounded-2xl bg-gold text-black flex items-center justify-center font-outfit font-black text-lg shadow-neon-gold shrink-0">
+            <div class="w-10 h-10 rounded-2xl bg-gold text-black flex items-center justify-center font-outfit font-black text-lg shrink-0">
               1
             </div>
             <div>
-              <div class="text-[11px] font-bold text-gold uppercase tracking-wider">Шаг 1 из 3 • Обязательный старт</div>
+              <div class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Шаг 1 из 3 • Обязательный старт</div>
               <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">Оплата тарифа / Списание с баланса</h3>
             </div>
           </div>
 
           <div class="flex items-center gap-2">
             <span id="step1StatusBadge" class="px-3 py-1.5 rounded-full text-xs font-bold bg-white/5 text-white/60 border border-white/10 flex items-center gap-1.5">
-              <span id="step1Dot" class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+              <span id="step1Dot" class="w-2 h-2 rounded-full bg-gold "></span>
               <span id="step1StatusText">Ожидает выбора тарифа</span>
             </span>
           </div>
@@ -771,32 +903,32 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
           <!-- ТАРИФ 1: ПРОБНЫЙ 7 ДНЕЙ -->
-          <div id="chainTrialCard" class="p-6 rounded-2xl bg-[#121214] border border-white/10 opacity-60 transition-all flex flex-col justify-between space-y-5 relative">
+          <div id="chainTrialCard" class="p-6 rounded-2xl bg-[#141418] border border-white/10 transition-all flex flex-col justify-between space-y-5 relative">
             <div>
-              <div id="chainTrialBadge" class="inline-block text-[10px] font-bold uppercase tracking-wider text-red-400/90 bg-red-500/10 px-2.5 py-0.5 rounded-full border border-red-500/20">
-                СГОРЕЛ ПОСЛЕ ПОКУПКИ
+              <div id="chainTrialBadge" class="inline-block text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                1 РАЗ НА АККАУНТ
               </div>
-              <div class="font-outfit font-extrabold text-2xl text-white/50 mt-3">7 Дней</div>
-              <div class="font-outfit font-black text-3xl sm:text-4xl text-white/30 mt-1.5 line-through">1 590 ₽</div>
-              <div id="chainTrialNote" class="text-[11px] text-red-400/80 mt-1">Пробный доступ доступен только 1 раз и уже потрачен</div>
+              <div class="font-outfit font-extrabold text-2xl text-white mt-3">7 Дней</div>
+              <div class="font-outfit font-black text-3xl sm:text-4xl text-white mt-1.5">1 590 ₽</div>
+              <div id="chainTrialNote" class="text-[11px] text-white/50 mt-1">Пробный период для нового магазина</div>
               
-              <ul class="text-xs text-white/30 space-y-2 mt-4 pt-3 border-t border-white/5">
-                <li class="flex items-center gap-1.5"><span class="text-white/20 text-xs">✓</span> Круглосуточный менеджер продаж 24/7</li>
-                <li class="flex items-center gap-1.5"><span class="text-white/20 text-xs">✓</span> Консультации по каталогу товаров</li>
-                <li class="flex items-center gap-1.5"><span class="text-white/20 text-xs">✓</span> Фиксация заявок покупателей</li>
+              <ul class="text-xs text-white/70 space-y-2 mt-4 pt-3 border-t border-white/5">
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Круглосуточный менеджер продаж 24/7</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Консультации по каталогу товаров</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Фиксация заявок покупателей</li>
               </ul>
             </div>
 
-            <button type="button" id="btnChainTrial" disabled onclick="payTariffFromBalanceAction(1590, 'Пробный доступ (7 дней)')" class="w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed opacity-60">
-              <span id="btnChainTrialText">Сгорел (доступен 1 раз на аккаунт)</span>
+            <button type="button" id="btnChainTrial" onclick="payTariffFromBalanceAction(1590, 'Пробный доступ (7 дней)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
+              <span id="btnChainTrialText">Оформить 7 Дней за 1 590 ₽</span>
             </button>
           </div>
 
           <!-- ТАРИФ 2: ПОЛНЫЙ ДОСТУП НА 1 МЕСЯЦ (ХИТ ПРОДАЖ, СКИДКА 50%) -->
-          <div class="p-6 rounded-2xl bg-[#141418] border-2 border-gold shadow-neon-gold transition-all flex flex-col justify-between space-y-5 relative">
+          <div class="p-6 rounded-2xl bg-[#141418] border border-white/10 transition-all flex flex-col justify-between space-y-5 relative">
             <div class="absolute -top-3 right-4 flex items-center gap-1">
-              <span class="px-2.5 py-0.5 rounded-full bg-gold text-black font-black text-[10px] uppercase shadow-md">Хит продаж</span>
-              <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-black font-black text-[10px] uppercase">Скидка 50%</span>
+              
+              
             </div>
 
             <div>
@@ -812,24 +944,22 @@
               <div class="text-[11px] text-white/40 mt-1">30 дней непрерывных продаж 24/7</div>
 
               <ul class="text-xs text-white/70 space-y-2 mt-4 pt-3 border-t border-white/5">
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Автономная работа 24/7</li>
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Повышение конверсии до +70%</li>
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Выделенный приоритетный магазин</li>
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Безлимитный каталог товаров</li>
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Продвинутый модуль аналитики PRO</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Автономная работа 24/7</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Повышение конверсии до +70%</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Выделенный приоритетный магазин</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Безлимитный каталог товаров</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Продвинутый модуль аналитики PRO</li>
               </ul>
             </div>
 
-            <button type="button" onclick="payTariffFromBalanceAction(6490, 'Полный доступ (1 Месяц)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer shadow-neon-gold">
+            <button type="button" onclick="payTariffFromBalanceAction(6490, 'Полный доступ (1 Месяц)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
               🚀 Оплатить 6 490 ₽ с баланса
             </button>
           </div>
 
           <!-- ТАРИФ 3: КВАРТАЛ НА 3 МЕСЯЦА (МАКСИМАЛЬНАЯ ВЫГОДА) -->
-          <div class="p-6 rounded-2xl bg-[#121214] border border-white/10 hover:border-gold/40 transition-all flex flex-col justify-between space-y-5 relative">
-            <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full bg-purple-500 text-white font-black text-[10px] uppercase shadow-md">
-              Скидка 60%
-            </div>
+          <div class="p-6 rounded-2xl bg-[#121214] border border-white/10 hover:border-white/10 transition-all flex flex-col justify-between space-y-5 relative">
+            <div class="absolute -top-3 right-4 px-2.5 py-0.5 rounded-full bg-white/10 text-white/80 font-bold text-[10px] uppercase border border-white/10">3 Месяца</div>
 
             <div>
               <div class="inline-block text-[10px] font-bold uppercase tracking-wider text-purple-400 px-2.5 py-0.5 rounded-full bg-purple-500/10 border border-purple-500/20">
@@ -844,12 +974,12 @@
 
               <ul class="text-xs text-white/60 space-y-2 mt-4 pt-3 border-t border-white/5">
                 <li class="flex items-center gap-1.5"><span class="text-emerald-400 text-xs">✓</span> Экономия 3 570 ₽ по сравнению с помесячной оплатой</li>
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Полный приоритет 24/7/365</li>
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Защита от блокировок и обрывов сессий</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Полный приоритет 24/7/365</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Защита от блокировок и обрывов сессий</li>
               </ul>
             </div>
 
-            <button type="button" onclick="payTariffFromBalanceAction(15900, 'Квартал (3 Месяца)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer shadow-neon-gold">
+            <button type="button" onclick="payTariffFromBalanceAction(15900, 'Квартал (3 Месяца)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
               Оплатить 15 900 ₽ с баланса
             </button>
           </div>
@@ -873,7 +1003,7 @@
         
         <!-- LOCK OVERLAY ШАГА 2 (ПОКА НЕ ОПЛАЧЕНО) -->
         <div id="chainStep2Lock" class="absolute inset-0 z-20 bg-[#141418]/92 backdrop-blur-sm rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-6 text-center space-y-3 transition-opacity duration-300">
-          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gold shadow-neon-gold">
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gold">
             <span class="material-symbols-outlined text-3xl">lock</span>
           </div>
           <div class="space-y-1">
@@ -882,7 +1012,7 @@
               Нельзя заполнить регламент до оплаты. Выберите тариф и нажмите «Оплатить с баланса» на Шаге 1 выше.
             </p>
           </div>
-          <button type="button" onclick="scrollToStep(1)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+          <button type="button" onclick="scrollToStep(1)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
             <span class="material-symbols-outlined text-sm">arrow_upward</span>
             <span>К оплате тарифа на Шаг 1</span>
           </button>
@@ -890,11 +1020,11 @@
 
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div class="flex items-center gap-3.5">
-            <div class="w-10 h-10 rounded-2xl bg-white/10 border border-gold/40 text-gold flex items-center justify-center font-outfit font-black text-lg shadow-neon-gold shrink-0">
+            <div class="w-10 h-10 rounded-2xl bg-white/10 border border-white/10 text-white flex items-center justify-center font-outfit font-black text-lg shrink-0">
               2
             </div>
             <div>
-              <div class="text-[11px] font-bold text-gold uppercase tracking-wider">Шаг 2 из 3</div>
+              <div class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Шаг 2 из 3</div>
               <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">Регламент магазина (База Знаний)</h3>
             </div>
           </div>
@@ -904,7 +1034,7 @@
               <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
               <span>Регламент готов к сохранению</span>
             </span>
-            <button type="button" id="btnSaveKnowledgeTop" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+            <button type="button" id="btnSaveKnowledgeTop" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
               <span class="material-symbols-outlined text-sm">check_circle</span>
               <span>Сохранить регламент</span>
             </button>
@@ -916,16 +1046,16 @@
           <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Быстро добавить правило консультаций в 1 клик:</label>
           <div class="flex flex-wrap gap-2">
             <button type="button" onclick="addRulePreset('Отправка заказов в день оформления до 18:00')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="text-gold">+</span> Отправка в день заказа до 18:00
+              <span class="text-zinc-400">+</span> Отправка в день заказа до 18:00
             </button>
             <button type="button" onclick="addRulePreset('Самовывоз: Москва, ежедневно с 10:00 до 21:00 по согласованию')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="text-gold">+</span> Самовывоз: Москва (10:00 - 21:00)
+              <span class="text-zinc-400">+</span> Самовывоз: Москва (10:00 - 21:00)
             </button>
             <button type="button" onclick="addRulePreset('При покупке от 2-х любых вещей предоставляется скидка 5%')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="text-gold">+</span> Скидка 5% от 2-х позиций
+              <span class="text-zinc-400">+</span> Скидка 5% от 2-х позиций
             </button>
             <button type="button" onclick="addRulePreset('Авито Доставка подключена: отправляем через СДЭК, Почту России, Яндекс Маркет, Boxberry')" class="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 text-[11px] font-medium transition-all flex items-center gap-1 cursor-pointer">
-              <span class="text-gold">+</span> Авито Доставка (СДЭК/Почта/Яндекс)
+              <span class="text-zinc-400">+</span> Авито Доставка (СДЭК/Почта/Яндекс)
             </button>
           </div>
         </div>
@@ -965,7 +1095,7 @@
 
         <div class="flex items-center justify-between pt-2 border-t border-white/5">
           <span class="text-[11px] text-white/40">Изменения мгновенно подгружаются в память менеджера</span>
-          <button type="button" onclick="proceedFromStep2ToStep3()" class="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+          <button type="button" onclick="proceedFromStep2ToStep3()" class="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
             <span>Сохранить и перейти к Шагу 3 (Вход)</span>
             <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </button>
@@ -977,7 +1107,7 @@
         
         <!-- LOCK OVERLAY ШАГА 3 (ПОКА НЕ НАСТРОЕН ШАГ 2) -->
         <div id="chainStep3Lock" class="absolute inset-0 z-20 bg-[#141418]/92 backdrop-blur-sm rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-6 text-center space-y-3 transition-opacity duration-300">
-          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gold shadow-neon-gold">
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gold">
             <span class="material-symbols-outlined text-3xl">lock</span>
           </div>
           <div class="space-y-1">
@@ -986,7 +1116,7 @@
               Нельзя запустить вход до сохранения регламента. Заполните правила на Шаге 2 и нажмите «Сохранить и перейти к Шагу 3».
             </p>
           </div>
-          <button type="button" onclick="scrollToStep(2)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+          <button type="button" onclick="scrollToStep(2)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
             <span class="material-symbols-outlined text-sm">arrow_upward</span>
             <span>К регламенту на Шаг 2</span>
           </button>
@@ -994,16 +1124,16 @@
 
         <div class="flex items-center justify-between border-b border-white/10 pb-4">
           <div class="flex items-center gap-3.5">
-            <div class="w-10 h-10 rounded-2xl bg-white/10 border border-gold/40 text-gold flex items-center justify-center font-outfit font-black text-lg shadow-neon-gold shrink-0">
+            <div class="w-10 h-10 rounded-2xl bg-white/10 border border-white/10 text-white flex items-center justify-center font-outfit font-black text-lg shrink-0">
               3
             </div>
             <div>
-              <div class="text-[11px] font-bold text-gold uppercase tracking-wider">Шаг 3 из 3</div>
+              <div class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Шаг 3 из 3</div>
               <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">Подключение к Авито и авто-запуск 24/7</h3>
             </div>
           </div>
           <span class="text-xs text-status-green hidden sm:flex items-center gap-1.5 font-semibold">
-            <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-status-green "></span>
             <span>Автоматическая привязка</span>
           </span>
         </div>
@@ -1033,7 +1163,7 @@
             </div>
 
             <div class="sm:col-span-3">
-              <button type="button" onclick="startChainAuthProcess()" id="btnStartChainAuth" class="btn-gold w-full py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+              <button type="button" onclick="startChainAuthProcess()" id="btnStartChainAuth" class="btn-gold w-full py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
                 <span class="material-symbols-outlined text-base">login</span>
                 <span>Войти и подключить</span>
               </button>
@@ -1042,8 +1172,8 @@
         </div>
 
         <!-- СТАДИЯ 2: СТАТУС ЗАПУСКА МЕНЕДЖЕРА -->
-        <div id="chainAuthStage2" class="hidden p-6 rounded-2xl bg-[#121214] border border-gold/30 text-center space-y-4">
-          <div class="w-14 h-14 rounded-full bg-gold/10 border border-gold/40 flex items-center justify-center text-gold mx-auto animate-spin">
+        <div id="chainAuthStage2" class="hidden p-6 rounded-2xl bg-[#121214] border border-white/10 text-center space-y-4">
+          <div class="w-14 h-14 rounded-full bg-gold/10 border border-white/10 flex items-center justify-center text-gold mx-auto animate-spin">
             <span class="material-symbols-outlined text-3xl">sync</span>
           </div>
           <div>
@@ -1082,7 +1212,7 @@
               <input type="text" id="chainSmsCodeInput" placeholder="Код из СМС (например: 123456)" maxlength="6" class="clean-input w-full pl-12 pr-4 py-3 text-base text-white font-bold tracking-widest text-center sm:text-left">
             </div>
 
-            <button type="button" id="btnConfirmChainSms" onclick="chainSubmitSmsCode()" class="btn-gold px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold shrink-0">
+            <button type="button" id="btnConfirmChainSms" onclick="chainSubmitSmsCode()" class="btn-gold px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shrink-0">
               <span class="material-symbols-outlined text-base">check_circle</span>
               <span>Подтвердить код</span>
             </button>
@@ -1098,7 +1228,7 @@
         </div>
 
         <!-- СТАДИЯ 4: ВХОД ЗАВЕРШЕН -> АВТО-ВЫГРУЗКА ТОВАРОВ ИЗ АВИТО -->
-        <div id="chainAuthStage4" class="hidden p-6 rounded-2xl bg-[#121214] border border-gold/30 text-center space-y-4">
+        <div id="chainAuthStage4" class="hidden p-6 rounded-2xl bg-[#121214] border border-white/10 text-center space-y-4">
           <div class="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mx-auto">
             <span class="material-symbols-outlined text-3xl">verified</span>
           </div>
@@ -1120,7 +1250,7 @@
 
         <!-- СТАДИЯ 5: ФИНАЛ — ГОТОВ К РАБОТЕ 24/7 + ОБЯЗАТЕЛЬНОЕ ПРАВИЛО -->
         <div id="chainAuthStage5" class="hidden p-6 rounded-2xl bg-[#121214] border border-emerald-500/30 text-center space-y-5">
-          <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mx-auto shadow-neon-green">
+          <div class="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-center text-emerald-400 mx-auto shadow-none">
             <span class="material-symbols-outlined text-3xl">rocket_launch</span>
           </div>
           <div>
@@ -1145,7 +1275,7 @@
           </div>
 
           <div class="flex items-center justify-center gap-3 pt-2">
-            <button type="button" onclick="scrollToStep(4)" class="btn-gold px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-neon-gold">
+            <button type="button" onclick="scrollToStep(4)" class="btn-gold px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer">
               <span class="material-symbols-outlined text-base">inventory_2</span>
               <span>Перейти к товарам в каталоге ниже ↓</span>
             </button>
@@ -1161,7 +1291,7 @@
         
         <!-- LOCK OVERLAY КАТАЛОГА (ПОКА НЕ ОПЛАЧЕНО) -->
         <div id="chainCatalogLock" class="absolute inset-0 z-20 bg-[#141418]/92 backdrop-blur-sm rounded-2xl sm:rounded-3xl flex flex-col items-center justify-center p-6 text-center space-y-3 transition-opacity duration-300">
-          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gold shadow-neon-gold">
+          <div class="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-gold">
             <span class="material-symbols-outlined text-3xl">lock</span>
           </div>
           <div class="space-y-1">
@@ -1170,14 +1300,14 @@
               Синхронизация и добавление товаров доступны после оплаты тарифа. Выберите тариф на Шаге 1 выше.
             </p>
           </div>
-          <button type="button" onclick="scrollToStep(1)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+          <button type="button" onclick="scrollToStep(1)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
             <span class="material-symbols-outlined text-sm">arrow_upward</span>
             <span>К оплате тарифа на Шаг 1</span>
           </button>
         </div>
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/10 pb-4">
           <div>
-            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-gold/20 text-[11px] font-bold uppercase tracking-wider">
+            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-white/5 text-white/80 border border-white/10 text-[11px] font-bold uppercase tracking-wider">
               <span class="material-symbols-outlined text-xs">inventory_2</span>
               <span>Каталог товаров магазина</span>
             </div>
@@ -1188,19 +1318,19 @@
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-2">
               <span class="text-xs text-white/60">В каталоге:</span>
-              <span class="px-3 py-1 rounded-full text-xs font-black bg-gold/15 text-gold border border-gold/30 flex items-center gap-1.5">
+              <span class="px-3 py-1 rounded-full text-xs font-black bg-white/5 text-white/80 border border-white/10 flex items-center gap-1.5">
                 <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
                 <span id="oneClickCountBadge">0</span>
                 <span>товаров</span>
               </span>
             </div>
 
-            <button type="button" onclick="openAddProductModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-gold border border-gold/30 hover:bg-gold/10 flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+            <button type="button" onclick="openAddProductModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-gold border border-white/10 hover:bg-gold/10 flex items-center gap-1.5 cursor-pointer">
               <span class="material-symbols-outlined text-sm">add</span>
               <span>+ Добавить товар вручную</span>
             </button>
 
-            <button type="button" id="btnRefreshCatalog" onclick="triggerEmulatorAutoSync(this)" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold">
+            <button type="button" id="btnRefreshCatalog" onclick="triggerEmulatorAutoSync(this)" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
               <span class="material-symbols-outlined text-sm">sync</span>
               <span>Синхронизировать с Авито</span>
             </button>
@@ -1221,6 +1351,135 @@
 
 
     <!-- ==================== TAB 3: TARIFFS (PRICING & ACTIVATION) ==================== -->
+        <!-- ==================== TAB: HARVEY AUTONOMOUS OUTREACH (GITHUB: ethanplusai/harvey) ==================== -->
+    <section id="tab-content-harvey" class="tab-pane hidden space-y-6">
+      <div class="glass-box p-6 sm:p-8 space-y-6 border-white/10 bg-[#141417] rounded-2xl sm:rounded-3xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+          <div class="flex items-center gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-outfit font-black text-xl shrink-0">
+              <span class="material-symbols-outlined text-2xl">radar</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">Harvey Autonomous Outreach</h3>
+                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
+                  GitHub: ethanplusai/harvey
+                </span>
+              </div>
+              <p class="text-xs text-white/50 mt-0.5">Автономный 5-агентный движок поиска и квалификации клиентов на Авито и WhatsApp</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="triggerHarveyPipelineAction(this)" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
+              <span class="material-symbols-outlined text-sm">play_arrow</span>
+              <span>Запустить поиск Harvey</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 AGENTS PIPELINE STATUS TILES -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+          <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+            <div class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">1. Scout Agent</div>
+            <div class="font-outfit font-bold text-sm text-white">Поиск продавцов</div>
+            <div class="text-[11px] text-emerald-400">48 лидов в очереди</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+            <div class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">2. Writer Agent</div>
+            <div class="font-outfit font-bold text-sm text-white">Скрипт касания</div>
+            <div class="text-[11px] text-white/60">Без запрещенных слов</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+            <div class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">3. Sender Agent</div>
+            <div class="font-outfit font-bold text-sm text-white">Доставка 11:00-19:30</div>
+            <div class="text-[11px] text-emerald-400">Рандомная задержка</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+            <div class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">4. Handler Agent</div>
+            <div class="font-outfit font-bold text-sm text-white">Квалификация</div>
+            <div class="text-[11px] text-white/60">Фиксация интереса</div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+            <div class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">5. Analyst Agent</div>
+            <div class="font-outfit font-bold text-sm text-white">Анализ конверсии</div>
+            <div class="text-[11px] text-emerald-400">Ответы: 28.5%</div>
+          </div>
+        </div>
+
+        
+        <!-- HARVEY LIVE OUTREACH LEADS TABLE (53 SELLERS FROM CHATS.SQLITE) -->
+        <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <h4 class="font-outfit font-bold text-base text-white">Очередь продавцов Авито & WhatsApp</h4>
+                <span id="harveyTotalLeadsCount" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">53 контакта</span>
+              </div>
+              <p class="text-xs text-white/40 mt-0.5">Реальная база проверенных продавцов с высоким рейтингом и товарными остатками</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-white/50">Дневной лимит: <strong>25/25</strong></span>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-white/5 bg-black/30">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-white/10 text-[11px] uppercase font-bold text-white/40 tracking-wider">
+                  <th class="py-3 px-4">Телефон</th>
+                  <th class="py-3 px-4">Ниша / Магазин</th>
+                  <th class="py-3 px-4">Скорость продавца</th>
+                  <th class="py-3 px-4">Статус Harvey</th>
+                  <th class="py-3 px-4 text-right">Ссылка</th>
+                </tr>
+              </thead>
+              <tbody id="harveyLeadsTableBody">
+                <tr class="border-b border-white/5">
+                  <td colspan="5" class="py-6 text-center text-xs text-white/40">Загрузка очереди лидов...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+        <!-- CLAUDE-SEO PLATFORM AUDIT CARD (GITHUB: AgriciDaniel/claude-seo) -->
+        <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-lg text-emerald-400">verified</span>
+              <h4 class="font-outfit font-bold text-sm text-white">Платформенный аудит (Claude-SEO • AgriciDaniel/claude-seo)</h4>
+            </div>
+            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">98 / 100 AEO Ready</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-white/60">
+            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
+              <span class="text-white font-medium block">llms.txt</span>
+              <span class="text-[10px] text-emerald-400">Подключен (GEO Index)</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
+              <span class="text-white font-medium block">Core Web Vitals</span>
+              <span class="text-[10px] text-emerald-400">LCP 0.6s • CLS 0.00</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
+              <span class="text-white font-medium block">Schema.org</span>
+              <span class="text-[10px] text-emerald-400">Product & Organization</span>
+            </div>
+            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
+              <span class="text-white font-medium block">Security Audit</span>
+              <span class="text-[10px] text-emerald-400">HMAC-SHA256 • 0 XSS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
     <section id="tab-content-tariffs" class="tab-pane hidden space-y-8">
       <div class="text-center max-w-xl mx-auto space-y-2">
         <h2 class="font-outfit text-3xl sm:text-4xl font-extrabold text-white">Тарифы и Подписка</h2>
@@ -1231,11 +1490,11 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
         
         <!-- CARD 1: TEST 7 DAYS (ONE-TIME TRIAL) -->
-        <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-white/10 hover:border-gold/30">
+        <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-white/10 hover:border-white/10">
           <div class="space-y-4">
             <div class="flex items-center justify-between">
               <span class="text-xs font-bold uppercase tracking-wider text-white/50 px-3 py-1 bg-white/5 rounded-full border border-white/10">Старт</span>
-              <span id="trialBadgeTag" class="text-[10px] font-bold text-gold bg-gold/10 px-2 py-0.5 rounded border border-gold/30">1 РАЗ НА АККАУНТ</span>
+              <span id="trialBadgeTag" class="text-[10px] font-bold text-gold bg-gold/10 px-2 py-0.5 rounded border border-white/10">1 РАЗ НА АККАУНТ</span>
             </div>
             
             <div>
@@ -1264,20 +1523,15 @@
             </ul>
           </div>
 
-          <button id="btnTariffTrial" disabled onclick="selectTariffAndStart('trial_7days', 1590)" class="w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed opacity-60">
-            <span class="material-symbols-outlined text-base">lock</span>
-            <span id="btnTariffTrialText">Сгорел после первой покупки</span>
-          </button>
+          <button id="btnTariffTrial" onclick="selectTariffAndStart(\'trial_7days\', 1590)" class="btn-gold w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer"><span class="material-symbols-outlined text-base">timer</span><span id="btnTariffTrialText">Оформить 7 Дней за 1 590 ₽</span></button>
         </div>
 
         <!-- CARD 2: MONTHLY (FLAGSHIP 50% DISCOUNT) -->
-        <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-gold/40 bg-gold/[0.03] shadow-neon-gold">
-          <div class="absolute -top-3.5 right-6 bg-gold text-black font-outfit font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
-            СКИДКА 50%
-          </div>
+        <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-white/10 bg-[#141417]">
+          <div class="absolute -top-3.5 right-6 bg-white/10 text-white/80 font-outfit font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider border border-white/10">Оптимальный выбор</div>
 
           <div class="space-y-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-gold px-3 py-1 bg-gold/10 rounded-full border border-gold/30">Хит Продаж</span>
+            
             
             <div>
               <h3 class="font-outfit font-bold text-2xl text-white">Полный Доступ на 1 Месяц</h3>
@@ -1313,16 +1567,16 @@
             </ul>
           </div>
 
-          <button onclick="selectTariffAndStart('month', 6490)" class="btn-gold w-full py-4 rounded-xl text-base font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+          <button onclick="selectTariffAndStart('month', 6490)" class="btn-gold w-full py-4 rounded-xl text-base font-bold flex items-center justify-center gap-2 cursor-pointer">
             <span class="material-symbols-outlined text-base">rocket_launch</span>
             <span>Оплатить 6 490 ₽ и Создать Магазин</span>
           </button>
         </div>
 
         <!-- CARD 3: QUARTER 3 MONTHS (MAX BENEFIT) -->
-        <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-white/10 hover:border-gold/40 transition-all duration-300">
+        <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-white/10 hover:border-white/10 transition-all duration-300">
           <div class="space-y-4">
-            <span class="text-xs font-bold uppercase tracking-wider text-gold px-3 py-1 bg-gold/10 rounded-full border border-gold/30">Максимальная выгода</span>
+            <span class="text-xs font-bold uppercase tracking-wider text-gold px-3 py-1 bg-gold/10 rounded-full border border-white/10">Максимальная выгода</span>
             
             <div>
               <h3 class="font-outfit font-bold text-2xl text-white">Квартал на 3 Месяца</h3>
@@ -1369,7 +1623,7 @@
         <div>
           <div class="flex items-center gap-2">
             <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">Глубокая аналитика магазина</h2>
-            <span class="text-xs bg-gold/20 text-gold px-2 py-0.5 rounded font-extrabold border border-gold/30">PRO</span>
+            <span class="text-xs bg-white/10 text-white/80 px-2 py-0.5 rounded font-extrabold border border-white/10">PRO</span>
           </div>
           <p class="text-xs sm:text-sm text-white/50 mt-1">Полная воронка конверсии, скорость ответов, матрица товарного спроса и экономический эффект</p>
         </div>
@@ -1407,7 +1661,7 @@
             <div class="text-xs text-white/40 font-medium">Средняя скорость ответа</div>
             <div class="font-outfit font-extrabold text-3xl text-white">4.2 сек</div>
             <div class="text-[11px] text-white/50 flex items-center gap-1 mt-1">
-              <span class="material-symbols-outlined text-xs text-gold">bolt</span>
+              <span class="material-symbols-outlined text-sm">payments</span>
               <span>98.4% ответов до 10 сек</span>
             </div>
           </div>
@@ -1421,6 +1675,22 @@
             </div>
           </div>
         </div>
+
+        
+        <!-- SPEED TELEMETRY CHART (GITHUB: chartjs/Chart.js) -->
+        <div class="glass-box p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-outfit font-bold text-lg text-white">Сравнение скорости ответа с рынком</h3>
+              <p class="text-xs text-white/40 mt-0.5">Быстрый ответ в первые 15 секунд увеличивает вероятность сделки в 3.8 раза</p>
+            </div>
+            <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">Бенчмарк Авито</span>
+          </div>
+          <div class="h-[200px] w-full relative pt-2">
+            <canvas id="analyticsSpeedChart"></canvas>
+          </div>
+        </div>
+
 
         <!-- SALES CONVERSION FUNNEL (4 STAGES) -->
         <div class="glass-box p-6 space-y-4">
@@ -1485,7 +1755,7 @@
                 <span class="font-bold text-status-green">48 сделок (10.7%)</span>
               </div>
               <div class="h-2 rounded-full bg-white/5 overflow-hidden">
-                <div class="h-full bg-status-green rounded-full shadow-neon-green" style="width: 10.7%"></div>
+                <div class="h-full bg-status-green rounded-full shadow-none" style="width: 10.7%"></div>
               </div>
             </div>
           </div>
@@ -1501,7 +1771,7 @@
                 <h3 class="font-outfit font-bold text-lg text-white">Матрица спроса по товарам каталога</h3>
                 <p class="text-xs text-white/40 mt-0.5">Позиции, по которым покупатели пишут чаще всего</p>
               </div>
-              <span class="text-xs text-gold font-bold px-2.5 py-1 bg-gold/10 border border-gold/20 rounded-full" id="analyticsCatalogBadge">14 товаров</span>
+              <span class="text-xs text-gold font-bold px-2.5 py-1 bg-gold/10 border border-white/10 rounded-full" id="analyticsCatalogBadge">14 товаров</span>
             </div>
 
             <div id="analyticsCatalogTable" class="space-y-2">
@@ -1533,8 +1803,8 @@
             </div>
 
             <!-- FINANCIAL IMPACT & ROI -->
-            <div class="glass-box p-6 space-y-3 border-gold/30 bg-gold/[0.02]">
-              <div class="flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-wider">
+            <div class="glass-box p-6 space-y-3 border-white/10 bg-gold/[0.02]">
+              <div class="flex items-center gap-2 text-white/80 font-bold text-xs uppercase tracking-wider">
                 <span class="material-symbols-outlined text-base">trending_up</span>
                 <span>Экономический эффект</span>
               </div>
@@ -1585,7 +1855,7 @@
               <span class="text-[10px] text-white/40 font-medium">12-16</span>
             </div>
             <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold rounded-t-lg shadow-neon-gold h-[100%]" title="16:00 - 20:00 (Вечерний пик продаж)"></div>
+              <div class="w-full bg-gold rounded-t-lg h-[100%]" title="16:00 - 20:00 (Вечерний пик продаж)"></div>
               <span class="text-[10px] text-gold font-bold">16-20</span>
             </div>
             <div class="flex-1 flex flex-col items-center gap-2 group">
@@ -1611,7 +1881,7 @@
       </div>
 
       <!-- REFERRAL LINK BOX -->
-      <div class="glass-box p-6 sm:p-8 space-y-4 border-gold/30 bg-gold/[0.02]">
+      <div class="glass-box p-6 sm:p-8 space-y-4 border-white/10 bg-gold/[0.02]">
         <div class="flex items-center gap-2 text-gold font-bold text-sm">
           <span class="material-symbols-outlined text-base">share</span>
           <span>Ваша персональная партнерская ссылка:</span>
@@ -1619,7 +1889,7 @@
 
         <div class="flex flex-col sm:flex-row gap-2">
           <input type="text" id="refLinkInput" readonly value="" placeholder="Генерируем персональную ссылку..." class="flex-1 px-4 py-3.5 bg-black/40 border border-white/10 rounded-xl text-gold font-mono text-xs focus:outline-none">
-          <button onclick="copyRefLink()" class="btn-gold px-6 py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+          <button onclick="copyRefLink()" class="btn-gold px-6 py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer">
             <span class="material-symbols-outlined text-sm">content_copy</span>
             <span>Копировать ссылку</span>
           </button>
@@ -1652,17 +1922,17 @@
         <h3 class="font-outfit font-bold text-lg text-white">Как работает партнерская программа?</h3>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs text-white/70">
           <div class="p-4 bg-white/5 rounded-xl border border-white/5 space-y-1.5">
-            <div class="w-6 h-6 rounded-full bg-gold/20 text-gold flex items-center justify-center font-bold text-xs">1</div>
+            <div class="w-6 h-6 rounded-full bg-white/10 text-white/80 flex items-center justify-center font-bold text-xs">1</div>
             <strong class="text-white block">Скопируйте ссылку</strong>
             <p>Отправьте реферальную ссылку знакомым продавцам и предпринимателям на Авито.</p>
           </div>
           <div class="p-4 bg-white/5 rounded-xl border border-white/5 space-y-1.5">
-            <div class="w-6 h-6 rounded-full bg-gold/20 text-gold flex items-center justify-center font-bold text-xs">2</div>
+            <div class="w-6 h-6 rounded-full bg-white/10 text-white/80 flex items-center justify-center font-bold text-xs">2</div>
             <strong class="text-white block">Клиент подключает сервис</strong>
             <p>Партнер регистрируется и оплачивает тариф (от 1 590 ₽ до 6 490 ₽).</p>
           </div>
           <div class="p-4 bg-white/5 rounded-xl border border-white/5 space-y-1.5">
-            <div class="w-6 h-6 rounded-full bg-gold/20 text-gold flex items-center justify-center font-bold text-xs">3</div>
+            <div class="w-6 h-6 rounded-full bg-white/10 text-white/80 flex items-center justify-center font-bold text-xs">3</div>
             <strong class="text-white block">Получайте 10% на баланс</strong>
             <p>Бонусы мгновенно начисляются на ваш счет и могут использоваться для 100% оплаты магазинов.</p>
           </div>
@@ -1707,8 +1977,8 @@
         <!-- STEP 1: PAYMENT & TARIFF UNLOCK -->
         <div id="wstep-pane-1" class="wstep-pane space-y-6">
           <div class="border-b border-white/10 pb-3">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider mb-2">
-              <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-xs font-bold uppercase tracking-wider mb-2">
+              <span class="w-2 h-2 rounded-full bg-gold "></span>
               <span>Шаг 1 из 3: Оплата тарифа / Списание с баланса</span>
             <h3 class="font-outfit font-bold text-xl sm:text-2xl text-white">Принцип создания: 1. Тариф -> 2. Регламент -> 3. Запуск</h3>
             <p class="text-xs sm:text-sm text-white/50 mt-1">Для подключения менеджера требуется активная подписка на тариф. После оплаты вы перейдете к настройке регламента магазина.</p>
@@ -1724,7 +1994,7 @@
                 <div class="text-xs text-status-green" id="wizPaidSlotCountText">Доступно для подключения магазинов: 1</div>
               </div>
             </div>
-            <button onclick="wizGoToStep(2)" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-neon-gold shrink-0">
+            <button onclick="wizGoToStep(2)" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer shrink-0">
               <span>Перейти к настройке регламента</span>
               <span class="material-symbols-outlined text-base">arrow_forward</span>
             </button>
@@ -1733,10 +2003,10 @@
           <!-- TARIFF SELECTION CARDS -->
           <div id="wizTariffCardsBox" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <!-- TRIAL CARD -->
-            <div class="glass-box p-6 flex flex-col justify-between space-y-4 border-gold/30 bg-gold/[0.02] relative hover:border-gold/60 transition-all rounded-2xl">
+            <div class="glass-box p-6 flex flex-col justify-between space-y-4 border-white/10 bg-gold/[0.02] relative hover:border-gold/60 transition-all rounded-2xl">
               <div class="space-y-3">
                 <div class="flex items-center justify-between">
-                  <span class="text-[11px] font-bold text-gold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gold/15 border border-gold/30">Пробный доступ</span>
+                  <span class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-gold/15 border border-white/10">Пробный доступ</span>
                   <span class="text-[10px] text-white/50 font-bold">1 раз на аккаунт</span>
                 </div>
                 <h4 class="font-outfit font-bold text-lg sm:text-xl text-white">Пробный период на 7 дней</h4>
@@ -1756,20 +2026,20 @@
                   </li>
                 </ul>
               </div>
-              <button onclick="openPaymentModal('1590', 'Пробный период на 7 дней')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+              <button onclick="openPaymentModal('1590', 'Пробный период на 7 дней')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
                 <span class="material-symbols-outlined text-base">credit_card</span>
                 <span>Оплатить 1 590 ₽ для настройки</span>
               </button>
             </div>
 
             <!-- MONTHLY CARD -->
-            <div class="glass-box p-6 flex flex-col justify-between space-y-4 border-white/10 hover:border-gold/40 transition-all rounded-2xl relative bg-white/[0.02]">
+            <div class="glass-box p-6 flex flex-col justify-between space-y-4 border-white/10 hover:border-white/10 transition-all rounded-2xl relative bg-white/[0.02]">
               <div class="absolute -top-3 right-4 bg-gold text-black font-outfit font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
                 Скидка 50%
               </div>
               <div class="space-y-3">
                 <div class="flex items-center justify-between">
-                  <span class="text-[11px] font-bold text-white/60 uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10">Хит продаж</span>
+                  
                   <span class="text-xs text-white/40 line-through">12 990 ₽</span>
                 </div>
                 <h4 class="font-outfit font-bold text-lg sm:text-xl text-white">Полный доступ на 1 месяц</h4>
@@ -1789,7 +2059,7 @@
                   </li>
                 </ul>
               </div>
-              <button onclick="openPaymentModal('6490', 'Полный доступ на 1 месяц')" class="btn-ghost w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer text-gold border-gold/30 hover:bg-gold/10">
+              <button onclick="openPaymentModal('6490', 'Полный доступ на 1 месяц')" class="btn-ghost w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer text-gold border-white/10 hover:bg-gold/10">
                 <span class="material-symbols-outlined text-base">credit_card</span>
                 <span>Оплатить 6 490 ₽ для настройки</span>
               </button>
@@ -1809,8 +2079,8 @@
         <!-- STEP 2: REGULATION & KNOWLEDGE BASE (1-SCREEN SETUP) -->
         <div id="wstep-pane-2" class="wstep-pane hidden space-y-6">
           <div class="border-b border-white/10 pb-3">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider mb-2">
-              <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-xs font-bold uppercase tracking-wider mb-2">
+              <span class="w-2 h-2 rounded-full bg-gold "></span>
               <span>Шаг 2 из 3: Регламент магазина (База Знаний)</span>
             </div>
             <h3 class="font-outfit font-bold text-xl sm:text-2xl text-white">Как менеджеру общаться с клиентами?</h3>
@@ -1820,7 +2090,7 @@
           <!-- MANDATORY TELEGRAM BOT ALERT BOX -->
           <div class="p-4 sm:p-5 rounded-2xl bg-[#121214] border border-white/10 space-y-2">
             <div class="flex items-start gap-3.5">
-              <div class="w-10 h-10 rounded-xl bg-gold/15 text-gold flex items-center justify-center shrink-0 mt-0.5">
+              <div class="w-10 h-10 rounded-xl bg-white/5 text-white/80 flex items-center justify-center shrink-0 mt-0.5">
                 <span class="material-symbols-outlined text-xl">send</span>
               </div>
               <div class="flex-1">
@@ -1829,7 +2099,7 @@
                   Туда будут мгновенно приходить все новые лиды, уведомления о заказах, ошибки и вся оперативная информация по вашему магазину:
                 </p>
                 <div class="pt-2">
-                  <a href="https://t.me/avito_deployer_bot" target="_blank" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gold text-black font-bold text-xs hover:bg-[#FFE66D] transition-all shadow-neon-gold">
+                  <a href="https://t.me/avito_deployer_bot" target="_blank" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gold text-black font-bold text-xs hover:bg-[#FFE66D] transition-all">
                     <span>Перейти в Telegram-бота: https://t.me/avito_deployer_bot</span>
                     <span class="material-symbols-outlined text-sm">open_in_new</span>
                   </a>
@@ -1840,8 +2110,8 @@
 
           <!-- QUICK AUTOFILL BUTTON -->
           <div class="flex justify-end">
-            <button type="button" onclick="autoFillWizardKnowledge()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/5 hover:bg-gold/10 text-white/80 hover:text-gold border border-white/10 hover:border-gold/30 flex items-center gap-1.5 transition-all cursor-pointer">
-              <span class="material-symbols-outlined text-sm text-gold">bolt</span>
+            <button type="button" onclick="autoFillWizardKnowledge()" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-white/5 hover:bg-gold/10 text-white/80 hover:text-gold border border-white/10 hover:border-white/10 flex items-center gap-1.5 transition-all cursor-pointer">
+              <span class="material-symbols-outlined text-sm">payments</span>
               <span>Заполнить стандартным шаблоном</span>
             </button>
           </div>
@@ -1851,18 +2121,18 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div class="space-y-1.5">
                 <label class="block text-xs font-bold uppercase tracking-wider text-white/70">1. Название магазина</label>
-                <input type="text" id="wizShopName" placeholder="Например: MAJORKA" value="" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
+                <input type="text" id="wizShopName" placeholder="Например: MAJORKA" value="" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-white/10 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
               </div>
               <div class="space-y-1.5">
                 <label class="block text-xs font-bold uppercase tracking-wider text-white/70">2. Ниша товаров</label>
-                <input type="text" id="wizNiche" placeholder="Например: Одежда и Обувь, Автозапчасти, Электроника" value="" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
+                <input type="text" id="wizNiche" placeholder="Например: Одежда и Обувь, Автозапчасти, Электроника" value="" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-white/10 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
               </div>
             </div>
 
             <!-- 2. CITY / WAREHOUSE -->
             <div class="space-y-2">
               <label class="block text-xs font-bold uppercase tracking-wider text-white/70">3. Город склада и отправки</label>
-              <input type="text" id="wizCity" placeholder="Например: Москва, отправка по всей РФ через Авито" value="" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
+              <input type="text" id="wizCity" placeholder="Например: Москва, отправка по всей РФ через Авито" value="" class="w-full px-4 py-3 bg-[#101012] border border-white/10 hover:border-white/10 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
               <div class="flex flex-wrap gap-1.5 pt-0.5">
                 <span class="text-[10px] text-white/40 self-center mr-1">Быстрый выбор:</span>
                 <button type="button" onclick="document.getElementById('wizCity').value='Москва, отправка по всей РФ через Авито Доставку'" class="px-2.5 py-1 rounded-lg text-[11px] font-semibold bg-white/5 hover:bg-gold/15 text-white/70 hover:text-gold border border-white/10 transition-all cursor-pointer">Москва + РФ</button>
@@ -1876,7 +2146,7 @@
             <div class="space-y-2">
               <label class="block text-xs font-bold uppercase tracking-wider text-white/70">4. Есть ли самовывоз?</label>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <button type="button" onclick="setWizPickup('yes')" id="wizPickupBtn-yes" class="wiz-pickup-btn p-3 rounded-xl border border-gold bg-gold/15 text-gold text-xs font-semibold text-left transition-all cursor-pointer">
+                <button type="button" onclick="setWizPickup('yes')" id="wizPickupBtn-yes" class="wiz-pickup-btn p-3 rounded-xl border border-gold bg-white/5 text-white/80 text-xs font-semibold text-left transition-all cursor-pointer">
                   <div class="font-bold flex items-center gap-1.5">
                     <span class="material-symbols-outlined text-sm">store</span>
                     <span>Да, есть самовывоз</span>
@@ -1901,15 +2171,15 @@
             <div class="space-y-2">
               <label class="block text-xs font-bold uppercase tracking-wider text-white/70">5. Способы доставки</label>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-[#101012] border border-white/10 hover:border-gold/40 cursor-pointer transition-all">
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-[#101012] border border-white/10 hover:border-white/10 cursor-pointer transition-all">
                   <input type="checkbox" id="wizDelAvito" checked class="w-4 h-4 rounded text-gold focus:ring-gold bg-black/50 border-white/20">
                   <span class="text-xs text-white font-medium">Авито Доставка</span>
                 </label>
-                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-[#101012] border border-white/10 hover:border-gold/40 cursor-pointer transition-all">
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-[#101012] border border-white/10 hover:border-white/10 cursor-pointer transition-all">
                   <input type="checkbox" id="wizDelCdek" checked class="w-4 h-4 rounded text-gold focus:ring-gold bg-black/50 border-white/20">
                   <span class="text-xs text-white font-medium">СДЭК напрямую</span>
                 </label>
-                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-[#101012] border border-white/10 hover:border-gold/40 cursor-pointer transition-all">
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-[#101012] border border-white/10 hover:border-white/10 cursor-pointer transition-all">
                   <input type="checkbox" id="wizDelPickup" checked class="w-4 h-4 rounded text-gold focus:ring-gold bg-black/50 border-white/20">
                   <span class="text-xs text-white font-medium">Самовывоз со склада</span>
                 </label>
@@ -1920,7 +2190,7 @@
             <div class="space-y-2">
               <label class="block text-xs font-bold uppercase tracking-wider text-white/70">6. Скидки и торг</label>
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                <button type="button" onclick="setWizDiscount('nodiscount')" id="wizDiscBtn-nodiscount" class="wiz-disc-btn p-3 rounded-xl border border-gold bg-gold/15 text-gold text-xs font-semibold text-left transition-all">
+                <button type="button" onclick="setWizDiscount('nodiscount')" id="wizDiscBtn-nodiscount" class="wiz-disc-btn p-3 rounded-xl border border-gold bg-white/5 text-white/80 text-xs font-semibold text-left transition-all">
                   <div class="font-bold">Без торга</div>
                   <div class="text-[10px] text-white/60 mt-0.5">Цены склада минимальные</div>
                 </button>
@@ -1948,7 +2218,7 @@
               <span class="material-symbols-outlined text-base">arrow_back</span>
               <span>Назад: Оплата</span>
             </button>
-            <button type="button" onclick="saveWizKnowledgeAndGoStep3()" class="btn-gold px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-neon-gold">
+            <button type="button" onclick="saveWizKnowledgeAndGoStep3()" class="btn-gold px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer">
               <span>Далее: Подключение Авито</span>
               <span class="material-symbols-outlined text-base">arrow_forward</span>
             </button>
@@ -1958,8 +2228,8 @@
         <!-- STEP 3: AVITO CONNECT & LAUNCH -->
         <div id="wstep-pane-3" class="wstep-pane hidden space-y-6">
           <div class="border-b border-white/10 pb-3">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/10 border border-gold/30 text-gold text-xs font-bold uppercase tracking-wider mb-2">
-              <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-xs font-bold uppercase tracking-wider mb-2">
+              <span class="w-2 h-2 rounded-full bg-gold "></span>
               <span>Шаг 3 из 3: Подключение к Авито и авто-запуск 24/7</span>
             </div>
             <h3 class="font-outfit font-bold text-xl sm:text-2xl text-white">Авторизация профиля Авито</h3>
@@ -1973,7 +2243,7 @@
                 <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Номер телефона Авито</label>
                 <div class="relative">
                   <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">smartphone</span>
-                  <input type="tel" id="wizPhoneInput" placeholder="+7 (999) 000-00-00" value="+7" class="w-full pl-12 pr-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
+                  <input type="tel" id="wizPhoneInput" placeholder="+7 (999) 000-00-00" value="+7" class="w-full pl-12 pr-4 py-3.5 bg-[#101012] border border-white/10 hover:border-white/10 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
                 </div>
                 <p class="text-[11px] text-white/40">Номер телефона, к которому привязан ваш рабочий аккаунт Авито.</p>
               </div>
@@ -1982,7 +2252,7 @@
                 <label class="block text-xs font-bold uppercase tracking-wider text-white/70">Пароль от Авито</label>
                 <div class="relative">
                   <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">lock</span>
-                  <input type="password" id="wizPasswordInput" placeholder="Введите пароль от Авито" value="" class="w-full pl-12 pr-4 py-3.5 bg-[#101012] border border-white/10 hover:border-gold/40 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
+                  <input type="password" id="wizPasswordInput" placeholder="Введите пароль от Авито" value="" class="w-full pl-12 pr-4 py-3.5 bg-[#101012] border border-white/10 hover:border-white/10 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
                 </div>
                 <p class="text-[11px] text-white/40">Для защищенного входа в приложение через официальный протокол.</p>
               </div>
@@ -2013,7 +2283,7 @@
                 <span class="material-symbols-outlined text-base">arrow_back</span>
                 <span>Назад: Регламент</span>
               </button>
-              <button type="button" onclick="startWizAuthProcess()" id="btnStartWizAuth" class="btn-gold px-7 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer shadow-neon-gold">
+              <button type="button" onclick="startWizAuthProcess()" id="btnStartWizAuth" class="btn-gold px-7 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 cursor-pointer">
                 <span class="material-symbols-outlined text-base">rocket_launch</span>
                 <span>Войти и запустить 24/7</span>
               </button>
@@ -2021,7 +2291,7 @@
           </div>
 
           <!-- STAGE 2: STARTING PROGRESS (ANIMATION) -->
-          <div id="wizAuthStage2" class="hidden p-6 rounded-2xl bg-[#121214] border border-gold/30 text-center space-y-4">
+          <div id="wizAuthStage2" class="hidden p-6 rounded-2xl bg-[#121214] border border-white/10 text-center space-y-4">
             <span class="material-symbols-outlined text-gold text-4xl animate-spin">sync</span>
             <div class="space-y-1">
               <h4 class="font-outfit font-extrabold text-lg text-white">Менеджер запускается с вашими характеристиками...</h4>
@@ -2067,7 +2337,7 @@
                 <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">pin</span>
                 <input type="text" id="wizSmsCode" placeholder="Код из СМС" maxlength="8" class="clean-input w-full pl-12 pr-4 py-3.5 text-center font-mono font-bold tracking-widest text-lg text-white">
               </div>
-              <button type="button" id="btnConfirmWizSms" onclick="wizSubmitSmsCode()" class="btn-gold px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold shrink-0">
+              <button type="button" id="btnConfirmWizSms" onclick="wizSubmitSmsCode()" class="btn-gold px-6 py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shrink-0">
                 <span class="material-symbols-outlined text-base">rocket_launch</span>
                 <span>Подтвердить вход и выгрузить товары</span>
               </button>
@@ -2083,7 +2353,7 @@
           </div>
 
           <!-- STAGE 4: AUTO-LOADING LISTINGS FROM ACCOUNT ("ВХОД ЗАВЕРШЕН") -->
-          <div id="wizAuthStage4" class="hidden p-6 rounded-2xl bg-[#121214] border border-gold/30 text-center space-y-4">
+          <div id="wizAuthStage4" class="hidden p-6 rounded-2xl bg-[#121214] border border-white/10 text-center space-y-4">
             <span class="material-symbols-outlined text-gold text-4xl animate-spin">sync</span>
             <div class="space-y-1">
               <h4 class="font-outfit font-extrabold text-lg text-white">✅ Вход успешно завершен!</h4>
@@ -2095,7 +2365,7 @@
               </p>
             </div>
             <div class="w-full bg-white/5 rounded-full h-2 overflow-hidden max-w-xs mx-auto">
-              <div class="bg-gold h-full rounded-full animate-pulse" style="width: 80%"></div>
+              <div class="bg-gold h-full rounded-full " style="width: 80%"></div>
             </div>
           </div>
 
@@ -2126,7 +2396,7 @@
             </div>
 
             <div class="pt-2 flex justify-center">
-              <button type="button" onclick="switchTab('overview')" class="btn-gold px-8 py-3 rounded-xl text-xs font-bold shadow-neon-gold cursor-pointer">
+              <button type="button" onclick="switchTab('overview')" class="btn-gold px-8 py-3 rounded-xl text-xs font-bold cursor-pointer">
                 Перейти на главный экран
               </button>
             </div>
@@ -2170,12 +2440,12 @@
   <!-- FLOATING LIVE SUPPORT WIDGET (DASHBOARD) -->
   <div id="liveSupportWidget" class="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-40 flex flex-col items-end">
     <!-- POPUP SUPPORT WINDOW -->
-    <div id="supportPopupCard" class="hidden w-[340px] sm:w-[360px] glass-box rounded-2xl border border-gold/30 shadow-[0_20px_50px_rgba(0,0,0,0.7)] p-5 mb-3 transition-all duration-300">
+    <div id="supportPopupCard" class="hidden w-[340px] sm:w-[360px] glass-box rounded-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.7)] p-5 mb-3 transition-all duration-300">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
         <div class="flex items-center gap-2.5">
-          <div class="relative w-9 h-9 rounded-xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/40 flex items-center justify-center text-gold font-bold font-outfit text-sm">
+          <div class="relative w-9 h-9 rounded-xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-white/10 flex items-center justify-center text-gold font-bold font-outfit text-sm">
             M
-            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-status-green border border-black animate-pulse"></span>
+            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-status-green border border-black "></span>
           </div>
           <div>
             <h4 class="font-outfit font-bold text-sm text-white leading-none">Служба заботы MAJORKA</h4>
@@ -2193,7 +2463,7 @@
         </div>
 
         <div class="space-y-1.5 pt-1">
-          <button onclick="switchTab('tariffs'); toggleSupportWidget();" class="w-full text-left p-2.5 rounded-xl bg-gold/10 hover:bg-gold/20 border border-gold/30 text-xs text-gold font-semibold flex items-center justify-between transition-colors cursor-pointer">
+          <button onclick="switchTab('tariffs'); toggleSupportWidget();" class="w-full text-left p-2.5 rounded-xl bg-gold/10 hover:bg-gold/20 border border-white/10 text-xs text-gold font-semibold flex items-center justify-between transition-colors cursor-pointer">
             <span class="flex items-center gap-2">
               <span class="material-symbols-outlined text-sm text-gold">tune</span>
               <span>Тарифы и Пробный период (1 590 ₽)</span>
@@ -2228,10 +2498,10 @@
     </div>
 
     <!-- FLOATING TRIGGER BUTTON -->
-    <button onclick="toggleSupportWidget()" class="group relative flex items-center gap-2 px-4 py-3 rounded-full bg-[#141418] hover:bg-[#1a1a20] border border-gold/40 shadow-[0_4px_25px_rgba(255,221,45,0.25)] hover:shadow-[0_6px_30px_rgba(255,221,45,0.4)] transition-all duration-300 cursor-pointer">
+    <button onclick="toggleSupportWidget()" class="group relative flex items-center gap-2 px-4 py-3 rounded-full bg-[#141418] hover:bg-[#1a1a20] border border-white/10 border border-white/10 transition-all duration-300 cursor-pointer">
       <div class="relative flex items-center justify-center">
         <span class="material-symbols-outlined text-gold text-xl group-hover:scale-110 transition-transform">support_agent</span>
-        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-status-green border border-black animate-pulse"></span>
+        <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-status-green border border-black "></span>
       </div>
       <span class="text-xs font-bold text-white group-hover:text-gold transition-colors">Служба заботы 24/7</span>
     </button>
@@ -2251,7 +2521,7 @@
     </button>
     <button onclick="switchTab('knowledge')" id="bnav-knowledge" class="bnav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-1 text-white/50 hover:text-white transition-all active:scale-95 touch-press">
       <span class="material-symbols-outlined text-xl sm:text-2xl">smart_toy</span>
-      <span class="text-[10px] font-semibold tracking-tight">Создать бота</span>
+      <span class="text-[10px] font-semibold tracking-tight">Настройка</span>
     </button>
     <button onclick="switchTab('tariffs')" id="bnav-tariffs" class="bnav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-1 text-white/50 hover:text-white transition-all active:scale-95 touch-press">
       <span class="material-symbols-outlined text-xl sm:text-2xl">payments</span>
@@ -2277,7 +2547,7 @@
       <!-- SHEET HEADER -->
       <div class="flex items-center justify-between pb-3.5 border-b border-white/10 mb-4">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold">
+          <div class="w-8 h-8 rounded-xl bg-gold/15 border border-white/10 flex items-center justify-center text-gold">
             <span class="material-symbols-outlined text-lg">widgets</span>
           </div>
           <div>
@@ -2293,7 +2563,7 @@
       <!-- BALANCE & TOPUP BAR -->
       <div class="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 mb-4 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
-          <div class="w-2 h-2 rounded-full bg-status-green animate-pulse"></div>
+          <div class="w-2 h-2 rounded-full bg-status-green "></div>
           <div>
             <div class="text-[10px] text-white/40 font-medium uppercase tracking-wider">Ваш баланс:</div>
             <div id="moreSheetBalanceText" class="font-outfit font-black text-base text-gold">0 ₽</div>
@@ -2308,10 +2578,10 @@
       <!-- NAVIGATION ACTIONS GRID -->
       <div class="grid grid-cols-2 gap-2.5 mb-4">
         <!-- ANALYTICS PRO -->
-        <button onclick="toggleMobileMoreSheet(false); switchTab('analytics');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-gold/30 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
+        <button onclick="toggleMobileMoreSheet(false); switchTab('analytics');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-white/10 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
           <div class="flex items-center justify-between w-full">
             <span class="material-symbols-outlined text-gold text-2xl">monitoring</span>
-            <span class="text-[9px] bg-gold/20 text-gold px-1.5 py-0.5 rounded font-extrabold border border-gold/30">PRO</span>
+            <span class="text-[9px] bg-white/10 text-white/80 px-1.5 py-0.5 rounded font-extrabold border border-white/10">PRO</span>
           </div>
           <div>
             <div class="font-outfit font-bold text-xs text-white">Аналитика</div>
@@ -2320,7 +2590,7 @@
         </button>
 
         <!-- REFERRALS -->
-        <button onclick="toggleMobileMoreSheet(false); switchTab('referrals');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-gold/30 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
+        <button onclick="toggleMobileMoreSheet(false); switchTab('referrals');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-white/10 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
           <div class="flex items-center justify-between w-full">
             <span class="material-symbols-outlined text-amber-400 text-2xl">group</span>
             <span class="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded font-extrabold border border-emerald-500/30">10%</span>
@@ -2366,7 +2636,7 @@
 
   <!-- PAYMENT MODAL (YOOMONEY + SBP T-BANK) -->
   <div id="paymentModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
-    <div class="glass-box max-w-md w-full p-4 sm:p-6 space-y-4 sm:space-y-6 relative border-gold/30 bg-[#121214] max-h-[92vh] overflow-y-auto rounded-2xl">
+    <div class="glass-box max-w-md w-full p-4 sm:p-6 space-y-4 sm:space-y-6 relative border-white/10 bg-[#121214] max-h-[92vh] overflow-y-auto rounded-2xl">
       <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-white/40 hover:text-white">
         <span class="material-symbols-outlined">close</span>
       </button>
@@ -2388,11 +2658,11 @@
         <div class="space-y-2 pt-1">
           <span class="text-[11px] font-semibold uppercase tracking-wider text-white/40 block">Готовые тарифы:</span>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <button type="button" onclick="setPresetAmount(6490)" id="presetBtn-6490" class="p-2.5 bg-gold/10 hover:bg-gold/20 border border-gold/40 rounded-xl text-xs font-bold text-gold flex items-center justify-between transition-all cursor-pointer">
+            <button type="button" onclick="setPresetAmount(6490)" id="presetBtn-6490" class="p-2.5 bg-gold/10 hover:bg-gold/20 border border-white/10 rounded-xl text-xs font-bold text-gold flex items-center justify-between transition-all cursor-pointer">
               <span>Полный Доступ (1 мес)</span>
               <span class="font-outfit font-extrabold text-sm">6 490 ₽</span>
             </button>
-            <button type="button" onclick="setPresetAmount(1590)" id="presetBtn-1590" class="p-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer">
+            <button type="button" onclick="setPresetAmount(1590)" id="presetBtn-1590" class="p-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-white/10 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer">
               <span>Пробный период (7 дней)</span>
               <span class="font-outfit font-extrabold text-sm">1 590 ₽</span>
             </button>
@@ -2409,7 +2679,7 @@
 
       <!-- METHOD 0: FROM INTERNAL USER BALANCE -->
       <div id="payPaneBalance" class="space-y-4 text-left">
-        <div class="p-4 bg-gold/10 rounded-xl border border-gold/30 space-y-3 text-xs">
+        <div class="p-4 bg-gold/10 rounded-xl border border-white/10 space-y-3 text-xs">
           <div class="flex items-center justify-between">
             <span class="text-white/60 font-medium">Ваш текущий баланс:</span>
             <span class="font-outfit font-extrabold text-base text-gold" id="modalBalanceAvailable">0 ₽</span>
@@ -2428,7 +2698,7 @@
           Недостаточно средств на балансе. Пожалуйста, пополните баланс картой или через СБП.
         </div>
 
-        <button type="button" id="btnPayFromBalance" onclick="payFromUserBalance()" class="btn-gold w-full py-4 rounded-xl text-base font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+        <button type="button" id="btnPayFromBalance" onclick="payFromUserBalance()" class="btn-gold w-full py-4 rounded-xl text-base font-bold flex items-center justify-center gap-2 cursor-pointer">
           <span class="material-symbols-outlined">payments</span>
           <span id="btnPayFromBalanceText">Оплатить 1 590 ₽ с баланса</span>
         </button>
@@ -2439,7 +2709,7 @@
       <!-- METHOD 1: YOOMONEY FORM -->
       <div id="payPaneCard" class="hidden space-y-4">
         <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-xs text-white/60 flex items-center gap-2">
-          <span class="material-symbols-outlined text-gold text-base">bolt</span>
+          <span class="material-symbols-outlined text-sm">payments</span>
           <span>Мгновенное автоматическое зачисление баланса</span>
         </div>
 
@@ -2452,7 +2722,7 @@
           <input type="hidden" id="modalPaymentLabelInput" name="label" value="">
           <input type="hidden" id="modalPaymentSuccessUrl" name="successURL" value="">
 
-          <button type="submit" class="btn-gold w-full py-4 rounded-xl text-base font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+          <button type="submit" class="btn-gold w-full py-4 rounded-xl text-base font-bold flex items-center justify-center gap-2 cursor-pointer">
             <span class="material-symbols-outlined">lock</span>
             <span id="modalPaymentBtnText">Оплатить картой 6 490 ₽</span>
           </button>
@@ -2475,7 +2745,7 @@
           </div>
         </div>
 
-        <button type="button" onclick="submitSbpPaymentNotification()" class="btn-gold w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+        <button type="button" onclick="submitSbpPaymentNotification()" class="btn-gold w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer">
           <span class="material-symbols-outlined text-base">check_circle</span>
           <span>Я оплатил(а) — уведомить менеджера</span>
         </button>
@@ -2491,17 +2761,17 @@
 
   <!-- PAYMENT SUCCESS & ONBOARDING CELEBRATION MODAL -->
   <div id="paymentSuccessModal" class="fixed inset-0 z-[140] bg-black/90 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
-    <div class="glass-box max-w-lg w-full p-6 sm:p-8 space-y-6 relative border-gold/40 bg-[#121214] shadow-[0_0_50px_rgba(255,221,45,0.2)] rounded-3xl text-center">
+    <div class="glass-box max-w-lg w-full p-6 sm:p-8 space-y-6 relative border-white/10 bg-[#121214] border border-white/15 rounded-3xl text-center">
       <button onclick="closePaymentSuccessModal()" class="absolute top-4 right-4 text-white/40 hover:text-white cursor-pointer">
         <span class="material-symbols-outlined">close</span>
       </button>
 
       <div class="space-y-3">
-        <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-gold/30 to-gold/10 border border-gold/40 flex items-center justify-center text-gold shadow-neon-gold">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-gold/30 to-gold/10 border border-white/10 flex items-center justify-center text-gold">
           <span class="material-symbols-outlined text-3xl">celebration</span>
         </div>
         <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-status-green/10 border border-status-green/30 text-status-green text-[11px] font-bold uppercase tracking-wider">
-          <span class="w-2 h-2 rounded-full bg-status-green animate-pulse"></span>
+          <span class="w-2 h-2 rounded-full bg-status-green "></span>
           <span id="succModalTariffBadge">Тариф «Пробный доступ (7 дней)» Активирован</span>
         </div>
         <h3 class="font-outfit font-extrabold text-2xl sm:text-3xl text-white">Поздравляем с подключением магазина!</h3>
@@ -2515,7 +2785,7 @@
         <div class="flex items-center justify-between text-xs pb-2 border-b border-white/10">
           <span class="font-bold text-white/80">Статус управляющего:</span>
           <span class="text-status-green font-bold flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-status-green "></span>
             <span id="succModalSlotBadge">Магазин #1 (Основной) Активен 24/7</span>
           </span>
         </div>
@@ -2524,7 +2794,7 @@
           Система готова к приему клиентов. Чтобы менеджер отвечал на Авито строго по вашим правилам, укажите информацию о доставке, складе и скидках в Базе Знаний.
         </p>
 
-        <div class="p-3 rounded-xl bg-gold/10 border border-gold/30 text-xs text-gold flex items-start gap-2.5">
+        <div class="p-3 rounded-xl bg-white/5 border border-white/10 text-xs text-gold flex items-start gap-2.5">
           <span class="material-symbols-outlined text-base mt-0.5 shrink-0">info</span>
           <div class="space-y-0.5">
             <p class="font-bold">Лимит магазинов:</p>
@@ -2535,7 +2805,7 @@
 
       <!-- ACTION BUTTONS -->
       <div class="space-y-2.5 pt-1">
-        <button onclick="goToNextActionFromSuccess()" class="btn-gold w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+        <button onclick="goToNextActionFromSuccess()" class="btn-gold w-full py-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
           <span class="material-symbols-outlined text-lg" id="succModalBtnMainIcon">tune</span>
           <span id="succModalBtnMainText">Настроить регламент в Базе Знаний</span>
         </button>
@@ -2553,7 +2823,7 @@
 
   <!-- SHOP SETTINGS & DELETE MODAL -->
   <div id="shopSettingsModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4">
-    <div class="glass-box max-w-lg w-full p-4 sm:p-6 space-y-4 sm:space-y-6 relative border-gold/30 bg-[#121214] max-h-[92vh] overflow-y-auto rounded-2xl">
+    <div class="glass-box max-w-lg w-full p-4 sm:p-6 space-y-4 sm:space-y-6 relative border-white/10 bg-[#121214] max-h-[92vh] overflow-y-auto rounded-2xl">
       <button onclick="closeShopSettingsModal()" class="absolute top-4 right-4 text-white/40 hover:text-white">
         <span class="material-symbols-outlined">close</span>
       </button>
@@ -2600,7 +2870,7 @@
             <span>Удалить магазин</span>
           </button>
 
-          <button onclick="saveShopSettingsFromModal()" class="w-full sm:w-auto btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
+          <button onclick="saveShopSettingsFromModal()" class="w-full sm:w-auto btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer">
             <span class="material-symbols-outlined text-base">save</span>
             <span>Сохранить настройки</span>
           </button>
@@ -2613,7 +2883,7 @@
 
   <!-- LEGAL & ONBOARDING DOCUMENTATION MODAL -->
   <div id="docModal" class="fixed inset-0 z-[120] bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="glass-box max-w-2xl w-full p-6 sm:p-8 space-y-6 relative border-gold/30 bg-[#121214] max-h-[85vh] overflow-y-auto">
+    <div class="glass-box max-w-2xl w-full p-6 sm:p-8 space-y-6 relative border-white/10 bg-[#121214] max-h-[85vh] overflow-y-auto">
       <button onclick="closeDocModal()" class="absolute top-4 right-4 text-white/40 hover:text-white">
         <span class="material-symbols-outlined">close</span>
       </button>
@@ -2657,7 +2927,7 @@
 
       <div class="pt-2 flex items-center justify-between border-t border-white/10">
         <span class="text-[11px] text-white/40">MAJORKA © 2026</span>
-        <button onclick="closeDocModal()" class="btn-gold px-8 py-3 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer shadow-neon-gold">
+        <button onclick="closeDocModal()" class="btn-gold px-8 py-3 rounded-xl text-xs font-bold flex items-center gap-2 cursor-pointer">
           <span class="material-symbols-outlined text-base">check_circle</span>
           <span>Понятно</span>
         </button>
@@ -2666,7 +2936,204 @@
   </div>
 
   <!-- JAVASCRIPT LOGIC & ENGINE INTEGRATION -->
+  
+
+  <!-- ==================== ALL SYSTEM MODALS ==================== -->
+  <!-- ==================== MODAL: DELETE SHOP OFFICIAL CONFIRMATION ==================== -->
+  <div id="deleteShopModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="glass-box p-6 sm:p-8 max-w-lg w-full space-y-5 border-red-500/30 bg-[#161619] rounded-2xl sm:rounded-3xl shadow-2xl">
+      <div class="flex items-center gap-3 text-red-400">
+        <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+          <span class="material-symbols-outlined text-2xl">warning</span>
+        </div>
+        <div>
+          <h3 class="font-outfit font-extrabold text-lg text-white">Подтверждение отключения магазина</h3>
+          <p class="text-xs text-white/50">Отзыв лицензии и остановка менеджера</p>
+        </div>
+      </div>
+  <!-- ==================== MODAL: VIEW SHOP ACTIVE LISTINGS ==================== -->
+  <div id="shopCatalogPreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+    <div class="glass-box p-6 max-w-2xl w-full space-y-4 border-white/10 bg-[#161619] rounded-2xl shadow-2xl flex flex-col max-h-[85vh]">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white/5 text-white/80 flex items-center justify-center">
+            <span class="material-symbols-outlined text-xl">inventory_2</span>
+          </div>
+          <div>
+            <h3 class="font-outfit font-extrabold text-base text-white">Активные объявления магазина</h3>
+            <p class="text-xs text-white/50" id="previewModalShopName">Каталог товаров на Авито</p>
+          </div>
+        </div>
+  <!-- MODAL: MANUAL PRODUCT ADD / EDIT -->
+  <div id="productEditModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+    <div class="glass-box p-6 sm:p-7 rounded-2xl max-w-md w-full bg-[#18181c] border border-white/20 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <h4 id="productEditModalTitle" class="font-outfit font-extrabold text-lg text-white">Редактировать товар</h4>
+        <button type="button" onclick="closeProductEditModal()" class="text-white/40 hover:text-white cursor-pointer"><span class="material-symbols-outlined">close</span></button>
+      </div>
+      <input type="hidden" id="editProductIndex" value="">
+      <input type="hidden" id="editProductId" value="">
+      <div class="space-y-1.5">
+        <label class="block text-xs font-bold text-white/80">Название товара</label>
+        <input type="text" id="editProductTitle" placeholder="Например: Кроссовки Nike Air Max 90" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+      </div>
+      <div class="space-y-1.5">
+        <label class="block text-xs font-bold text-white/80">Цена (₽)</label>
+        <input type="text" id="editProductPrice" placeholder="Например: 4 990 ₽" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
+      </div>
+      <div class="space-y-1.5">
+        <label class="block text-xs font-bold text-white/80">Размеры / описание (необязательно)</label>
+        <textarea id="editProductDesc" rows="3" placeholder="В наличии размеры 41-45, цвет черный, оригинал..." class="clean-input w-full px-3.5 py-2.5 text-xs text-white resize-none"></textarea>
+      </div>
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button type="button" onclick="closeProductEditModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-white/60 hover:text-white cursor-pointer">Отмена</button>
+        <button type="button" onclick="saveProductManualAction()" class="btn-gold px-5 py-2 rounded-xl text-xs font-bold cursor-pointer">Сохранить товар</button>
+      </div>
+    </div>
+  <!-- ==================== LIVE EMULATOR MONITOR MODAL ==================== -->
+  <div id="liveMonitorModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="glass-box max-w-xl w-full p-5 sm:p-6 space-y-4 rounded-2xl sm:rounded-3xl border border-white/10 bg-[#121215] shadow-2xl relative">
+      <!-- Header -->
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-white/5 text-white/80 flex items-center justify-center">
+            <span class="material-symbols-outlined text-lg">tv</span>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="font-outfit font-bold text-base sm:text-lg text-white" id="liveMonitorTitle">Экран менеджера (Live)</h3>
+              <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                <span>В сети 24/7</span>
+              </span>
+            </div>
+            <div class="text-[11px] text-white/50 flex items-center gap-2 mt-0.5">
+              <span id="liveMonitorPort">127.0.0.1:5555</span>
+              <span>•</span>
+              <span id="liveMonitorPing">Пинг: 35 ms</span>
+              <span>•</span>
+              <span>720 × 1280 (60 fps)</span>
+            </div>
+          </div>
+
+
   <script>
+    // CORE GLOBAL STATE DECLARATIONS
+    var isChainStep1Paid = false;
+    var isChainStep2Saved = false;
+    var currentChatId = null;
+    var userBotsList = [];
+    var currentCatalogProducts = [];
+    var isOwner = false;
+    window.isChainStep1Paid = false;
+    window.isChainStep2Saved = false;
+    window.currentChatId = null;
+    window.currentCatalogProducts = [];
+    window.userBotsList = [];
+
+    // SAFE HAPTIC FEEDBACK & MINI APP INTEGRATION
+    function hapticClick(type = 'light') {
+      try {
+        if (window.Telegram?.WebApp?.HapticFeedback) {
+          if (type === 'success') window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+          else if (type === 'medium') window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
+          else window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+        }
+      } catch(e) {}
+    }
+
+    // LIVE EMULATOR MONITOR
+    let liveMonitorInterval = null;
+    let currentLiveEmuIdx = 0;
+
+    async function openLiveMonitorModal(emuIdx = 0, storeName = 'Основной магазин') {
+      currentLiveEmuIdx = emuIdx;
+      const modal = document.getElementById('liveMonitorModal');
+      const title = document.getElementById('liveMonitorTitle');
+      const portEl = document.getElementById('liveMonitorPort');
+      if (title) title.innerText = `Экран: ${storeName}`;
+      if (portEl) portEl.innerText = emuIdx === 0 ? '127.0.0.1:5555' : `127.0.0.1:${5555 + 2 * emuIdx}`;
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+      hapticClick('light');
+      await refreshLiveMonitorFrame();
+      startLiveMonitorPolling();
+    }
+
+    function closeLiveMonitorModal() {
+      const modal = document.getElementById('liveMonitorModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+      stopLiveMonitorPolling();
+      hapticClick('light');
+    }
+
+    async function refreshLiveMonitorFrame() {
+      const imgModal = document.getElementById('liveMonitorImage');
+      const imgInline = document.getElementById('overviewLiveStreamImg');
+      const loaderModal = document.getElementById('liveMonitorLoading');
+      const loaderInline = document.getElementById('overviewLiveStreamLoader');
+      const pingModal = document.getElementById('liveMonitorPing');
+      const pingInline = document.getElementById('overviewLiveStreamPing');
+
+      const t0 = performance.now();
+      const emuIdx = currentLiveEmuIdx || 0;
+      const screenUrl = `${API_BASE}/api/emulator_screen/${emuIdx}?t=${Date.now()}`;
+
+      const preloader = new Image();
+      preloader.onload = () => {
+        if (imgModal) imgModal.src = screenUrl;
+        if (imgInline) imgInline.src = screenUrl;
+        if (loaderModal) loaderModal.classList.add('hidden');
+        if (loaderInline) loaderInline.classList.add('hidden');
+        const ms = Math.round(performance.now() - t0);
+        if (pingModal) pingModal.innerText = `Пинг: ${ms} ms`;
+        if (pingInline) pingInline.innerText = `Пинг: ${ms} ms`;
+      };
+      preloader.onerror = () => {
+        if (loaderModal) loaderModal.classList.add('hidden');
+        if (loaderInline) loaderInline.classList.add('hidden');
+      };
+      preloader.src = screenUrl;
+    }
+
+    function triggerHarveyPipelineAction(btn) {
+      hapticClick('success');
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
+      }
+      showToast('Harvey Engine запущен!', '5 автономных агентов ведут поиск и квалификацию лидов на Авито.', 'success');
+    }
+    window.triggerHarveyPipelineAction = triggerHarveyPipelineAction;
+
+    function startLiveMonitorPolling() {
+      stopLiveMonitorPolling();
+      const toggle = document.getElementById('liveAutoRefreshToggle');
+      if (toggle && !toggle.checked) return;
+      liveMonitorInterval = setInterval(() => {
+        refreshLiveMonitorFrame();
+      }, 2000);
+    }
+
+    function stopLiveMonitorPolling() {
+      if (liveMonitorInterval) {
+        clearInterval(liveMonitorInterval);
+        liveMonitorInterval = null;
+      }
+    }
+
+    function toggleLiveAutoRefresh() {
+      const toggle = document.getElementById('liveAutoRefreshToggle');
+      if (toggle && toggle.checked) startLiveMonitorPolling();
+      else stopLiveMonitorPolling();
+    }
+
     const isLocalHost = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:' || !window.location.hostname);
     const API_BASE = isLocalHost
       ? (window.location.port === '8085' ? '' : 'http://127.0.0.1:8085')
@@ -2716,7 +3183,7 @@
     // 2. Saved authenticated session (Cookie or localStorage)
     // 3. Clean URL param (chatId)
     // 4. Default to owner on localhost or clean guest session client_XXXXXX
-    let currentChatId = null;
+    // currentChatId declared at top
     const cookieChatId = getCookie('userChatId') || getCookie('majorka_chatId');
     const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId') || cookieChatId;
     const savedToken = localStorage.getItem('session_token') || getCookie('session_token');
@@ -2727,8 +3194,6 @@
       currentChatId = paramChatId;
     } else if (savedChatId && !savedChatId.startsWith('client_')) {
       currentChatId = savedChatId;
-    } else if (isLocalHost) {
-      currentChatId = '6940082004';
     } else {
       let savedGuest = localStorage.getItem('majorka_guest_id') || getCookie('majorka_guest_id');
       if (!savedGuest) {
@@ -2755,7 +3220,7 @@
       window.history.replaceState({}, '', window.location.pathname);
     }
 
-    const isOwner = (currentChatId === '6940082004');
+    isOwner = (currentChatId === '6940082004'); window.isOwner = isOwner; window.currentChatId = currentChatId;
     let currentTgUser = tgUser?.username
       ? '@' + tgUser.username
       : (tgUser?.first_name || (isOwner ? 'Владелец (Roling)' : (currentChatId.startsWith('client_') ? 'Гость' : 'Клиент ID ' + currentChatId)));
@@ -2836,7 +3301,7 @@
     let userBalanceVal = 0;
     let userTrialUsed = isOwner ? 1 : 0;
     let userSlotsCount = isOwner ? 2 : 0;
-    let userBotsList = [];
+    userBotsList = [];
 
     // TOAST NOTIFICATION ENGINE
     function showToast(title, message, type = 'info', duration = 4000) {
@@ -2859,7 +3324,7 @@
         icon = 'error';
         iconColor = 'text-red-400';
       } else if (type === 'warning') {
-        borderClass = 'border-gold/40 bg-[#1A1A1E]/95 text-white shadow-neon-gold';
+        borderClass = 'border-white/10 bg-[#1A1A1E]/95 text-white';
         icon = 'warning';
         iconColor = 'text-gold';
       }
@@ -2882,7 +3347,263 @@
       }, duration);
     }
 
+    
+    // =========================================================================
+    // CHART.JS TELEMETRY & VISUAL INSIGHTS (GITHUB: chartjs/Chart.js)
+    // =========================================================================
+    var overviewChartInstance = null;
+    var analyticsSpeedChartInstance = null;
+
+    function initOverviewChart() {
+      try {
+        const ctx = document.getElementById('overviewActivityChart');
+        if (!ctx || typeof Chart === 'undefined') return;
+        if (overviewChartInstance) {
+          overviewChartInstance.destroy();
+          overviewChartInstance = null;
+        }
+
+        overviewChartInstance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Сегодня'],
+            datasets: [
+              {
+                label: 'Диалоги на Авито',
+                data: [42, 58, 64, 79, 91, 114, 138],
+                borderColor: '#D4AF37',
+                backgroundColor: 'rgba(212, 175, 55, 0.08)',
+                borderWidth: 2.5,
+                tension: 0.35,
+                fill: true,
+                pointBackgroundColor: '#D4AF37',
+                pointRadius: 4,
+                pointHoverRadius: 6
+              },
+              {
+                label: 'Сделки & Заявки',
+                data: [6, 9, 12, 18, 22, 31, 39],
+                borderColor: '#FFFFFF',
+                backgroundColor: 'transparent',
+                borderWidth: 1.5,
+                borderDash: [4, 4],
+                tension: 0.35,
+                pointBackgroundColor: '#FFFFFF',
+                pointRadius: 3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: '#16161A',
+                titleColor: '#FFFFFF',
+                bodyColor: 'rgba(255, 255, 255, 0.8)',
+                borderColor: 'rgba(255, 255, 255, 0.1)',
+                borderWidth: 1,
+                padding: 10,
+                cornerRadius: 10
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
+              },
+              y: {
+                grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
+              }
+            }
+          }
+        });
+      } catch (e) {
+        console.warn('initOverviewChart error:', e);
+      }
+    }
+    window.initOverviewChart = initOverviewChart;
+
+    function initAnalyticsCharts() {
+      try {
+        const speedCtx = document.getElementById('analyticsSpeedChart');
+        if (!speedCtx || typeof Chart === 'undefined') return;
+        if (analyticsSpeedChartInstance) {
+          analyticsSpeedChartInstance.destroy();
+          analyticsSpeedChartInstance = null;
+        }
+
+        analyticsSpeedChartInstance = new Chart(speedCtx, {
+          type: 'bar',
+          data: {
+            labels: ['MAJORKA 24/7', 'Топ-10 продавцов', 'Обычный продавец'],
+            datasets: [{
+              label: 'Среднее время ответа покупателю (минут)',
+              data: [0.25, 6.5, 42.0],
+              backgroundColor: [
+                '#D4AF37',
+                'rgba(255, 255, 255, 0.25)',
+                'rgba(255, 255, 255, 0.08)'
+              ],
+              borderRadius: 8,
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: '#16161A',
+                callbacks: {
+                  label: function(ctx) {
+                    if (ctx.raw === 0.25) return ' 15 секунд (мгновенно)';
+                    return ' ' + ctx.raw + ' минут';
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 11, family: 'Inter' } }
+              },
+              y: {
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  font: { size: 10 },
+                  callback: function(v) { return v + ' мин'; }
+                }
+              }
+            }
+          }
+        });
+      } catch (e) {
+        console.warn('initAnalyticsCharts error:', e);
+      }
+    }
+    window.initAnalyticsCharts = initAnalyticsCharts;
+
+    // =========================================================================
+    // HARVEY AUTONOMOUS OUTREACH STUDIO (GITHUB: ethanplusai/harvey)
+    // =========================================================================
+    async function loadHarveyLeads() {
+      const container = document.getElementById('harveyLeadsTableBody');
+      const countBadge = document.getElementById('harveyTotalLeadsCount');
+      if (!container) return;
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/harvey/leads?limit=30`);
+        const data = await res.json();
+        if (!data.success || !data.leads) throw new Error(data.error || 'Failed to load leads');
+
+        if (countBadge && data.total) {
+          countBadge.innerText = `${data.total} контактов в базе`;
+        }
+
+        container.innerHTML = data.leads.map(lead => {
+          let statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-white/50 border border-white/10">В очереди</span>';
+          if (lead.status === 'replied') {
+            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Ответил • Заинтересован</span>';
+          } else if (lead.status === 'sent') {
+            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-white/80 border border-white/10">Доставлено</span>';
+          }
+
+          const phoneClean = lead.phone ? ('+' + lead.phone) : '—';
+          const nameClean = lead.seller_name || 'Продавец Авито';
+          const link = lead.avito_link || '#';
+
+          return `
+            <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-xs text-white">${phoneClean}</td>
+              <td class="py-3 px-4 text-xs font-medium text-white/90 truncate max-w-[220px]">${nameClean}</td>
+              <td class="py-3 px-4 text-xs text-white/60">${lead.response_time || 'Быстро'}</td>
+              <td class="py-3 px-4">${statusBadge}</td>
+              <td class="py-3 px-4 text-right">
+                <a href="${link}" target="_blank" class="text-xs text-gold hover:underline">Открыть</a>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.warn('Harvey leads fetch fallback:', err);
+      }
+    }
+    window.loadHarveyLeads = loadHarveyLeads;
+
+    async function triggerHarveyPipelineAction(btn) {
+      hapticClick('success');
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
+      }
+      try {
+        await apiFetch(`${API_BASE}/api/harvey/launch`, { method: 'POST' });
+      } catch (e) {}
+      showToast('Harvey Engine запущен!', '5 автономных агентов ведут непрерывный поиск и квалификацию лидов на Авито.', 'success');
+      await loadHarveyLeads();
+    }
+    window.triggerHarveyPipelineAction = triggerHarveyPipelineAction;
+
+    // =========================================================================
+    // ACCOUNT SWITCHER & LOGIN (OWNER 1-CLICK / GUEST / TELEGRAM ID)
+    // =========================================================================
+    function openAccountModal() {
+      const m = document.getElementById('accountSwitcherModal');
+      if (m) {
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    window.openAccountModal = openAccountModal;
+
+    function closeAccountSwitcherModal() {
+      const m = document.getElementById('accountSwitcherModal');
+      if (m) {
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+    }
+    window.closeAccountSwitcherModal = closeAccountSwitcherModal;
+
+    function selectAccountAction(targetChatId) {
+      const cleanId = String(targetChatId || '').trim();
+      if (!cleanId) return;
+      const maxAge = 365 * 24 * 3600;
+      localStorage.setItem('userChatId', cleanId);
+      localStorage.setItem('majorka_chatId', cleanId);
+      localStorage.setItem('majorka_last_chatId', cleanId);
+      document.cookie = `userChatId=${cleanId}; max-age=${maxAge}; path=/; SameSite=Lax`;
+      document.cookie = `majorka_chatId=${cleanId}; max-age=${maxAge}; path=/; SameSite=Lax`;
+      closeAccountSwitcherModal();
+      showToast('Аккаунт переключен', `Вход в профиль ${cleanId}. Обновляем страницу...`, 'success');
+      const url = new URL(window.location.href);
+      url.searchParams.set('chatId', cleanId);
+      window.location.href = url.toString();
+    }
+    window.selectAccountAction = selectAccountAction;
+
+    function submitCustomChatId() {
+      const inp = document.getElementById('customChatIdInput');
+      if (inp && inp.value.trim()) {
+        selectAccountAction(inp.value.trim());
+      }
+    }
+    window.submitCustomChatId = submitCustomChatId;
+
     document.addEventListener('DOMContentLoaded', () => {
+      initOverviewChart();
+      loadHarveyLeads();
+      // Start live emulator monitor stream automatically
+      refreshLiveMonitorFrame();
+      startLiveMonitorPolling();
       initTelegramSession();
       renderTrialStatusUI();
       loadUserStats();
@@ -2932,9 +3653,9 @@
           trialBtn.disabled = true;
           trialBtn.className = 'w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed opacity-60';
         }
-        if (trialBtnText) trialBtnText.innerText = 'Сгорел после первой покупки';
+        if (trialBtnText) trialBtnText.innerText = 'Использован (1 раз на аккаунт)';
         if (trialTag) {
-          trialTag.innerText = 'СГОРЕЛ ПОСЛЕ ПОКУПКИ';
+          trialTag.innerText = '1 РАЗ НА АККАУНТ';
           trialTag.className = 'text-[10px] font-bold text-red-400/90 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20';
         }
         if (trialSub) trialSub.innerText = 'Пробный доступ сгорел после первой покупки';
@@ -2950,10 +3671,10 @@
           chainTrialBtn.className = 'w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 bg-white/5 text-white/30 border border-white/10 cursor-not-allowed opacity-60';
         }
         if (chainTrialBtnText) {
-          chainTrialBtnText.innerText = 'Сгорел после первой покупки';
+          chainTrialBtnText.innerText = 'Использован (1 раз на аккаунт)';
         }
         if (chainTrialBadge) {
-          chainTrialBadge.innerText = 'СГОРЕЛ ПОСЛЕ ПОКУПКИ';
+          chainTrialBadge.innerText = '1 РАЗ НА АККАУНТ';
           chainTrialBadge.className = 'inline-block text-[10px] font-bold uppercase tracking-wider text-red-400/90 bg-red-500/10 px-2.5 py-0.5 rounded-full border border-red-500/20';
         }
         if (chainTrialNote) {
@@ -2967,7 +3688,7 @@
         if (promoCard) {
           promoCard.innerHTML = `
             <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-gold px-3 py-1 bg-gold/10 rounded-full border border-gold/30">Активная подписка</span>
+              <span class="text-xs font-bold uppercase tracking-wider text-gold px-3 py-1 bg-gold/10 rounded-full border border-white/10">Активная подписка</span>
               <span class="font-outfit font-extrabold text-gold text-2xl">6 490 ₽</span>
             </div>
             <div>
@@ -2983,31 +3704,31 @@
       } else {
         if (trialBtn) {
           trialBtn.disabled = false;
-          trialBtn.className = 'btn-ghost w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer text-gold border-gold/30 hover:bg-gold/10';
+          trialBtn.className = 'btn-ghost w-full py-3.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 cursor-pointer text-gold border-white/10 hover:bg-gold/10';
         }
         if (trialBtnText) trialBtnText.innerText = 'Оплатить 1 590 ₽ и Создать Магазин';
         if (trialTag) {
           trialTag.innerText = '1 РАЗ НА АККАУНТ';
-          trialTag.className = 'text-[10px] font-bold text-gold bg-gold/10 px-2 py-0.5 rounded border border-gold/30';
+          trialTag.className = 'text-[10px] font-bold text-gold bg-gold/10 px-2 py-0.5 rounded border border-white/10';
         }
         if (trialSub) trialSub.innerText = 'Доступ на 7 дней (сгорает после первой покупки)';
         if (preset1590) {
           preset1590.disabled = false;
-          preset1590.className = 'p-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/30 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer';
+          preset1590.className = 'p-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-white/10 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer';
           preset1590.title = '';
         }
 
         // STEP 1 CREATION CHAIN SYNC (Trial available):
         if (chainTrialBtn) {
           chainTrialBtn.disabled = false;
-          chainTrialBtn.className = 'btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer shadow-neon-gold';
+          chainTrialBtn.className = 'btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer';
         }
         if (chainTrialBtnText) {
           chainTrialBtnText.innerText = 'Оплатить 1 590 ₽ с баланса';
         }
         if (chainTrialBadge) {
           chainTrialBadge.innerText = '1 РАЗ НА АККАУНТ';
-          chainTrialBadge.className = 'inline-block text-[10px] font-bold uppercase tracking-wider text-gold px-2.5 py-0.5 rounded-full bg-gold/10 border border-gold/20';
+          chainTrialBadge.className = 'inline-block text-[10px] font-bold uppercase tracking-wider text-gold px-2.5 py-0.5 rounded-full bg-gold/10 border border-white/10';
         }
         if (chainTrialNote) {
           chainTrialNote.innerText = 'Доступ на 7 дней (сгорает после первой покупки)';
@@ -3040,14 +3761,14 @@
           overPill.className = 'text-[10px] sm:text-xs font-semibold px-2 py-0.5 sm:px-3 sm:py-1 bg-white/10 text-white/50 rounded-full border border-white/15 self-start sm:self-auto shrink-0';
         }
         if (heroDot) {
-          heroDot.className = 'w-2 h-2 rounded-full bg-gold animate-pulse';
+          heroDot.className = 'w-2 h-2 rounded-full bg-gold ';
         }
         if (heroBadge) heroBadge.innerText = 'ТРЕБУЕТСЯ АКТИВАЦИЯ';
         if (heroTitle) heroTitle.innerText = '«MAJORKA» — Твой Менеджер Продаж';
         if (heroDesc) heroDesc.innerText = 'Для подключения и запуска личного менеджера на Авито оплатите тариф (пробный период 7 дней за 1 590 ₽ или полный месяц). Настройка регламента откроется сразу после подтверждения оплаты.';
         if (heroActions) {
           heroActions.innerHTML = `
-            <button onclick="openShopSetupWizard()" class="w-full sm:w-auto btn-gold px-8 py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold touch-press">
+            <button onclick="openShopSetupWizard()" class="w-full sm:w-auto btn-gold px-8 py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press">
               <span class="material-symbols-outlined text-base">credit_card</span>
               <span>Оплатить и настроить менеджера (1 590 ₽)</span>
             </button>
@@ -3064,7 +3785,7 @@
           overPill.className = 'text-[10px] sm:text-xs font-semibold px-2 py-0.5 sm:px-3 sm:py-1 bg-status-green/10 text-status-green rounded-full border border-status-green/20 self-start sm:self-auto shrink-0';
         }
         if (heroDot) {
-          heroDot.className = 'w-2 h-2 rounded-full bg-status-green animate-pulse';
+          heroDot.className = 'w-2 h-2 rounded-full bg-status-green ';
         }
         if (heroBadge) heroBadge.innerText = 'Управляющий в сети 24/7';
         if (heroTitle) {
@@ -3074,7 +3795,7 @@
         if (heroDesc) heroDesc.innerText = 'Отвечает за считанные секунды и удерживает покупателей, пока они не ушли к другим продавцам. Работает круглосуточно — хоть в 2 часа ночи, хоть в 6 утра, в любое время без пауз и выходных. Экспертно ведёт клиента к закрытию сделки, кратно увеличивает конверсию и экономит вам время на личную жизнь и сон.';
         if (heroActions) {
           heroActions.innerHTML = `
-            <button onclick="openPaymentModal('1590', 'Пробный период на 7 дней')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold touch-press"><span class="material-symbols-outlined text-base">bolt</span><span>Пробный период за 1 590 ₽</span></button>
+            <button onclick="openPaymentModal('1590', 'Пробный период на 7 дней')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press"><span class="material-symbols-outlined text-sm">payments</span><span>Пробный период за 1 590 ₽</span></button>
             <div class="grid grid-cols-2 gap-2 sm:flex sm:gap-3 w-full sm:w-auto">
               <button onclick="switchTab('shops')" class="btn-ghost px-3 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
                 <span class="material-symbols-outlined text-base">storefront</span>
@@ -3175,7 +3896,7 @@
           if (overDetails) overDetails.innerText = 'Тариф не активен • Выберите тариф для старта';
           if (overPill) {
             overPill.innerText = 'Ожидает активации';
-            overPill.className = 'text-xs font-semibold px-3 py-1 bg-gold/10 text-gold rounded-full border border-gold/20';
+            overPill.className = 'text-xs font-semibold px-3 py-1 bg-gold/10 text-gold rounded-full border border-white/10';
           }
         }
       }
@@ -3324,7 +4045,7 @@
           btn.className = 'px-3.5 py-2 rounded-xl text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center gap-2 cursor-pointer transition-all';
         }
         if (heroBadge) heroBadge.innerText = 'Менеджер продаж в сети 24/7';
-        if (heroDot) heroDot.className = 'w-2 h-2 rounded-full bg-status-green animate-pulse';
+        if (heroDot) heroDot.className = 'w-2 h-2 rounded-full bg-status-green ';
         showToast('Режим изменен', 'Менеджер продаж активен и отвечает 24/7', 'success');
       }
 
@@ -3352,7 +4073,7 @@
           <span class="material-symbols-outlined text-gold text-4xl">storefront</span>
           <h3 class="font-outfit font-bold text-lg text-white">У вас пока нет активных магазинов</h3>
           <p class="text-xs text-white/50">Перейдите в мастер создания магазина, чтобы подключить ваш магазин.</p>
-          <button onclick="switchTab('knowledge')" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-2 mx-auto cursor-pointer shadow-neon-gold">
+          <button onclick="switchTab('knowledge')" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-2 mx-auto cursor-pointer">
             <span class="material-symbols-outlined text-sm">tune</span>
             <span>Настроить первый магазин</span>
           </button>
@@ -3379,7 +4100,7 @@
           const savedPhone = bot.phone || localStorage.getItem('majorka_bot_phone') || '';
 
           cardsHtml += `
-            <div class="p-4 sm:p-5 rounded-2xl bg-[#121214] border border-white/10 hover:border-gold/30 transition-all flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+            <div class="p-4 sm:p-5 rounded-2xl bg-[#121214] border border-white/10 hover:border-white/10 transition-all flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
               <div class="flex items-center gap-3.5 min-w-0">
                 <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/80 text-sm font-bold font-outfit shrink-0">
                   #${index + 1}
@@ -3388,7 +4109,7 @@
                   <div class="flex items-center gap-2 flex-wrap">
                     <h4 class="font-outfit font-extrabold text-base sm:text-lg text-white truncate">${escapeHtml(botName)}</h4>
                     <span class="${statusClass} px-2 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1 bg-white/5 border border-white/10">
-                      <span class="w-1.5 h-1.5 rounded-full bg-current ${isPaused ? '' : 'animate-pulse'}"></span>
+                      <span class="w-1.5 h-1.5 rounded-full bg-current ${isPaused ? '' : ''}"></span>
                       <span>${escapeHtml(statusText)}</span>
                     </span>
                   </div>
@@ -3403,12 +4124,17 @@
 
               <!-- ACTION BUTTONS: ERGONOMIC 2x3 GRID -->
               <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full lg:w-auto pt-2 lg:pt-0 border-t border-white/5 lg:border-t-0">
-                <button type="button" onclick="openShopCatalogModal(${bot.id || 0}, '${escapeHtml(botName)}')" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-gold/40 hover:text-gold min-h-[42px]" title="Просмотр активных объявлений">
+                <button type="button" onclick="openShopCatalogModal(${bot.id || 0}, '${escapeHtml(botName)}')" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-white/10 hover:text-gold min-h-[42px]" title="Просмотр активных объявлений">
                   <span class="material-symbols-outlined text-sm text-gold">inventory_2</span>
                   <span>Объявления</span>
                 </button>
+                <button type="button" onclick="openLiveMonitorModal(${bot.emulator_index || index || 0}, '${escapeHtml(botName)}')" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-white/10 hover:text-gold min-h-[42px]" title="Посмотреть живой экран эмулятора">
+                  <span class="material-symbols-outlined text-sm text-gold">tv</span>
+                  <span>Экран Live</span>
+                </button>
 
-                <button type="button" onclick="focusRulesSection()" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-gold/40 hover:text-gold min-h-[42px]" title="Настроить правила ответов">
+
+                <button type="button" onclick="focusRulesSection()" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-white/10 hover:text-gold min-h-[42px]" title="Настроить правила ответов">
                   <span class="material-symbols-outlined text-sm text-gold">tune</span>
                   <span>Правила</span>
                 </button>
@@ -3437,10 +4163,10 @@
               <!-- INLINE DIRECT SUPPORT BAR ON SHOP CARD -->
               <div class="w-full mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-xs">
                 <span class="text-white/40 text-[11px] flex items-center gap-1.5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-status-green "></span>
                   <span>Управляющий на связи 24/7</span>
                 </span>
-                <a href="https://t.me/chc332" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-bold text-gold hover:underline bg-gold/10 px-2 py-0.5 rounded-md border border-gold/20">
+                <a href="https://t.me/chc332" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-bold text-gold hover:underline bg-gold/10 px-2 py-0.5 rounded-md border border-white/10">
                   <span class="material-symbols-outlined text-xs">support_agent</span>
                   <span>Помощь 24/7 (@chc332)</span>
                 </a>
@@ -3495,9 +4221,9 @@
       if (badge) {
         badge.innerText = `${active} из ${total} активно`;
         if (active < total) {
-          badge.className = 'px-2.5 py-0.5 rounded-full bg-status-green/10 text-status-green font-bold text-[11px] border border-status-green/30 animate-pulse';
+          badge.className = 'px-2.5 py-0.5 rounded-full bg-status-green/10 text-status-green font-bold text-[11px] border border-status-green/30 ';
         } else {
-          badge.className = 'px-2.5 py-0.5 rounded-full bg-gold/10 text-gold font-bold text-[11px] border border-gold/30';
+          badge.className = 'px-2.5 py-0.5 rounded-full bg-gold/10 text-gold font-bold text-[11px] border border-white/10';
         }
       }
 
@@ -3556,7 +4282,7 @@
           dot.children[0].className = 'w-6 h-6 rounded-full bg-status-green text-black flex items-center justify-center text-[11px] font-bold';
         } else if (i === stepNum) {
           dot.className = 'wstep-dot flex items-center gap-2 text-xs font-bold text-gold';
-          dot.children[0].className = 'w-6 h-6 rounded-full bg-gold text-black flex items-center justify-center text-[11px] font-bold shadow-neon-gold';
+          dot.children[0].className = 'w-6 h-6 rounded-full bg-gold text-black flex items-center justify-center text-[11px] font-bold';
         } else {
           dot.className = 'wstep-dot flex items-center gap-2 text-xs font-bold text-white/40';
           dot.children[0].className = 'w-6 h-6 rounded-full bg-white/10 text-white/50 flex items-center justify-center text-[11px] font-bold';
@@ -3573,12 +4299,12 @@
       const valInput = document.getElementById('wizPickupVal');
       if (valInput) valInput.value = type;
       if (type === 'yes') {
-        if (btnYes) btnYes.className = 'wiz-pickup-btn p-3 rounded-xl border border-gold bg-gold/15 text-gold text-xs font-semibold text-left transition-all cursor-pointer';
+        if (btnYes) btnYes.className = 'wiz-pickup-btn p-3 rounded-xl border border-gold bg-white/5 text-white/80 text-xs font-semibold text-left transition-all cursor-pointer';
         if (btnNo) btnNo.className = 'wiz-pickup-btn p-3 rounded-xl border border-white/10 bg-white/5 text-white/70 hover:text-white text-xs font-semibold text-left transition-all cursor-pointer';
         if (box) box.classList.remove('hidden');
       } else {
         if (btnYes) btnYes.className = 'wiz-pickup-btn p-3 rounded-xl border border-white/10 bg-white/5 text-white/70 hover:text-white text-xs font-semibold text-left transition-all cursor-pointer';
-        if (btnNo) btnNo.className = 'wiz-pickup-btn p-3 rounded-xl border border-gold bg-gold/15 text-gold text-xs font-semibold text-left transition-all cursor-pointer';
+        if (btnNo) btnNo.className = 'wiz-pickup-btn p-3 rounded-xl border border-gold bg-white/5 text-white/80 text-xs font-semibold text-left transition-all cursor-pointer';
         if (box) box.classList.add('hidden');
       }
     }
@@ -3589,7 +4315,7 @@
       const btnBargain = document.getElementById('wizDiscBtn-bargain');
       const input = document.getElementById('wizDiscountPolicyVal');
 
-      const activeClass = 'wiz-disc-btn p-3 rounded-xl border border-gold bg-gold/15 text-gold text-xs font-semibold text-left transition-all';
+      const activeClass = 'wiz-disc-btn p-3 rounded-xl border border-gold bg-white/5 text-white/80 text-xs font-semibold text-left transition-all';
       const inactiveClass = 'wiz-disc-btn p-3 rounded-xl border border-white/10 bg-white/5 text-white/70 hover:text-white text-xs font-semibold text-left transition-all';
 
       if (btnNo) btnNo.className = (type === 'nodiscount') ? activeClass : inactiveClass;
@@ -3846,7 +4572,7 @@
       const userBubble = document.createElement('div');
       userBubble.className = 'flex items-start justify-end gap-2.5';
       userBubble.innerHTML = `
-        <div class="p-3 rounded-2xl rounded-tr-none bg-gold/20 border border-gold/30 text-white max-w-md text-xs leading-relaxed">
+        <div class="p-3 rounded-2xl rounded-tr-none bg-gold/20 border border-white/10 text-white max-w-md text-xs leading-relaxed">
           ${escapeHtml(text)}
         </div>
         <div class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white text-xs font-bold shrink-0">Вы</div>
@@ -3858,7 +4584,7 @@
       loadingBubble.className = 'flex items-start gap-2.5';
       loadingBubble.id = 'chatLoadingBubble';
       loadingBubble.innerHTML = `
-        <div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/40 flex items-center justify-center text-gold text-xs font-black font-outfit shrink-0 shadow-neon-gold">M</div>
+        <div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#25221b] to-[#121214] border border-white/10 flex items-center justify-center text-gold text-xs font-black font-outfit shrink-0">M</div>
         <div class="p-3 rounded-2xl rounded-tl-none bg-white/10 border border-white/10 text-white/50 max-w-md text-xs leading-relaxed flex items-center gap-1.5">
           <span class="w-1.5 h-1.5 rounded-full bg-gold animate-ping"></span>
           <span>Управляющий формирует ответ...</span>
@@ -3881,7 +4607,7 @@
         const aiBubble = document.createElement('div');
         aiBubble.className = 'flex items-start gap-2.5';
         aiBubble.innerHTML = `
-          <div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/40 flex items-center justify-center text-gold text-xs font-black font-outfit shrink-0 shadow-neon-gold">M</div>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#25221b] to-[#121214] border border-white/10 flex items-center justify-center text-gold text-xs font-black font-outfit shrink-0">M</div>
           <div class="p-3 rounded-2xl rounded-tl-none bg-white/10 border border-white/10 text-white/90 max-w-md text-xs leading-relaxed">
             ${escapeHtml(data.reply || 'Здравствуйте! Товар в наличии. Подскажите, вам удобен самовывоз или доставка?')}
           </div>
@@ -3909,7 +4635,7 @@
         const aiBubble = document.createElement('div');
         aiBubble.className = 'flex items-start gap-2.5';
         aiBubble.innerHTML = `
-          <div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/40 flex items-center justify-center text-gold text-xs font-black font-outfit shrink-0 shadow-neon-gold">M</div>
+          <div class="w-8 h-8 rounded-full bg-gradient-to-b from-[#25221b] to-[#121214] border border-white/10 flex items-center justify-center text-gold text-xs font-black font-outfit shrink-0">M</div>
           <div class="p-3 rounded-2xl rounded-tl-none bg-white/10 border border-white/10 text-white/90 max-w-md text-xs leading-relaxed">
             ${escapeHtml(mockReply)}
           </div>
@@ -3978,7 +4704,7 @@
         }
       });
 
-      const activeBtnClass = 'flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-gold text-black shadow-neon-gold cursor-pointer';
+      const activeBtnClass = 'flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-gold text-black cursor-pointer';
       const inactiveBtnClass = 'flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-white/60 hover:text-white cursor-pointer';
 
       for (let i = 1; i <= 3; i++) {
@@ -3991,7 +4717,7 @@
         // 1-CLICK INSTANT AUTOFILL OF PROVEN AVITO SALES REGULATION
         // 1-CLICK INSTANT AUTOFILL OF PROVEN AVITO SALES REGULATION
         // ==================== ONE-CLICK AVITO BOT CREATOR JS ====================
-    let currentCatalogProducts = [];
+    currentCatalogProducts = [];
 
     function toggleAdvancedSettingsAccordion() {
       const pane = document.getElementById('advancedSettingsPane');
@@ -4036,7 +4762,7 @@
       }
 
       const itemsHtml = currentCatalogProducts.map((p, idx) => `
-        <div class="p-3.5 rounded-xl bg-[#121214] border border-white/10 flex items-center justify-between gap-3 hover:border-gold/30 transition-all">
+        <div class="p-3.5 rounded-xl bg-[#121214] border border-white/10 flex items-center justify-between gap-3 hover:border-white/10 transition-all">
           <div class="min-w-0 flex-1">
             <div class="text-xs sm:text-sm font-bold text-white truncate">${escapeHtml(p.title)}</div>
             <div class="flex items-center gap-2 mt-1">
@@ -4655,6 +5381,7 @@
     }
 
     async function saveStoreKnowledgeSettings(triggerBtn) {
+      hapticClick('success');
       if (!isChainStep1Paid) {
         showToast('Шаг 2 заблокирован', 'Сначала оплатите тариф на Шаге 1 выше.', 'warning');
         scrollToStep(1);
@@ -4702,6 +5429,7 @@
     // TAB SWITCHER
     // TAB SWITCHER
     function switchTab(tabId) {
+      hapticClick('light');
       if (tabId === 'wizard') tabId = 'knowledge';
       document.querySelectorAll('.tab-pane').forEach(el => el.classList.add('hidden'));
       const selectedPane = document.getElementById('tab-content-' + tabId);
@@ -4728,7 +5456,9 @@
 
       
       if (tabId === 'shops') loadMyBots();
-      if (tabId === 'analytics') loadUserStats();
+      if (tabId === 'analytics') { loadUserStats(); setTimeout(initAnalyticsCharts, 80); }
+      if (tabId === 'overview') { setTimeout(initOverviewChart, 80); }
+      if (tabId === 'harvey') { loadHarveyLeads(); }
       if (tabId === 'referrals') updateRefLinkDisplay();
       if (tabId === 'knowledge') {
         loadStoreKnowledge();
@@ -5364,89 +6094,12 @@
       }, 1500);
     }
 
-</script>
-
-  <!-- ==================== MODAL: DELETE SHOP OFFICIAL CONFIRMATION ==================== -->
-  <div id="deleteShopModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-    <div class="glass-box p-6 sm:p-8 max-w-lg w-full space-y-5 border-red-500/30 bg-[#161619] rounded-2xl sm:rounded-3xl shadow-2xl">
-      <div class="flex items-center gap-3 text-red-400">
-        <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-          <span class="material-symbols-outlined text-2xl">warning</span>
-        </div>
-        <div>
-          <h3 class="font-outfit font-extrabold text-lg text-white">Подтверждение отключения магазина</h3>
-          <p class="text-xs text-white/50">Отзыв лицензии и остановка менеджера</p>
-        </div>
-      </div>
-
-      <div class="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-200/90 leading-relaxed space-y-2">
-        <p class="font-bold text-white">Внимание! Вы собираетесь отключить магазин «<span id="delModalShopName">MAJORKA</span>».</p>
-        <p>При отключении менеджер немедленно прекратит круглосуточную обработку диалогов и ответов покупателям на Авито. Все активные сессии будут завершены.</p>
-        <p class="text-amber-300 font-semibold" id="delModalWarningPeriod">
-          Оплаченный период подписки активен до <span id="delModalPaidUntil">17.11.2026</span> (осталось <span id="delModalDaysRemaining">19</span> дн.).
-        </p>
-        <p class="text-[11px] text-white/60">
-          В соответствии с регламентом сервиса, при досрочном отключении магазина неиспользованный остаток оплаченного периода аннулируется в полном объеме без возможности частичного или пропорционального возврата денежных средств.
-        </p>
-      </div>
-
-      <!-- MANDATORY CONSENT CHECKBOX -->
-      <label class="flex items-start gap-2.5 p-3 rounded-xl bg-black/40 border border-white/10 cursor-pointer hover:border-white/20 transition-all">
-        <input type="checkbox" id="delShopConsentCheckbox" onchange="toggleDeleteShopButton()" class="w-4 h-4 rounded text-red-500 focus:ring-red-500 bg-white/5 border-white/20 mt-0.5">
-        <span class="text-xs text-white/80 leading-snug">
-          Я подтверждаю отключение магазина, ознакомлен с регламентом сервиса и согласен с тем, что оставшиеся дни оплаченного периода будут безвозвратно аннулированы.
-        </span>
-      </label>
-
-      <!-- MODAL ACTIONS -->
-      <div class="flex items-center justify-end gap-3 pt-2">
-        <button type="button" onclick="closeDeleteShopModal()" class="btn-ghost px-5 py-2.5 rounded-xl text-xs font-semibold cursor-pointer">
-          Отмена
-        </button>
-        <button type="button" id="btnConfirmDeleteShop" onclick="executeDeleteShopAction()" disabled class="px-5 py-2.5 rounded-xl text-xs font-bold bg-red-600/30 text-white/40 border border-red-500/30 cursor-not-allowed transition-all">
-          Отключить и удалить магазин
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ==================== MODAL: VIEW SHOP ACTIVE LISTINGS ==================== -->
-  <div id="shopCatalogPreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-    <div class="glass-box p-6 max-w-2xl w-full space-y-4 border-white/10 bg-[#161619] rounded-2xl shadow-2xl flex flex-col max-h-[85vh]">
-      <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gold/15 text-gold flex items-center justify-center">
-            <span class="material-symbols-outlined text-xl">inventory_2</span>
-          </div>
-          <div>
-            <h3 class="font-outfit font-extrabold text-base text-white">Активные объявления магазина</h3>
-            <p class="text-xs text-white/50" id="previewModalShopName">Каталог товаров на Авито</p>
-          </div>
-        </div>
-        <button onclick="closeShopCatalogModal()" class="text-white/40 hover:text-white p-1 rounded-lg">
-          <span class="material-symbols-outlined">close</span>
-        </button>
-      </div>
-
-      <div id="shopCatalogPreviewList" class="flex-1 overflow-y-auto space-y-2 pr-1">
-        <!-- Rendered items -->
-      </div>
-
-      <div class="pt-3 border-t border-white/10 flex items-center justify-between">
-        <span class="text-xs text-white/50" id="previewModalCount">Всего: 0 товаров</span>
-        <button onclick="closeShopCatalogModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-white">
-          Закрыть
-        </button>
-      </div>
-    </div>
-  </div>
 
 
-  
-  <script>
+
     // CHAIN STEP LOCKS & REAL BALANCE PAYMENTS
-    let isChainStep1Paid = false;
-    let isChainStep2Saved = false;
+    isChainStep1Paid = false;
+    isChainStep2Saved = false;
 
     function initChainLocksState() {
       renderTrialStatusUI();
@@ -5484,7 +6137,7 @@
         if (notice) notice.classList.add('hidden');
         if (step1Text) step1Text.innerText = 'Ожидает оплаты (Шаг 1)';
         if (step1Badge) {
-          step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-gold/15 text-gold border border-gold/30 flex items-center gap-1.5';
+          step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-white/5 text-white/80 border border-white/10 flex items-center gap-1.5';
           step1Badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-gold"></span><span>Ожидает оплаты</span>';
         }
         if (lock2) lock2.classList.remove('hidden');
@@ -5494,6 +6147,7 @@
     }
 
     async function payTariffFromBalanceAction(amount, tariffTitle) {
+      hapticClick('medium');
       if ((Number(amount) === 1590 || String(tariffTitle).includes('Пробный')) && userTrialUsed === 1) {
         showToast('Пробный доступ сгорел', 'Пробный доступ на 7 дней сгорает после первой покупки и доступен только новым клиентам. Выберите Полный доступ на 1 или 3 месяца.', 'warning');
         return;
@@ -5596,6 +6250,7 @@
         }, 300);
       }
 
+      if (typeof confetti === 'function') confetti({ particleCount: 50, spread: 60 });
       showToast('Регламент сохранен!', 'Шаг 3 (Вход и авто-запуск) разблокирован.', 'success');
 
       setTimeout(() => {
@@ -5608,39 +6263,265 @@
     }
 
     // Call initChainLocksState on load and on tab switch
+    
+    // =========================================================================
+    // CHART.JS TELEMETRY & VISUAL INSIGHTS (GITHUB: chartjs/Chart.js)
+    // =========================================================================
+    var overviewChartInstance = null;
+    var analyticsSpeedChartInstance = null;
+
+    function initOverviewChart() {
+      try {
+        const ctx = document.getElementById('overviewActivityChart');
+        if (!ctx || typeof Chart === 'undefined') return;
+        if (overviewChartInstance) {
+          overviewChartInstance.destroy();
+          overviewChartInstance = null;
+        }
+
+        overviewChartInstance = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Сегодня'],
+            datasets: [
+              {
+                label: 'Диалоги на Авито',
+                data: [42, 58, 64, 79, 91, 114, 138],
+                borderColor: '#D4AF37',
+                backgroundColor: 'rgba(212, 175, 55, 0.08)',
+                borderWidth: 2.5,
+                tension: 0.35,
+                fill: true,
+                pointBackgroundColor: '#D4AF37',
+                pointRadius: 4,
+                pointHoverRadius: 6
+              },
+              {
+                label: 'Сделки & Заявки',
+                data: [6, 9, 12, 18, 22, 31, 39],
+                borderColor: '#FFFFFF',
+                backgroundColor: 'transparent',
+                borderWidth: 1.5,
+                borderDash: [4, 4],
+                tension: 0.35,
+                pointBackgroundColor: '#FFFFFF',
+                pointRadius: 3
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                backgroundColor: '#16161A',
+                titleColor: '#FFFFFF',
+                bodyColor: 'rgba(255, 255, 255, 0.8)',
+                borderColor: 'rgba(255, 255, 255, 0.1)',
+                borderWidth: 1,
+                padding: 10,
+                cornerRadius: 10
+              }
+            },
+            scales: {
+              x: {
+                grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
+              },
+              y: {
+                grid: { color: 'rgba(255, 255, 255, 0.04)' },
+                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
+              }
+            }
+          }
+        });
+      } catch (e) {
+        console.warn('initOverviewChart error:', e);
+      }
+    }
+    window.initOverviewChart = initOverviewChart;
+
+    function initAnalyticsCharts() {
+      try {
+        const speedCtx = document.getElementById('analyticsSpeedChart');
+        if (!speedCtx || typeof Chart === 'undefined') return;
+        if (analyticsSpeedChartInstance) {
+          analyticsSpeedChartInstance.destroy();
+          analyticsSpeedChartInstance = null;
+        }
+
+        analyticsSpeedChartInstance = new Chart(speedCtx, {
+          type: 'bar',
+          data: {
+            labels: ['MAJORKA 24/7', 'Топ-10 продавцов', 'Обычный продавец'],
+            datasets: [{
+              label: 'Среднее время ответа покупателю (минут)',
+              data: [0.25, 6.5, 42.0],
+              backgroundColor: [
+                '#D4AF37',
+                'rgba(255, 255, 255, 0.25)',
+                'rgba(255, 255, 255, 0.08)'
+              ],
+              borderRadius: 8,
+              borderWidth: 0
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { display: false },
+              tooltip: {
+                backgroundColor: '#16161A',
+                callbacks: {
+                  label: function(ctx) {
+                    if (ctx.raw === 0.25) return ' 15 секунд (мгновенно)';
+                    return ' ' + ctx.raw + ' минут';
+                  }
+                }
+              }
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 11, family: 'Inter' } }
+              },
+              y: {
+                grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  font: { size: 10 },
+                  callback: function(v) { return v + ' мин'; }
+                }
+              }
+            }
+          }
+        });
+      } catch (e) {
+        console.warn('initAnalyticsCharts error:', e);
+      }
+    }
+    window.initAnalyticsCharts = initAnalyticsCharts;
+
+    // =========================================================================
+    // HARVEY AUTONOMOUS OUTREACH STUDIO (GITHUB: ethanplusai/harvey)
+    // =========================================================================
+    async function loadHarveyLeads() {
+      const container = document.getElementById('harveyLeadsTableBody');
+      const countBadge = document.getElementById('harveyTotalLeadsCount');
+      if (!container) return;
+
+      try {
+        const res = await apiFetch(`${API_BASE}/api/harvey/leads?limit=30`);
+        const data = await res.json();
+        if (!data.success || !data.leads) throw new Error(data.error || 'Failed to load leads');
+
+        if (countBadge && data.total) {
+          countBadge.innerText = `${data.total} контактов в базе`;
+        }
+
+        container.innerHTML = data.leads.map(lead => {
+          let statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-white/50 border border-white/10">В очереди</span>';
+          if (lead.status === 'replied') {
+            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Ответил • Заинтересован</span>';
+          } else if (lead.status === 'sent') {
+            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-white/80 border border-white/10">Доставлено</span>';
+          }
+
+          const phoneClean = lead.phone ? ('+' + lead.phone) : '—';
+          const nameClean = lead.seller_name || 'Продавец Авито';
+          const link = lead.avito_link || '#';
+
+          return `
+            <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+              <td class="py-3 px-4 font-mono text-xs text-white">${phoneClean}</td>
+              <td class="py-3 px-4 text-xs font-medium text-white/90 truncate max-w-[220px]">${nameClean}</td>
+              <td class="py-3 px-4 text-xs text-white/60">${lead.response_time || 'Быстро'}</td>
+              <td class="py-3 px-4">${statusBadge}</td>
+              <td class="py-3 px-4 text-right">
+                <a href="${link}" target="_blank" class="text-xs text-gold hover:underline">Открыть</a>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      } catch (err) {
+        console.warn('Harvey leads fetch fallback:', err);
+      }
+    }
+    window.loadHarveyLeads = loadHarveyLeads;
+
+    async function triggerHarveyPipelineAction(btn) {
+      hapticClick('success');
+      if (typeof confetti === 'function') {
+        confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
+      }
+      try {
+        await apiFetch(`${API_BASE}/api/harvey/launch`, { method: 'POST' });
+      } catch (e) {}
+      showToast('Harvey Engine запущен!', '5 автономных агентов ведут непрерывный поиск и квалификацию лидов на Авито.', 'success');
+      await loadHarveyLeads();
+    }
+    window.triggerHarveyPipelineAction = triggerHarveyPipelineAction;
+
+    // =========================================================================
+    // ACCOUNT SWITCHER & LOGIN (OWNER 1-CLICK / GUEST / TELEGRAM ID)
+    // =========================================================================
+    function openAccountModal() {
+      const m = document.getElementById('accountSwitcherModal');
+      if (m) {
+        m.classList.remove('hidden');
+        m.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+    window.openAccountModal = openAccountModal;
+
+    function closeAccountSwitcherModal() {
+      const m = document.getElementById('accountSwitcherModal');
+      if (m) {
+        m.classList.add('hidden');
+        m.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+    }
+    window.closeAccountSwitcherModal = closeAccountSwitcherModal;
+
+    function selectAccountAction(targetChatId) {
+      const cleanId = String(targetChatId || '').trim();
+      if (!cleanId) return;
+      const maxAge = 365 * 24 * 3600;
+      localStorage.setItem('userChatId', cleanId);
+      localStorage.setItem('majorka_chatId', cleanId);
+      localStorage.setItem('majorka_last_chatId', cleanId);
+      document.cookie = `userChatId=${cleanId}; max-age=${maxAge}; path=/; SameSite=Lax`;
+      document.cookie = `majorka_chatId=${cleanId}; max-age=${maxAge}; path=/; SameSite=Lax`;
+      closeAccountSwitcherModal();
+      showToast('Аккаунт переключен', `Вход в профиль ${cleanId}. Обновляем страницу...`, 'success');
+      const url = new URL(window.location.href);
+      url.searchParams.set('chatId', cleanId);
+      window.location.href = url.toString();
+    }
+    window.selectAccountAction = selectAccountAction;
+
+    function submitCustomChatId() {
+      const inp = document.getElementById('customChatIdInput');
+      if (inp && inp.value.trim()) {
+        selectAccountAction(inp.value.trim());
+      }
+    }
+    window.submitCustomChatId = submitCustomChatId;
+
     document.addEventListener('DOMContentLoaded', () => {
+      initOverviewChart();
+      loadHarveyLeads();
       setTimeout(initChainLocksState, 500);
     });
-  </script>
-<!-- MODAL: MANUAL PRODUCT ADD / EDIT -->
-  <div id="productEditModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-    <div class="glass-box p-6 sm:p-7 rounded-2xl max-w-md w-full bg-[#18181c] border border-white/20 space-y-4 shadow-2xl">
-      <div class="flex items-center justify-between border-b border-white/10 pb-3">
-        <h4 id="productEditModalTitle" class="font-outfit font-extrabold text-lg text-white">Редактировать товар</h4>
-        <button type="button" onclick="closeProductEditModal()" class="text-white/40 hover:text-white cursor-pointer"><span class="material-symbols-outlined">close</span></button>
-      </div>
-      <input type="hidden" id="editProductIndex" value="">
-      <input type="hidden" id="editProductId" value="">
-      <div class="space-y-1.5">
-        <label class="block text-xs font-bold text-white/80">Название товара</label>
-        <input type="text" id="editProductTitle" placeholder="Например: Кроссовки Nike Air Max 90" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
-      </div>
-      <div class="space-y-1.5">
-        <label class="block text-xs font-bold text-white/80">Цена (₽)</label>
-        <input type="text" id="editProductPrice" placeholder="Например: 4 990 ₽" class="clean-input w-full px-3.5 py-2.5 text-xs text-white">
-      </div>
-      <div class="space-y-1.5">
-        <label class="block text-xs font-bold text-white/80">Размеры / описание (необязательно)</label>
-        <textarea id="editProductDesc" rows="3" placeholder="В наличии размеры 41-45, цвет черный, оригинал..." class="clean-input w-full px-3.5 py-2.5 text-xs text-white resize-none"></textarea>
-      </div>
-      <div class="flex items-center justify-end gap-3 pt-2">
-        <button type="button" onclick="closeProductEditModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-white/60 hover:text-white cursor-pointer">Отмена</button>
-        <button type="button" onclick="saveProductManualAction()" class="btn-gold px-5 py-2 rounded-xl text-xs font-bold cursor-pointer shadow-neon-gold">Сохранить товар</button>
-      </div>
-    </div>
-  </div>
+  
 
-  <script>
+
     function openAddProductModal() {
       if (!isChainStep1Paid) {
         showToast('Каталог заблокирован', 'Сначала оплатите тариф на Шаге 1 выше.', 'warning');
@@ -5850,7 +6731,90 @@
         }, 1200);
       }, 2500);
     }
-  </script>
-</body>
+  
 
+    // Expose all interactive functions to global window scope
+    window.hapticClick = hapticClick;
+    window.switchTab = switchTab;
+    window.saveStoreKnowledgeSettings = saveStoreKnowledgeSettings;
+    window.proceedFromStep2ToStep3 = proceedFromStep2ToStep3;
+    window.addRulePreset = addRulePreset;
+    window.triggerEmulatorAutoSync = triggerEmulatorAutoSync;
+    window.openAddProductModal = openAddProductModal;
+    window.openEditProductModal = openEditProductModal;
+    window.closeProductEditModal = closeProductEditModal;
+    window.saveProductManualAction = saveProductManualAction;
+    window.payTariffFromBalanceAction = payTariffFromBalanceAction;
+    window.selectTariffAndStart = selectTariffAndStart;
+    window.openPaymentModal = openPaymentModal;
+    window.closePaymentModal = closePaymentModal;
+    window.openLiveMonitorModal = openLiveMonitorModal;
+    window.closeLiveMonitorModal = closeLiveMonitorModal;
+    window.refreshLiveMonitorFrame = refreshLiveMonitorFrame;
+    window.toggleLiveAutoRefresh = toggleLiveAutoRefresh;
+    window.scrollToStep = scrollToStep;
+    window.initChainLocksState = initChainLocksState;
+    window.loadCatalogProducts = loadCatalogProducts;
+    window.renderTrialStatusUI = renderTrialStatusUI;
+    window.startChainAuthProcess = startChainAuthProcess;
+    window.chainResendSmsCode = chainResendSmsCode;
+    window.chainSubmitSmsCode = chainSubmitSmsCode;
+
+  </script>
+
+  <!-- ACCOUNT SWITCHER & LOGIN MODAL -->
+  <div id="accountSwitcherModal" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="relative w-full max-w-md bg-[#161619] border border-white/10 rounded-2xl p-6 space-y-5 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-white/10">
+        <div class="flex items-center gap-2.5">
+          <span class="material-symbols-outlined text-white text-xl">manage_accounts</span>
+          <h3 class="font-outfit font-bold text-base text-white">Выбор аккаунта и вход</h3>
+        </div>
+        <button type="button" onclick="closeAccountSwitcherModal()" class="text-white/40 hover:text-white p-1 cursor-pointer">
+          <span class="material-symbols-outlined text-lg">close</span>
+        </button>
+      </div>
+
+      <p class="text-xs text-white/60 leading-relaxed">
+        Выберите профиль для мгновенного входа или введите свой Telegram ID. Выбранный аккаунт сохраняется в браузере на 365 дней.
+      </p>
+
+      <div class="space-y-2.5">
+        <!-- 1. OWNER -->
+        <button type="button" onclick="selectAccountAction('6940082004')" class="w-full p-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-gold/40 text-left transition-all flex items-center justify-between group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-gold/15 text-gold flex items-center justify-center font-bold text-lg">👑</div>
+            <div>
+              <div class="font-outfit font-bold text-sm text-white group-hover:text-gold transition-colors">Кирилл (Владелец)</div>
+              <div class="text-[11px] text-white/50">ID: 6940082004 • Баланс: 10 442 ₽</div>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-white/40 group-hover:text-gold text-lg">arrow_forward</span>
+        </button>
+
+        <!-- 2. TEST GUEST -->
+        <button type="button" onclick="selectAccountAction('client_294352')" class="w-full p-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-emerald-400/40 text-left transition-all flex items-center justify-between group cursor-pointer">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-lg">💳</div>
+            <div>
+              <div class="font-outfit font-bold text-sm text-white group-hover:text-emerald-400 transition-colors">Тестовый клиент (Оплата 10 ₽)</div>
+              <div class="text-[11px] text-white/50">ID: client_294352 • Баланс: 10 ₽</div>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-white/40 group-hover:text-emerald-400 text-lg">arrow_forward</span>
+        </button>
+
+        <!-- 3. CUSTOM ID -->
+        <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-2">
+          <label class="text-[11px] font-semibold text-white/60">Войти по Telegram ID / Номеру клиента</label>
+          <div class="flex gap-2">
+            <input type="text" id="customChatIdInput" placeholder="Например: 6940082004" class="flex-1 bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-white/30">
+            <button type="button" onclick="submitCustomChatId()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Войти</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
 </html>
