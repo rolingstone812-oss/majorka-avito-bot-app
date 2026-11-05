@@ -2650,10 +2650,19 @@
 
     // RESOLVE ACTIVE USER & SESSION
     const urlParams = new URLSearchParams(window.location.search);
-    const paramChatId = urlParams.get('chatId');
-    const tgUser = tg?.initDataUnsafe?.user;
+    const isForcedGuest = urlParams.has('guest') || urlParams.has('new') || urlParams.has('reset') || urlParams.has('demo');
+    if (isForcedGuest) {
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      } catch (e) {}
+    }
 
-    // Hierarchy: Telegram WebApp user -> URL param ?chatId= -> Localhost Owner (6940082004) -> localStorage -> guest
+    const paramChatId = isForcedGuest ? null : urlParams.get('chatId');
+    const tgUser = isForcedGuest ? null : tg?.initDataUnsafe?.user;
+
+    // Hierarchy: Telegram WebApp user -> URL param ?chatId= -> localStorage (clean client) -> guest
     let currentChatId = tgUser?.id
       ? String(tgUser.id)
       : paramChatId;
@@ -2663,7 +2672,7 @@
         currentChatId = '6940082004';
       } else {
         const saved = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId');
-        if (saved && !saved.startsWith('client_')) {
+        if (saved && !saved.startsWith('client_') && saved !== '6940082004') {
           currentChatId = saved;
         } else {
           let savedGuest = localStorage.getItem('majorka_guest_id');
@@ -2674,6 +2683,10 @@
           currentChatId = savedGuest;
         }
       }
+    }
+
+    if (isForcedGuest && window.history?.replaceState) {
+      window.history.replaceState({}, '', window.location.pathname);
     }
 
     let currentTgUser = tgUser?.username
