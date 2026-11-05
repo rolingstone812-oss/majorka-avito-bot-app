@@ -283,7 +283,21 @@
           </div>
 
           <!-- COLLAPSIBLE EMAIL AUTH BOX -->
-          <div id="collapsibleEmailBox" class="hidden p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3.5">
+          <div id="collapsibleEmailBox" class="hidden p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-3.5">
+            <div>
+              <h4 id="authTitle" class="text-sm font-bold text-white mb-0.5">Вход в кабинет</h4>
+              <p id="authSubtitle" class="text-[11px] text-white/50">Войдите, чтобы управлять продажами и заказами</p>
+            </div>
+
+            <!-- GOOGLE SIGN-IN BUTTON CONTAINER -->
+            <div id="googleSignInButton" class="w-full flex justify-center py-1"></div>
+
+            <div class="flex items-center gap-2 my-1">
+              <div class="h-px bg-white/10 flex-1"></div>
+              <span class="text-[10px] text-white/40 uppercase font-semibold">или по email</span>
+              <div class="h-px bg-white/10 flex-1"></div>
+            </div>
+
             <!-- MODE SWITCHER -->
             <div class="grid grid-cols-2 gap-1 p-1 bg-[#141417] rounded-xl border border-white/5">
               <button id="loginModeButton" type="button" onclick="setAuthMode('login')" class="auth-mode active py-1.5 rounded-lg text-xs font-semibold cursor-pointer">Вход</button>
@@ -301,17 +315,29 @@
             </div>
 
             <!-- PASSWORD -->
-            <div class="relative">
-              <input type="password" id="passwordInput" autocomplete="current-password" oninput="updatePasswordHint()" class="rolly-input w-full px-3.5 pr-9 py-2.5 text-xs placeholder-white/20" placeholder="Пароль">
-              <button type="button" onclick="togglePasswordVisibility()" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white p-1">
-                <span id="eyeIcon" class="material-symbols-outlined text-sm select-none">visibility</span>
-              </button>
+            <div class="space-y-1">
+              <div class="relative">
+                <input type="password" id="passwordInput" autocomplete="current-password" oninput="updatePasswordHint()" class="rolly-input w-full px-3.5 pr-9 py-2.5 text-xs placeholder-white/20" placeholder="Пароль">
+                <button type="button" onclick="togglePasswordVisibility()" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white p-1">
+                  <span id="eyeIcon" class="material-symbols-outlined text-sm select-none">visibility</span>
+                </button>
+              </div>
+              <div id="passwordHint" class="password-hint text-[11px] text-white/40"></div>
             </div>
 
             <!-- CONFIRM PASSWORD (Register only) -->
             <div id="passwordConfirmField" class="hidden">
               <input type="password" id="passwordConfirmInput" autocomplete="new-password" class="rolly-input w-full px-3.5 py-2.5 text-xs placeholder-white/20" placeholder="Повторите пароль">
             </div>
+
+            <!-- STATUS ALERT -->
+            <div id="authStatus" class="auth-status text-xs text-center min-h-[1.25rem]"></div>
+
+            <!-- TERMS CHECKBOX -->
+            <label class="flex items-start gap-2 text-[10px] text-white/60 cursor-pointer pt-0.5">
+              <input type="checkbox" id="indexTermsCheckbox" checked class="mt-0.5 rounded text-brand-gold focus:ring-brand-gold bg-black/40 border-white/20">
+              <span>Согласен с <a href="oferta.html" target="_blank" class="text-brand-gold hover:underline">Офертой</a> и <a href="privacy.html" target="_blank" class="text-brand-gold hover:underline">152-ФЗ РФ</a></span>
+            </label>
 
             <!-- SUBMIT BUTTON -->
             <button id="emailLoginButton" onclick="submitEmailAuth()" class="w-full btn-gold py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
