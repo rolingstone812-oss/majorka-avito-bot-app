@@ -2740,13 +2740,14 @@
 
     // Isolate browser state across different accounts
     const lastChatId = localStorage.getItem('majorka_last_chatId');
-    if (lastChatId && lastChatId !== currentChatId) {
+    if ((lastChatId && lastChatId !== currentChatId) || (currentChatId !== '6940082004' && lastChatId === '6940082004')) {
       localStorage.removeItem('majorka_catalog_products');
       localStorage.removeItem('majorka_bots');
       localStorage.removeItem('majorka_store_knowledge');
       localStorage.removeItem('majorka_slots_count');
       localStorage.removeItem('majorka_trial_used');
       localStorage.removeItem('majorka_balance');
+      localStorage.removeItem('majorka_is_owner');
     }
     localStorage.setItem('majorka_last_chatId', currentChatId);
 
@@ -3166,7 +3167,7 @@
         } else {
           userBalanceVal = Number(localStorage.getItem('majorka_balance') || 0);
           userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
-          userSlotsCount = Math.max(1, Number(localStorage.getItem('majorka_slots_count') || 1));
+          userSlotsCount = Math.max(0, Number(localStorage.getItem('majorka_slots_count') || 0));
           const balEl = document.getElementById('userBalanceText');
           if (balEl) renderUserBalance(userBalanceVal);
           const overDetails = document.getElementById('overviewSubDetails');
@@ -5449,7 +5450,7 @@
 
     function initChainLocksState() {
       renderTrialStatusUI();
-      const isOwnerLocal = (currentChatId === '6940082004' && isLocalHost);
+      const isOwnerLocal = (currentChatId === '6940082004');
       const hasPaid = isOwnerLocal || Boolean(userBotsList && userBotsList.length > 0 && userBotsList.some(b => Number(b.is_paid) === 1));
       const notice = document.getElementById('alreadyPaidNotice');
       const step1Text = document.getElementById('step1StatusText');
