@@ -933,7 +933,7 @@
         target += '?chatId=' + tgUser.id;
       } else {
         const saved = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId');
-        if (saved && !saved.startsWith('client_')) {
+        if (saved && !saved.startsWith('client_') && saved !== '6940082004') {
           target += '?chatId=' + saved;
         } else if (isLocalHost) {
           target += '?chatId=6940082004';
