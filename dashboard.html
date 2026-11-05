@@ -317,6 +317,11 @@
         </button>
 
         <!-- DESKTOP / TABLET CONTROLS -->
+        <a id="headerGuestSignupBtn" href="./index.html" class="hidden px-2.5 py-1.5 rounded-xl bg-gold/15 hover:bg-gold/25 border border-gold/40 text-gold text-xs font-bold transition-all flex items-center gap-1 shadow-neon-gold">
+          <span class="material-symbols-outlined text-sm">person_add</span>
+          <span>Зарегистрироваться</span>
+        </a>
+
         <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-white/70">
           <span class="w-2 h-2 rounded-full bg-status-green"></span>
           <span id="headerUserLabel" class="font-medium truncate max-w-[120px]">Владелец</span>
@@ -346,6 +351,21 @@
 
   <!-- MAIN CONTAINER -->
   <main class="flex-1 max-w-[1280px] w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 pb-28 md:pb-12 space-y-5 sm:space-y-8">
+
+    <!-- GUEST DEMO NOTICE BANNER (Only visible for guests) -->
+    <div id="guestDemoBanner" class="hidden p-3.5 sm:p-4 rounded-2xl bg-brand-gold/[0.06] border border-brand-gold/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
+      <div class="flex items-center gap-2.5">
+        <span class="material-symbols-outlined text-brand-gold text-xl">info</span>
+        <div>
+          <div class="text-xs font-bold text-white">Вы находитесь в ознакомительном демо-режиме</div>
+          <div class="text-[11px] text-white/60">Ваш прогресс и настройки сохраняются только в этом браузере. Зарегистрируйтесь, чтобы закрепить магазин за своим аккаунтом.</div>
+        </div>
+      </div>
+      <a href="./index.html" class="btn-gold px-4 py-2 rounded-xl text-xs font-extrabold flex items-center gap-1.5 shrink-0 shadow-neon-glow">
+        <span>Создать аккаунт</span>
+        <span class="material-symbols-outlined text-sm">arrow_forward</span>
+      </a>
+    </div>
 
     <!-- ==================== TAB 1: OVERVIEW ==================== -->
         <!-- ==================== TAB 1: OVERVIEW ==================== -->
@@ -1598,7 +1618,7 @@
         </div>
 
         <div class="flex flex-col sm:flex-row gap-2">
-          <input type="text" id="refLinkInput" readonly value="https://t.me/avito_deployer_bot?start=ref_6940082004" class="flex-1 px-4 py-3.5 bg-black/40 border border-white/10 rounded-xl text-gold font-mono text-xs focus:outline-none">
+          <input type="text" id="refLinkInput" readonly value="" placeholder="Генерируем персональную ссылку..." class="flex-1 px-4 py-3.5 bg-black/40 border border-white/10 rounded-xl text-gold font-mono text-xs focus:outline-none">
           <button onclick="copyRefLink()" class="btn-gold px-6 py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-neon-gold">
             <span class="material-symbols-outlined text-sm">content_copy</span>
             <span>Копировать ссылку</span>
@@ -2735,10 +2755,17 @@
     localStorage.setItem('majorka_chatId', currentChatId);
     localStorage.setItem('majorka_entered', 'true');
 
-    // Update Header active user label
+    // Update Header active user label and guest indicators
+    const isGuest = currentChatId.startsWith('client_');
     const headerUserEl = document.getElementById('headerUserLabel');
     if (headerUserEl) {
-      headerUserEl.innerText = tgUser?.username ? ('@' + tgUser.username) : (tgUser?.first_name || (isOwner ? 'Владелец' : 'Клиент'));
+      headerUserEl.innerText = tgUser?.username ? ('@' + tgUser.username) : (tgUser?.first_name || (isOwner ? 'Владелец' : (isGuest ? 'Демо-гость' : 'Клиент')));
+    }
+    if (isGuest) {
+      const banner = document.getElementById('guestDemoBanner');
+      if (banner) banner.classList.remove('hidden');
+      const guestBtn = document.getElementById('headerGuestSignupBtn');
+      if (guestBtn) guestBtn.classList.remove('hidden');
     }
 
     // Payment Success Alert Check
