@@ -1062,9 +1062,13 @@
       ? (window.location.port === '8085' ? '' : 'http://127.0.0.1:8085')
       : 'https://immensurable-paleaceous-marcella.ngrok-free.dev';
 
-    const authStatus = (message = '', type = 'info') => {
+    const authStatus = (message = '', type = 'info', isHtml = false) => {
       const el = document.getElementById('authStatus');
-      if (el) { el.textContent = message; el.className = `auth-status ${type}`; }
+      if (el) { 
+        if (isHtml) el.innerHTML = message;
+        else el.textContent = message; 
+        el.className = `auth-status ${type}`; 
+      }
     };
 
     function goToCabinet() {
@@ -1195,14 +1199,30 @@
       const chatId = String(data.user.chatId);
       const token = data.session_token || ('tok_' + Date.now());
       
+      // Clear storage if changing user
+      const prevChatId = localStorage.getItem('majorka_chatId');
+      if (prevChatId && prevChatId !== chatId) {
+        localStorage.removeItem('majorka_catalog_products');
+        localStorage.removeItem('majorka_bots');
+        localStorage.removeItem('majorka_store_knowledge');
+        localStorage.removeItem('majorka_slots_count');
+        localStorage.removeItem('majorka_trial_used');
+        localStorage.removeItem('majorka_balance');
+      }
+
       // 1. Save in localStorage
       localStorage.setItem('session_token', token);
       localStorage.setItem('userChatId', chatId);
       localStorage.setItem('majorka_chatId', chatId);
+      localStorage.setItem('majorka_last_chatId', chatId);
       localStorage.setItem('majorka_entered', 'true');
       if (data.user.first_name) localStorage.setItem('majorka_userName', data.user.first_name);
       if (data.user.email) localStorage.setItem('majorka_userEmail', data.user.email);
-      if (chatId === '6940082004') localStorage.setItem('majorka_is_owner', 'true');
+      if (chatId === '6940082004') {
+        localStorage.setItem('majorka_is_owner', 'true');
+      } else {
+        localStorage.removeItem('majorka_is_owner');
+      }
 
       // 2. Save in permanent cookies (365 days / 1 year)
       const maxAge = 365 * 24 * 3600;
@@ -1262,12 +1282,7 @@
         const mockUid = 'g_' + Math.abs(response.credential.slice(-16).split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString(36);
         saveAuthAndContinue({
           session_token: 'g_tok_' + Date.now(),
-          user: { chatId: mockUid, first_name: 'Google Пользователь' }
-        });
-      }
-    }
-
-    async function submitTelegramAuth() {
+          usasync function submitTelegramAuth() {
       const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
       if (user?.id) {
         // Direct Telegram WebApp login
@@ -1295,6 +1310,13 @@
       }
 
       // Desktop / Web Browser: 1-Click Ticket Handshake with @avito_deployer_bot
+      // Open window pointer BEFORE async call to bypass popup blockers
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      let authWin = null;
+      if (!isMobile) {
+        try { authWin = window.open('about:blank', '_blank'); } catch(e) {}
+      }
+
       authStatus('Создаём сессию быстрого входа через Telegram…', 'info');
       try {
         const ticketRes = await fetch(`${API_BASE}/api/auth/telegram_qr_start`, {
@@ -1302,21 +1324,42 @@
         });
         const ticketData = await ticketRes.json();
         if (!ticketRes.ok || !ticketData.success || !ticketData.ticket_id) {
+          if (authWin && !authWin.closed) authWin.close();
           authStatus('Не удалось создать сессию входа. Попробуйте еще раз.', 'error');
           return;
         }
 
         const botUrl = ticketData.bot_url || `https://t.me/avito_deployer_bot?start=login_${ticketData.ticket_id}`;
-        window.open(botUrl, '_blank');
-        authStatus('Подтвердите вход в Telegram-боте @avito_deployer_bot (нажмите «Запустить» / «Старт»)…', 'info');
+        
+        // Open Telegram URL
+        if (isMobile) {
+          window.location.href = botUrl;
+        } else if (authWin && !authWin.closed) {
+          try { authWin.location.href = botUrl; } catch(e) {}
+        }
 
-        // Poll for confirmation
+        // Render fail-safe direct button inside the modal
+        const cardHtml = `
+          <div class="p-3.5 rounded-xl bg-[#2AABEE]/15 border border-[#2AABEE]/40 text-center space-y-2.5 my-2">
+            <div class="text-xs font-bold text-white flex items-center justify-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-[#2AABEE] animate-pulse"></span>
+              <span>Подтверждение входа в Telegram</span>
+            </div>
+            <a href="${botUrl}" target="_blank" class="block w-full py-2.5 px-3 rounded-lg bg-[#2AABEE] hover:bg-[#229ED9] text-white font-extrabold text-xs shadow-md shadow-[#2AABEE]/25 transition-all text-center">
+              👉 Открыть @avito_deployer_bot (Вход)
+            </a>
+            <div class="text-[10px] text-white/50">Нажмите кнопку «Запустить» в боте — Личный Кабинет откроется автоматически</div>
+          </div>
+        `;
+        authStatus(cardHtml, 'info', true);
+
+        // Poll for confirmation (up to 90 seconds)
         let pollCount = 0;
         const pollInterval = setInterval(async () => {
           pollCount++;
           if (pollCount > 60) {
             clearInterval(pollInterval);
-            authStatus('Время ожидания входа истекло. Попробуйте снова.', 'error');
+            authStatus('Время ожидания входа истекло. Нажмите кнопку входа снова.', 'error');
             return;
           }
           try {
@@ -1326,7 +1369,8 @@
             const checkData = await checkRes.json();
             if (checkData.success && checkData.status === 'authorized' && checkData.session_token) {
               clearInterval(pollInterval);
-              authStatus('Вход успешно подтверждён! Переходим в кабинет…', 'success');
+              if (authWin && !authWin.closed) { try { authWin.close(); } catch(e){} }
+              authStatus('✅ Вход успешно подтверждён! Переходим в кабинет…', 'success');
               saveAuthAndContinue(checkData);
             }
           } catch (e) {
@@ -1335,9 +1379,12 @@
         }, 1500);
 
       } catch (err) {
-        // Fallback: direct telegram webapp entrance
-        authStatus('Открываем Telegram-бот @avito_deployer_bot напрямую…', 'info');
-        window.open('https://t.me/avito_deployer_bot?start=app', '_blank');
+        if (authWin && !authWin.closed) authWin.close();
+        authStatus('Ошибка связи с Telegram-сервисом. Попробуйте еще раз.', 'error');
+      }
+    }
+
+    async function submitEmailAuth       window.open('https://t.me/avito_deployer_bot?start=app', '_blank');
       }
     }
 
@@ -1430,6 +1477,14 @@
 
     checkCookieConsent();
     loadGoogleConfig();
+    // Automatic owner login or session redirect
+    (function checkInitialAuth() {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('owner') === '1' || urlParams.get('chatId') === '6940082004') {
+        loginAsOwner();
+      }
+    })();
+
 
     function checkCookieConsent() {
       const consent = localStorage.getItem('cookie_consent');
