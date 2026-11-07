@@ -1298,8 +1298,7 @@
           <div class="flex items-center gap-3">
             <div class="flex items-center gap-2">
               <span class="text-xs text-white/60">В каталоге:</span>
-              <span class="px-3 py-1 rounded-full text-xs font-black bg-white/5 text-white/80 border border-white/10 flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span>
+              <span class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-white/80 border border-white/10 flex items-center gap-1">
                 <span id="oneClickCountBadge">0</span>
                 <span>товаров</span>
               </span>
@@ -6811,7 +6810,7 @@
           const step1Badge = document.getElementById('step1StatusBadge');
           if (step1Badge) {
             step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-white/5 text-zinc-300 border border-white/10 flex items-center gap-1.5';
-            step1Badge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>✓ Оплачено: ${tariffTitle}</span>`;
+            step1Badge.innerHTML = `<span>✓ Оплачено: ${tariffTitle}</span>`;
           }
 
           // UNLOCK STEP 2
@@ -6856,7 +6855,7 @@
       const step2Badge = document.getElementById('step2StatusBadge');
       if (step2Badge) {
         step2Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5';
-        step2Badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span><span>✓ Регламент настроен и сохранен</span>';
+        step2Badge.innerHTML = '<span>✓ Регламент настроен и сохранен</span>';
       }
 
       // UNLOCK STEP 3
@@ -7540,7 +7539,7 @@
       showToast('Оплата подтверждена', `Тариф «${planName}» оплачен с баланса. Переходим к Шагу 2.`, 'success');
       const badge = document.getElementById('step1StatusBadge');
       if (badge) {
-        badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>Тариф «${planName}» активен</span>`;
+        badge.innerHTML = `<span>Тариф «${planName}» активен</span>`;
       }
       setTimeout(() => {
         scrollToStep(2);
