@@ -3474,7 +3474,7 @@
 
     if (tgUser?.id) {
       currentChatId = String(tgUser.id);
-    } else if (paramChatId && (paramChatId !== '6940082004' || savedToken || isLocalHost || urlParams.get('auth') === 'owner')) {
+    } else if (paramChatId) {
       currentChatId = paramChatId;
     } else if (savedChatId && !savedChatId.startsWith('client_')) {
       currentChatId = savedChatId;
