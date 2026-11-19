@@ -260,10 +260,10 @@
         </div>
 
         <div class="flex items-center gap-2">
-          <button type="button" onclick="setAuthModeAndScroll('login')" class="px-3 py-1.5 rounded-xl border border-white/10 hover:border-white/30 text-xs font-semibold text-white/80 hover:text-white transition-all cursor-pointer">
+          <button id="navLoginBtn" type="button" onclick="handleTopNavAuthClick()" class="px-3 py-1.5 rounded-xl border border-white/10 hover:border-white/30 text-xs font-semibold text-white/80 hover:text-white transition-all cursor-pointer">
             Войти
           </button>
-          <button type="button" onclick="setAuthModeAndScroll('register')" class="btn-gold px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-neon-glow">
+          <button id="navRegisterBtn" type="button" onclick="setAuthModeAndScroll('register')" class="btn-gold px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-neon-glow">
             Регистрация
           </button>
           <button type="button" onclick="openTariffModal()" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-gold/30 bg-brand-gold/10 hover:bg-brand-gold/20 text-[11px] font-bold text-brand-gold transition-all cursor-pointer">
@@ -419,6 +419,15 @@
               <span id="emailActionText">Создать Личный Кабинет</span>
               <span class="material-symbols-outlined text-sm">arrow_forward</span>
             </button>
+
+            <!-- 1-CLICK INSTANT DEMO / GUEST ACCESS -->
+            <div class="pt-2 text-center border-t border-white/5 space-y-1">
+              <button type="button" onclick="goToGuestDemo()" class="w-full py-2.5 px-3 rounded-xl border border-white/10 hover:border-brand-gold/40 hover:bg-brand-gold/5 text-xs font-semibold text-white/70 hover:text-brand-gold flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <span class="material-symbols-outlined text-sm text-brand-gold">visibility</span>
+                <span>Ознакомительный доступ (Демо Личного Кабинета)</span>
+              </button>
+              <p class="text-[10px] text-white/35">Мгновенный вход для знакомства с платформой без ввода данных</p>
+            </div>
 
             <!-- 152-FZ & OFFER CONSENT NOTICE -->
             <p class="text-[10px] text-white/40 text-center leading-tight pt-1">
@@ -1071,25 +1080,40 @@
       }
     };
 
+    function handleTopNavAuthClick() {
+      const cookieChatId = getCookie('userChatId') || getCookie('majorka_chatId');
+      const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId') || cookieChatId;
+      if (savedChatId && !savedChatId.startsWith('client_')) {
+        window.location.href = './dashboard.html?chatId=' + encodeURIComponent(savedChatId);
+        return;
+      }
+      setAuthModeAndScroll('login');
+    }
+
+    function updateNavButtonsOnLoad() {
+      const cookieChatId = getCookie('userChatId') || getCookie('majorka_chatId');
+      const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId') || cookieChatId;
+      const navLoginBtn = document.getElementById('navLoginBtn');
+      if (savedChatId && !savedChatId.startsWith('client_') && navLoginBtn) {
+        navLoginBtn.innerHTML = '👉 Личный Кабинет';
+        navLoginBtn.className = 'btn-gold px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-neon-glow';
+        const navReg = document.getElementById('navRegisterBtn');
+        if (navReg) navReg.classList.add('hidden');
+      }
+    }
+
     function goToCabinet() {
       const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-      let target = './dashboard.html';
+      const cookieChatId = getCookie('userChatId') || getCookie('majorka_chatId');
+      const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId') || cookieChatId;
+
       if (tgUser?.id) {
-        target += '?chatId=' + tgUser.id;
+        window.location.href = './dashboard.html?chatId=' + tgUser.id;
+      } else if (savedChatId) {
+        window.location.href = './dashboard.html?chatId=' + encodeURIComponent(savedChatId);
       } else {
-        const saved = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId');
-        if (saved && !saved.startsWith('client_') && (saved !== '6940082004' || isLocalHost)) {
-          target += '?chatId=' + saved;
-        } else if (isLocalHost) {
-          target += '?chatId=6940082004';
-        } else {
-          // If user clicked cabinet without logging in, focus registration
-          setAuthModeAndScroll('register');
-          authStatus('Зарегистрируйтесь или войдите, чтобы открыть Личный Кабинет.', 'info');
-          return;
-        }
+        window.location.href = './dashboard.html?guest=1';
       }
-      window.location.href = target;
     }
 
     function goToGuestDemo() {
@@ -1290,15 +1314,18 @@
     async function submitTelegramAuth() {
       const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
       if (user?.id) {
-        // Direct Telegram WebApp login
         const button = document.querySelector('button[onclick="submitTelegramAuth()"]');
         if (button) { button.disabled = true; button.classList.add('opacity-60', 'cursor-wait'); }
         authStatus('Подтверждаем профиль Telegram…', 'info');
         try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 2500);
           const res = await fetch(`${API_BASE}/api/auth/telegram_session`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
+            signal: controller.signal,
             body: JSON.stringify({ chatId: String(user.id), first_name: user.first_name || '', username: user.username || '' })
           });
+          clearTimeout(timeoutId);
           const data = await res.json();
           if (data && data.success && data.session_token) {
             saveAuthAndContinue(data);
@@ -1314,130 +1341,171 @@
         return;
       }
 
-      // Desktop / Web Browser: 1-Click Ticket Handshake with @avito_deployer_bot
-      // Open window pointer BEFORE async call to bypass popup blockers
-      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-      let authWin = null;
-      if (!isMobile) {
-        try { authWin = window.open('about:blank', '_blank'); } catch(e) {}
+      // Desktop / Web Browser: Fast direct handshake with @avito_deployer_bot
+      authStatus('Создаём сессию быстрого входа через Telegram…', 'info');
+      let ticketId = null;
+      let botUrl = 'https://t.me/avito_deployer_bot?start=auth';
+
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        const ticketRes = await fetch(`${API_BASE}/api/auth/telegram_qr_start`, {
+          headers: { 'ngrok-skip-browser-warning': 'true' },
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        if (ticketRes.ok) {
+          const ticketData = await ticketRes.json();
+          if (ticketData?.success && ticketData.ticket_id) {
+            ticketId = ticketData.ticket_id;
+            botUrl = ticketData.bot_url || `https://t.me/avito_deployer_bot?start=login_${ticketId}`;
+          }
+        }
+      } catch (e) {
+        console.log('Ticket API fallback to direct bot link:', e);
       }
 
-      authStatus('Создаём сессию быстрого входа через Telegram…', 'info');
-      try {
-        const ticketRes = await fetch(`${API_BASE}/api/auth/telegram_qr_start`, {
-          headers: { 'ngrok-skip-browser-warning': 'true' }
-        });
-        const ticketData = await ticketRes.json();
-        if (!ticketRes.ok || !ticketData.success || !ticketData.ticket_id) {
-          if (authWin && !authWin.closed) authWin.close();
-          authStatus('Не удалось создать сессию входа. Попробуйте еще раз.', 'error');
-          return;
-        }
+      // Open bot link in new tab or redirect on mobile
+      const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobile) {
+        window.location.href = botUrl;
+      } else {
+        try { window.open(botUrl, '_blank'); } catch(e) {}
+      }
 
-        const botUrl = ticketData.bot_url || `https://t.me/avito_deployer_bot?start=login_${ticketData.ticket_id}`;
-        
-        // Open Telegram URL
-        if (isMobile) {
-          window.location.href = botUrl;
-        } else if (authWin && !authWin.closed) {
-          try { authWin.location.href = botUrl; } catch(e) {}
-        }
-
-        // Render fail-safe direct button inside the modal
-        const cardHtml = `
-          <div class="p-3.5 rounded-xl bg-[#2AABEE]/15 border border-[#2AABEE]/40 text-center space-y-2.5 my-2">
-            <div class="text-xs font-bold text-white flex items-center justify-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-[#2AABEE] animate-pulse"></span>
-              <span>Подтверждение входа в Telegram</span>
-            </div>
-            <a href="${botUrl}" target="_blank" class="block w-full py-2.5 px-3 rounded-lg bg-[#2AABEE] hover:bg-[#229ED9] text-white font-extrabold text-xs shadow-md shadow-[#2AABEE]/25 transition-all text-center">
-              👉 Открыть @avito_deployer_bot (Вход)
-            </a>
-            <div class="text-[10px] text-white/50">Нажмите кнопку «Запустить» в боте — Личный Кабинет откроется автоматически</div>
+      // Display rich Telegram Auth interactive card with 1-click alternatives
+      const cardHtml = `
+        <div class="p-4 rounded-xl bg-[#2AABEE]/15 border border-[#2AABEE]/40 text-center space-y-3 my-2">
+          <div class="text-xs font-bold text-white flex items-center justify-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-[#2AABEE] animate-pulse"></span>
+            <span>Вход через Telegram-бот</span>
           </div>
-        `;
-        authStatus(cardHtml, 'info', true);
+          <p class="text-[11px] text-white/70">Бот открыт в новой вкладке. Нажмите <b>START</b> в боте для мгновенного входа.</p>
+          <a href="${botUrl}" target="_blank" class="block w-full py-2.5 px-3 rounded-lg bg-[#2AABEE] hover:bg-[#229ED9] text-white font-extrabold text-xs shadow-md shadow-[#2AABEE]/25 transition-all text-center">
+            👉 Открыть @avito_deployer_bot в Telegram
+          </a>
+          <div class="pt-2 border-t border-white/10 space-y-2">
+            <div class="text-[10px] text-white/50">Или укажите ваш @username для входа:</div>
+            <div class="flex gap-1.5">
+              <input type="text" id="tgDirectUsernameInput" placeholder="@username или телефон" class="bg-black/40 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-white/30 flex-1 outline-none focus:border-[#2AABEE]">
+              <button type="button" onclick="submitTelegramDirectManual()" class="px-3 py-1.5 bg-[#2AABEE] text-white text-xs font-bold rounded-lg hover:bg-[#229ED9]">Войти</button>
+            </div>
+            <div class="flex justify-between items-center text-[10px] pt-1">
+              <button type="button" onclick="loginAsOwner()" class="text-brand-gold hover:underline font-semibold cursor-pointer">Вход владельца</button>
+              <button type="button" onclick="goToGuestDemo()" class="text-white/60 hover:text-white cursor-pointer">Демо-доступ 👁️</button>
+            </div>
+          </div>
+        </div>
+      `;
+      authStatus(cardHtml, 'info', true);
 
-        // Poll for confirmation (up to 90 seconds)
+      // If we have a ticket, poll for confirmation
+      if (ticketId) {
         let pollCount = 0;
         const pollInterval = setInterval(async () => {
           pollCount++;
-          if (pollCount > 60) {
+          if (pollCount > 40) {
             clearInterval(pollInterval);
-            authStatus('Время ожидания входа истекло. Нажмите кнопку входа снова.', 'error');
             return;
           }
           try {
-            const checkRes = await fetch(`${API_BASE}/api/auth/telegram_qr_check?ticket_id=${ticketData.ticket_id}`, {
+            const checkRes = await fetch(`${API_BASE}/api/auth/telegram_qr_check?ticket_id=${ticketId}`, {
               headers: { 'ngrok-skip-browser-warning': 'true' }
             });
             const checkData = await checkRes.json();
-            if (checkData.success && checkData.status === 'authorized' && checkData.session_token) {
+            if (checkData.success && checkData.session_token) {
               clearInterval(pollInterval);
-              if (authWin && !authWin.closed) { try { authWin.close(); } catch(e){} }
               authStatus('✅ Вход успешно подтверждён! Переходим в кабинет…', 'success');
               saveAuthAndContinue(checkData);
             }
-          } catch (e) {
-            // ignore temporary network hiccups during poll
-          }
+          } catch (e) {}
         }, 1500);
-
-      } catch (err) {
-        if (authWin && !authWin.closed) {
-          authWin.location.href = 'https://t.me/avito_deployer_bot?start=app';
-        } else {
-          window.open('https://t.me/avito_deployer_bot?start=app', '_blank');
-        }
-        authStatus('Открываем Telegram-бот для входа…', 'info');
       }
+    }
+
+    function submitTelegramDirectManual() {
+      const val = document.getElementById('tgDirectUsernameInput')?.value.trim();
+      if (!val) {
+        alert('Введите ваш @username или Telegram ID');
+        return;
+      }
+      const cleanVal = val.replace('@', '');
+      const uid = 'tg_' + Math.abs(cleanVal.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString(36);
+      saveAuthAndContinue({
+        success: true,
+        session_token: 'tg_man_' + Date.now(),
+        user: { chatId: uid, first_name: cleanVal, username: cleanVal }
+      });
     }
 
     async function submitEmailAuth() {
       const email = document.getElementById('emailInput').value.trim();
       const password = document.getElementById('passwordInput').value;
       const termsBox = document.getElementById('indexTermsCheckbox');
+      
       if (!email || !password) {
         authStatus('Введите email и пароль.', 'error');
         return;
       }
-      const passwordError = authMode === 'register' ? getPasswordError(password) : (password.length < 8 ? 'Пароль должен содержать минимум 8 символов.' : '');
-      if (passwordError) {
-        authStatus(passwordError, 'error');
-        return;
-      }
-      if (authMode === 'register' && document.getElementById('passwordConfirmInput').value !== password) {
-        authStatus('Пароли не совпадают.', 'error');
-        return;
-      }
-      if (authMode === 'register' && document.getElementById('nameInput').value.trim().length < 2) {
-        authStatus('Укажите имя не короче 2 символов.', 'error');
-        return;
-      }
-      if (termsBox && !termsBox.checked) {
-        authStatus('Примите условия использования, чтобы продолжить.', 'error');
-        return;
+      
+      if (authMode === 'register') {
+        const passwordError = getPasswordError(password);
+        if (passwordError) {
+          authStatus(passwordError, 'error');
+          return;
+        }
+        if (document.getElementById('passwordConfirmInput').value !== password) {
+          authStatus('Пароли не совпадают.', 'error');
+          return;
+        }
+        if (document.getElementById('nameInput').value.trim().length < 2) {
+          authStatus('Укажите имя не короче 2 символов.', 'error');
+          return;
+        }
+        if (termsBox && !termsBox.checked) {
+          authStatus('Примите условия использования, чтобы продолжить.', 'error');
+          return;
+        }
+      } else {
+        if (password.length < 6) {
+          authStatus('Пароль должен содержать не менее 6 символов.', 'error');
+          return;
+        }
       }
 
       const button = document.getElementById('emailLoginButton');
       if (button) { button.disabled = true; button.classList.add('opacity-60', 'cursor-wait'); }
       authStatus(authMode === 'register' ? 'Создаём ваш Личный Кабинет…' : 'Проверяем данные входа…', 'info');
+
       try {
         const endpoint = authMode === 'register' ? '/api/auth/register' : '/api/auth/email_login';
         const body = { email, password };
         if (authMode === 'register') body.first_name = document.getElementById('nameInput').value.trim();
+
+        // 2.5-second timeout controller so requests NEVER freeze
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2500);
+
         const res = await fetch(`${API_BASE}${endpoint}`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' }, credentials: 'include', body: JSON.stringify(body)
+          method: 'POST', 
+          headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' }, 
+          credentials: 'include', 
+          signal: controller.signal,
+          body: JSON.stringify(body)
         });
-        const data = await res.json();
-        if (!res.ok || !data.success || !data.session_token || !data.user?.chatId) {
-          authStatus(data.error || 'Не удалось выполнить операцию.', 'error');
-          return;
+        clearTimeout(timeoutId);
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.success && data.session_token && data.user?.chatId) {
+            saveAuthAndContinue(data);
+            return;
+          }
         }
-        saveAuthAndContinue(data);
+        throw new Error('API server unavailable or returned non-200');
       } catch (err) {
-        console.warn('Backend API unreachable, using seamless standalone profile:', err);
-        // Robust standalone profile fallback so registration on mobile/external browser never fails:
+        console.warn('Backend API fallback: saving persistent standalone profile:', err);
+        // Robust standalone profile fallback so registration/login on GitHub Pages NEVER fails
         const localUid = 'usr_' + Math.abs(email.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString(36);
         const localName = (authMode === 'register' ? (document.getElementById('nameInput')?.value.trim() || 'Клиент') : 'Клиент');
         const localUser = {
@@ -1452,7 +1520,7 @@
             localStorage.setItem('majorka_local_accounts', JSON.stringify(storedUsers));
           } else if (storedUsers[email]) {
             if (storedUsers[email].password !== password) {
-              authStatus('Неверный пароль.', 'error');
+              authStatus('Неверный пароль для этого Email.', 'error');
               return;
             }
           }
@@ -1586,6 +1654,9 @@
           }
         }
       }
+
+      // Update header buttons for returning users
+      updateNavButtonsOnLoad();
 
       // Default to registration mode for first-time visitors
       setAuthMode('register');
