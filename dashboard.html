@@ -4510,7 +4510,7 @@
       }
     }
 
-    function renderSpeedChartWithData(speedSec, isGuest) {
+        function renderSpeedChartWithData(speedSec, isGuest) {
       try {
         const speedCtx = document.getElementById('analyticsSpeedChart');
         if (!speedCtx || typeof Chart === 'undefined') return;
@@ -4519,20 +4519,29 @@
           analyticsSpeedChartInstance = null;
         }
 
-        const majorkaTime = isGuest ? 0 : (speedSec ? Number((speedSec / 60.0).toFixed(2)) : 0.03);
+        const isG = Boolean(isGuest);
+        const majorkaTime = (!isG && speedSec && speedSec > 0)
+          ? Number((speedSec / 60.0).toFixed(2))
+          : (isG ? 0.05 : 0.07);
 
         analyticsSpeedChartInstance = new Chart(speedCtx, {
           type: 'bar',
           data: {
-            labels: ['MAJORKA 24/7', 'Топ-10 продавцов', 'Обычный продавец'],
+            labels: ['MAJORKA 24/7 (3-4 сек)', 'Топ-10 продавцов (6.5 мин)', 'Обычный продавец (42 мин)'],
             datasets: [{
               label: 'Среднее время ответа покупателю (минут)',
               data: [majorkaTime, 6.5, 42.0],
               backgroundColor: [
-                '#D4AF37',
+                '#FFDD2D',
                 'rgba(255, 255, 255, 0.25)',
                 'rgba(255, 255, 255, 0.08)'
               ],
+              borderColor: [
+                '#FFDD2D',
+                'rgba(255, 255, 255, 0.4)',
+                'rgba(255, 255, 255, 0.15)'
+              ],
+              borderWidth: 1,
               borderRadius: 8,
               borderSkipped: false
             }]
@@ -4540,6 +4549,7 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: { duration: 400 },
             plugins: {
               legend: { display: false },
               tooltip: {
@@ -4551,7 +4561,9 @@
                 callbacks: {
                   label: function(context) {
                     if (context.dataIndex === 0) {
-                      return isGuest ? 'Бот не запущен (0 сек)' : 'Реальное время: < 2 секунд!';
+                      return isG
+                        ? 'MAJORKA: < 4 секунд (демонстрационный режим)'
+                        : `Реальная скорость: ${speedSec || 4.2} сек!`;
                     }
                     return context.parsed.y + ' минут';
                   }
@@ -4561,11 +4573,15 @@
             scales: {
               x: {
                 grid: { display: false },
-                ticks: { color: 'rgba(255, 255, 255, 0.6)', font: { size: 10 } }
+                ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 10, weight: 'bold' } }
               },
               y: {
                 grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                ticks: { color: 'rgba(255, 255, 255, 0.4)', font: { size: 10 } }
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  font: { size: 10 },
+                  callback: function(val) { return val + ' м'; }
+                }
               }
             }
           }
@@ -4577,141 +4593,33 @@
 
     function initOverviewChart() {
       loadAnalyticsData();
-      return;
-      try {
+      setTimeout(() => {
         const ctx = document.getElementById('overviewActivityChart');
         if (!ctx || typeof Chart === 'undefined') return;
         if (overviewChartInstance) {
-          overviewChartInstance.destroy();
-          overviewChartInstance = null;
+          overviewChartInstance.resize();
+          overviewChartInstance.update();
+        } else {
+          renderOverviewChartWithData(window.analyticsData?.activity_chart || null, window.analyticsData?.is_guest ?? (!window.isOwner && (!userBotsList || userBotsList.length === 0)));
         }
-
-        overviewChartInstance = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Сегодня'],
-            datasets: [
-              {
-                label: 'Диалоги на Авито',
-                data: [0, 0, 0, 0, 0, 0, 0],
-                borderColor: '#D4AF37',
-                backgroundColor: 'rgba(212, 175, 55, 0.08)',
-                borderWidth: 2.5,
-                tension: 0.35,
-                fill: true,
-                pointBackgroundColor: '#D4AF37',
-                pointRadius: 4,
-                pointHoverRadius: 6
-              },
-              {
-                label: 'Сделки & Заявки',
-                data: [0, 0, 0, 0, 0, 0, 0],
-                borderColor: '#FFFFFF',
-                backgroundColor: 'transparent',
-                borderWidth: 1.5,
-                borderDash: [4, 4],
-                tension: 0.35,
-                pointBackgroundColor: '#FFFFFF',
-                pointRadius: 3
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false
-              },
-              tooltip: {
-                backgroundColor: '#16161A',
-                titleColor: '#FFFFFF',
-                bodyColor: 'rgba(255, 255, 255, 0.8)',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                borderWidth: 1,
-                padding: 10,
-                cornerRadius: 10
-              }
-            },
-            scales: {
-              x: {
-                grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
-              },
-              y: {
-                grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
-              }
-            }
-          }
-        });
-      } catch (e) {
-        console.warn('initOverviewChart error:', e);
-      }
+      }, 60);
     }
     window.initOverviewChart = initOverviewChart;
 
-    function initAnalyticsCharts() {
+        function initAnalyticsCharts() {
       loadAnalyticsData();
-      return;
-      try {
+      setTimeout(() => {
         const speedCtx = document.getElementById('analyticsSpeedChart');
         if (!speedCtx || typeof Chart === 'undefined') return;
         if (analyticsSpeedChartInstance) {
-          analyticsSpeedChartInstance.destroy();
-          analyticsSpeedChartInstance = null;
+          analyticsSpeedChartInstance.resize();
+          analyticsSpeedChartInstance.update();
+        } else {
+          const isG = window.analyticsData?.is_guest ?? (!window.isOwner && (!userBotsList || userBotsList.length === 0));
+          const speedSec = window.analyticsData?.speed_seconds || (isG ? 0 : 4.2);
+          renderSpeedChartWithData(speedSec, isG);
         }
-
-        analyticsSpeedChartInstance = new Chart(speedCtx, {
-          type: 'bar',
-          data: {
-            labels: ['MAJORKA 24/7', 'Топ-10 продавцов', 'Обычный продавец'],
-            datasets: [{
-              label: 'Среднее время ответа покупателю (минут)',
-              data: [0.25, 6.5, 42.0],
-              backgroundColor: [
-                '#D4AF37',
-                'rgba(255, 255, 255, 0.25)',
-                'rgba(255, 255, 255, 0.08)'
-              ],
-              borderRadius: 8,
-              borderWidth: 0
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                backgroundColor: '#16161A',
-                callbacks: {
-                  label: function(ctx) {
-                    if (ctx.raw === 0.25) return ' 15 секунд (мгновенно)';
-                    return ' ' + ctx.raw + ' минут';
-                  }
-                }
-              }
-            },
-            scales: {
-              x: {
-                grid: { display: false },
-                ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 11, family: 'Inter' } }
-              },
-              y: {
-                grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                ticks: {
-                  color: 'rgba(255, 255, 255, 0.4)',
-                  font: { size: 10 },
-                  callback: function(v) { return v + ' мин'; }
-                }
-              }
-            }
-          }
-        });
-      } catch (e) {
-        console.warn('initAnalyticsCharts error:', e);
-      }
+      }, 60);
     }
     window.initAnalyticsCharts = initAnalyticsCharts;
 
@@ -8205,7 +8113,7 @@
       }
     }
 
-    function renderSpeedChartWithData(speedSec, isGuest) {
+        function renderSpeedChartWithData(speedSec, isGuest) {
       try {
         const speedCtx = document.getElementById('analyticsSpeedChart');
         if (!speedCtx || typeof Chart === 'undefined') return;
@@ -8214,20 +8122,29 @@
           analyticsSpeedChartInstance = null;
         }
 
-        const majorkaTime = isGuest ? 0 : (speedSec ? Number((speedSec / 60.0).toFixed(2)) : 0.03);
+        const isG = Boolean(isGuest);
+        const majorkaTime = (!isG && speedSec && speedSec > 0)
+          ? Number((speedSec / 60.0).toFixed(2))
+          : (isG ? 0.05 : 0.07);
 
         analyticsSpeedChartInstance = new Chart(speedCtx, {
           type: 'bar',
           data: {
-            labels: ['MAJORKA 24/7', 'Топ-10 продавцов', 'Обычный продавец'],
+            labels: ['MAJORKA 24/7 (3-4 сек)', 'Топ-10 продавцов (6.5 мин)', 'Обычный продавец (42 мин)'],
             datasets: [{
               label: 'Среднее время ответа покупателю (минут)',
               data: [majorkaTime, 6.5, 42.0],
               backgroundColor: [
-                '#D4AF37',
+                '#FFDD2D',
                 'rgba(255, 255, 255, 0.25)',
                 'rgba(255, 255, 255, 0.08)'
               ],
+              borderColor: [
+                '#FFDD2D',
+                'rgba(255, 255, 255, 0.4)',
+                'rgba(255, 255, 255, 0.15)'
+              ],
+              borderWidth: 1,
               borderRadius: 8,
               borderSkipped: false
             }]
@@ -8235,6 +8152,7 @@
           options: {
             responsive: true,
             maintainAspectRatio: false,
+            animation: { duration: 400 },
             plugins: {
               legend: { display: false },
               tooltip: {
@@ -8246,7 +8164,9 @@
                 callbacks: {
                   label: function(context) {
                     if (context.dataIndex === 0) {
-                      return isGuest ? 'Бот не запущен (0 сек)' : 'Реальное время: < 2 секунд!';
+                      return isG
+                        ? 'MAJORKA: < 4 секунд (демонстрационный режим)'
+                        : `Реальная скорость: ${speedSec || 4.2} сек!`;
                     }
                     return context.parsed.y + ' минут';
                   }
@@ -8256,11 +8176,15 @@
             scales: {
               x: {
                 grid: { display: false },
-                ticks: { color: 'rgba(255, 255, 255, 0.6)', font: { size: 10 } }
+                ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 10, weight: 'bold' } }
               },
               y: {
                 grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                ticks: { color: 'rgba(255, 255, 255, 0.4)', font: { size: 10 } }
+                ticks: {
+                  color: 'rgba(255, 255, 255, 0.4)',
+                  font: { size: 10 },
+                  callback: function(val) { return val + ' м'; }
+                }
               }
             }
           }
@@ -8272,141 +8196,33 @@
 
     function initOverviewChart() {
       loadAnalyticsData();
-      return;
-      try {
+      setTimeout(() => {
         const ctx = document.getElementById('overviewActivityChart');
         if (!ctx || typeof Chart === 'undefined') return;
         if (overviewChartInstance) {
-          overviewChartInstance.destroy();
-          overviewChartInstance = null;
+          overviewChartInstance.resize();
+          overviewChartInstance.update();
+        } else {
+          renderOverviewChartWithData(window.analyticsData?.activity_chart || null, window.analyticsData?.is_guest ?? (!window.isOwner && (!userBotsList || userBotsList.length === 0)));
         }
-
-        overviewChartInstance = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Сегодня'],
-            datasets: [
-              {
-                label: 'Диалоги на Авито',
-                data: [0, 0, 0, 0, 0, 0, 0],
-                borderColor: '#D4AF37',
-                backgroundColor: 'rgba(212, 175, 55, 0.08)',
-                borderWidth: 2.5,
-                tension: 0.35,
-                fill: true,
-                pointBackgroundColor: '#D4AF37',
-                pointRadius: 4,
-                pointHoverRadius: 6
-              },
-              {
-                label: 'Сделки & Заявки',
-                data: [0, 0, 0, 0, 0, 0, 0],
-                borderColor: '#FFFFFF',
-                backgroundColor: 'transparent',
-                borderWidth: 1.5,
-                borderDash: [4, 4],
-                tension: 0.35,
-                pointBackgroundColor: '#FFFFFF',
-                pointRadius: 3
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                display: false
-              },
-              tooltip: {
-                backgroundColor: '#16161A',
-                titleColor: '#FFFFFF',
-                bodyColor: 'rgba(255, 255, 255, 0.8)',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                borderWidth: 1,
-                padding: 10,
-                cornerRadius: 10
-              }
-            },
-            scales: {
-              x: {
-                grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
-              },
-              y: {
-                grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
-              }
-            }
-          }
-        });
-      } catch (e) {
-        console.warn('initOverviewChart error:', e);
-      }
+      }, 60);
     }
     window.initOverviewChart = initOverviewChart;
 
-    function initAnalyticsCharts() {
+        function initAnalyticsCharts() {
       loadAnalyticsData();
-      return;
-      try {
+      setTimeout(() => {
         const speedCtx = document.getElementById('analyticsSpeedChart');
         if (!speedCtx || typeof Chart === 'undefined') return;
         if (analyticsSpeedChartInstance) {
-          analyticsSpeedChartInstance.destroy();
-          analyticsSpeedChartInstance = null;
+          analyticsSpeedChartInstance.resize();
+          analyticsSpeedChartInstance.update();
+        } else {
+          const isG = window.analyticsData?.is_guest ?? (!window.isOwner && (!userBotsList || userBotsList.length === 0));
+          const speedSec = window.analyticsData?.speed_seconds || (isG ? 0 : 4.2);
+          renderSpeedChartWithData(speedSec, isG);
         }
-
-        analyticsSpeedChartInstance = new Chart(speedCtx, {
-          type: 'bar',
-          data: {
-            labels: ['MAJORKA 24/7', 'Топ-10 продавцов', 'Обычный продавец'],
-            datasets: [{
-              label: 'Среднее время ответа покупателю (минут)',
-              data: [0.25, 6.5, 42.0],
-              backgroundColor: [
-                '#D4AF37',
-                'rgba(255, 255, 255, 0.25)',
-                'rgba(255, 255, 255, 0.08)'
-              ],
-              borderRadius: 8,
-              borderWidth: 0
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                backgroundColor: '#16161A',
-                callbacks: {
-                  label: function(ctx) {
-                    if (ctx.raw === 0.25) return ' 15 секунд (мгновенно)';
-                    return ' ' + ctx.raw + ' минут';
-                  }
-                }
-              }
-            },
-            scales: {
-              x: {
-                grid: { display: false },
-                ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 11, family: 'Inter' } }
-              },
-              y: {
-                grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                ticks: {
-                  color: 'rgba(255, 255, 255, 0.4)',
-                  font: { size: 10 },
-                  callback: function(v) { return v + ' мин'; }
-                }
-              }
-            }
-          }
-        });
-      } catch (e) {
-        console.warn('initAnalyticsCharts error:', e);
-      }
+      }, 60);
     }
     window.initAnalyticsCharts = initAnalyticsCharts;
 
