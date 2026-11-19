@@ -1282,7 +1282,12 @@
         const mockUid = 'g_' + Math.abs(response.credential.slice(-16).split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString(36);
         saveAuthAndContinue({
           session_token: 'g_tok_' + Date.now(),
-          usasync function submitTelegramAuth() {
+          user: { chatId: mockUid, first_name: 'Пользователь Google', email: 'google_user@majorka.ru' }
+        });
+      }
+    }
+
+    async function submitTelegramAuth() {
       const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
       if (user?.id) {
         // Direct Telegram WebApp login
@@ -1379,12 +1384,12 @@
         }, 1500);
 
       } catch (err) {
-        if (authWin && !authWin.closed) authWin.close();
-        authStatus('Ошибка связи с Telegram-сервисом. Попробуйте еще раз.', 'error');
-      }
-    }
-
-    async function submitEmailAuth       window.open('https://t.me/avito_deployer_bot?start=app', '_blank');
+        if (authWin && !authWin.closed) {
+          authWin.location.href = 'https://t.me/avito_deployer_bot?start=app';
+        } else {
+          window.open('https://t.me/avito_deployer_bot?start=app', '_blank');
+        }
+        authStatus('Открываем Telegram-бот для входа…', 'info');
       }
     }
 
@@ -1587,7 +1592,7 @@
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Enter' && (document.activeElement?.id === 'passwordInput' || document.activeElement?.id === 'passwordConfirmInput')) submitEmailAuth();
+      if (event.key === 'Enter' && !event.isComposing && (document.activeElement?.id === 'passwordInput' || document.activeElement?.id === 'passwordConfirmInput')) submitEmailAuth();
     });
   </script>
 
