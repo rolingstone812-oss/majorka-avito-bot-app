@@ -50,7 +50,7 @@
       {
         "@type": "Offer",
         "name": "Полный доступ на 1 месяц",
-        "price": "5900",
+        "price": "6490",
         "priceCurrency": "RUB",
         "availability": "https://schema.org/InStock",
         "description": "30 дней непрерывных продаж 24/7"
@@ -58,7 +58,7 @@
       {
         "@type": "Offer",
         "name": "Полный доступ на 3 месяца",
-        "price": "14900",
+        "price": "15900",
         "priceCurrency": "RUB",
         "availability": "https://schema.org/InStock",
         "description": "Квартальный абонемент со скидкой"
@@ -189,11 +189,16 @@
   </style>
 
   <script>
-    // Auto clear session if URL has ?reset=1 or if forced test
+    // Auto clear session if URL has ?reset=1 or ?logout=1
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('reset') || urlParams.has('logout')) {
-      localStorage.clear();
-      document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+        ['session_token', 'userChatId', 'majorka_chatId', 'majorka_guest_id'].forEach(name => {
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
+        });
+      } catch(e) {}
     }
     // Telegram WebApp Full-Height Mobile Initialization
     if (window.Telegram?.WebApp) {
@@ -447,10 +452,6 @@
               <span class="material-symbols-outlined text-xs">visibility</span>
               <span>Быстрый демо-просмотр кабинета без регистрации</span>
             </button>
-            <button type="button" onclick="loginAsOwner()" class="text-[10px] text-brand-gold/60 hover:text-brand-gold transition-colors cursor-pointer flex items-center gap-1 pt-1">
-              <span class="material-symbols-outlined text-xs">admin_panel_settings</span>
-              <span>Вход для владельца (Roling)</span>
-            </button>
           </div>
 
         </div>
@@ -667,7 +668,7 @@
           <div class="space-y-2">
             <div class="flex items-center justify-between text-[11px]">
               <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm text-gold">local_shipping</span>
+                <span class="material-symbols-outlined text-sm text-brand-gold">local_shipping</span>
                 <div>
                   <p class="font-semibold text-white leading-none text-[10px]">Авито Доставка</p>
                   <p class="text-[8px] text-white/40 leading-none mt-0.5">Покупатель: Артем</p>
@@ -913,9 +914,9 @@
         </div>
 
         <!-- CARD 3: QUARTER 3 MONTHS -->
-        <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col justify-between space-y-5 relative hover:border-gold/30 transition-all">
+        <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/10 flex flex-col justify-between space-y-5 relative hover:border-brand-gold/30 transition-all">
           <div class="space-y-3">
-            <span class="text-[10px] font-bold uppercase tracking-wider text-gold px-2.5 py-0.5 bg-gold/10 rounded-full border border-gold/30">Максимальная выгода</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-brand-gold px-2.5 py-0.5 bg-brand-gold/10 rounded-full border border-brand-gold/30">Максимальная выгода</span>
             <div>
               <h4 class="font-outfit font-bold text-lg text-white">Квартал на 3 Месяца</h4>
               <div class="font-outfit font-extrabold text-2xl text-white mt-2">15 900 ₽</div>
@@ -923,22 +924,22 @@
             </div>
             <ul class="space-y-2 text-xs text-white/70 pt-2">
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
                 <span>90 дней непрерывных продаж 24/7</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
                 <span>Полное сопровождение и регламент</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
                 <span>Приоритетная линия поддержки 24/7</span>
               </li>
             </ul>
           </div>
-          <a href="dashboard.html" class="p-2.5 rounded-xl bg-white/5 border border-white/10 text-center text-xs font-bold text-white hover:border-gold hover:text-gold transition-colors block">
+          <button type="button" onclick="selectTariffFromModal('quarter')" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-center text-xs font-bold text-white hover:border-brand-gold hover:text-brand-gold transition-colors block cursor-pointer">
             Выбрать 3 Месяца
-          </a>
+          </button>
         </div>
 
       </div>
@@ -1071,6 +1072,24 @@
       ? (window.location.port === '8085' ? '' : 'http://127.0.0.1:8085')
       : 'https://immensurable-paleaceous-marcella.ngrok-free.dev';
 
+    const apiFetch = async (url, options = {}) => {
+      const token = localStorage.getItem('session_token');
+      const headers = new Headers(options.headers || {});
+      if (token) headers.set('Authorization', `Bearer ${token}`);
+      headers.set('ngrok-skip-browser-warning', 'true');
+      return fetch(url, { ...options, credentials: options.credentials || 'include', headers });
+    };
+
+    function clearAuthClientState() {
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+        ['session_token', 'userChatId', 'majorka_chatId', 'majorka_guest_id'].forEach(name => {
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
+        });
+      } catch (e) {}
+    }
+
     const authStatus = (message = '', type = 'info', isHtml = false) => {
       const el = document.getElementById('authStatus');
       if (el) { 
@@ -1120,15 +1139,11 @@
       window.location.href = './dashboard.html?guest=1';
     }
 
-    function logoutCurrentUser() {
+    async function logoutCurrentUser() {
       try {
-        localStorage.removeItem('session_token');
-        localStorage.removeItem('userChatId');
-        localStorage.removeItem('majorka_chatId');
-        localStorage.removeItem('majorka_entered');
-        localStorage.removeItem('majorka_guest_id');
-        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        await apiFetch(`${API_BASE}/api/auth/logout`, { method: 'POST' });
       } catch (e) {}
+      clearAuthClientState();
       window.location.href = './index.html?reset=1';
     }
 
@@ -1242,11 +1257,6 @@
       localStorage.setItem('majorka_entered', 'true');
       if (data.user.first_name) localStorage.setItem('majorka_userName', data.user.first_name);
       if (data.user.email) localStorage.setItem('majorka_userEmail', data.user.email);
-      if (chatId === '6940082004') {
-        localStorage.setItem('majorka_is_owner', 'true');
-      } else {
-        localStorage.removeItem('majorka_is_owner');
-      }
 
       // 2. Save in permanent cookies (365 days / 1 year)
       const maxAge = 365 * 24 * 3600;
@@ -1255,26 +1265,6 @@
       document.cookie = `majorka_chatId=${chatId}; max-age=${maxAge}; path=/; SameSite=Lax`;
 
       window.location.href = './dashboard.html?chatId=' + chatId;
-    }
-
-    async function loginAsOwner(secret = '6940082004') {
-      authStatus('Авторизуем вход владельца…', 'info');
-      try {
-        const res = await fetch(`${API_BASE}/api/auth/quick_login?secret=${encodeURIComponent(secret)}`, {
-          headers: { 'ngrok-skip-browser-warning': 'true', 'X-Master-Secret': secret }
-        });
-        const data = await res.json();
-        if (data && data.success && data.user) {
-          saveAuthAndContinue(data);
-          return;
-        }
-      } catch(e) {}
-
-      // Standalone owner session (persisted in cookies and storage)
-      saveAuthAndContinue({
-        session_token: 'owner_session_permanent',
-        user: { chatId: '6940082004', first_name: 'Владелец (Roling)' }
-      });
     }
 
     function initGoogleSignIn() {
@@ -1294,51 +1284,46 @@
       }
       authStatus('Подтверждаем аккаунт Google…', 'info');
       try {
-        const res = await fetch(`${API_BASE}/api/auth/google`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
+        const res = await apiFetch(`${API_BASE}/api/auth/google`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ credential: response.credential })
         });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
         if (!res.ok || !data.success || !data.session_token || !data.user?.chatId) throw new Error(data.error || 'Не удалось войти через Google');
         saveAuthAndContinue(data);
       } catch (err) {
-        // Fallback for offline Google credential
-        const mockUid = 'g_' + Math.abs(response.credential.slice(-16).split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString(36);
-        saveAuthAndContinue({
-          session_token: 'g_tok_' + Date.now(),
-          user: { chatId: mockUid, first_name: 'Пользователь Google', email: 'google_user@majorka.ru' }
-        });
+        authStatus(err.message || 'Не удалось выполнить вход через Google.', 'error');
       }
     }
 
     async function submitTelegramAuth() {
       const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
-      if (user?.id) {
+      const initData = window.Telegram?.WebApp?.initData || '';
+      if (user?.id && initData) {
         const button = document.querySelector('button[onclick="submitTelegramAuth()"]');
         if (button) { button.disabled = true; button.classList.add('opacity-60', 'cursor-wait'); }
         authStatus('Подтверждаем профиль Telegram…', 'info');
         try {
           const controller = new AbortController();
-          const timeoutId = setTimeout(() => controller.abort(), 2500);
-          const res = await fetch(`${API_BASE}/api/auth/telegram_session`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
+          const timeoutId = setTimeout(() => controller.abort(), 8000);
+          const res = await apiFetch(`${API_BASE}/api/auth/telegram_session`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
             signal: controller.signal,
-            body: JSON.stringify({ chatId: String(user.id), first_name: user.first_name || '', username: user.username || '' })
+            body: JSON.stringify({ initData, chatId: String(user.id), first_name: user.first_name || '', username: user.username || '' })
           });
           clearTimeout(timeoutId);
-          const data = await res.json();
-          if (data && data.success && data.session_token) {
-            saveAuthAndContinue(data);
-            return;
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok || !data.success || !data.session_token || !data.user?.chatId) {
+            throw new Error(data.error || 'Не удалось подтвердить профиль Telegram');
           }
-        } catch (err) {}
-
-        // Fallback for Telegram Mini App
-        saveAuthAndContinue({
-          session_token: 'tg_' + user.id + '_' + Date.now(),
-          user: { chatId: String(user.id), first_name: user.first_name || '', username: user.username || '' }
-        });
-        return;
+          saveAuthAndContinue(data);
+          return;
+        } catch (err) {
+          authStatus(err.message || 'Не удалось подтвердить сессию Telegram. Попробуйте войти через Telegram.', 'error');
+          return;
+        } finally {
+          if (button) { button.disabled = false; button.classList.remove('opacity-60', 'cursor-wait'); }
+        }
       }
 
       // Desktop / Web Browser: Fast direct handshake with @avito_deployer_bot
@@ -1348,9 +1333,8 @@
 
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2000);
-        const ticketRes = await fetch(`${API_BASE}/api/auth/telegram_qr_start`, {
-          headers: { 'ngrok-skip-browser-warning': 'true' },
+        const timeoutId = setTimeout(() => controller.abort(), 6000);
+        const ticketRes = await apiFetch(`${API_BASE}/api/auth/telegram_qr_start`, {
           signal: controller.signal
         });
         clearTimeout(timeoutId);
@@ -1373,27 +1357,19 @@
         try { window.open(botUrl, '_blank'); } catch(e) {}
       }
 
-      // Display rich Telegram Auth interactive card with 1-click alternatives
+      // Display verified Telegram Auth card (requires server-side bot confirmation)
       const cardHtml = `
         <div class="p-4 rounded-xl bg-[#2AABEE]/15 border border-[#2AABEE]/40 text-center space-y-3 my-2">
           <div class="text-xs font-bold text-white flex items-center justify-center gap-2">
             <span class="w-2.5 h-2.5 rounded-full bg-[#2AABEE] animate-pulse"></span>
-            <span>Вход через Telegram-бот</span>
+            <span>Подтверждение входа через Telegram</span>
           </div>
-          <p class="text-[11px] text-white/70">Бот открыт в новой вкладке. Нажмите <b>START</b> в боте для мгновенного входа.</p>
+          <p class="text-[11px] text-white/70">Откройте Telegram @avito_deployer_bot и нажмите <b>START</b> для подтверждения входа.</p>
           <a href="${botUrl}" target="_blank" class="block w-full py-2.5 px-3 rounded-lg bg-[#2AABEE] hover:bg-[#229ED9] text-white font-extrabold text-xs shadow-md shadow-[#2AABEE]/25 transition-all text-center">
             👉 Открыть @avito_deployer_bot в Telegram
           </a>
-          <div class="pt-2 border-t border-white/10 space-y-2">
-            <div class="text-[10px] text-white/50">Или укажите ваш @username для входа:</div>
-            <div class="flex gap-1.5">
-              <input type="text" id="tgDirectUsernameInput" placeholder="@username или телефон" class="bg-black/40 border border-white/15 rounded-lg px-2.5 py-1.5 text-xs text-white placeholder-white/30 flex-1 outline-none focus:border-[#2AABEE]">
-              <button type="button" onclick="submitTelegramDirectManual()" class="px-3 py-1.5 bg-[#2AABEE] text-white text-xs font-bold rounded-lg hover:bg-[#229ED9]">Войти</button>
-            </div>
-            <div class="flex justify-between items-center text-[10px] pt-1">
-              <button type="button" onclick="loginAsOwner()" class="text-brand-gold hover:underline font-semibold cursor-pointer">Вход владельца</button>
-              <button type="button" onclick="goToGuestDemo()" class="text-white/60 hover:text-white cursor-pointer">Демо-доступ 👁️</button>
-            </div>
+          <div class="pt-2 border-t border-white/10 flex justify-center items-center text-[10px]">
+            <button type="button" onclick="goToGuestDemo()" class="text-white/60 hover:text-white cursor-pointer">Демо-доступ 👁️</button>
           </div>
         </div>
       `;
@@ -1409,9 +1385,7 @@
             return;
           }
           try {
-            const checkRes = await fetch(`${API_BASE}/api/auth/telegram_qr_check?ticket_id=${ticketId}`, {
-              headers: { 'ngrok-skip-browser-warning': 'true' }
-            });
+            const checkRes = await apiFetch(`${API_BASE}/api/auth/telegram_qr_check?ticket_id=${encodeURIComponent(ticketId)}`);
             const checkData = await checkRes.json();
             if (checkData.success && checkData.session_token) {
               clearInterval(pollInterval);
@@ -1424,18 +1398,7 @@
     }
 
     function submitTelegramDirectManual() {
-      const val = document.getElementById('tgDirectUsernameInput')?.value.trim();
-      if (!val) {
-        alert('Введите ваш @username или Telegram ID');
-        return;
-      }
-      const cleanVal = val.replace('@', '');
-      const uid = 'tg_' + Math.abs(cleanVal.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString(36);
-      saveAuthAndContinue({
-        success: true,
-        session_token: 'tg_man_' + Date.now(),
-        user: { chatId: uid, first_name: cleanVal, username: cleanVal }
-      });
+      authStatus('Для безопасности вход через Telegram доступен только после подтверждения в @avito_deployer_bot.', 'error');
     }
 
     async function submitEmailAuth() {
@@ -1482,55 +1445,35 @@
         const body = { email, password };
         if (authMode === 'register') body.first_name = document.getElementById('nameInput').value.trim();
 
-        // 2.5-second timeout controller so requests NEVER freeze
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2500);
+        const timeoutId = setTimeout(() => controller.abort(), 10000);
 
-        const res = await fetch(`${API_BASE}${endpoint}`, {
+        const res = await apiFetch(`${API_BASE}${endpoint}`, {
           method: 'POST', 
-          headers: { 'Content-Type': 'application/json', 'ngrok-skip-browser-warning': 'true' }, 
-          credentials: 'include', 
+          headers: { 'Content-Type': 'application/json' }, 
           signal: controller.signal,
           body: JSON.stringify(body)
         });
         clearTimeout(timeoutId);
 
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.success && data.session_token && data.user?.chatId) {
-            saveAuthAndContinue(data);
-            return;
-          }
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data?.success || !data?.session_token || !data?.user?.chatId) {
+          const fallbackMsg = res.status === 401
+            ? 'Неверный email или пароль.'
+            : res.status === 404
+              ? 'Аккаунт с таким email не найден.'
+              : res.status === 409
+                ? 'Этот email уже зарегистрирован.'
+                : 'Не удалось выполнить вход. Проверьте данные.';
+          throw new Error(data?.error || fallbackMsg);
         }
-        throw new Error('API server unavailable or returned non-200');
+
+        saveAuthAndContinue(data);
       } catch (err) {
-        console.warn('Backend API fallback: saving persistent standalone profile:', err);
-        // Robust standalone profile fallback so registration/login on GitHub Pages NEVER fails
-        const localUid = 'usr_' + Math.abs(email.split('').reduce((a,b)=>{a=((a<<5)-a)+b.charCodeAt(0);return a&a},0)).toString(36);
-        const localName = (authMode === 'register' ? (document.getElementById('nameInput')?.value.trim() || 'Клиент') : 'Клиент');
-        const localUser = {
-          chatId: localUid,
-          first_name: localName,
-          email: email
-        };
-        try {
-          const storedUsers = JSON.parse(localStorage.getItem('majorka_local_accounts') || '{}');
-          if (authMode === 'register') {
-            storedUsers[email] = { password, user: localUser };
-            localStorage.setItem('majorka_local_accounts', JSON.stringify(storedUsers));
-          } else if (storedUsers[email]) {
-            if (storedUsers[email].password !== password) {
-              authStatus('Неверный пароль для этого Email.', 'error');
-              return;
-            }
-          }
-        } catch(e) {}
-        
-        saveAuthAndContinue({
-          success: true,
-          session_token: 'local_' + Date.now(),
-          user: localUser
-        });
+        const msg = err?.name === 'AbortError'
+          ? 'Сервер не ответил вовремя. Попробуйте ещё раз.'
+          : (err?.message || 'Ошибка соединения с сервером авторизации.');
+        authStatus(msg, 'error');
       } finally {
         if (button) { button.disabled = false; button.classList.remove('opacity-60', 'cursor-wait'); }
       }
@@ -1538,7 +1481,7 @@
 
     async function loadGoogleConfig() {
       try {
-        const res = await fetch(`${API_BASE}/api/auth/google/config`);
+        const res = await apiFetch(`${API_BASE}/api/auth/google/config`);
         const data = await res.json();
         googleClientId = data.client_id || '';
       } catch (err) {
@@ -1550,13 +1493,6 @@
 
     checkCookieConsent();
     loadGoogleConfig();
-    // Automatic owner login or session redirect
-    (function checkInitialAuth() {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('owner') === '1' || urlParams.get('chatId') === '6940082004') {
-        loginAsOwner();
-      }
-    })();
 
 
     function checkCookieConsent() {
@@ -1615,7 +1551,9 @@
       const nameInp = document.getElementById('nameInput');
       if (nameInp) nameInp.focus();
       else if (emailInp) emailInp.focus();
-      const tariffName = tariffType === 'trial_7days' ? 'Пробный период на 7 дней (1 590 ₽)' : 'Полный Месяц (6 490 ₽)';
+      const tariffName = tariffType === 'trial_7days'
+        ? 'Пробный период на 7 дней (1 590 ₽)'
+        : (tariffType === 'quarter' ? 'Квартал на 3 Месяца (15 900 ₽)' : 'Полный Месяц (6 490 ₽)');
       authStatus(`Выбран тариф: ${tariffName}. Заполните данные для создания кабинета.`, 'success');
     }
 
@@ -1624,13 +1562,6 @@
       if (tgUser) {
         const greetEl = document.getElementById('heroUserGreet');
         if (greetEl) greetEl.innerText = `Рады приветствовать вас, ${tgUser.first_name || 'клиент'}!`;
-      }
-
-      // URL Owner Quick Access Check (?owner=1 or ?chatId=6940082004 or ?login=owner)
-      const urlP = new URLSearchParams(window.location.search);
-      if (urlP.get('owner') || urlP.get('login') === 'owner' || urlP.get('auth') === 'owner') {
-        loginAsOwner();
-        return;
       }
 
       // Check for active returning session from localStorage OR cookies
@@ -1645,13 +1576,8 @@
           returningBlock.classList.remove('hidden');
           const nameEl = document.getElementById('returningUserName');
           const emailEl = document.getElementById('returningUserEmail');
-          if (savedChatId === '6940082004') {
-            if (nameEl) nameEl.textContent = 'Здравствуйте, Владелец (Roling)!';
-            if (emailEl) emailEl.textContent = 'Личный кабинет владельца • Баланс: 16 922 ₽';
-          } else {
-            if (nameEl) nameEl.textContent = savedName ? `Здравствуйте, ${savedName}!` : 'Вы авторизованы в системе';
-            if (emailEl) emailEl.textContent = savedEmail || `ID профиля: ${savedChatId.replace('email_', '').slice(0, 8)}...`;
-          }
+          if (nameEl) nameEl.textContent = savedName ? `Здравствуйте, ${savedName}!` : 'Вы авторизованы в системе';
+          if (emailEl) emailEl.textContent = savedEmail || `ID профиля: ${savedChatId.replace('email_', '').slice(0, 8)}...`;
         }
       }
 
