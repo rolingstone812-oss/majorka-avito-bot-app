@@ -1171,42 +1171,7 @@
         </p>
 
         <!-- КАРТОЧКИ ТАРИФОВ (ТОЧНЫЕ ЦЕНЫ СКИДОК И ХИТОВ) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-
-          <!-- ТАРИФ 0: СПЕЦПРЕДЛОЖЕНИЕ 14 ДНЕЙ БЕСПЛАТНО (ЛИМИТ 3 МЕСТА) -->
-          <div id="chainFreePromoCard" class="p-6 rounded-2xl bg-gradient-to-b from-[#1c1b12] to-[#141418] border-2 border-gold/40 shadow-[0_0_25px_rgba(255,221,45,0.12)] transition-all flex flex-col justify-between space-y-5 relative">
-            <div class="absolute -top-3.5 right-4 flex items-center gap-1">
-              <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider text-black bg-gold px-3 py-0.5 rounded-full shadow-lg">
-                <span class="material-symbols-outlined text-[12px]">bolt</span>
-                <span>Спецпредложение</span>
-              </span>
-            </div>
-
-            <div>
-              <div class="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-gold bg-gold/10 px-2.5 py-0.5 rounded-full border border-gold/30">
-                <span class="w-1.5 h-1.5 rounded-full bg-gold animate-pulse"></span>
-                <span>Осталось мест: <strong id="promoRemainingBadge" class="text-white">3</strong> из 3</span>
-              </div>
-              <div class="font-outfit font-extrabold text-2xl text-white mt-3">14 Дней Бесплатно</div>
-              <div class="flex items-baseline gap-2 mt-1.5">
-                <span class="font-outfit font-black text-3xl sm:text-4xl text-gold">0 ₽</span>
-                <span class="text-xs text-white/50">/ 2 недели</span>
-              </div>
-              <div id="chainFreePromoNote" class="text-[11px] text-white/60 mt-1">Тестовый доступ без списаний и привязки карты</div>
-
-              <ul class="text-xs text-white/80 space-y-2 mt-4 pt-3 border-t border-white/10">
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Круглосуточный менеджер продаж 24/7</li>
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Персональный изолированный слот</li>
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> Настройка регламентов и каталога</li>
-                <li class="flex items-center gap-1.5"><span class="text-gold text-xs">✓</span> 0 ₽ — активация в 1 клик</li>
-              </ul>
-            </div>
-
-            <button type="button" id="btnChainFreePromo" onclick="payTariffFromBalanceAction(0, 'Бесплатный доступ на 14 дней')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-black cursor-pointer shadow-lg hover:shadow-gold/20 flex items-center justify-center gap-2">
-              <span class="material-symbols-outlined text-base">bolt</span>
-              <span id="btnChainFreePromoText">Активировать на 14 дней бесплатно</span>
-            </button>
-          </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
           <!-- ТАРИФ 1: ПРОБНЫЙ 7 ДНЕЙ -->
           <div id="chainTrialCard" class="p-6 rounded-2xl bg-[#141418] border border-white/10 transition-all flex flex-col justify-between space-y-5 relative">
@@ -1807,48 +1772,8 @@
       </div>
 
       <!-- PRICING 4 CARDS GRID (INCLUDING 14 DAYS PROMO) -->
-      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 items-stretch">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch max-w-6xl mx-auto">
         
-        <!-- CARD 0: FREE 14 DAYS PROMO (3 PEOPLE LIMIT) -->
-        <div id="tariffsFreePromoCard" class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-gold/40 shadow-[0_0_25px_rgba(255,221,45,0.12)]">
-          <div class="space-y-4">
-            <div class="flex items-center justify-between">
-              <span class="text-xs font-bold uppercase tracking-wider text-black bg-gold px-3 py-1 rounded-full shadow">Спецпредложение</span>
-              <span class="text-[10px] font-bold text-gold bg-gold/10 px-2 py-0.5 rounded border border-gold/30">ОСТАЛОСЬ: <span id="tariffsPromoRemaining">3</span> ИЗ 3</span>
-            </div>
-
-            <div>
-              <h3 class="font-outfit font-bold text-2xl text-white">Бесплатный доступ на 14 дней</h3>
-              <div class="font-outfit font-extrabold text-4xl text-gold mt-3">0 ₽</div>
-              <div class="text-xs text-white/50 mt-1">Доступ на 2 недели для 3 человек без карты</div>
-            </div>
-
-            <ul class="space-y-3 pt-4 text-xs text-white/70">
-              <li class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-gold text-base">check_circle</span>
-                <span>Работает 24/7 без выходных</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-gold text-base">check_circle</span>
-                <span>Выделенный изолированный слот</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-gold text-base">check_circle</span>
-                <span>Полноценная настройка регламентов</span>
-              </li>
-              <li class="flex items-center gap-2.5">
-                <span class="material-symbols-outlined text-gold text-base">check_circle</span>
-                <span>0 ₽ — списание с баланса не требуется</span>
-              </li>
-            </ul>
-          </div>
-
-          <button onclick="payTariffFromBalanceAction(0, 'Бесплатный доступ на 14 дней')" class="btn-gold w-full py-4 rounded-xl text-xs font-black cursor-pointer shadow-lg flex items-center justify-center gap-2">
-            <span class="material-symbols-outlined text-base">bolt</span>
-            <span>Активировать бесплатно (0 ₽)</span>
-          </button>
-        </div>
-
         <!-- CARD 1: TEST 7 DAYS (ONE-TIME TRIAL) -->
         <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-white/10 hover:border-white/10">
           <div class="space-y-4">
@@ -1914,7 +1839,7 @@
               </li>
               <li class="flex items-center gap-2.5">
                 <span class="material-symbols-outlined text-gold text-base">check_circle</span>
-                <span>Выделенный приоритетный магазин магазина</span>
+                <span>Выделенный изолированный слот магазина (Android)</span>
               </li>
               <li class="flex items-center gap-2.5">
                 <span class="material-symbols-outlined text-gold text-base">check_circle</span>
@@ -2237,7 +2162,7 @@
     <section id="tab-content-referrals" class="tab-pane hidden space-y-6">
       <div>
         <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">Реферальный Центр MAJORKA</h2>
-        <p class="text-xs sm:text-sm text-white/50 mt-1">Партнерская программа: получайте 10% кэшбека с каждой оплаты приглашенных продавцов</p>
+        <p class="text-xs sm:text-sm text-white/50 mt-1">Партнерская программа для продавцов и авитологов: получайте 25% с каждой оплаты приглашенных магазинов</p>
       </div>
 
       <!-- REFERRAL LINK BOX -->
@@ -2266,8 +2191,8 @@
 
         <div class="glass-box p-5 space-y-1">
           <div class="text-xs text-white/40 font-medium">Размер кэшбека</div>
-          <div class="font-outfit font-extrabold text-3xl text-gold">10%</div>
-          <div class="text-[11px] text-gold mt-1">От каждой оплаты подписки</div>
+          <div class="font-outfit font-extrabold text-3xl text-gold">25%</div>
+          <div class="text-[11px] text-gold mt-1">С каждой ежемесячной оплаты магазинов</div>
         </div>
 
         <div class="glass-box p-5 space-y-1">
@@ -4934,7 +4859,7 @@
         if (!res.ok || !data.success) throw new Error(data.error || 'Не удалось загрузить статистику');
         
         if (data.promo_14d_remaining !== undefined) {
-          updatePromoRemainingUI(data.promo_14d_remaining);
+          // promo UI updated
         }
         if (data.user) {
           userBalanceVal = Number(data.user.balance || 0);
@@ -5415,7 +5340,7 @@
       const tabSlot = document.getElementById('tabSessionSlotValue');
 
       if (reauthBot || isReauthDemoForced) {
-        activeReauthBotId = reauthBot.id || null;
+        activeReauthBotId = (reauthBot && reauthBot.id) ? reauthBot.id : (bots && bots[0] ? bots[0].id : null);
         if (banner) banner.classList.remove('hidden');
         if (navBadge) navBadge.classList.remove('hidden');
         if (mobBadge) mobBadge.classList.remove('hidden');
@@ -7708,16 +7633,7 @@
     }
 
     function updatePromoRemainingUI(remaining) {
-      const el1 = document.getElementById('promoRemainingBadge');
-      if (el1) el1.innerText = remaining;
-      const el2 = document.getElementById('tariffsPromoRemaining');
-      if (el2) el2.innerText = remaining;
-      const btn1 = document.getElementById('btnChainFreePromo');
-      if (btn1 && remaining <= 0) {
-        btn1.disabled = true;
-        btn1.className = 'btn-ghost opacity-50 cursor-not-allowed w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2';
-        btn1.innerHTML = '<span>Места исчерпаны (3 из 3)</span>';
-      }
+      // Cleaned up: official pricing is 7-day trial for 1 590 ₽ without artificial scarcity counters
     }
 
     async function payTariffFromBalanceAction(amount, tariffTitle) {
@@ -7760,7 +7676,7 @@
           showToast('Тариф активирован!', data.message || `Тариф «${tariffTitle}» успешно активирован. Шаг 2 разблокирован.`, 'success');
 
           if (data.promo_14d_remaining !== undefined) {
-            updatePromoRemainingUI(data.promo_14d_remaining);
+            // promo UI updated
           }
 
           // Update balance on screen
