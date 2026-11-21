@@ -336,8 +336,8 @@
           <span>Зарегистрироваться</span>
         </a>
 
-        <div onclick="openAccountModal()" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 cursor-pointer transition-colors" title="Сменить аккаунт / Вход по ID">
-          <span id="headerUserLabel" class="font-medium truncate max-w-[120px]">Владелец</span>
+        <div onclick="switchTab('settings')" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 cursor-pointer transition-colors" title="Профиль и настройки">
+          <span id="headerUserLabel" class="font-medium truncate max-w-[120px]">Профиль</span>
         </div>
 
         <div class="hidden sm:flex bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full items-center gap-1 shrink-0 whitespace-nowrap">
@@ -491,7 +491,7 @@
 
           <p class="text-[11px] text-white/40 flex items-center gap-1">
             <span class="material-symbols-outlined text-xs text-zinc-400">lock_clock</span>
-            <span>Код автоматически вводится в защищенную систему для мгновенного возобновления работы</span>
+            <span>Код самостоятельно вводится в защищенную систему для мгновенного возобновления работы</span>
           </p>
         </div>
 
@@ -532,7 +532,7 @@
               <div class="text-[10px] sm:text-xs text-white/40 truncate">Мгновенно Авито</div>
             </div>
           </div>
-          <span id="overviewSpeedValue" class="font-outfit font-black text-gold text-xs sm:text-base shrink-0">&lt; 15 сек</span>
+          <span id="overviewSpeedValue" class="font-outfit font-black text-gold text-xs sm:text-base shrink-0">—</span>
         </div>
 
         <!-- METRIC 3: CATALOG PRODUCTS -->
@@ -556,7 +556,7 @@
               <div class="text-[10px] sm:text-xs text-white/40 truncate">В оформление сделки</div>
             </div>
           </div>
-          <span id="overviewConversionValue" class="font-outfit font-black text-emerald-400 text-xs sm:text-base shrink-0">+68%</span>
+          <span id="overviewConversionValue" class="font-outfit font-black text-emerald-400 text-xs sm:text-base shrink-0">0%</span>
         </div>
       </div>
 
@@ -761,7 +761,7 @@
                   <span class="material-symbols-outlined text-gold text-base">phonelink_setup</span>
                   <span>Авто-выгрузка из приложения Авито</span>
                 </span>
-                <span class="text-[11px] text-white/40">Бот автоматически считывает все активные объявления и цены прямо из вашего аккаунта</span>
+                <span class="text-[11px] text-white/40">Менеджер самостоятельно считывает все активные объявления и цены прямо из вашего аккаунта</span>
               </div>
               <button type="button" id="overviewBtnLoadCatalog" onclick="triggerEmulatorAutoSync(this)" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shrink-0">
                 <span class="material-symbols-outlined text-sm">sync</span>
@@ -900,222 +900,6 @@
       </div>
     </section>
 
-    <!-- ==================== TAB: AVITO SESSION & REAUTH MANAGEMENT ==================== -->
-    <section id="tab-content-session" class="tab-pane hidden space-y-6">
-      
-      <!-- TOP CONTROL & HEADER -->
-      <div class="glass-box p-6 sm:p-8 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div class="space-y-1.5">
-          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 text-white/80 border border-white/10 text-xs font-bold uppercase tracking-wider">
-            <span class="material-symbols-outlined text-sm text-gold">verified_user</span>
-            <span>Управление сессией и входом Авито</span>
-          </div>
-          <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">
-            Сессия Авито и Защита Магазина 24/7
-          </h2>
-          <p class="text-xs sm:text-sm text-white/60 max-w-2xl leading-relaxed">
-            Проверка активности в мобильном приложении Авито, мгновенное подтверждение входа по СМС при слёте сессии и круглосуточная защита работы менеджера продаж.
-          </p>
-        </div>
-
-        <div class="flex items-center gap-2.5 shrink-0">
-          <button type="button" onclick="switchTab('overview')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-white/80 hover:text-white flex items-center gap-1.5 cursor-pointer">
-            <span class="material-symbols-outlined text-sm">dashboard</span>
-            <span>К обзору</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- LIVE STATUS SUMMARY BAR -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-        <div class="glass-box p-4 rounded-2xl border-white/10 bg-[#121214] space-y-1">
-          <div class="text-[11px] font-bold text-white/50 uppercase tracking-wider">Статус сессии</div>
-          <div class="flex items-center gap-2 pt-0.5" id="tabSessionStatusBadge">
-            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
-            <span class="font-outfit font-extrabold text-sm text-white" id="tabSessionStatusText">В сети 24/7</span>
-          </div>
-        </div>
-
-        <div class="glass-box p-4 rounded-2xl border-white/10 bg-[#121214] space-y-1">
-          <div class="text-[11px] font-bold text-white/50 uppercase tracking-wider">Номер телефона</div>
-          <div class="font-outfit font-extrabold text-sm text-white truncate" id="tabSessionPhoneValue">—</div>
-        </div>
-
-        <div class="glass-box p-4 rounded-2xl border-white/10 bg-[#121214] space-y-1">
-          <div class="text-[11px] font-bold text-white/50 uppercase tracking-wider">Слот и эмулятор</div>
-          <div class="font-outfit font-extrabold text-sm text-gold truncate" id="tabSessionSlotValue">Слот #1 (Android)</div>
-        </div>
-
-        <div class="glass-box p-4 rounded-2xl border-white/10 bg-[#121214] space-y-1">
-          <div class="text-[11px] font-bold text-white/50 uppercase tracking-wider">Сохранность данных</div>
-          <div class="font-outfit font-extrabold text-sm text-emerald-400 flex items-center gap-1">
-            <span class="material-symbols-outlined text-sm">lock</span>
-            <span>100% Защищено</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- MAIN REAUTH & RECONNECT PANEL -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        
-        <!-- LEFT: INTERACTIVE REAUTH FORM (2 COLS) -->
-        <div class="lg:col-span-2 glass-box p-6 sm:p-8 rounded-2xl sm:rounded-3xl border-white/10 bg-[#161619] space-y-6">
-          <div class="border-b border-white/10 pb-4">
-            <div class="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold border border-white/10 text-[11px] font-bold uppercase tracking-wider mb-1.5">
-              <span>Быстрое восстановление входа</span>
-            </div>
-            <h3 class="font-outfit text-xl sm:text-2xl font-extrabold text-white">
-              Подтверждение сессии по номеру телефона
-            </h3>
-            <p class="text-xs text-white/50 mt-1">
-              Если в приложении Авито произошёл слёт или эмулятор перезапустился, введите телефон и пароль. В течение 1–2 минут придёт проверочный СМС-код.
-            </p>
-          </div>
-
-          <!-- FORM STAGE 1: PHONE & PASSWORD -->
-          <div id="tabReauthStepPhone" class="space-y-4">
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div class="space-y-1.5">
-                <label class="block text-xs font-bold uppercase tracking-wider text-white/70" for="tabPhoneInput">Номер телефона Авито</label>
-                <div class="relative">
-                  <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">smartphone</span>
-                  <input type="tel" id="tabPhoneInput" inputmode="tel" autocomplete="tel" onkeydown="if(event.key==='Enter') submitTabReauthPhone()" placeholder="+7 (999) 000-00-00" class="w-full pl-12 pr-4 py-3 bg-[#101012] border border-white/10 hover:border-white/20 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
-                </div>
-                <p class="text-[11px] text-white/40">Номер, привязанный к вашему аккаунту Авито.</p>
-              </div>
-
-              <div class="space-y-1.5">
-                <label class="block text-xs font-bold uppercase tracking-wider text-white/70" for="tabPasswordInput">Пароль от Авито</label>
-                <div class="relative">
-                  <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-lg">lock</span>
-                  <input type="password" id="tabPasswordInput" autocomplete="current-password" onkeydown="if(event.key==='Enter') submitTabReauthPhone()" placeholder="Введите пароль" class="w-full pl-12 pr-11 py-3 bg-[#101012] border border-white/10 hover:border-white/20 focus:border-gold rounded-xl text-white text-sm focus:outline-none transition-all">
-                  <button type="button" onclick="togglePasswordVisibility('tabPasswordInput', this)" class="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors cursor-pointer p-1" title="Показать/скрыть пароль" aria-label="Показать/скрыть пароль">
-                    <span class="material-symbols-outlined text-lg">visibility</span>
-                  </button>
-                </div>
-                <p class="text-[11px] text-white/40">Для защищенного входа через эмулятор Android.</p>
-              </div>
-            </div>
-
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
-              <div class="text-xs text-white/50 flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-sm text-gold">verified</span>
-                <span>Запрос отправляется напрямую в официальное приложение</span>
-              </div>
-              <button type="button" id="tabSendPhoneBtn" onclick="submitTabReauthPhone()" class="btn-gold px-6 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-gold/10">
-                <span class="material-symbols-outlined text-base">send</span>
-                <span>Запросить код в СМС</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- FORM STAGE 2: SMS OTP CODE -->
-          <div id="tabReauthStepSms" class="hidden p-5 sm:p-6 rounded-2xl bg-amber-500/10 border border-amber-500/30 space-y-4">
-            <div class="flex items-start sm:items-center justify-between gap-3 flex-wrap">
-              <div>
-                <h4 class="font-outfit font-extrabold text-base sm:text-lg text-white flex items-center gap-2">
-                  <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
-                  <span>В течение нескольких минут к вам придёт проверочный код</span>
-                </h4>
-                <p class="text-xs text-white/60 mt-1" id="tabSmsTargetPhone">
-                  Код от Авито (СМС или Push-уведомление). Напишите его ниже:
-                </p>
-              </div>
-              <button type="button" onclick="resendTabReauthSms()" id="tabResendSmsBtn" class="text-xs font-semibold text-gold hover:underline flex items-center gap-1 cursor-pointer">
-                <span class="material-symbols-outlined text-sm">refresh</span>
-                <span>Запросить повторно</span>
-              </button>
-            </div>
-
-            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-              <div class="relative flex-1">
-                <input type="text" id="tabSmsCodeInput" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="one-time-code" onkeydown="if(event.key==='Enter') submitTabReauthSms()" placeholder="4 или 6 цифр из СМС" class="w-full text-center tracking-[0.3em] font-outfit text-xl sm:text-2xl font-black py-3 bg-[#121214] border border-gold/40 focus:border-gold rounded-xl text-gold focus:outline-none shadow-inner transition-all">
-              </div>
-              <button type="button" id="tabSubmitSmsBtn" onclick="submitTabReauthSms()" class="btn-gold px-7 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-gold/10">
-                <span class="material-symbols-outlined text-base">check_circle</span>
-                <span>Подтвердить вход и запустить 24/7</span>
-              </button>
-            </div>
-
-            <p class="text-xs text-white/50 flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-sm text-gold">shield</span>
-              <span>Код автоматически вводится в эмулятор, после чего управляющий возвращается на круглосуточную линию</span>
-            </p>
-          </div>
-
-          <!-- FORM STAGE 3: SUCCESS -->
-          <div id="tabReauthStepSuccess" class="hidden p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-2">
-            <span class="material-symbols-outlined text-emerald-400 text-4xl">task_alt</span>
-            <h4 class="font-outfit font-extrabold text-lg text-white">Сессия Авито успешно восстановлена!</h4>
-            <p class="text-xs sm:text-sm text-white/70">Магазин активен 24/7. Управляющий мгновенно отвечает покупателям и доводит диалоги до покупок.</p>
-          </div>
-
-          <!-- TAB ERROR MESSAGE -->
-          <div id="tabReauthError" class="hidden p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs flex items-center gap-2" role="alert">
-            <span class="material-symbols-outlined text-base text-rose-400">error</span>
-            <span id="tabReauthErrorText"></span>
-          </div>
-        </div>
-
-        <!-- RIGHT: ARCHITECTURE & SECURITY FAQ (1 COL) -->
-        <div class="space-y-4">
-          <!-- CARD 1: WHY REAUTH HAPPENS -->
-          <div class="glass-box p-5 rounded-2xl border-white/10 bg-[#161619] space-y-3">
-            <div class="flex items-center gap-2 text-gold">
-              <span class="material-symbols-outlined text-lg">info</span>
-              <h4 class="font-outfit font-bold text-sm text-white">Почему Авито запрашивает код?</h4>
-            </div>
-            <p class="text-xs text-white/60 leading-relaxed">
-              Официальное приложение Авито на Android в целях безопасности периодически (раз в 25–40 дней) обновляет активную сессию, требуя подтверждения через СМС.
-            </p>
-            <p class="text-xs text-white/60 leading-relaxed">
-              Это нормальное поведение защиты Авито. Все ваши регламенты, ответы на частые вопросы и выгруженные товары остаются в полной сохранности.
-            </p>
-          </div>
-
-          <!-- CARD 2: GUARANTEE & SAFETY -->
-          <div class="glass-box p-5 rounded-2xl border-white/10 bg-[#161619] space-y-3">
-            <div class="flex items-center gap-2 text-emerald-400">
-              <span class="material-symbols-outlined text-lg">verified_user</span>
-              <h4 class="font-outfit font-bold text-sm text-white">Защита аккаунта</h4>
-            </div>
-            <ul class="text-xs text-white/60 space-y-2">
-              <li class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-emerald-400 text-xs mt-0.5">check</span>
-                <span>Изолированный эмулятор Android со своим уникальным профилем устройства.</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-emerald-400 text-xs mt-0.5">check</span>
-                <span>Никаких сгорающих браузерных cookie — надёжная мобильная среда.</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="material-symbols-outlined text-emerald-400 text-xs mt-0.5">check</span>
-                <span>Круглосуточный сторож (Watchdog) сразу видит вылеты и защищает от простоев.</span>
-              </li>
-            </ul>
-          </div>
-
-          <!-- CARD 3: SUPPORT 24/7 -->
-          <div class="glass-box p-5 rounded-2xl border-white/10 bg-[#161619] space-y-3">
-            <div class="flex items-center justify-between">
-              <div class="text-xs font-bold text-white flex items-center gap-1.5">
-                <span class="material-symbols-outlined text-gold text-base">support_agent</span>
-                <span>Помощь 24/7</span>
-              </div>
-              <span class="text-[10px] text-white/40">Ответ за 2 мин</span>
-            </div>
-            <p class="text-xs text-white/50">
-              Если код не приходит или возникли трудности со входом, персональный специалист техподдержки поможет вам мгновенно.
-            </p>
-            <a href="https://t.me/chc332" target="_blank" class="btn-ghost w-full py-2.5 rounded-xl text-xs font-bold text-white/90 hover:text-white flex items-center justify-center gap-2">
-              <span class="material-symbols-outlined text-sm text-gold">send</span>
-              <span>Написать в Telegram (@chc332)</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- ==================== TAB: SETTINGS & AVITO CATALOG SYNC ==================== -->
             <section id="tab-content-knowledge" class="tab-pane hidden space-y-6">
       
@@ -1167,7 +951,7 @@
         </div>
 
         <p class="text-xs text-white/70 leading-relaxed max-w-2xl">
-          Для запуска управляющего продажами выберите тариф ниже. Оплата списывается напрямую с вашего внутреннего баланса в кабинете. Следующие шаги разблокируются автоматически после оплаты.
+          Для запуска управляющего продажами выберите тариф ниже. Оплата списывается напрямую с вашего внутреннего баланса в кабинете. Следующие шаги разблокируются сразу после оплаты.
         </p>
 
         <!-- КАРТОЧКИ ТАРИФОВ (ТОЧНЫЕ ЦЕНЫ СКИДОК И ХИТОВ) -->
@@ -1404,7 +1188,7 @@
           </div>
           <span class="text-xs text-status-green hidden sm:flex items-center gap-1.5 font-semibold">
             <span class="w-1.5 h-1.5 rounded-full bg-status-green "></span>
-            <span>Автоматическая привязка</span>
+            <span>Прямая привязка</span>
           </span>
         </div>
 
@@ -1521,7 +1305,7 @@
           <div>
             <h4 class="font-outfit font-extrabold text-lg text-white">✅ Вход успешно завершен!</h4>
             <p class="text-xs text-white/70 mt-1.5 max-w-lg mx-auto leading-relaxed">
-              Теперь мы автоматически добавляем ваши товары в базу знаний менеджера... Это займет около 1 минуты. Менеджер считывает все объявления, цены, размеры и описания прямо из приложения Авито...
+              Теперь мы самостоятельно добавляем ваши товары в базу знаний менеджера... Это займет около 1 минуты. Менеджер считывает все объявления, цены, размеры и описания прямо из приложения Авито...
             </p>
           </div>
           <!-- ПРОГРЕСС-БАР ВЫГРУЗКИ -->
@@ -1808,7 +1592,7 @@
             </ul>
           </div>
 
-          <button id="btnTariffTrial" onclick="selectTariffAndStart(\'trial_7days\', 1590)" class="btn-gold w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer"><span class="material-symbols-outlined text-base">timer</span><span id="btnTariffTrialText">Оформить 7 Дней за 1 590 ₽</span></button>
+          <button id="btnTariffTrial" onclick="selectTariffAndStart('trial_7days', 1590)" class="btn-gold w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer"><span class="material-symbols-outlined text-base">timer</span><span id="btnTariffTrialText">Оформить 7 Дней за 1 590 ₽</span></button>
         </div>
 
         <!-- CARD 2: MONTHLY (FLAGSHIP 50% DISCOUNT) -->
@@ -1966,10 +1750,10 @@
         <div class="glass-box p-6 space-y-4">
           <div class="flex items-center justify-between">
             <div>
-              <h3 class="font-outfit font-bold text-lg text-white">Сравнение скорости ответа с рынком</h3>
-              <p class="text-xs text-white/40 mt-0.5">Быстрый ответ в первые 15 секунд увеличивает вероятность сделки в 3.8 раза</p>
+              <h3 class="font-outfit font-bold text-lg text-white">Скорость ответа покупателям</h3>
+              <p class="text-xs text-white/40 mt-0.5">Среднее время первого ответа по реальным диалогам из базы</p>
             </div>
-            <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">Бенчмарк Авито</span>
+            <span class="text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-full">Телеметрия 24/7</span>
           </div>
           <div class="h-[200px] w-full relative pt-2">
             <canvas id="analyticsSpeedChart"></canvas>
@@ -2056,7 +1840,7 @@
                 <h3 class="font-outfit font-bold text-lg text-white">Матрица спроса по товарам каталога</h3>
                 <p class="text-xs text-white/40 mt-0.5">Позиции, по которым покупатели пишут чаще всего</p>
               </div>
-              <span class="text-xs text-gold font-bold px-2.5 py-1 bg-gold/10 border border-white/10 rounded-full" id="analyticsCatalogBadge">14 товаров</span>
+              <span class="text-xs text-gold font-bold px-2.5 py-1 bg-gold/10 border border-white/10 rounded-full" id="analyticsCatalogBadge">0 товаров</span>
             </div>
 
             <div id="analyticsCatalogTable" class="space-y-2">
@@ -2075,14 +1859,14 @@
                     <span class="material-symbols-outlined text-sm text-blue-400">local_shipping</span>
                     <span>Авито Доставка (СДЭК/Почта)</span>
                   </span>
-                  <span id="analyticsAvitoDeliveryPct" class="font-extrabold text-white">64%</span>
+                  <span id="analyticsAvitoDeliveryPct" class="font-extrabold text-white">0%</span>
                 </div>
                 <div class="p-3.5 rounded-xl bg-[#121214] border border-white/5 flex items-center justify-between text-xs">
                   <span class="text-white/70 flex items-center gap-2">
                     <span class="material-symbols-outlined text-sm text-gold">store</span>
                     <span>Самовывоз со склада</span>
                   </span>
-                  <span id="analyticsPickupPct" class="font-extrabold text-gold">36%</span>
+                  <span id="analyticsPickupPct" class="font-extrabold text-gold">0%</span>
                 </div>
               </div>
             </div>
@@ -2096,15 +1880,15 @@
               <div class="space-y-2 text-xs">
                 <div class="flex justify-between py-1 border-b border-white/5 text-white/60">
                   <span>Сэкономлено времени:</span>
-                  <strong id="analyticsHoursSaved" class="text-white">~140 часов / мес</strong>
+                  <strong id="analyticsHoursSaved" class="text-white">0 часов / мес</strong>
                 </div>
                 <div class="flex justify-between py-1 border-b border-white/5 text-white/60">
                   <span>Экономия на менеджерах:</span>
-                  <strong id="analyticsCostSavings" class="text-gold">от 60 000 ₽ / мес</strong>
+                  <strong id="analyticsCostSavings" class="text-gold">0 ₽</strong>
                 </div>
                 <div class="flex justify-between py-1 border-b border-white/5 text-white/60">
                   <span>Окупаемость платформы:</span>
-                  <strong class="text-status-green">> 3 200% (с 1 заказа)</strong>
+                  <strong id="analyticsRoiValue" class="text-status-green">0%</strong>
                 </div>
               </div>
             </div>
@@ -2112,45 +1896,45 @@
 
         </div>
 
-        <!-- HOURLY PEAK ACTIVITY HEATMAP -->
+        <!-- HOURLY PEAK ACTIVITY HEATMAP (DYNAMIC FROM REAL DB STATS) -->
         <div class="glass-box p-6 space-y-4">
           <div class="flex items-center justify-between">
             <div>
               <h3 class="font-outfit font-bold text-lg text-white">Распределение обращений покупателей по времени суток</h3>
-              <p class="text-xs text-white/40 mt-0.5">Бот обеспечивает продажи 24/7, когда конкуренты не отвечают</p>
+              <p class="text-xs text-white/40 mt-0.5">Менеджер обеспечивает продажи 24/7, когда конкуренты не отвечают</p>
             </div>
             <span class="text-xs text-white/40">24 часа в сутки</span>
           </div>
 
-          <div class="h-44 flex items-end justify-between gap-2 pt-6 pb-2 px-4 border-b border-white/10">
-            <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/15 group-hover:bg-gold rounded-t-lg transition-all h-[25%]" title="00:00 - 04:00 (Ночной патруль)"></div>
+          <div id="analyticsHourlyBars" class="h-44 flex items-end justify-between gap-2 pt-6 pb-2 px-4 border-b border-white/10">
+            <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+              <div class="w-full bg-gold/20 rounded-t-lg transition-all" style="height: 0%" title="00:00 - 04:00"></div>
               <span class="text-[10px] text-white/40 font-medium">00-04</span>
             </div>
-            <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/15 group-hover:bg-gold rounded-t-lg transition-all h-[15%]" title="04:00 - 08:00 (Раннее утро)"></div>
+            <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+              <div class="w-full bg-gold/20 rounded-t-lg transition-all" style="height: 0%" title="04:00 - 08:00"></div>
               <span class="text-[10px] text-white/40 font-medium">04-08</span>
             </div>
-            <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/40 group-hover:bg-gold rounded-t-lg transition-all h-[60%]" title="08:00 - 12:00 (Утренний пик)"></div>
+            <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+              <div class="w-full bg-gold/40 rounded-t-lg transition-all" style="height: 0%" title="08:00 - 12:00"></div>
               <span class="text-[10px] text-white/40 font-medium">08-12</span>
             </div>
-            <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/70 group-hover:bg-gold rounded-t-lg transition-all h-[80%]" title="12:00 - 16:00 (Дневная активность)"></div>
+            <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+              <div class="w-full bg-gold/70 rounded-t-lg transition-all" style="height: 0%" title="12:00 - 16:00"></div>
               <span class="text-[10px] text-white/40 font-medium">12-16</span>
             </div>
-            <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold rounded-t-lg h-[100%]" title="16:00 - 20:00 (Вечерний пик продаж)"></div>
-              <span class="text-[10px] text-gold font-bold">16-20</span>
+            <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+              <div class="w-full bg-gold rounded-t-lg transition-all" style="height: 0%" title="16:00 - 20:00"></div>
+              <span class="text-[10px] text-white/40 font-medium">16-20</span>
             </div>
-            <div class="flex-1 flex flex-col items-center gap-2 group">
-              <div class="w-full bg-gold/80 group-hover:bg-gold rounded-t-lg transition-all h-[85%]" title="20:00 - 00:00 (Вечерний поток)"></div>
+            <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+              <div class="w-full bg-gold/80 rounded-t-lg transition-all" style="height: 0%" title="20:00 - 00:00"></div>
               <span class="text-[10px] text-white/40 font-medium">20-00</span>
             </div>
           </div>
 
           <div class="text-[11px] text-white/40 pt-2 flex items-center justify-between">
-            <span>22% входящих поступают ночью (22:00 – 08:00)</span>
+            <span id="analyticsNightSummaryText">0% входящих поступают ночью (21:00 – 09:00)</span>
             <span class="text-gold font-semibold">Все клиенты получают моментальный ответ 24/7</span>
           </div>
         </div>
@@ -2185,7 +1969,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="glass-box p-5 space-y-1">
           <div class="text-xs text-white/40 font-medium">Приглашено партнеров</div>
-          <div class="font-outfit font-extrabold text-3xl text-white">0 чел.</div>
+          <div id="refInvitedCount" class="font-outfit font-extrabold text-3xl text-white">0 чел.</div>
           <div class="text-[11px] text-white/40 mt-1">Регистраций по вашей ссылке</div>
         </div>
 
@@ -2197,7 +1981,7 @@
 
         <div class="glass-box p-5 space-y-1">
           <div class="text-xs text-white/40 font-medium">Реферальные бонусы</div>
-          <div class="font-outfit font-extrabold text-3xl text-status-green">0 ₽</div>
+          <div id="refBonusEarned" class="font-outfit font-extrabold text-3xl text-status-green">0 ₽</div>
           <div class="text-[11px] text-status-green mt-1">Доступно для оплаты тарифов</div>
         </div>
       </div>
@@ -2218,7 +2002,7 @@
           </div>
           <div class="p-4 bg-white/5 rounded-xl border border-white/5 space-y-1.5">
             <div class="w-6 h-6 rounded-full bg-white/10 text-white/80 flex items-center justify-center font-bold text-xs">3</div>
-            <strong class="text-white block">Получайте 10% на баланс</strong>
+            <strong class="text-white block">Получайте 25% на баланс</strong>
             <p>Бонусы мгновенно начисляются на ваш счет и могут использоваться для 100% оплаты магазинов.</p>
           </div>
         </div>
@@ -2230,7 +2014,7 @@
       <div class="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">Интеграции и Настройки</h2>
-          <p class="text-xs sm:text-sm text-white/50 mt-1">Каналы связи, пересылка диалогов, автоматическая выгрузка данных и профиль</p>
+          <p class="text-xs sm:text-sm text-white/50 mt-1">Каналы связи, пересылка диалогов и настройки профиля</p>
         </div>
         <button type="button" onclick="switchTab('overview')" class="btn-ghost px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 text-white/70 hover:text-white cursor-pointer">
           <span class="material-symbols-outlined text-sm">arrow_back</span>
@@ -2249,7 +2033,7 @@
         </div>
 
         <p class="text-xs text-white/60 leading-relaxed max-w-2xl">
-          Подключите удобные каналы, чтобы получать уведомления о покупателях, отвечать клиентам с Авито прямо из мессенджера или выгружать данные в свои таблицы.
+          Подключите удобные каналы, чтобы получать уведомления о покупателях и отвечать клиентам с Авито прямо из мессенджера.
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2271,7 +2055,7 @@
                         <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span> Привязан
                       </span>
                     </div>
-                    <div id="settTgIdBadge" class="text-[11px] text-white/40 font-mono mt-0.5">ID 6940082004</div>
+                    <div id="settTgIdBadge" class="text-[11px] text-white/40 font-mono mt-0.5">ID не привязан</div>
                   </div>
                 </div>
 
@@ -2285,7 +2069,7 @@
                 <div class="space-y-0.5">
                   <div class="text-xs font-bold text-white">Пересылать диалоги в Telegram</div>
                   <div class="text-[11px] text-white/50 leading-relaxed">
-                    Отвечайте покупателю прямо из Telegram через Reply на сообщение — бот мгновенно отправит ответ на Авито.
+                    Отвечайте покупателю прямо из Telegram через Reply на сообщение — менеджер мгновенно отправит ответ на Авито.
                   </div>
                 </div>
 
@@ -2335,18 +2119,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-                <button type="button" onclick="showToast('CRM Webhook', 'Адрес вебхука для интеграции скопирован в буфер', 'info')" class="px-3 py-1 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-white/70 hover:text-white border border-white/10 transition-all cursor-pointer">
-                  Настроить
-                </button>
-              </div>
-
-              <p class="text-[11px] text-white/50 leading-relaxed">
-                Передача теплых лидов и запросов на оформление заказа прямо в воронку вашей CRM-системы.
-              </p>
             </div>
           </div>
         </div>
@@ -2471,6 +2243,7 @@
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-white/80 text-xs font-bold uppercase tracking-wider mb-2">
               <span class="w-2 h-2 rounded-full bg-gold "></span>
               <span>Шаг 1 из 3: Оплата тарифа / Списание с баланса</span>
+            </div>
             <h3 class="font-outfit font-bold text-xl sm:text-2xl text-white">Принцип создания: 1. Тариф -> 2. Регламент -> 3. Запуск</h3>
             <p class="text-xs sm:text-sm text-white/50 mt-1">Для подключения менеджера требуется активная подписка на тариф. После оплаты вы перейдете к настройке регламента магазина.</p>
             <p class="text-xs sm:text-sm text-white/50 mt-1">Выберите подходящий тариф. Настройка регламента откроется сразу после оплаты.</p>
@@ -2585,13 +2358,13 @@
                 <span class="material-symbols-outlined text-xl">send</span>
               </div>
               <div class="flex-1">
-                <div class="text-sm font-bold text-white">Вы должны перейти в наш Telegram-бот</div>
+                <div class="text-sm font-bold text-white">Вы должны перейти в наш Telegram @avito_deployer_bot</div>
                 <p class="text-xs text-white/70 mt-1 leading-relaxed">
                   Туда будут мгновенно приходить все новые лиды, уведомления о заказах, ошибки и вся оперативная информация по вашему магазину:
                 </p>
                 <div class="pt-2">
                   <a href="https://t.me/avito_deployer_bot" target="_blank" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gold text-black font-bold text-xs hover:bg-[#FFE66D] transition-all">
-                    <span>Перейти в Telegram-бота: https://t.me/avito_deployer_bot</span>
+                    <span>Перейти в Telegram: https://t.me/avito_deployer_bot</span>
                     <span class="material-symbols-outlined text-sm">open_in_new</span>
                   </a>
                 </div>
@@ -2842,7 +2615,7 @@
                 <span class="material-symbols-outlined text-sm">refresh</span>
                 <span>Запросить код повторно</span>
               </button>
-              <span class="text-[11px] text-white/40">Код также перехватывается ботом @avito_deployer_bot</span>
+              <span class="text-[11px] text-white/40">Код также перехватывается в Telegram @avito_deployer_bot</span>
             </div>
           </div>
 
@@ -2852,7 +2625,7 @@
             <div class="space-y-1">
               <h4 class="font-outfit font-extrabold text-lg text-white">✅ Вход успешно завершен!</h4>
               <p class="text-xs text-white/90">
-                Теперь мы автоматически добавляем ваши товары в базу знаний менеджера...
+                Теперь мы самостоятельно добавляем ваши товары в базу знаний менеджера...
               </p>
               <p class="text-[11px] text-white/50 max-w-md mx-auto">
                 Это займет около 1 минуты. Менеджер считывает все объявления, цены, размеры, описания и фото прямо из вашего аккаунта Авито.
@@ -2896,7 +2669,7 @@
             </div>
           </div>
 
-        </div></div>
+        </div>
 
       </div>
     </section>
@@ -3070,18 +2843,6 @@
 
       <!-- NAVIGATION ACTIONS GRID -->
       <div class="grid grid-cols-2 gap-2.5 mb-4">
-        <!-- AVITO SESSION & REAUTH -->
-        <button onclick="toggleMobileMoreSheet(false); switchTab('session');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-white/10 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
-          <div class="flex items-center justify-between w-full">
-            <span class="material-symbols-outlined text-gold text-2xl">verified_user</span>
-            <span id="mobileSessionAlertBadge" class="hidden w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse border border-amber-300"></span>
-          </div>
-          <div>
-            <div class="font-outfit font-bold text-xs text-white">Сессия Авито</div>
-            <div class="text-[10px] text-white/40" id="mobileSessionStatusSub">Статус и вход</div>
-          </div>
-        </button>
-
         <!-- STORE KNOWLEDGE -->
         <button onclick="toggleMobileMoreSheet(false); switchTab('knowledge');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-white/10 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
           <div class="flex items-center justify-between w-full">
@@ -3120,7 +2881,7 @@
         <button onclick="toggleMobileMoreSheet(false); switchTab('referrals');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-white/10 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
           <div class="flex items-center justify-between w-full">
             <span class="material-symbols-outlined text-amber-400 text-2xl">group</span>
-            <span class="text-[9px] bg-white/10 text-zinc-300 px-1.5 py-0.5 rounded font-bold border border-white/10">10%</span>
+            <span class="text-[9px] bg-white/10 text-zinc-300 px-1.5 py-0.5 rounded font-bold border border-white/10">25%</span>
           </div>
           <div>
             <div class="font-outfit font-bold text-xs text-white">Рефералы</div>
@@ -3238,7 +2999,7 @@
       <div id="payPaneCard" class="hidden space-y-4">
         <div class="p-3 bg-white/5 rounded-xl border border-white/10 text-xs text-white/60 flex items-center gap-2">
           <span class="material-symbols-outlined text-sm">payments</span>
-          <span>Мгновенное автоматическое зачисление баланса</span>
+          <span>Мгновенное зачисление баланса</span>
         </div>
 
         <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" class="space-y-4">
@@ -3280,7 +3041,7 @@
 
         <a href="https://t.me/avito_deployer_bot" target="_blank" class="w-full py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white bg-white/5 border border-white/10 flex items-center justify-center gap-2 transition-all">
           <span class="material-symbols-outlined text-sm text-gold">send</span>
-          <span>Оплатить или отправить чек в Telegram-боте</span>
+          <span>Оплатить или отправить чек в Telegram</span>
         </a>
       </div>
 
@@ -3468,15 +3229,48 @@
   <!-- ==================== MODAL: DELETE SHOP OFFICIAL CONFIRMATION ==================== -->
   <div id="deleteShopModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
     <div class="glass-box p-6 sm:p-8 max-w-lg w-full space-y-5 border-red-500/30 bg-[#161619] rounded-2xl sm:rounded-3xl shadow-2xl">
-      <div class="flex items-center gap-3 text-red-400">
-        <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
-          <span class="material-symbols-outlined text-2xl">warning</span>
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 text-red-400">
+          <div class="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center">
+            <span class="material-symbols-outlined text-2xl">warning</span>
+          </div>
+          <div>
+            <h3 class="font-outfit font-extrabold text-lg text-white">Подтверждение отключения магазина</h3>
+            <p class="text-xs text-white/50">Отзыв лицензии и остановка менеджера</p>
+          </div>
         </div>
-        <div>
-          <h3 class="font-outfit font-extrabold text-lg text-white">Подтверждение отключения магазина</h3>
-          <p class="text-xs text-white/50">Отзыв лицензии и остановка менеджера</p>
+        <button type="button" onclick="closeDeleteShopModal()" class="text-white/40 hover:text-white cursor-pointer p-1">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="p-4 rounded-xl bg-white/[0.03] border border-white/10 space-y-2 text-xs text-white/70">
+        <div class="flex items-center justify-between">
+          <span>Магазин:</span>
+          <strong id="delModalShopName" class="text-white">MAJORKA</strong>
+        </div>
+        <div class="flex items-center justify-between">
+          <span>Оплачено до:</span>
+          <strong id="delModalPaidUntil" class="text-white">—</strong>
+        </div>
+        <div class="flex items-center justify-between">
+          <span>Осталось дней лицензии:</span>
+          <strong id="delModalDaysRemaining" class="text-red-400">0</strong>
         </div>
       </div>
+
+      <label class="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/25 text-xs text-white/80 cursor-pointer select-none">
+        <input type="checkbox" id="delShopConsentCheckbox" onchange="toggleDeleteShopButton()" class="mt-0.5 accent-red-500">
+        <span>Я подтверждаю удаление магазина и понимаю, что менеджер будет остановлен, а оставшиеся оплаченные дни лицензии будут аннулированы без возврата.</span>
+      </label>
+
+      <div class="flex items-center justify-end gap-3 pt-2">
+        <button type="button" onclick="closeDeleteShopModal()" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-white/70 hover:text-white cursor-pointer">Отмена</button>
+        <button type="button" id="btnConfirmDeleteShop" onclick="executeDeleteShopAction()" disabled class="px-5 py-2.5 rounded-xl text-xs font-bold bg-red-600/30 text-white/40 border border-red-500/30 cursor-not-allowed transition-all">Отключить магазин</button>
+      </div>
+    </div>
+  </div>
+
   <!-- ==================== MODAL: VIEW SHOP ACTIVE LISTINGS ==================== -->
   <div id="shopCatalogPreviewModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
     <div class="glass-box p-6 max-w-2xl w-full space-y-4 border-white/10 bg-[#161619] rounded-2xl shadow-2xl flex flex-col max-h-[85vh]">
@@ -3490,6 +3284,22 @@
             <p class="text-xs text-white/50" id="previewModalShopName">Каталог товаров на Авито</p>
           </div>
         </div>
+        <button type="button" onclick="closeShopCatalogModal()" class="text-white/40 hover:text-white cursor-pointer p-1">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div id="shopCatalogPreviewList" class="flex-1 overflow-y-auto space-y-2 pr-1">
+        <div class="p-6 text-center text-xs text-white/40">В каталоге магазина пока нет активных объявлений.</div>
+      </div>
+
+      <div class="flex items-center justify-between pt-3 border-t border-white/10 text-xs text-white/50">
+        <span id="previewModalCount">Всего: 0 активных объявлений</span>
+        <button type="button" onclick="closeShopCatalogModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-white/80 hover:text-white cursor-pointer">Закрыть</button>
+      </div>
+    </div>
+  </div>
+
   <!-- MODAL: MANUAL PRODUCT ADD / EDIT -->
   <div id="productEditModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
     <div class="glass-box p-6 sm:p-7 rounded-2xl max-w-md w-full bg-[#18181c] border border-white/20 space-y-4 shadow-2xl">
@@ -3516,6 +3326,7 @@
         <button type="button" onclick="saveProductManualAction()" class="btn-gold px-5 py-2 rounded-xl text-xs font-bold cursor-pointer">Сохранить товар</button>
       </div>
     </div>
+  </div>
   <script>
     // CORE GLOBAL STATE DECLARATIONS
     var isChainStep1Paid = false;
@@ -3646,12 +3457,12 @@
           const headerBadge = document.getElementById('leadsHeaderCountBadge');
           const navBadge = document.getElementById('tabLeadsCountBadge');
 
-          if (kpiHot) kpiHot.innerText = counts.hot || 3;
-          if (kpiCall) kpiCall.innerText = counts.call_needed || 3;
-          if (kpiWarm) kpiWarm.innerText = counts.warm || 2;
-          if (kpiRevenue) kpiRevenue.innerText = counts.potential_revenue || '65 870 ₽';
-          if (headerBadge) headerBadge.innerText = `🔥 ${counts.hot || 3} горячих`;
-          if (navBadge) navBadge.innerText = `🔥 ${counts.hot || 3}`;
+          if (kpiHot) kpiHot.innerText = counts.hot ?? 0;
+          if (kpiCall) kpiCall.innerText = counts.call_needed ?? 0;
+          if (kpiWarm) kpiWarm.innerText = counts.warm ?? 0;
+          if (kpiRevenue) kpiRevenue.innerText = counts.potential_revenue || '0 ₽';
+          if (headerBadge) headerBadge.innerText = `🔥 ${counts.hot ?? 0} горячих`;
+          if (navBadge) navBadge.innerText = `🔥 ${counts.hot ?? 0}`;
 
           // Update Filter Pill counts
           const fAll = document.getElementById('filterCount-all');
@@ -3661,10 +3472,10 @@
           const fCold = document.getElementById('filterCount-cold');
 
           if (fAll) fAll.innerText = data.leads.length;
-          if (fHot) fHot.innerText = counts.hot || 3;
-          if (fCall) fCall.innerText = counts.call_needed || 3;
-          if (fWarm) fWarm.innerText = counts.warm || 2;
-          if (fCold) fCold.innerText = counts.new || 1;
+          if (fHot) fHot.innerText = counts.hot ?? 0;
+          if (fCall) fCall.innerText = counts.call_needed ?? 0;
+          if (fWarm) fWarm.innerText = counts.warm ?? 0;
+          if (fCold) fCold.innerText = counts.new ?? 0;
         }
       } catch (err) {
         console.warn('Fallback leads rendering:', err);
@@ -3712,7 +3523,7 @@
           <div class="glass-box p-8 rounded-2xl border border-white/10 text-center space-y-3 bg-[#161619]">
             <span class="material-symbols-outlined text-4xl text-white/30">filter_none</span>
             <div class="font-outfit font-bold text-base text-white">В данной категории пока нет заявок</div>
-            <div class="text-xs text-white/50 max-w-sm mx-auto">Новые покупатели с Авито автоматически квалифицируются и появятся здесь мгновенно.</div>
+            <div class="text-xs text-white/50 max-w-sm mx-auto">Новые покупатели с Авито самостоятельно квалифицируются и появятся здесь мгновенно.</div>
             <button onclick="filterCustomerLeads('all')" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-gold inline-flex items-center gap-1 cursor-pointer">
               <span>Показать все заявки</span>
             </button>
@@ -3887,15 +3698,6 @@
     }
     window.markLeadDealDone = markLeadDealDone;
 
-    function triggerHarveyPipelineAction(btn) {
-      hapticClick('success');
-      if (typeof confetti === 'function') {
-        confetti({ particleCount: 60, spread: 70, origin: { y: 0.6 } });
-      }
-      showToast('Harvey Engine запущен!', '5 автономных агентов ведут поиск и квалификацию лидов на Авито.', 'success');
-    }
-    window.triggerHarveyPipelineAction = triggerHarveyPipelineAction;
-
     function startLiveMonitorPolling() {
       stopLiveMonitorPolling();
       const toggle = document.getElementById('liveAutoRefreshToggle');
@@ -3928,8 +3730,18 @@
       const headers = new Headers(options.headers || {});
       if (token) headers.set('Authorization', `Bearer ${token}`);
       headers.set('ngrok-skip-browser-warning', 'true');
-      return fetch(url, { ...options, headers });
+      return fetch(url, { ...options, credentials: options.credentials || 'include', headers });
     };
+
+    function clearAllAuthCookiesAndStorage() {
+      try {
+        localStorage.clear();
+        sessionStorage.clear();
+        ['session_token', 'userChatId', 'majorka_chatId', 'majorka_guest_id'].forEach(name => {
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
+        });
+      } catch (e) {}
+    }
 
     let tg = window.Telegram?.WebApp;
     if (tg) {
@@ -3946,11 +3758,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const isForcedGuest = urlParams.has('guest') || urlParams.has('new') || urlParams.has('reset') || urlParams.has('demo');
     if (isForcedGuest) {
-      try {
-        localStorage.clear();
-        sessionStorage.clear();
-        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      } catch (e) {}
+      clearAllAuthCookiesAndStorage();
     }
 
     const paramChatId = isForcedGuest ? null : urlParams.get('chatId');
@@ -4036,46 +3844,28 @@
     // Payment Success Alert Check
     if (urlParams.get('payment') === 'success') {
       setTimeout(() => {
-        showToast('Оплата успешно завершена!', 'Ваш платеж поступил в обработку. Для привязки магазина напишите нашему боту @avito_deployer_bot', 'success');
+        showToast('Оплата успешно завершена!', 'Ваш платеж поступил в обработку. Для привязки магазина напишите в наш Telegram @avito_deployer_bot', 'success');
       }, 500);
     }
 
     // Non-blocking background handshake
     (async function checkAuthGuard() {
-      let token = localStorage.getItem('session_token');
-      if (!token) {
-        token = 'tg_' + currentChatId + '_' + Date.now();
-        localStorage.setItem('session_token', token);
-      }
-
-      if (tgUser?.id) {
+      const initData = window.Telegram?.WebApp?.initData || '';
+      if (tgUser?.id && initData) {
         try {
-          const tRes = await fetch(`${API_BASE}/api/auth/telegram_session`, {
+          const tRes = await apiFetch(`${API_BASE}/api/auth/telegram_session`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
             body: JSON.stringify({
-              initData: window.Telegram?.WebApp?.initData || '',
+              initData,
               chatId: String(tgUser.id),
               first_name: tgUser.first_name || '',
               username: tgUser.username || ''
             })
           });
-          const tData = await tRes.json();
-          if (tData.success && tData.session_token) {
+          const tData = await tRes.json().catch(() => ({}));
+          if (tRes.ok && tData.success && tData.session_token) {
             localStorage.setItem('session_token', tData.session_token);
-          }
-        } catch (e) {}
-      } else if (isOwner) {
-        try {
-          const qRes = await fetch(`${API_BASE}/api/auth/quick_login`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include'
-          });
-          const qData = await qRes.json();
-          if (qData.success && qData.session_token) {
-            localStorage.setItem('session_token', qData.session_token);
           }
         } catch (e) {}
       }
@@ -4190,9 +3980,11 @@
         if (aConv) aConv.innerText = data.conversion_rate;
         if (aDeals) aDeals.innerText = data.is_guest ? '0 подтвержденных сделок' : `${data.total_deals} подтвержденных сделок`;
         if (aSpeed) aSpeed.innerText = data.avg_response_time;
-        if (aSpeedSub) aSpeedSub.innerText = data.is_guest ? 'Ожидает запуска бота' : '98.4% ответов до 10 сек';
+        if (aSpeedSub) aSpeedSub.innerText = data.is_guest
+          ? 'Ожидает запуска менеджера'
+          : (Number(data.total_messages) > 0 ? `На основе ${Number(data.total_messages).toLocaleString('ru-RU')} сообщений` : 'Ожидание обращений');
         if (aLeads) aLeads.innerText = data.night_leads;
-        if (aNight) aNight.innerText = data.is_guest ? '0% обращений' : `${data.night_leads_pct} обращений с 21:00 до 09:00`;
+        if (aNight) aNight.innerText = data.is_guest ? '0% обращений' : `${data.night_leads_pct}% обращений с 21:00 до 09:00`;
 
         // 4. Analytics Funnel
         const f1Text = document.getElementById('funnelInquiriesText');
@@ -4253,11 +4045,19 @@
         if (dAvito) dAvito.innerText = `${data.logistics.avito_pct}%`;
         if (dPickup) dPickup.innerText = `${data.logistics.pickup_pct}%`;
 
-        // 8. Financial ROI
+        // 8. Financial ROI & Hourly Distribution
         const roiHours = document.getElementById('analyticsHoursSaved');
         const roiSavings = document.getElementById('analyticsCostSavings');
-        if (roiHours) roiHours.innerText = `${data.financial_roi.hours_saved} часов / мес`;
-        if (roiSavings) roiSavings.innerText = data.financial_roi.cost_savings;
+        const roiValEl = document.getElementById('analyticsRoiValue');
+        const hoursSaved = Number(data.financial_roi?.hours_saved || 0);
+        if (roiHours) roiHours.innerText = `${hoursSaved} часов / мес`;
+        if (roiSavings) roiSavings.innerText = data.financial_roi?.cost_savings || '0 ₽';
+        if (roiValEl) {
+          const moneySaved = Math.round(hoursSaved * 450);
+          const roiPct = moneySaved > 0 ? Math.round((moneySaved / 6490) * 100) : 0;
+          roiValEl.innerText = roiPct > 0 ? `${roiPct.toLocaleString('ru-RU')}%` : '0%';
+        }
+        renderHourlyDistribution(data);
 
       } catch (err) {
         console.warn('loadAnalyticsData error:', err);
@@ -4265,6 +4065,62 @@
       }
     }
     window.loadAnalyticsData = loadAnalyticsData;
+
+    function renderHourlyDistribution(data) {
+      const container = document.getElementById('analyticsHourlyBars');
+      const summaryEl = document.getElementById('analyticsNightSummaryText');
+      const total = Number(data?.total_messages || 0);
+      const night = Number(data?.night_leads || 0);
+      const nightPct = Number(data?.night_leads_pct || 0);
+
+      if (summaryEl) {
+        summaryEl.innerText = `${nightPct}% входящих поступают ночью (21:00 – 09:00)`;
+      }
+      if (!container) return;
+
+      if (Array.isArray(data?.hourly_buckets) && data.hourly_buckets.length === 6) {
+        const labels = ['00-04', '04-08', '08-12', '12-16', '16-20', '20-00'];
+        const maxVal = Math.max(1, ...data.hourly_buckets.map(v => Number(v) || 0));
+        container.innerHTML = data.hourly_buckets.map((val, i) => {
+          const count = Number(val) || 0;
+          const pct = total > 0 ? Math.round((count / maxVal) * 100) : 0;
+          return `
+            <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+              <div class="w-full bg-gold/70 group-hover:bg-gold rounded-t-lg transition-all" style="height: ${pct}%" title="${labels[i]}: ${count} обр."></div>
+              <span class="text-[10px] text-white/40 font-medium">${labels[i]}</span>
+            </div>
+          `;
+        }).join('');
+        return;
+      }
+
+      if (total <= 0) {
+        const labels = ['00-04', '04-08', '08-12', '12-16', '16-20', '20-00'];
+        container.innerHTML = labels.map(lbl => `
+          <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+            <div class="w-full bg-gold/20 rounded-t-lg transition-all" style="height: 0%" title="${lbl}: 0 обр."></div>
+            <span class="text-[10px] text-white/40 font-medium">${lbl}</span>
+          </div>
+        `).join('');
+        return;
+      }
+
+      const dayCount = Math.max(0, total - night);
+      const dayPct = Math.round((dayCount / total) * 100);
+      const nPct = Math.round((night / total) * 100);
+      container.innerHTML = `
+        <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+          <span class="text-[11px] font-bold text-white">${dayCount} обр. (${dayPct}%)</span>
+          <div class="w-full max-w-[140px] bg-gold rounded-t-lg transition-all" style="height: ${Math.max(4, dayPct)}%" title="Дневные обращения (09:00–21:00): ${dayCount}"></div>
+          <span class="text-[10px] text-white/60 font-medium">День (09:00–21:00)</span>
+        </div>
+        <div class="flex-1 flex flex-col items-center gap-2 group h-full justify-end">
+          <span class="text-[11px] font-bold text-gold">${night} обр. (${nPct}%)</span>
+          <div class="w-full max-w-[140px] bg-gold/50 rounded-t-lg transition-all" style="height: ${night > 0 ? Math.max(4, nPct) : 0}%" title="Ночные обращения (21:00–09:00): ${night}"></div>
+          <span class="text-[10px] text-gold font-medium">Ночь (21:00–09:00)</span>
+        </div>
+      `;
+    }
 
     function renderGuestOrEmptyAnalytics() {
       const aMsgs = document.getElementById('analyticsTotalMessages');
@@ -4310,6 +4166,18 @@
       if (ovStatLeads) ovStatLeads.innerText = '0';
       if (ovStatShops) ovStatShops.innerText = '0';
 
+      const dAvito = document.getElementById('analyticsAvitoDeliveryPct');
+      const dPickup = document.getElementById('analyticsPickupPct');
+      const roiHours = document.getElementById('analyticsHoursSaved');
+      const roiSavings = document.getElementById('analyticsCostSavings');
+      const roiValEl = document.getElementById('analyticsRoiValue');
+      if (dAvito) dAvito.innerText = '0%';
+      if (dPickup) dPickup.innerText = '0%';
+      if (roiHours) roiHours.innerText = '0 часов / мес';
+      if (roiSavings) roiSavings.innerText = '0 ₽';
+      if (roiValEl) roiValEl.innerText = '0%';
+
+      renderHourlyDistribution(null);
       renderOverviewChartWithData(null, true);
       renderSpeedChartWithData(0, true);
     }
@@ -4398,7 +4266,7 @@
       }
     }
 
-        function renderSpeedChartWithData(speedSec, isGuest) {
+    function renderSpeedChartWithData(speedSec, isGuest) {
       try {
         const speedCtx = document.getElementById('analyticsSpeedChart');
         if (!speedCtx || typeof Chart === 'undefined') return;
@@ -4408,30 +4276,23 @@
         }
 
         const isG = Boolean(isGuest);
-        const majorkaTime = (!isG && speedSec && speedSec > 0)
-          ? Number((speedSec / 60.0).toFixed(2))
-          : (isG ? 0.05 : 0.07);
+        const realSec = (!isG && speedSec && Number(speedSec) > 0)
+          ? Number(Number(speedSec).toFixed(1))
+          : 0;
 
         analyticsSpeedChartInstance = new Chart(speedCtx, {
           type: 'bar',
           data: {
-            labels: ['MAJORKA 24/7 (3-4 сек)', 'Топ-10 продавцов (6.5 мин)', 'Обычный продавец (42 мин)'],
+            labels: ['Средняя скорость ответа магазина (сек)'],
             datasets: [{
-              label: 'Среднее время ответа покупателю (минут)',
-              data: [majorkaTime, 6.5, 42.0],
-              backgroundColor: [
-                '#FFDD2D',
-                'rgba(255, 255, 255, 0.25)',
-                'rgba(255, 255, 255, 0.08)'
-              ],
-              borderColor: [
-                '#FFDD2D',
-                'rgba(255, 255, 255, 0.4)',
-                'rgba(255, 255, 255, 0.15)'
-              ],
+              label: 'Среднее время ответа (сек)',
+              data: [realSec],
+              backgroundColor: ['#FFDD2D'],
+              borderColor: ['#FFDD2D'],
               borderWidth: 1,
               borderRadius: 8,
-              borderSkipped: false
+              borderSkipped: false,
+              barThickness: 56
             }]
           },
           options: {
@@ -4448,12 +4309,9 @@
                 borderWidth: 1,
                 callbacks: {
                   label: function(context) {
-                    if (context.dataIndex === 0) {
-                      return isG
-                        ? 'MAJORKA: < 4 секунд (демонстрационный режим)'
-                        : `Реальная скорость: ${speedSec || 4.2} сек!`;
-                    }
-                    return context.parsed.y + ' минут';
+                    return realSec > 0
+                      ? `Реальная скорость ответа: ${realSec} сек`
+                      : 'Нет измеренных ответов (0 сек)';
                   }
                 }
               }
@@ -4461,14 +4319,16 @@
             scales: {
               x: {
                 grid: { display: false },
-                ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 10, weight: 'bold' } }
+                ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 11, weight: 'bold' } }
               },
               y: {
+                min: 0,
+                suggestedMax: realSec > 0 ? Math.max(15, Math.ceil(realSec * 1.2)) : 15,
                 grid: { color: 'rgba(255, 255, 255, 0.04)' },
                 ticks: {
                   color: 'rgba(255, 255, 255, 0.4)',
                   font: { size: 10 },
-                  callback: function(val) { return val + ' м'; }
+                  callback: function(val) { return val + ' с'; }
                 }
               }
             }
@@ -4494,7 +4354,7 @@
     }
     window.initOverviewChart = initOverviewChart;
 
-        function initAnalyticsCharts() {
+    function initAnalyticsCharts() {
       loadAnalyticsData();
       setTimeout(() => {
         const speedCtx = document.getElementById('analyticsSpeedChart');
@@ -4504,7 +4364,7 @@
           analyticsSpeedChartInstance.update();
         } else {
           const isG = window.analyticsData?.is_guest ?? (!window.isOwner && (!userBotsList || userBotsList.length === 0));
-          const speedSec = window.analyticsData?.speed_seconds || (isG ? 0 : 4.2);
+          const speedSec = window.analyticsData?.speed_seconds || 0;
           renderSpeedChartWithData(speedSec, isG);
         }
       }, 60);
@@ -4571,53 +4431,6 @@
     }
     window.triggerHarveyPipelineAction = triggerHarveyPipelineAction;
 
-    // =========================================================================
-    // ACCOUNT SWITCHER & LOGIN (OWNER 1-CLICK / GUEST / TELEGRAM ID)
-    // =========================================================================
-    function openAccountModal() {
-      const m = document.getElementById('accountSwitcherModal');
-      if (m) {
-        m.classList.remove('hidden');
-        m.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-    window.openAccountModal = openAccountModal;
-
-    function closeAccountSwitcherModal() {
-      const m = document.getElementById('accountSwitcherModal');
-      if (m) {
-        m.classList.add('hidden');
-        m.classList.remove('flex');
-        document.body.style.overflow = '';
-      }
-    }
-    window.closeAccountSwitcherModal = closeAccountSwitcherModal;
-
-    function selectAccountAction(targetChatId) {
-      const cleanId = String(targetChatId || '').trim();
-      if (!cleanId) return;
-      const maxAge = 365 * 24 * 3600;
-      localStorage.setItem('userChatId', cleanId);
-      localStorage.setItem('majorka_chatId', cleanId);
-      localStorage.setItem('majorka_last_chatId', cleanId);
-      document.cookie = `userChatId=${cleanId}; max-age=${maxAge}; path=/; SameSite=Lax`;
-      document.cookie = `majorka_chatId=${cleanId}; max-age=${maxAge}; path=/; SameSite=Lax`;
-      closeAccountSwitcherModal();
-      showToast('Аккаунт переключен', `Вход в профиль ${cleanId}. Обновляем страницу...`, 'success');
-      const url = new URL(window.location.href);
-      url.searchParams.set('chatId', cleanId);
-      window.location.href = url.toString();
-    }
-    window.selectAccountAction = selectAccountAction;
-
-    function submitCustomChatId() {
-      const inp = document.getElementById('customChatIdInput');
-      if (inp && inp.value.trim()) {
-        selectAccountAction(inp.value.trim());
-      }
-    }
-    
     function togglePasswordVisibility(inputId, btn) {
       const input = document.getElementById(inputId);
       if (!input) return;
@@ -4629,8 +4442,6 @@
       }
     }
     window.togglePasswordVisibility = togglePasswordVisibility;
-
-    window.submitCustomChatId = submitCustomChatId;
 
     document.addEventListener('DOMContentLoaded', () => {
       initOverviewChart();
@@ -4647,6 +4458,8 @@
       
       loadStoreKnowledge();
       loadCatalogProducts();
+      setTimeout(initChainLocksState, 500);
+      initPushNotificationPrompt();
 
       const initialTab = urlParams.get('tab') || window.location.hash.replace('#', '') || 'overview';
       if (initialTab && initialTab !== 'overview') {
@@ -4659,7 +4472,13 @@
 
       const refInput = document.getElementById('refLinkInput');
       if (refInput) {
-        refInput.value = 'https://t.me/avito_deployer_bot?start=ref_' + currentChatId;
+        refInput.value = 'https://t.me/avito_deployer_bot?start=ref_' + encodeURIComponent(currentChatId || '');
+      }
+      const idEl = document.getElementById('settUserIdText');
+      if (idEl && currentChatId) idEl.innerText = currentChatId;
+      const tgIdEl = document.getElementById('settTgIdBadge');
+      if (tgIdEl && currentChatId && !currentChatId.startsWith('client_')) {
+        tgIdEl.innerText = 'ID ' + currentChatId;
       }
     }
 
@@ -4667,9 +4486,8 @@
       try {
         await apiFetch(`${API_BASE}/api/auth/logout`, { method: 'POST' });
       } catch (e) {}
-      localStorage.clear();
-      document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-      window.location.href = './index.html?logout=1';
+      clearAllAuthCookiesAndStorage();
+      window.location.href = './index.html?reset=1';
     }
 
     // RENDER TRIAL STATUS UI (BURNS AFTER FIRST PURCHASE)
@@ -4862,6 +4680,7 @@
           // promo UI updated
         }
         if (data.user) {
+          window.currentUserData = data.user;
           userBalanceVal = Number(data.user.balance || 0);
           localStorage.setItem('majorka_balance', userBalanceVal);
           const totalPurchases = Number(data.user.total_purchases || 0);
@@ -4892,6 +4711,8 @@
             }
           }
         }
+
+        renderReferralCounters(data);
 
         // Update Analytics Counters & Overview Operational Widget
         if (data.total_messages !== undefined) {
@@ -5124,142 +4945,32 @@
         </div>
       `;
 
-      if (!bots || bots.length === 0) {
+      const safeBots = Array.isArray(bots) ? bots : [];
+      if (safeBots.length === 0) {
         if (containerTab) containerTab.innerHTML = renderEmptyHtml();
         if (containerOverview) containerOverview.innerHTML = renderEmptyHtml();
-        return;
+      } else {
+        const renderedHtml = buildCardsHtml();
+        if (containerTab) containerTab.innerHTML = renderedHtml;
+        if (containerOverview) containerOverview.innerHTML = renderedHtml;
       }
-
-      const buildCardsHtml = () => {
-        let cardsHtml = '';
-        bots.forEach((bot, index) => {
-          const isPaid = bot.is_paid == 1;
-          const isPaused = Boolean(bot.is_paused || (storePausedState && isPaid));
-          const isReauth = ['reauth_needed', 'reauth_awaiting_sms', 'auth_awaiting_sms', 'auth_awaiting_password'].includes(bot.step);
-          const dateStr = bot.paid_until ? new Date(bot.paid_until).toLocaleDateString('ru-RU') : '30 дней';
-
-          let statusClass = 'text-zinc-300 bg-white/5 border border-white/10';
-          let statusText = 'Ожидает подключения';
-          if (isReauth) {
-            statusClass = 'text-amber-300 bg-amber-500/20 border border-amber-500/40 animate-pulse';
-            statusText = '⚠️ Требуется подтверждение сессии';
-          } else if (isPaused) {
-            statusClass = 'text-amber-300/80 bg-amber-500/10 border border-amber-500/30';
-            statusText = 'На паузе';
-          } else if (isPaid) {
-            statusClass = 'text-emerald-400/80 bg-emerald-500/10 border border-emerald-500/30';
-            statusText = `В сети 24/7 (до ${dateStr})`;
-          }
-
-          const emuSlot = `Магазин #${index + 1} (Основной)`;
-          const botName = bot.session_name || bot.name || 'Основной магазин на Авито';
-          const savedUrl = bot.avito_profile_url || localStorage.getItem('majorka_avito_url') || '';
-          const savedPhone = bot.phone || localStorage.getItem('majorka_bot_phone') || '';
-
-          const cardBorder = isReauth 
-            ? 'p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-500/15 via-[#181510] to-[#121214] border border-amber-500/40 shadow-xl shadow-amber-500/10 transition-all flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4'
-            : 'p-4 sm:p-5 rounded-2xl bg-[#121214] border border-white/10 hover:border-white/20 transition-all flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4';
-
-          cardsHtml += `
-            <div class="${cardBorder}">
-              <div class="flex items-center gap-3.5 min-w-0">
-                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl ${isReauth ? 'bg-amber-500/20 border-amber-500/40 text-amber-300' : 'bg-white/5 border-white/10 text-white/80'} border flex items-center justify-center text-sm font-bold font-outfit shrink-0">
-                  #${index + 1}
-                </div>
-                <div class="min-w-0">
-                  <div class="flex items-center gap-2 flex-wrap">
-                    <h4 class="font-outfit font-extrabold text-base sm:text-lg text-white truncate">${escapeHtml(botName)}</h4>
-                    <span class="${statusClass} px-2.5 py-0.5 rounded-md text-[10px] font-bold flex items-center">
-                      <span>${escapeHtml(statusText)}</span>
-                    </span>
-                  </div>
-                  <div class="flex items-center gap-2 mt-1 text-xs text-white/50 flex-wrap">
-                    <span>${escapeHtml(emuSlot)}</span>
-                    <span>•</span>
-                    <span class="text-white font-medium">${prodsCountText}</span>
-                    ${savedPhone ? `<span>•</span><span class="text-white/60">${escapeHtml(savedPhone)}</span>` : ''}
-                  </div>
-                </div>
-              </div>
-
-              <!-- ACTION BUTTONS: ERGONOMIC 2x3 GRID -->
-              <div class="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-2 w-full lg:w-auto pt-2 lg:pt-0 border-t border-white/5 lg:border-t-0">
-                ${isReauth ? `
-                <button type="button" onclick="openReauthModal(${bot.id || 0}, '${escapeHtml(savedPhone)}', '${escapeHtml(botName)}')" class="btn-gold px-3.5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer bg-gradient-to-r from-amber-500 to-amber-600 text-black shadow-lg shadow-amber-500/20 col-span-2 min-h-[42px] hover:scale-[1.02] transition-all" title="Подтвердить сессию и ввести проверочный код">
-                  <span class="material-symbols-outlined text-sm font-bold">key</span>
-                  <span>Подтвердить вход (СМС)</span>
-                </button>
-                ` : ''}
-                <button type="button" onclick="openShopCatalogModal(${bot.id || 0}, '${escapeHtml(botName)}')" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-white/10 hover:text-gold min-h-[42px]" title="Просмотр активных объявлений">
-                  <span class="material-symbols-outlined text-sm text-gold">inventory_2</span>
-                  <span>Объявления</span>
-                </button>
-                <a href="https://www.avito.ru/profile/messenger" target="_blank" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-white/10 hover:text-gold min-h-[42px]" title="Открыть диалоги и сообщения на Авито">
-                  <span class="material-symbols-outlined text-sm text-gold">chat</span>
-                  <span>Авито Чаты</span>
-                </a>
-
-                <button type="button" onclick="focusRulesSection()" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-white/10 hover:text-gold min-h-[42px]" title="Настроить правила ответов">
-                  <span class="material-symbols-outlined text-sm text-gold">tune</span>
-                  <span>Правила</span>
-                </button>
-
-                <button type="button" onclick="focusCatalogUpdate()" class="btn-ghost px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer hover:border-blue-400/40 hover:text-blue-400 min-h-[42px]" title="Обновить товары с Авито">
-                  <span class="material-symbols-outlined text-sm text-blue-400">sync</span>
-                  <span>Обновить</span>
-                </button>
-
-                <button type="button" onclick="switchTab('analytics')" class="px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer bg-white/5 hover:bg-white/10 border border-white/10 text-white/70 hover:text-white transition-all min-h-[42px]" title="Открыть глубокую аналитику">
-                  <span class="material-symbols-outlined text-sm text-gold">insights</span>
-                  <span>Аналитика</span>
-                </button>
-
-                <button type="button" onclick="toggleStoreActiveState(${bot.id || 0})" class="px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer border border-white/10 bg-white/5 hover:bg-white/10 text-white/80 transition-all min-h-[42px]" title="Пауза или запуск 24/7">
-                  <span class="material-symbols-outlined text-sm">${isPaused ? 'play_arrow' : 'pause'}</span>
-                  <span>${isPaused ? 'Запустить' : 'На паузу'}</span>
-                </button>
-
-                <button type="button" onclick="openDeleteShopModal(${bot.id || 0}, '${escapeHtml(botName)}', '${dateStr}', '${bot.paid_until || ''}')" class="px-3 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer border border-white/10 bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-zinc-200 transition-all min-h-[42px]" title="Отключить и удалить магазин">
-                  <span class="material-symbols-outlined text-sm">delete</span>
-                  <span>Удалить</span>
-                </button>
-              </div>
-
-              <!-- INLINE DIRECT SUPPORT BAR ON SHOP CARD -->
-              <div class="w-full mt-2 pt-2 border-t border-white/5 flex items-center justify-between text-xs">
-                <span class="text-white/40 text-[11px] flex items-center gap-1.5">
-                  <span>Управляющий на связи 24/7</span>
-                </span>
-                <a href="https://t.me/chc332" target="_blank" class="inline-flex items-center gap-1 text-[11px] font-bold text-zinc-300 hover:text-white bg-white/5 hover:bg-white/10 px-2.5 py-0.5 rounded-md border border-white/10 transition-colors">
-                  <span class="material-symbols-outlined text-xs">support_agent</span>
-                  <span>Помощь 24/7 (@chc332)</span>
-                </a>
-              </div>
-            </div>
-          `;
-        });
-        return cardsHtml;
-      };
-
-      const renderedHtml = buildCardsHtml();
-      if (containerTab) containerTab.innerHTML = renderedHtml;
-      if (containerOverview) containerOverview.innerHTML = renderedHtml;
 
       const countTag = document.getElementById('headerBotsCountTag');
       const navBadge = document.getElementById('tabShopsCountBadge');
       const quotaBadge = document.getElementById('shopsQuotaBadge');
-      if (countTag) countTag.innerText = `Активно: ${bots.length}`;
+      if (countTag) countTag.innerText = `Активно: ${safeBots.length}`;
       if (navBadge) {
-        navBadge.innerText = bots.length;
-        navBadge.classList.remove('hidden');
+        navBadge.innerText = safeBots.length;
+        if (safeBots.length > 0) navBadge.classList.remove('hidden');
+        else navBadge.classList.add('hidden');
       }
       if (quotaBadge) {
         const totalSlots = Math.max(1, userSlotsCount || 1);
-        quotaBadge.innerText = `${bots.length} из ${totalSlots} активно`;
+        quotaBadge.innerText = `${safeBots.length} из ${totalSlots} активно`;
       }
 
-      if (bots && bots.length > 0) {
-        const primaryBot = bots[0];
+      if (safeBots.length > 0) {
+        const primaryBot = safeBots[0];
         const heroTitle = document.getElementById('heroStoreTitle');
         const heroDesc = document.getElementById('heroStoreDesc');
         const heroBadge = document.getElementById('heroStoreBadge');
@@ -5270,11 +4981,11 @@
       }
 
       updateQuotaBannerUI();
-      const hasBot = (bots && bots.length > 0 && bots.some(b => b.is_paid == 1));
+      const hasBot = (safeBots.length > 0 && safeBots.some(b => b.is_paid == 1));
       const isPaidUser = userSlotsCount > 0;
       updateOverviewUI(hasBot, isPaidUser);
       updateKbUI(hasBot, isPaidUser);
-      checkAndRenderSessionStatus(bots);
+      checkAndRenderSessionStatus(safeBots);
     }
 
     
@@ -5328,77 +5039,38 @@
     }
 
     function checkAndRenderSessionStatus(bots) {
-      if (!bots || !Array.isArray(bots)) return;
-      const reauthBot = bots.find(b => ['reauth_needed', 'reauth_awaiting_sms', 'auth_awaiting_sms', 'auth_awaiting_password'].includes(b.step));
-      
+      const safeBots = Array.isArray(bots) ? bots : [];
+      const reauthBot = safeBots.find(b => ['reauth_needed', 'reauth_awaiting_sms', 'auth_awaiting_sms', 'auth_awaiting_password'].includes(b.step));
       const banner = document.getElementById('sessionDropAlertBanner');
-      const navBadge = document.getElementById('tabSessionAlertBadge');
-      const mobBadge = document.getElementById('mobileSessionAlertBadge');
-      const mobSub = document.getElementById('mobileSessionStatusSub');
-      const tabBadge = document.getElementById('tabSessionStatusBadge');
-      const tabPhone = document.getElementById('tabSessionPhoneValue');
-      const tabSlot = document.getElementById('tabSessionSlotValue');
 
       if (reauthBot || isReauthDemoForced) {
-        activeReauthBotId = (reauthBot && reauthBot.id) ? reauthBot.id : (bots && bots[0] ? bots[0].id : null);
+        const targetBot = reauthBot || safeBots[0] || null;
+        activeReauthBotId = targetBot?.id ?? null;
         if (banner) banner.classList.remove('hidden');
-        if (navBadge) navBadge.classList.remove('hidden');
-        if (mobBadge) mobBadge.classList.remove('hidden');
-        if (mobSub) { mobSub.innerText = '⚠️ Требуется вход'; mobSub.className = 'text-[10px] text-amber-400 font-bold'; }
-        
-        const bName = reauthBot.session_name || reauthBot.name || 'Магазин Авито';
-        const bPhone = reauthBot.phone || localStorage.getItem('majorka_bot_phone') || '';
-        
+
+        const bName = targetBot?.session_name || targetBot?.name || 'Магазин Авито';
+        const bPhone = targetBot?.phone || localStorage.getItem('majorka_bot_phone') || '';
+        const bStep = targetBot?.step || '';
+
         const titleEl = document.getElementById('bannerReauthStoreTitle');
         if (titleEl) titleEl.innerText = `Слёт сессии в магазине «${bName}»: подтвердите вход`;
-        
+
         const pInput = document.getElementById('bannerPhoneInput');
         if (pInput && (!pInput.value || pInput.value === '+7')) pInput.value = bPhone;
-        const tpInput = document.getElementById('tabPhoneInput');
-        if (tpInput && (!tpInput.value || tpInput.value === '+7')) tpInput.value = bPhone;
-        
-        if (tabPhone) tabPhone.innerText = bPhone || 'Не указан';
-        if (tabSlot) tabSlot.innerText = `Слот #${(reauthBot.emulator_index !== null && reauthBot.emulator_index !== undefined) ? reauthBot.emulator_index : 1} (Android)`;
-        
-        if (tabBadge) {
-          tabBadge.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span><span class="font-outfit font-extrabold text-sm text-amber-300">⚠️ Требуется подтверждение</span>';
-        }
 
         // If bot is already awaiting SMS code, switch directly to stage 2
-        if (reauthBot.step === 'reauth_awaiting_sms' || reauthBot.step === 'auth_awaiting_sms') {
+        if (bStep === 'reauth_awaiting_sms' || bStep === 'auth_awaiting_sms') {
           document.getElementById('bannerReauthStepPhone')?.classList.add('hidden');
           document.getElementById('bannerReauthStepSms')?.classList.remove('hidden');
           document.getElementById('bannerReauthStepSuccess')?.classList.add('hidden');
-          document.getElementById('tabReauthStepPhone')?.classList.add('hidden');
-          document.getElementById('tabReauthStepSms')?.classList.remove('hidden');
-          document.getElementById('tabReauthStepSuccess')?.classList.add('hidden');
         } else {
           document.getElementById('bannerReauthStepPhone')?.classList.remove('hidden');
           document.getElementById('bannerReauthStepSms')?.classList.add('hidden');
           document.getElementById('bannerReauthStepSuccess')?.classList.add('hidden');
-          document.getElementById('tabReauthStepPhone')?.classList.remove('hidden');
-          document.getElementById('tabReauthStepSms')?.classList.add('hidden');
-          document.getElementById('tabReauthStepSuccess')?.classList.add('hidden');
         }
       } else {
         activeReauthBotId = null;
         if (banner) banner.classList.add('hidden');
-        if (navBadge) navBadge.classList.add('hidden');
-        if (mobBadge) mobBadge.classList.add('hidden');
-        if (mobSub) { mobSub.innerText = 'Сессия активна 24/7'; mobSub.className = 'text-[10px] text-white/40'; }
-        
-        const activeBot = bots.find(b => b.is_paid == 1) || bots[0];
-        if (activeBot) {
-          const bPhone = activeBot.phone || localStorage.getItem('majorka_bot_phone') || '';
-          if (tabPhone) tabPhone.innerText = bPhone || 'Не указан';
-          if (tabSlot) tabSlot.innerText = `Слот #${(activeBot.emulator_index !== null && activeBot.emulator_index !== undefined) ? activeBot.emulator_index : 1} (Android)`;
-          const tpInput = document.getElementById('tabPhoneInput');
-          if (tpInput && (!tpInput.value || tpInput.value === '+7')) tpInput.value = bPhone;
-        }
-        
-        if (tabBadge) {
-          tabBadge.innerHTML = '<span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span><span class="font-outfit font-extrabold text-sm text-emerald-400">В сети 24/7</span>';
-        }
       }
     }
 
@@ -5407,16 +5079,17 @@
       if (phone) {
         const p1 = document.getElementById('bannerPhoneInput');
         if (p1) p1.value = phone;
-        const p2 = document.getElementById('tabPhoneInput');
-        if (p2) p2.value = phone;
       }
       if (name) {
         const titleEl = document.getElementById('bannerReauthStoreTitle');
         if (titleEl) titleEl.innerText = `Слёт сессии в магазине «${name}»: подтвердите вход`;
       }
-      switchTab('session');
+      const banner = document.getElementById('sessionDropAlertBanner');
+      if (banner) banner.classList.remove('hidden');
+      switchTab('overview');
       setTimeout(() => {
-        const p = document.getElementById('tabPhoneInput');
+        banner?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const p = document.getElementById('bannerPhoneInput');
         if (p) p.focus();
       }, 200);
     }
@@ -5547,138 +5220,10 @@
       }
     }
 
-    async function submitTabReauthPhone() {
-      const phoneInput = document.getElementById('tabPhoneInput');
-      const pwdInput = document.getElementById('tabPasswordInput');
-      const btn = document.getElementById('tabSendPhoneBtn');
-      const errBox = document.getElementById('tabReauthError');
-      const errText = document.getElementById('tabReauthErrorText');
-      if (errBox) errBox.classList.add('hidden');
-
-      const rawPhone = phoneInput ? phoneInput.value.trim() : '';
-      const phone = cleanPhoneNumber(rawPhone);
-      const password = pwdInput ? pwdInput.value.trim() : '';
-
-      if (!phone || phone.length < 6) {
-        if (errBox && errText) {
-          errText.innerText = 'Пожалуйста, введите корректный номер телефона Авито';
-          errBox.classList.remove('hidden');
-        }
-        phoneInput?.focus();
-        return;
-      }
-
-      const origHtml = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Отправка запроса...</span>';
-      }
-
-      try {
-        const res = await apiFetch(`${API_BASE}/api/reauth_start`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, phone: phone, password: password, bot_id: activeReauthBotId })
-        });
-        const data = await res.json();
-        if (!res.ok || !data.success) throw new Error(data.error || 'Ошибка отправки запроса');
-
-        showToast('Запрос отправлен', 'В течение 1-2 минут вам придёт СМС-код от Авито', 'info');
-        document.getElementById('tabReauthStepPhone')?.classList.add('hidden');
-        document.getElementById('tabReauthStepSms')?.classList.remove('hidden');
-        
-        const targetEl = document.getElementById('tabSmsTargetPhone');
-        if (targetEl) targetEl.innerText = `Проверочный код отправлен на ${phone}. Напишите его ниже:`;
-        
-        setTimeout(() => document.getElementById('tabSmsCodeInput')?.focus(), 300);
-      } catch (err) {
-        if (errBox && errText) {
-          errText.innerText = err.message || 'Не удалось отправить запрос. Повторите попытку.';
-          errBox.classList.remove('hidden');
-        }
-        showToast('Ошибка подключения', err.message, 'warning');
-      } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = origHtml;
-        }
-      }
-    }
-
-    async function submitTabReauthSms() {
-      const codeInput = document.getElementById('tabSmsCodeInput');
-      const btn = document.getElementById('tabSubmitSmsBtn');
-      const errBox = document.getElementById('tabReauthError');
-      const errText = document.getElementById('tabReauthErrorText');
-      if (errBox) errBox.classList.add('hidden');
-
-      const code = codeInput ? codeInput.value.trim() : '';
-      if (!code || !/^\d{4,6}$/.test(code)) {
-        if (errBox && errText) {
-          errText.innerText = 'Введите 4-6 цифр проверочного кода из СМС';
-          errBox.classList.remove('hidden');
-        }
-        codeInput?.focus();
-        return;
-      }
-
-      const origHtml = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Проверка входа...</span>';
-      }
-
-      try {
-        const res = await apiFetch(`${API_BASE}/api/reauth_sms`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, code: code, bot_id: activeReauthBotId })
-        });
-        const data = await res.json();
-        if (!res.ok || !data.success) throw new Error(data.error || 'Ошибка подтверждения кода');
-
-        document.getElementById('tabReauthStepSms')?.classList.add('hidden');
-        document.getElementById('tabReauthStepSuccess')?.classList.remove('hidden');
-        showToast('Сессия восстановлена!', 'Магазин успешно переподключен и активен 24/7', 'success');
-
-        setTimeout(async () => {
-          await loadMyBots();
-        }, 2500);
-      } catch (err) {
-        if (errBox && errText) {
-          errText.innerText = err.message || 'Ошибка ввода кода';
-          errBox.classList.remove('hidden');
-        }
-        showToast('Ошибка кода', err.message, 'warning');
-      } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = origHtml;
-        }
-      }
-    }
-
-    async function resendTabReauthSms() {
-      showToast('Запрос СМС', 'Запрашиваем повторный проверочный код...', 'info');
-      try {
-        await apiFetch(`${API_BASE}/api/reauth_resend_sms`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, bot_id: activeReauthBotId })
-        });
-        showToast('Код запрошен', 'Ожидайте новое СМС-сообщение от Авито', 'success');
-      } catch (e) {
-        showToast('Ошибка', 'Не удалось запросить код повторно', 'warning');
-      }
-    }
-
     window.openReauthModal = openReauthModal;
     window.submitBannerReauthPhone = submitBannerReauthPhone;
     window.submitBannerReauthSms = submitBannerReauthSms;
     window.resendBannerReauthSms = resendBannerReauthSms;
-    window.submitTabReauthPhone = submitTabReauthPhone;
-    window.submitTabReauthSms = submitTabReauthSms;
-    window.resendTabReauthSms = resendTabReauthSms;
 
     function updateQuotaBannerUI() {
       const badge = document.getElementById('shopsQuotaBadge');
@@ -5705,7 +5250,7 @@
         } else {
           const remaining = Math.max(0, total - active);
           if (remaining > 0) {
-            desc.innerHTML = `У вас оплачено и доступно <strong>${total} магазинов для магазинов</strong> (${active} создано, доступно для запуска еще: <strong>${remaining}</strong>). Пробный доступ сгорел после первой покупки. Нажмите «Добавить магазин» для настройки следующего бота!`;
+            desc.innerHTML = `У вас оплачено и доступно <strong>${total} слотов для магазинов</strong> (${active} создано, доступно для запуска еще: <strong>${remaining}</strong>). Пробный доступ сгорел после первой покупки. Нажмите «Добавить магазин» для настройки следующего менеджера!`;
           } else {
             desc.innerHTML = `У вас активно <strong>${active} из ${total} оплаченных магазинов</strong> (все магазины работают 24/7). Пробный доступ сгорел после первой покупки. Для запуска следующего магазина подключите дополнительный магазин в разделе «Тарифы».`;
           }
@@ -5715,7 +5260,7 @@
 
     function addNewShopAction() {
       if (userSlotsCount > 0 && userBotsList.length >= userSlotsCount && userBotsList.some(b => b.is_paid == 1)) {
-        showToast('Лимит магазинов исчерпан', `У вас активно ${userBotsList.length} из ${userSlotsCount} ботов. Для запуска еще одного магазина подключите дополнительный магазин в разделе «Тарифы».`, 'warning');
+        showToast('Лимит магазинов исчерпан', `У вас активно ${userBotsList.length} из ${userSlotsCount} магазинов. Для запуска еще одного магазина подключите дополнительный магазин в разделе «Тарифы».`, 'warning');
         switchTab('tariffs');
         return;
       }
@@ -6021,13 +5566,13 @@
         if (!qrRes.ok || !qrData.success) throw new Error(qrData.error || 'Не удалось отправить запрос');
       } catch (err) {}
 
-      showToast('Авторизация', 'Откройте Telegram-бот @avito_deployer_bot для ввода номера телефона и СМС-кода.', 'info');
+      showToast('Авторизация', 'Откройте Telegram @avito_deployer_bot для ввода номера телефона и СМС-кода.', 'info');
       if (window.Telegram?.WebApp) {
         try { window.Telegram.WebApp.HapticFeedback?.notificationOccurred('success'); } catch(e){}
       }
     }
 
-    // INTERACTIVE AI CHAT SIMULATOR
+    // INTERACTIVE SALES MANAGER CHAT SIMULATOR
     async function sendTestChatMessage(customText) {
       const inputEl = document.getElementById('testChatInput');
       const historyEl = document.getElementById('testChatHistory');
@@ -6037,6 +5582,7 @@
 
       if (!text) return;
       if (inputEl) inputEl.value = '';
+      if (!historyEl) return;
 
       const userBubble = document.createElement('div');
       userBubble.className = 'flex items-start justify-end gap-2.5';
@@ -6219,7 +5765,7 @@
 
       const emptyHtml = `
         <div class="p-4 text-center text-xs text-white/40 rounded-xl bg-[#101012] border border-white/5">
-          Каталог товаров синхронизируется автоматически из приложения Авито.
+          Каталог товаров синхронизируется самостоятельно из приложения Авито.
         </div>
       `;
 
@@ -6280,11 +5826,11 @@
     }
 
     function clearCatalog() {
-      if (!confirm('Очистить список спарсенных объявлений?')) return;
+      if (!confirm('Очистить список синхронизированных объявлений?')) return;
       currentCatalogProducts = [];
       localStorage.setItem('majorka_catalog_products', JSON.stringify([]));
       renderOneClickCatalogList();
-      showToast('Каталог очищен', 'Все спарсенные позиции удалены', 'info');
+      showToast('Каталог очищен', 'Все синхронизированные позиции удалены', 'info');
     }
 
         // ==================== SETTINGS: UPDATE CATALOG WITH PARSER & ADD RULES ====================
@@ -6370,7 +5916,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chatId: currentChatId, profile_url: url })
         });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
 
         if (res.ok && data.success && Array.isArray(data.items) && data.items.length > 0) {
           currentCatalogProducts = data.items.map((it, idx) => ({
@@ -6408,7 +5954,7 @@
           }
 
           showToast('Товары обновлены!', `Синхронизировано ${data.items.length} объявлений с Авито`, 'success');
-        } else {
+        } else if (res.ok && data.success) {
           localStorage.setItem('majorka_avito_url', url);
           showToast('Синхронизировано', 'Ссылка на магазин сохранена в каталоге магазина', 'success');
           if (statusContainer) {
@@ -6423,10 +5969,33 @@
             btn.disabled = false;
             btn.innerHTML = origHtml;
           }
+        } else {
+          const errMsg = data?.error || `Не удалось синхронизировать каталог (HTTP ${res.status})`;
+          showToast('Ошибка синхронизации', errMsg, 'error');
+          if (statusContainer) {
+            statusContainer.innerHTML = `
+              <div class="p-3.5 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 flex items-center gap-2 text-xs">
+                <span class="material-symbols-outlined text-base text-red-400">error</span>
+                <span>${escapeHtml(errMsg)}</span>
+              </div>
+            `;
+          }
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = origHtml;
+          }
         }
       } catch (err) {
         console.warn('refreshCatalog error:', err);
-        showToast('Синхронизировано', 'Ссылка сохранена в настройках магазина', 'info');
+        showToast('Ошибка соединения', 'Не удалось синхронизировать каталог. Проверьте подключение и попробуйте снова.', 'error');
+        if (statusContainer) {
+          statusContainer.innerHTML = `
+            <div class="p-3.5 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 flex items-center gap-2 text-xs">
+              <span class="material-symbols-outlined text-base text-red-400">error</span>
+              <span>Ошибка соединения с сервисом. Попробуйте позже.</span>
+            </div>
+          `;
+        }
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = origHtml;
@@ -6468,7 +6037,7 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chatId: currentChatId, profile_url: url })
         });
-        const data = await res.json();
+        const data = await res.json().catch(() => ({}));
 
         if (res.ok && data.success && Array.isArray(data.items) && data.items.length > 0) {
           currentCatalogProducts = data.items.map((it, idx) => ({
@@ -6493,27 +6062,39 @@
               </div>
             `;
           }
-          showToast('Каталог спарсен!', `Загружено ${data.items.length} объявлений с Авито`, 'success');
-        } else {
-          // Profile link recorded and parser connected
+          localStorage.setItem('majorka_avito_url', url);
+          showToast('Каталог загружен!', `Загружено ${data.items.length} объявлений с Авито`, 'success');
+        } else if (res.ok && data.success) {
+          localStorage.setItem('majorka_avito_url', url);
           showToast('Магазин подключен', 'Ссылка на профиль Авито сохранена. Объявления синхронизируются.', 'success');
           if (statusContainer) {
             statusContainer.innerHTML = `
               <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center gap-2 text-xs">
                 <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
-                <span>Ссылка на магазин Авито успешно сохранена и подключена к боту.</span>
+                <span>Ссылка на магазин Авито успешно сохранена и подключена к менеджеру.</span>
+              </div>
+            `;
+          }
+        } else {
+          const errMsg = data?.error || `Не удалось загрузить каталог (HTTP ${res.status})`;
+          showToast('Ошибка синхронизации', errMsg, 'error');
+          if (statusContainer) {
+            statusContainer.innerHTML = `
+              <div class="p-3.5 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 flex items-center gap-2 text-xs">
+                <span class="material-symbols-outlined text-base text-red-400">error</span>
+                <span>${escapeHtml(errMsg)}</span>
               </div>
             `;
           }
         }
       } catch (err) {
-        console.log('Parser request error:', err);
-        showToast('Магазин подключен', 'Ссылка на магазин Авито сохранена в каталоге магазина', 'success');
+        console.log('Catalog sync request error:', err);
+        showToast('Ошибка соединения', 'Не удалось синхронизировать профиль Авито. Проверьте подключение и попробуйте снова.', 'error');
         if (statusContainer) {
           statusContainer.innerHTML = `
-            <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center gap-2 text-xs">
-              <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
-              <span>Ссылка на магазин Авито успешно сохранена и подключена к боту.</span>
+            <div class="p-3.5 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 flex items-center gap-2 text-xs">
+              <span class="material-symbols-outlined text-base text-red-400">error</span>
+              <span>Не удалось подключиться к сервису синхронизации.</span>
             </div>
           `;
         }
@@ -6629,7 +6210,7 @@
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Проверка кода и запуск бота...</span>';
+        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Проверка кода и запуск менеджера...</span>';
       }
 
       try {
@@ -6900,6 +6481,7 @@
     function switchTab(tabId) {
       hapticClick('light');
       if (tabId === 'wizard') tabId = 'knowledge';
+      if (tabId === 'session') tabId = 'overview';
       if (tabId === 'harvey' && !window.isOwner) {
         tabId = 'overview';
       }
@@ -6932,7 +6514,7 @@
       const activeBnavBtn = document.getElementById('bnav-' + tabId);
       if (activeBnavBtn) {
         activeBnavBtn.classList.add('bnav-active');
-      } else if (tabId === 'analytics' || tabId === 'referrals' || tabId === 'knowledge' || tabId === 'settings' || tabId === 'session') {
+      } else if (tabId === 'analytics' || tabId === 'referrals' || tabId === 'knowledge' || tabId === 'settings') {
         const moreBtn = document.getElementById('bnav-more');
         if (moreBtn) moreBtn.classList.add('bnav-active');
       }
@@ -6992,11 +6574,13 @@
     // PAYMENT MODAL (BALANCE + YOOMONEY + SBP)
     function openPaymentModal(amount, title) {
       const modal = document.getElementById('paymentModal');
+      if (!modal) return;
       let val = amount || '6490';
       if (userTrialUsed === 1 && Number(val) === 1590) {
         val = '6490';
       }
-      document.getElementById('customPaymentAmount').value = val;
+      const customInp = document.getElementById('customPaymentAmount');
+      if (customInp) customInp.value = val;
       updatePaymentAmount(val);
       renderTrialStatusUI();
 
@@ -7093,12 +6677,14 @@
         showToast('Пробный доступ сгорел', 'Пробный период на 7 дней сгорает после первой покупки и доступен только новым клиентам.', 'warning');
         return;
       }
-      document.getElementById('customPaymentAmount').value = presetVal;
+      const customInp = document.getElementById('customPaymentAmount');
+      if (customInp) customInp.value = presetVal;
       updatePaymentAmount(presetVal);
     }
 
     function closePaymentModal() {
       const modal = document.getElementById('paymentModal');
+      if (!modal) return;
       modal.classList.add('hidden');
       modal.classList.remove('flex');
     }
@@ -7143,11 +6729,11 @@
       const btn = document.getElementById('btnPayFromBalance');
       if (btn) btn.disabled = true;
 
-      const tariffName = amount === 1590 ? 'trial_7days' : (amount === 6490 ? 'month' : 'custom');
+      const tariffName = amount === 1590 ? 'trial_7days' : (amount === 6490 ? 'month' : (amount === 15900 ? 'quarter' : 'custom'));
 
-      // 1. Try to sync with backend API if online
+      // 1. Sync payment strictly with backend API before mutating local balance/state
       try {
-        await apiFetch(`${API_BASE}/api/pay_tariff`, {
+        const res = await apiFetch(`${API_BASE}/api/pay_tariff`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -7156,12 +6742,25 @@
             tariff: tariffName
           })
         });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) {
+          showToast('Ошибка оплаты', data.error || `Не удалось оплатить тариф (HTTP ${res.status})`, 'error');
+          if (btn) btn.disabled = false;
+          return;
+        }
+        if (typeof data.new_balance === 'number') {
+          userBalanceVal = Math.max(0, data.new_balance);
+        } else {
+          userBalanceVal = Math.max(0, userBalanceVal - amount);
+        }
       } catch (e) {
-        console.log('Backend sync skipped or local mode:', e);
+        console.error('payFromUserBalance error:', e);
+        showToast('Ошибка соединения', 'Не удалось выполнить оплату. Проверьте подключение и попробуйте снова.', 'error');
+        if (btn) btn.disabled = false;
+        return;
       }
 
-      // 2. Deduct balance locally & persist
-      userBalanceVal = Math.max(0, userBalanceVal - amount);
+      // 2. Persist verified balance & update dashboard UI
       localStorage.setItem('majorka_balance', userBalanceVal);
 
       // INCREMENT SLOTS COUNT
@@ -7200,7 +6799,7 @@
       updateQuotaBannerUI();
       try { loadMyBots(); } catch(e){}
 
-      showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Доступно магазинов для магазинов: ${userSlotsCount}.`, 'success');
+      showToast('Тариф успешно оплачен!', `С баланса списано ${amount.toLocaleString('ru-RU')} ₽. Доступно слотов для магазинов: ${userSlotsCount}.`, 'success');
 
       // Open Celebration & Next-Steps Onboarding Modal
       openPaymentSuccessModal(tariffName, amount, daysToAdd, dateStr);
@@ -7304,7 +6903,7 @@
         });
       } catch (e) {}
 
-      showToast('Заявка принята!', `Менеджер проверит перевод на сумму ${amount.toLocaleString('ru-RU')} ₽ и активирует доступ в течение 5-10 минут. Для ускорения отправьте чек боту @avito_deployer_bot`, 'success');
+      showToast('Заявка принята!', `Менеджер проверит перевод на сумму ${amount.toLocaleString('ru-RU')} ₽ и активирует доступ в течение 5-10 минут. Для ускорения отправьте чек в Telegram @avito_deployer_bot`, 'success');
       closePaymentModal();
     }
 
@@ -7331,11 +6930,34 @@
       }
     }
 
+    function renderReferralCounters(statsData) {
+      const src = statsData && typeof statsData === 'object' ? statsData : {};
+      const usr = src.user && typeof src.user === 'object' ? src.user : {};
+      const invitedRaw = Number(
+        src.referrals_count ?? src.referral_count ?? src.invited_count ??
+        usr.referrals_count ?? usr.referral_count ?? usr.invited_count ??
+        window.currentUserData?.referrals_count ?? 0
+      );
+      const bonusRaw = Number(
+        src.referral_bonus ?? src.referral_earnings ?? src.bonus_earned ??
+        usr.referral_bonus ?? usr.referral_earnings ?? usr.bonus_earned ??
+        window.currentUserData?.referral_bonus ?? 0
+      );
+      const invited = Number.isFinite(invitedRaw) && invitedRaw >= 0 ? invitedRaw : 0;
+      const bonus = Number.isFinite(bonusRaw) && bonusRaw >= 0 ? bonusRaw : 0;
+
+      const invitedEl = document.getElementById('refInvitedCount');
+      if (invitedEl) invitedEl.innerText = `${invited} чел.`;
+      const bonusEl = document.getElementById('refBonusEarned');
+      if (bonusEl) bonusEl.innerText = `${bonus.toLocaleString('ru-RU')} ₽`;
+    }
+
     function updateRefLinkDisplay() {
       const input = document.getElementById('refLinkInput');
       if (input && currentChatId) {
         input.value = `https://t.me/avito_deployer_bot?start=ref_${encodeURIComponent(currentChatId)}`;
       }
+      renderReferralCounters(window.currentUserData || {});
     }
 
     function copyRefLink() {
@@ -7399,24 +7021,41 @@
 
     async function executeDeleteShopAction() {
       const btn = document.getElementById('btnConfirmDeleteShop');
+      const origText = btn ? btn.innerText : 'Отключить и удалить магазин';
       if (btn) {
         btn.disabled = true;
         btn.innerText = 'Отключение магазина...';
       }
 
       try {
-        await apiFetch(`${API_BASE}/api/delete_bot`, {
+        const res = await apiFetch(`${API_BASE}/api/delete_bot`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, bot_id: targetDeleteBotId })
+          body: JSON.stringify({ chatId: currentChatId, session_id: targetDeleteBotId, bot_id: targetDeleteBotId })
         });
-      } catch(e) {}
-
-      closeDeleteShopModal();
-      showToast('Магазин отключен', 'Менеджер остановлен, неиспользованные дни аннулированы', 'warning');
-      setTimeout(() => {
-        loadMyBots();
-      }, 500);
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) {
+          showToast('Ошибка удаления', data.error || `Не удалось отключить магазин (HTTP ${res.status})`, 'error');
+          return;
+        }
+        closeDeleteShopModal();
+        showToast('Магазин отключен', 'Менеджер остановлен, неиспользованные дни аннулированы', 'warning');
+        setTimeout(() => {
+          loadMyBots();
+        }, 500);
+      } catch (e) {
+        console.error('executeDeleteShopAction error:', e);
+        showToast('Ошибка соединения', 'Не удалось отключить магазин. Попробуйте позже.', 'error');
+      } finally {
+        if (btn) {
+          btn.innerText = origText;
+          if (typeof toggleDeleteShopButton === 'function') {
+            toggleDeleteShopButton();
+          } else {
+            btn.disabled = false;
+          }
+        }
+      }
     }
 
     function openShopCatalogModal(botId, botName) {
@@ -7555,29 +7194,48 @@
         scrollToStep(1);
         return;
       }
+      const profileUrl = (
+        document.getElementById('avitoOneClickUrl')?.value ||
+        document.getElementById('overviewAvitoUrlInput')?.value ||
+        document.getElementById('avitoCatalogUrl')?.value ||
+        localStorage.getItem('majorka_avito_url') ||
+        ''
+      ).trim();
+
+      if (!profileUrl) {
+        showToast('Укажите ссылку на профиль Авито', 'Сначала вставьте ссылку на ваш магазин Авито в разделе «База знаний» для загрузки товаров.', 'warning');
+        return;
+      }
+
       const origHtml = btn ? btn.innerHTML : '';
       if (btn) {
         btn.disabled = true;
         btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span><span>Синхронизация...</span>';
       }
-      showToast('Синхронизация с Авито', 'Бот считывает товары из приложения Авито...', 'info');
+      showToast('Синхронизация с Авито', 'Менеджер считывает товары из профиля Авито...', 'info');
 
       try {
-        await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
+        const res = await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, from_app: true })
+          body: JSON.stringify({ chatId: currentChatId, profile_url: profileUrl })
         });
-      } catch(e) {}
-
-      setTimeout(async () => {
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) {
+          showToast('Ошибка синхронизации', data.error || `Не удалось синхронизировать каталог (HTTP ${res.status})`, 'error');
+          return;
+        }
         await loadCatalogProducts();
-        showToast('Каталог синхронизирован!', 'Все товары успешно обновлены из приложения Авито', 'success');
+        showToast('Каталог синхронизирован!', 'Все товары успешно обновлены из профиля Авито', 'success');
+      } catch (e) {
+        console.error('triggerEmulatorAutoSync error:', e);
+        showToast('Ошибка соединения', 'Не удалось синхронизировать каталог. Проверьте соединение с сервисом.', 'error');
+      } finally {
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = origHtml;
         }
-      }, 1500);
+      }
     }
 
 
@@ -7762,515 +7420,6 @@
     }
 
     // Call initChainLocksState on load and on tab switch
-    
-    // =========================================================================
-    // CHART.JS TELEMETRY & VISUAL INSIGHTS (GITHUB: chartjs/Chart.js)
-    // =========================================================================
-    var overviewChartInstance = null;
-    var analyticsSpeedChartInstance = null;
-
-    
-    // =========================================================================
-    // TRUTHFUL ANALYTICS ENGINE (ACCURATE FOR GUEST & OWNER)
-    // =========================================================================
-    window.analyticsData = null;
-
-    async function loadAnalyticsData() {
-      try {
-        const res = await apiFetch(`${API_BASE}/api/analytics?chatId=${encodeURIComponent(currentChatId)}`);
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-        if (!data || !data.success) return;
-        window.analyticsData = data;
-
-        // 1. Overview Strip Metrics
-        const ovDet = document.getElementById('overviewSubDetails');
-        const ovPill = document.getElementById('overviewSubPill');
-        const ovDot = document.getElementById('overviewSubDot');
-        const ovSpeed = document.getElementById('overviewSpeedValue');
-        const ovCat = document.getElementById('quickCatalogCountBadge');
-        const ovConv = document.getElementById('overviewConversionValue');
-
-        if (data.overview_metrics) {
-          if (ovDet) ovDet.innerText = data.overview_metrics.status_details;
-          if (ovPill) {
-            ovPill.innerText = data.overview_metrics.status_pill;
-            ovPill.className = `text-[10px] sm:text-xs font-semibold px-2.5 py-1 rounded-full border shrink-0 ${data.overview_metrics.status_pill_class}`;
-          }
-          if (ovDot) {
-            ovDot.className = data.is_guest ? 'w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-white/30 shrink-0' : 'w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-status-green shrink-0';
-          }
-          if (ovSpeed) ovSpeed.innerText = data.overview_metrics.speed_val;
-          if (ovCat) ovCat.innerText = data.overview_metrics.catalog_val;
-          if (ovConv) ovConv.innerText = data.overview_metrics.conversion_val;
-        }
-
-        // 2. Render Overview Chart with REAL data
-        renderOverviewChartWithData(data.activity_chart, data.is_guest);
-
-        // 3. Analytics Tab: 4 Top KPIs
-        const aMsgs = document.getElementById('analyticsTotalMessages');
-        const aConv = document.getElementById('analyticsConversionRate');
-        const aDeals = document.getElementById('analyticsConfirmedDeals');
-        const aSpeed = document.getElementById('analyticsAvgSpeed');
-        const aSpeedSub = document.getElementById('analyticsSpeedSub');
-        const aLeads = document.getElementById('analyticsTotalLeads');
-        const aNight = document.getElementById('analyticsNightPct');
-
-        if (aMsgs) aMsgs.innerText = Number(data.total_messages).toLocaleString('ru-RU');
-        if (aConv) aConv.innerText = data.conversion_rate;
-        if (aDeals) aDeals.innerText = data.is_guest ? '0 подтвержденных сделок' : `${data.total_deals} подтвержденных сделок`;
-        if (aSpeed) aSpeed.innerText = data.avg_response_time;
-        if (aSpeedSub) aSpeedSub.innerText = data.is_guest ? 'Ожидает запуска бота' : '98.4% ответов до 10 сек';
-        if (aLeads) aLeads.innerText = data.night_leads;
-        if (aNight) aNight.innerText = data.is_guest ? '0% обращений' : `${data.night_leads_pct} обращений с 21:00 до 09:00`;
-
-        // 4. Analytics Funnel
-        const f1Text = document.getElementById('funnelInquiriesText');
-        const f1Bar = document.getElementById('funnelInquiriesBar');
-        const f2Text = document.getElementById('funnelConsultationsText');
-        const f2Bar = document.getElementById('funnelConsultationsBar');
-        const f3Text = document.getElementById('funnelLogisticsText');
-        const f3Bar = document.getElementById('funnelLogisticsBar');
-        const f4Text = document.getElementById('funnelCompletedText');
-        const f4Bar = document.getElementById('funnelCompletedBar');
-
-        if (data.funnel) {
-          if (f1Text) f1Text.innerText = `${data.funnel.inquiries} диалогов (${data.funnel.inquiries_pct}%)`;
-          if (f1Bar) f1Bar.style.width = `${data.funnel.inquiries_pct}%`;
-          if (f2Text) f2Text.innerText = `${data.funnel.consultations} клиентов (${data.funnel.consultations_pct}%)`;
-          if (f2Bar) f2Bar.style.width = `${data.funnel.consultations_pct}%`;
-          if (f3Text) f3Text.innerText = `${data.funnel.logistics} клиентов (${data.funnel.logistics_pct}%)`;
-          if (f3Bar) f3Bar.style.width = `${data.funnel.logistics_pct}%`;
-          if (f4Text) f4Text.innerText = `${data.funnel.completed} сделок (${data.funnel.completed_pct}%)`;
-          if (f4Bar) f4Bar.style.width = `${data.funnel.completed_pct}%`;
-        }
-
-        // 5. Analytics Speed Chart
-        renderSpeedChartWithData(data.speed_seconds, data.is_guest);
-
-        // 6. Analytics Demand Matrix
-        const catBadge = document.getElementById('analyticsCatalogBadge');
-        const catTable = document.getElementById('analyticsCatalogTable');
-        if (catBadge) catBadge.innerText = `${(data.demand_matrix || []).length} товаров`;
-        if (catTable) {
-          if (!data.demand_matrix || data.demand_matrix.length === 0) {
-            catTable.innerHTML = `
-              <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/5 text-center text-xs text-white/40">
-                Каталог пуст. Добавьте товары в разделе «Настройки», чтобы отслеживать матрицу спроса покупателей.
-              </div>
-            `;
-          } else {
-            catTable.innerHTML = data.demand_matrix.map((item, idx) => `
-              <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-2">
-                <div class="flex items-center justify-between text-xs">
-                  <span class="text-white font-medium flex items-center gap-2 truncate">
-                    <span class="w-5 h-5 rounded bg-white/5 flex items-center justify-center text-[10px] text-gold font-bold">#${idx+1}</span>
-                    <span class="truncate">${escapeHtml(item.title)}</span>
-                  </span>
-                  <span class="font-bold text-white shrink-0">${item.count} обр. (${item.pct}%)</span>
-                </div>
-                <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                  <div class="h-full bg-gold rounded-full" style="width: ${item.pct}%"></div>
-                </div>
-              </div>
-            `).join('');
-          }
-        }
-
-        // 7. Delivery Preferences
-        const dAvito = document.getElementById('analyticsAvitoDeliveryPct');
-        const dPickup = document.getElementById('analyticsPickupPct');
-        if (dAvito) dAvito.innerText = `${data.logistics.avito_pct}%`;
-        if (dPickup) dPickup.innerText = `${data.logistics.pickup_pct}%`;
-
-        // 8. Financial ROI
-        const roiHours = document.getElementById('analyticsHoursSaved');
-        const roiSavings = document.getElementById('analyticsCostSavings');
-        if (roiHours) roiHours.innerText = `${data.financial_roi.hours_saved} часов / мес`;
-        if (roiSavings) roiSavings.innerText = data.financial_roi.cost_savings;
-
-      } catch (err) {
-        console.warn('loadAnalyticsData error:', err);
-        renderGuestOrEmptyAnalytics();
-      }
-    }
-    window.loadAnalyticsData = loadAnalyticsData;
-
-    function renderGuestOrEmptyAnalytics() {
-      const aMsgs = document.getElementById('analyticsTotalMessages');
-      const aConv = document.getElementById('analyticsConversionRate');
-      const aDeals = document.getElementById('analyticsConfirmedDeals');
-      const aSpeed = document.getElementById('analyticsAvgSpeed');
-      const aSpeedSub = document.getElementById('analyticsSpeedSub');
-      const aLeads = document.getElementById('analyticsTotalLeads');
-      const aNight = document.getElementById('analyticsNightPct');
-
-      if (aMsgs) aMsgs.innerText = '0';
-      if (aConv) aConv.innerText = '0%';
-      if (aDeals) aDeals.innerText = '0 подтвержденных сделок';
-      if (aSpeed) aSpeed.innerText = '—';
-      if (aSpeedSub) aSpeedSub.innerText = 'Ожидание обращений';
-      if (aLeads) aLeads.innerText = '0';
-      if (aNight) aNight.innerText = '0% обращений';
-
-      const f1Text = document.getElementById('funnelInquiriesText');
-      const f1Bar = document.getElementById('funnelInquiriesBar');
-      const f2Text = document.getElementById('funnelConsultationsText');
-      const f2Bar = document.getElementById('funnelConsultationsBar');
-      const f3Text = document.getElementById('funnelLogisticsText');
-      const f3Bar = document.getElementById('funnelLogisticsBar');
-      const f4Text = document.getElementById('funnelCompletedText');
-      const f4Bar = document.getElementById('funnelCompletedBar');
-
-      if (f1Text) f1Text.innerText = '0 диалогов (0%)';
-      if (f1Bar) f1Bar.style.width = '0%';
-      if (f2Text) f2Text.innerText = '0 клиентов (0%)';
-      if (f2Bar) f2Bar.style.width = '0%';
-      if (f3Text) f3Text.innerText = '0 клиентов (0%)';
-      if (f3Bar) f3Bar.style.width = '0%';
-      if (f4Text) f4Text.innerText = '0 сделок (0%)';
-      if (f4Bar) f4Bar.style.width = '0%';
-
-      const ovStatMsgs = document.getElementById('ovStatTotalMsgs');
-      const ovStatSpeed = document.getElementById('ovStatAvgSpeed');
-      const ovStatLeads = document.getElementById('ovStatTotalLeads');
-      const ovStatShops = document.getElementById('ovStatShopsCount');
-      if (ovStatMsgs) ovStatMsgs.innerText = '0';
-      if (ovStatSpeed) ovStatSpeed.innerText = '—';
-      if (ovStatLeads) ovStatLeads.innerText = '0';
-      if (ovStatShops) ovStatShops.innerText = '0';
-
-      renderOverviewChartWithData(null, true);
-      renderSpeedChartWithData(0, true);
-    }
-
-    function renderOverviewChartWithData(chartData, isGuest) {
-      try {
-        const ctx = document.getElementById('overviewActivityChart');
-        if (!ctx || typeof Chart === 'undefined') return;
-        if (overviewChartInstance) {
-          overviewChartInstance.destroy();
-          overviewChartInstance = null;
-        }
-
-        const labels = chartData?.labels || ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Сегодня'];
-        const dialogues = chartData?.dialogues || [0, 0, 0, 0, 0, 0, 0];
-        const deals = chartData?.deals || [0, 0, 0, 0, 0, 0, 0];
-
-        overviewChartInstance = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: 'Диалоги на Авито',
-                data: dialogues,
-                borderColor: '#D4AF37',
-                backgroundColor: 'rgba(212, 175, 55, 0.08)',
-                borderWidth: 2.5,
-                tension: 0.35,
-                fill: true,
-                pointBackgroundColor: '#D4AF37',
-                pointRadius: isGuest ? 2 : 4,
-                pointHoverRadius: 6
-              },
-              {
-                label: 'Сделки & Заявки',
-                data: deals,
-                borderColor: '#FFFFFF',
-                backgroundColor: 'transparent',
-                borderWidth: 1.5,
-                borderDash: [4, 4],
-                tension: 0.35,
-                pointBackgroundColor: '#FFFFFF',
-                pointRadius: isGuest ? 2 : 3
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                backgroundColor: '#16161A',
-                titleColor: '#FFFFFF',
-                bodyColor: 'rgba(255, 255, 255, 0.8)',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                borderWidth: 1,
-                padding: 10,
-                cornerRadius: 10
-              }
-            },
-            scales: {
-              x: {
-                grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
-              },
-              y: {
-                min: 0,
-                suggestedMax: isGuest ? 10 : undefined,
-                grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                ticks: { color: 'rgba(255, 255, 255, 0.5)', font: { size: 10 } }
-              }
-            }
-          }
-        });
-
-        // Toggle guest notice under chart
-        const notice = document.getElementById('overviewChartGuestNotice');
-        if (notice) {
-          if (isGuest) notice.classList.remove('hidden');
-          else notice.classList.add('hidden');
-        }
-      } catch (e) {
-        console.warn('renderOverviewChartWithData error:', e);
-      }
-    }
-
-        function renderSpeedChartWithData(speedSec, isGuest) {
-      try {
-        const speedCtx = document.getElementById('analyticsSpeedChart');
-        if (!speedCtx || typeof Chart === 'undefined') return;
-        if (analyticsSpeedChartInstance) {
-          analyticsSpeedChartInstance.destroy();
-          analyticsSpeedChartInstance = null;
-        }
-
-        const isG = Boolean(isGuest);
-        const majorkaTime = (!isG && speedSec && speedSec > 0)
-          ? Number((speedSec / 60.0).toFixed(2))
-          : (isG ? 0.05 : 0.07);
-
-        analyticsSpeedChartInstance = new Chart(speedCtx, {
-          type: 'bar',
-          data: {
-            labels: ['MAJORKA 24/7 (3-4 сек)', 'Топ-10 продавцов (6.5 мин)', 'Обычный продавец (42 мин)'],
-            datasets: [{
-              label: 'Среднее время ответа покупателю (минут)',
-              data: [majorkaTime, 6.5, 42.0],
-              backgroundColor: [
-                '#FFDD2D',
-                'rgba(255, 255, 255, 0.25)',
-                'rgba(255, 255, 255, 0.08)'
-              ],
-              borderColor: [
-                '#FFDD2D',
-                'rgba(255, 255, 255, 0.4)',
-                'rgba(255, 255, 255, 0.15)'
-              ],
-              borderWidth: 1,
-              borderRadius: 8,
-              borderSkipped: false
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            animation: { duration: 400 },
-            plugins: {
-              legend: { display: false },
-              tooltip: {
-                backgroundColor: '#16161A',
-                titleColor: '#FFFFFF',
-                bodyColor: 'rgba(255, 255, 255, 0.8)',
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-                borderWidth: 1,
-                callbacks: {
-                  label: function(context) {
-                    if (context.dataIndex === 0) {
-                      return isG
-                        ? 'MAJORKA: < 4 секунд (демонстрационный режим)'
-                        : `Реальная скорость: ${speedSec || 4.2} сек!`;
-                    }
-                    return context.parsed.y + ' минут';
-                  }
-                }
-              }
-            },
-            scales: {
-              x: {
-                grid: { display: false },
-                ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 10, weight: 'bold' } }
-              },
-              y: {
-                grid: { color: 'rgba(255, 255, 255, 0.04)' },
-                ticks: {
-                  color: 'rgba(255, 255, 255, 0.4)',
-                  font: { size: 10 },
-                  callback: function(val) { return val + ' м'; }
-                }
-              }
-            }
-          }
-        });
-      } catch (e) {
-        console.warn('renderSpeedChartWithData error:', e);
-      }
-    }
-
-    function initOverviewChart() {
-      loadAnalyticsData();
-      setTimeout(() => {
-        const ctx = document.getElementById('overviewActivityChart');
-        if (!ctx || typeof Chart === 'undefined') return;
-        if (overviewChartInstance) {
-          overviewChartInstance.resize();
-          overviewChartInstance.update();
-        } else {
-          renderOverviewChartWithData(window.analyticsData?.activity_chart || null, window.analyticsData?.is_guest ?? (!window.isOwner && (!userBotsList || userBotsList.length === 0)));
-        }
-      }, 60);
-    }
-    window.initOverviewChart = initOverviewChart;
-
-        function initAnalyticsCharts() {
-      loadAnalyticsData();
-      setTimeout(() => {
-        const speedCtx = document.getElementById('analyticsSpeedChart');
-        if (!speedCtx || typeof Chart === 'undefined') return;
-        if (analyticsSpeedChartInstance) {
-          analyticsSpeedChartInstance.resize();
-          analyticsSpeedChartInstance.update();
-        } else {
-          const isG = window.analyticsData?.is_guest ?? (!window.isOwner && (!userBotsList || userBotsList.length === 0));
-          const speedSec = window.analyticsData?.speed_seconds || (isG ? 0 : 4.2);
-          renderSpeedChartWithData(speedSec, isG);
-        }
-      }, 60);
-    }
-    window.initAnalyticsCharts = initAnalyticsCharts;
-
-    // =========================================================================
-    // HARVEY AUTONOMOUS OUTREACH STUDIO (GITHUB: ethanplusai/harvey)
-    // =========================================================================
-    async function loadHarveyLeads() {
-      const container = document.getElementById('harveyLeadsTableBody');
-      const countBadge = document.getElementById('harveyTotalLeadsCount');
-      if (!container) return;
-
-      try {
-        const res = await apiFetch(`${API_BASE}/api/harvey/leads?limit=30`);
-        const data = await res.json();
-        if (!data.success || !data.leads) throw new Error(data.error || 'Failed to load leads');
-
-        if (countBadge && data.total) {
-          countBadge.innerText = `${data.total} контактов в базе`;
-        }
-
-        container.innerHTML = data.leads.map(lead => {
-          let statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-white/50 border border-white/10">В очереди</span>';
-          if (lead.status === 'replied') {
-            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Ответил • Заинтересован</span>';
-          } else if (lead.status === 'sent') {
-            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-white/80 border border-white/10">Доставлено</span>';
-          }
-
-          const phoneClean = lead.phone ? ('+' + lead.phone) : '—';
-          const nameClean = lead.seller_name || 'Продавец Авито';
-          const link = lead.avito_link || '#';
-
-          return `
-            <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-              <td class="py-3 px-4 font-mono text-xs text-white">${phoneClean}</td>
-              <td class="py-3 px-4 text-xs font-medium text-white/90 truncate max-w-[220px]">${nameClean}</td>
-              <td class="py-3 px-4 text-xs text-white/60">${lead.response_time || 'Быстро'}</td>
-              <td class="py-3 px-4">${statusBadge}</td>
-              <td class="py-3 px-4 text-right">
-                <a href="${link}" target="_blank" class="text-xs text-gold hover:underline">Открыть</a>
-              </td>
-            </tr>
-          `;
-        }).join('');
-      } catch (err) {
-        console.warn('Harvey leads fetch fallback:', err);
-      }
-    }
-    window.loadHarveyLeads = loadHarveyLeads;
-
-    async function triggerHarveyPipelineAction(btn) {
-      hapticClick('success');
-      if (typeof confetti === 'function') {
-        confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
-      }
-      try {
-        await apiFetch(`${API_BASE}/api/harvey/launch`, { method: 'POST' });
-      } catch (e) {}
-      showToast('Harvey Engine запущен!', '5 автономных агентов ведут непрерывный поиск и квалификацию лидов на Авито.', 'success');
-      await loadHarveyLeads();
-    }
-    window.triggerHarveyPipelineAction = triggerHarveyPipelineAction;
-
-    // =========================================================================
-    // ACCOUNT SWITCHER & LOGIN (OWNER 1-CLICK / GUEST / TELEGRAM ID)
-    // =========================================================================
-    function openAccountModal() {
-      const m = document.getElementById('accountSwitcherModal');
-      if (m) {
-        m.classList.remove('hidden');
-        m.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-      }
-    }
-    window.openAccountModal = openAccountModal;
-
-    function closeAccountSwitcherModal() {
-      const m = document.getElementById('accountSwitcherModal');
-      if (m) {
-        m.classList.add('hidden');
-        m.classList.remove('flex');
-        document.body.style.overflow = '';
-      }
-    }
-    window.closeAccountSwitcherModal = closeAccountSwitcherModal;
-
-    function selectAccountAction(targetChatId) {
-      const cleanId = String(targetChatId || '').trim();
-      if (!cleanId) return;
-      const maxAge = 365 * 24 * 3600;
-      localStorage.setItem('userChatId', cleanId);
-      localStorage.setItem('majorka_chatId', cleanId);
-      localStorage.setItem('majorka_last_chatId', cleanId);
-      document.cookie = `userChatId=${cleanId}; max-age=${maxAge}; path=/; SameSite=Lax`;
-      document.cookie = `majorka_chatId=${cleanId}; max-age=${maxAge}; path=/; SameSite=Lax`;
-      closeAccountSwitcherModal();
-      showToast('Аккаунт переключен', `Вход в профиль ${cleanId}. Обновляем страницу...`, 'success');
-      const url = new URL(window.location.href);
-      url.searchParams.set('chatId', cleanId);
-      window.location.href = url.toString();
-    }
-    window.selectAccountAction = selectAccountAction;
-
-    function submitCustomChatId() {
-      const inp = document.getElementById('customChatIdInput');
-      if (inp && inp.value.trim()) {
-        selectAccountAction(inp.value.trim());
-      }
-    }
-    
-    function togglePasswordVisibility(inputId, btn) {
-      const input = document.getElementById(inputId);
-      if (!input) return;
-      const isPass = input.type === 'password';
-      input.type = isPass ? 'text' : 'password';
-      const icon = btn.querySelector('.material-symbols-outlined') || btn;
-      if (icon) {
-        icon.innerText = isPass ? 'visibility_off' : 'visibility';
-      }
-    }
-    window.togglePasswordVisibility = togglePasswordVisibility;
-
-    window.submitCustomChatId = submitCustomChatId;
-
-    document.addEventListener('DOMContentLoaded', () => {
-      initOverviewChart();
-      loadHarveyLeads();
-      setTimeout(initChainLocksState, 500);
-      initPushNotificationPrompt();
-    });
-  
-
 
     function openAddProductModal() {
       if (!isChainStep1Paid) {
@@ -8278,27 +7427,40 @@
         scrollToStep(1);
         return;
       }
-      document.getElementById('productEditModalTitle').innerText = 'Добавить товар в каталог';
-      document.getElementById('editProductIndex').value = '-1';
-      document.getElementById('editProductId').value = '';
-      document.getElementById('editProductTitle').value = '';
-      document.getElementById('editProductPrice').value = '';
-      document.getElementById('editProductDesc').value = '';
       const modal = document.getElementById('productEditModal');
+      if (!modal) return;
+      const mTitle = document.getElementById('productEditModalTitle');
+      if (mTitle) mTitle.innerText = 'Добавить товар в каталог';
+      const idxEl = document.getElementById('editProductIndex');
+      if (idxEl) idxEl.value = '-1';
+      const idEl = document.getElementById('editProductId');
+      if (idEl) idEl.value = '';
+      const tEl = document.getElementById('editProductTitle');
+      if (tEl) tEl.value = '';
+      const pEl = document.getElementById('editProductPrice');
+      if (pEl) pEl.value = '';
+      const dEl = document.getElementById('editProductDesc');
+      if (dEl) dEl.value = '';
       modal.classList.remove('hidden');
       modal.classList.add('flex');
     }
 
     function openEditProductModal(idx) {
       const p = currentCatalogProducts[idx];
-      if (!p) return;
-      document.getElementById('productEditModalTitle').innerText = 'Редактировать товар';
-      document.getElementById('editProductIndex').value = idx;
-      document.getElementById('editProductId').value = p.id || '';
-      document.getElementById('editProductTitle').value = p.title || '';
-      document.getElementById('editProductPrice').value = p.price || '';
-      document.getElementById('editProductDesc').value = p.description || '';
       const modal = document.getElementById('productEditModal');
+      if (!p || !modal) return;
+      const mTitle = document.getElementById('productEditModalTitle');
+      if (mTitle) mTitle.innerText = 'Редактировать товар';
+      const idxEl = document.getElementById('editProductIndex');
+      if (idxEl) idxEl.value = idx;
+      const idEl = document.getElementById('editProductId');
+      if (idEl) idEl.value = p.id || '';
+      const tEl = document.getElementById('editProductTitle');
+      if (tEl) tEl.value = p.title || '';
+      const pEl = document.getElementById('editProductPrice');
+      if (pEl) pEl.value = p.price || '';
+      const dEl = document.getElementById('editProductDesc');
+      if (dEl) dEl.value = p.description || '';
       modal.classList.remove('hidden');
       modal.classList.add('flex');
     }
@@ -8526,25 +7688,57 @@
         }
 
         if (bar) bar.style.width = '65%';
-        if (status) status.innerText = 'Синхронизация актуальных цен и описаний товаров...';
+        const profileUrl = (
+          document.getElementById('avitoOneClickUrl')?.value ||
+          document.getElementById('overviewAvitoUrlInput')?.value ||
+          document.getElementById('avitoCatalogUrl')?.value ||
+          localStorage.getItem('majorka_avito_url') ||
+          ''
+        ).trim();
 
-        try {
-          await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chatId: currentChatId, from_app: true })
-          });
-          await loadCatalogProducts();
-        } catch (e) {}
+        let catalogSynced = false;
+        let syncWarning = '';
+
+        if (profileUrl) {
+          if (status) status.innerText = 'Синхронизация актуальных цен и описаний товаров...';
+          try {
+            const syncRes = await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ chatId: currentChatId, profile_url: profileUrl })
+            });
+            const syncData = await syncRes.json().catch(() => ({}));
+            if (syncRes.ok && syncData.success) {
+              catalogSynced = true;
+              await loadCatalogProducts();
+            } else {
+              syncWarning = syncData.error || `Не удалось синхронизировать каталог (HTTP ${syncRes.status})`;
+              showToast('Каталог не синхронизирован', syncWarning, 'warning');
+            }
+          } catch (e) {
+            syncWarning = 'Ошибка соединения при синхронизации каталога';
+            showToast('Каталог не синхронизирован', syncWarning, 'warning');
+          }
+        } else {
+          await loadCatalogProducts().catch(() => {});
+        }
 
         if (bar) bar.style.width = '100%';
-        if (status) status.innerText = 'Товары успешно синхронизированы!';
+        if (status) {
+          status.innerText = catalogSynced
+            ? 'Товары успешно синхронизированы!'
+            : (syncWarning || 'Вход на Авито подтверждён!');
+        }
 
         setTimeout(() => {
           document.getElementById('chainAuthStage4')?.classList.add('hidden');
           document.getElementById('chainAuthStage5')?.classList.remove('hidden');
           if (typeof confetti === 'function') confetti({ particleCount: 80, spread: 70 });
-          showToast('Менеджер запущен 24/7!', 'Товары синхронизированы, менеджер продаж активен.', 'success');
+          if (catalogSynced) {
+            showToast('Менеджер запущен 24/7!', 'Товары синхронизированы, менеджер продаж активен.', 'success');
+          } else {
+            showToast('Вход подтверждён!', 'Менеджер запущен 24/7. Укажите ссылку на профиль Авито в «Базе знаний» для загрузки товаров.', 'success');
+          }
           loadMyBots();
           loadUserStats();
           loadAnalyticsData();
@@ -8566,8 +7760,12 @@
 
     // ==================== USER SETTINGS & PUSH NOTIFICATIONS ====================
     async function loadUserSettings() {
+      const targetChatId = currentChatId;
+      if (!targetChatId) {
+        updatePushNotificationUIState();
+        return;
+      }
       try {
-        const targetChatId = currentChatId || '6940082004';
         const res = await apiFetch(`${API_BASE}/api/user/settings?chatId=${encodeURIComponent(targetChatId)}`);
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const data = await res.json();
@@ -8578,11 +7776,14 @@
           const emailEl = document.getElementById('settEmailInput');
           if (emailEl) emailEl.value = s.email || '';
           const createdEl = document.getElementById('settUserCreatedAt');
-          if (createdEl) createdEl.innerText = s.created_at || '19.06.2026';
+          if (createdEl) createdEl.innerText = s.created_at || '—';
           const tgHandle = document.getElementById('settTgHandle');
           if (tgHandle) tgHandle.innerText = '@' + (s.telegram_bot_username || 'avito_deployer_bot');
           const tgIdEl = document.getElementById('settTgIdBadge');
-          if (tgIdEl) tgIdEl.innerText = 'ID ' + (s.telegram_chat_id || targetChatId);
+          if (tgIdEl) {
+            const linkedTg = s.telegram_chat_id || targetChatId;
+            tgIdEl.innerText = linkedTg ? ('ID ' + linkedTg) : 'ID не привязан';
+          }
           const fwdCheck = document.getElementById('settForwardTgCheckbox');
           if (fwdCheck) fwdCheck.checked = !!s.forward_to_telegram;
         }
@@ -8618,7 +7819,12 @@
     }
 
     function copySettUserId() {
-      const id = document.getElementById('settUserIdText')?.innerText || currentChatId || '6940082004';
+      const rawText = document.getElementById('settUserIdText')?.innerText?.trim();
+      const id = (rawText && rawText !== '—' && rawText !== 'ID не привязан') ? rawText : currentChatId;
+      if (!id) {
+        showToast('Нет активного профиля', 'Войдите в аккаунт для отображения ID', 'warning');
+        return;
+      }
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(id).then(() => {
           showToast('ID скопирован', `ID пользователя ${id} скопирован в буфер`, 'success');
@@ -8646,12 +7852,21 @@
         btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">refresh</span><span>Сохранение...</span>';
       }
 
+      if (!currentChatId) {
+        showToast('Требуется вход', 'Сначала войдите в аккаунт для сохранения настроек', 'warning');
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origText;
+        }
+        return;
+      }
+
       try {
         const res = await apiFetch(`${API_BASE}/api/user/settings`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            chatId: currentChatId || '6940082004',
+            chatId: currentChatId,
             email: email
           })
         });
@@ -8669,12 +7884,17 @@
     }
 
     async function toggleForwardTelegram(checkbox) {
+      if (!currentChatId) {
+        checkbox.checked = !checkbox.checked;
+        showToast('Требуется вход', 'Сначала войдите в аккаунт для изменения настроек', 'warning');
+        return;
+      }
       try {
         const res = await apiFetch(`${API_BASE}/api/user/settings`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            chatId: currentChatId || '6940082004',
+            chatId: currentChatId,
             forward_to_telegram: checkbox.checked
           })
         });
@@ -8682,7 +7902,7 @@
         if (!res.ok || !data.success) throw new Error(data.error || 'Ошибка обновления настройки');
         showToast(
           'Пересылка в Telegram',
-          checkbox.checked ? 'Сообщения покупателей будут пересылаться в бот' : 'Пересылка сообщений в бот приостановлена',
+          checkbox.checked ? 'Сообщения покупателей будут пересылаться в Telegram' : 'Пересылка сообщений в Telegram приостановлена',
           checkbox.checked ? 'success' : 'info'
         );
       } catch (err) {
@@ -8851,66 +8071,6 @@
     window.handleTgUnlinkClick = handleTgUnlinkClick;
 
   </script>
-
-  <!-- ACCOUNT SWITCHER & LOGIN MODAL -->
-  <div id="accountSwitcherModal" class="fixed inset-0 z-[120] bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="relative w-full max-w-md bg-[#161619] border border-white/10 rounded-2xl p-6 space-y-5 shadow-2xl">
-      <div class="flex items-center justify-between pb-3 border-b border-white/10">
-        <div class="flex items-center gap-2.5">
-          <span class="material-symbols-outlined text-white text-xl">manage_accounts</span>
-          <h3 class="font-outfit font-bold text-base text-white">Выбор аккаунта и вход</h3>
-        </div>
-        <button type="button" onclick="closeAccountSwitcherModal()" class="text-white/40 hover:text-white p-1 cursor-pointer">
-          <span class="material-symbols-outlined text-lg">close</span>
-        </button>
-      </div>
-
-      <p class="text-xs text-white/60 leading-relaxed">
-        Выберите профиль для мгновенного входа или введите свой Telegram ID. Выбранный аккаунт сохраняется в браузере на 365 дней.
-      </p>
-
-      <div class="space-y-2.5">
-        <!-- 1. OWNER -->
-        <button type="button" onclick="selectAccountAction('6940082004')" class="w-full p-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-gold/40 text-left transition-all flex items-center justify-between group cursor-pointer">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-gold/15 text-gold flex items-center justify-center font-bold text-lg">👑</div>
-            <div>
-              <div class="font-outfit font-bold text-sm text-white group-hover:text-gold transition-colors">Кирилл (Владелец)</div>
-              <div class="text-[11px] text-white/50">ID: 6940082004 • Баланс: 10 442 ₽</div>
-            </div>
-          </div>
-          <span class="material-symbols-outlined text-white/40 group-hover:text-gold text-lg">arrow_forward</span>
-        </button>
-
-        <!-- 2. TEST GUEST -->
-        <button type="button" onclick="selectAccountAction('client_294352')" class="w-full p-3.5 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-emerald-400/40 text-left transition-all flex items-center justify-between group cursor-pointer">
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold text-lg">💳</div>
-            <div>
-              <div class="font-outfit font-bold text-sm text-white group-hover:text-emerald-400 transition-colors">Тестовый клиент (Оплата 10 ₽)</div>
-              <div class="text-[11px] text-white/50">ID: client_294352 • Баланс: 10 ₽</div>
-            </div>
-          </div>
-          <span class="material-symbols-outlined text-white/40 group-hover:text-emerald-400 text-lg">arrow_forward</span>
-        </button>
-
-        <!-- 3. CUSTOM ID -->
-        <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-2">
-          <label class="text-[11px] font-semibold text-white/60">Войти по Telegram ID / Номеру клиента</label>
-          <div class="flex gap-2">
-            <input type="text" id="customChatIdInput" placeholder="Например: 6940082004" class="flex-1 bg-black/40 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-white/30">
-            <button type="button" onclick="submitCustomChatId()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold cursor-pointer">Войти</button>
-          </div>
-        </div>
-
-        <!-- DIRECT LINK TO SETTINGS -->
-        <button type="button" onclick="closeAccountSwitcherModal(); switchTab('settings');" class="w-full py-2.5 px-4 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 text-xs font-semibold text-white/80 hover:text-gold flex items-center justify-center gap-2 transition-all cursor-pointer">
-          <span class="material-symbols-outlined text-sm">settings</span>
-          <span>Настройки аккаунта и интеграций</span>
-        </button>
-      </div>
-    </div>
-  </div>
 
   <!-- ==================== FLOATING PUSH PROMPT BANNER ==================== -->
   <div id="pushPromptToast" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-[120] max-w-sm sm:max-w-md p-4 sm:p-5 rounded-2xl bg-[#18181D]/95 backdrop-blur-2xl border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.85)] transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none flex flex-col gap-3.5">
