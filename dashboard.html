@@ -9,6 +9,7 @@
   <meta name="description" content="Личный кабинет MAJORKA — управление магазинами на Авито, каталог товаров, статистика диалогов и настройки регламента продаж 24/7.">
   <meta name="theme-color" content="#121214">
   <meta name="color-scheme" content="dark">
+  <meta name="referrer" content="no-referrer">
   <link rel="canonical" href="https://rolingstone812-oss.github.io/majorka-avito-bot-app/dashboard.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -305,7 +306,7 @@
 <body class="min-h-screen flex flex-col justify-between selection:bg-gold selection:text-black">
 
   <!-- TOAST NOTIFICATION CONTAINER -->
-  <div id="toastContainer" class="fixed top-6 right-6 z-[150] flex flex-col gap-3 pointer-events-none max-w-sm w-full"></div>
+  <div id="toastContainer" class="fixed top-4 left-3 right-3 sm:left-auto sm:top-6 sm:right-6 z-[150] flex flex-col gap-3 pointer-events-none sm:max-w-sm sm:w-full"></div>
 
   <!-- ==================== MAIN APP (HEADER & DASHBOARD) ==================== -->
   <div id="mainAppContainer" class="min-h-screen flex flex-col justify-between">
@@ -578,6 +579,21 @@
           <span class="material-symbols-outlined text-sm text-rose-400" aria-hidden="true">error</span>
           <span id="bannerReauthErrorText"></span>
         </div>
+      </div>
+
+      <!-- ESCALATION INBOX (VISIBLE ONLY WHEN BUYERS AWAIT HUMAN ANSWER ON AVITO) -->
+      <div id="overviewEscalationInbox" class="hidden glass-box p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-gold/30 bg-[#161619] space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 border-b border-white/10 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="material-symbols-outlined text-gold text-xl" aria-hidden="true">forum</span>
+            <div>
+              <h3 class="font-outfit font-bold text-sm sm:text-base text-white">Вопросы покупателей вне регламента</h3>
+              <p class="text-[11px] text-zinc-400">Ответьте прямо здесь или в Telegram — сообщение уйдёт в диалог на Авито, а факт можно сразу сохранить в Регламент.</p>
+            </div>
+          </div>
+          <span id="overviewEscCountBadge" class="self-start sm:self-auto px-3 py-1 rounded-full text-xs font-bold bg-gold/15 text-gold border border-gold/30 shrink-0">0 ожидают</span>
+        </div>
+        <div id="overviewEscalationList" class="space-y-3"></div>
       </div>
       
       <!-- TOP STATUS & METRICS STRIP (4-CARD BALANCED GRID) -->
@@ -1158,14 +1174,34 @@
             </div>
           </div>
 
-          <div class="flex items-center gap-2">
+          <div class="flex flex-wrap items-center gap-2">
             <span id="step2StatusBadge" class="px-3 py-1 rounded-full text-xs font-bold bg-white/5 text-white/60 border border-white/10 flex items-center gap-1.5">
               <span>Регламент готов к сохранению</span>
             </span>
-            <button type="button" id="btnSaveKnowledgeTop" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold min-h-[44px] px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
+            <button type="button" id="btnSaveKnowledgeTop" onclick="saveStoreKnowledgeSettings(this)" class="btn-gold w-full sm:w-auto min-h-[44px] px-5 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
               <span class="material-symbols-outlined text-sm" aria-hidden="true">check_circle</span>
               <span>Сохранить регламент</span>
             </button>
+          </div>
+        </div>
+
+        <!-- REGULATION COMPLETENESS BAR & NICHE PRESETS -->
+        <div class="p-3.5 sm:p-4 rounded-2xl bg-white/[0.02] border border-white/10 space-y-2.5">
+          <div class="flex items-center justify-between gap-2 text-xs">
+            <span class="font-semibold text-zinc-200">Полнота регламента магазина</span>
+            <span id="step2ReadinessPct" class="font-outfit font-bold text-gold">25%</span>
+          </div>
+          <div class="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div id="step2ReadinessFill" class="h-full bg-gold rounded-full transition-all duration-300" style="width: 25%"></div>
+          </div>
+          <p id="step2ReadinessHint" class="text-[11px] text-zinc-400">
+            Укажите город/адрес самовывоза и особые правила ниже — тогда менеджер будет знать точные ответы без уточнений у вас.
+          </p>
+          <div class="pt-1 flex flex-wrap gap-1.5">
+            <button type="button" onclick="applyNichePreset('fashion')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-200 text-[11px] font-medium transition-colors cursor-pointer">Шаблон: Одежда и обувь</button>
+            <button type="button" onclick="applyNichePreset('auto')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-200 text-[11px] font-medium transition-colors cursor-pointer">Шаблон: Автозапчасти</button>
+            <button type="button" onclick="applyNichePreset('electronics')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-200 text-[11px] font-medium transition-colors cursor-pointer">Шаблон: Электроника</button>
+            <button type="button" onclick="applyNichePreset('services')" class="px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-200 text-[11px] font-medium transition-colors cursor-pointer">Шаблон: Услуги</button>
           </div>
         </div>
 
@@ -1221,9 +1257,9 @@
           </div>
         </div>
 
-        <div class="flex items-center justify-between pt-2 border-t border-white/5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-3 border-t border-white/5">
           <span class="text-[11px] text-white/40">Изменения мгновенно подгружаются в память менеджера</span>
-          <button type="button" onclick="proceedFromStep2ToStep3(this)" class="btn-gold min-h-[44px] px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
+          <button type="button" onclick="proceedFromStep2ToStep3(this)" class="btn-gold w-full sm:w-auto min-h-[44px] px-6 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
             <span>Сохранить и перейти к Шагу 3 (Вход)</span>
             <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
           </button>
@@ -2202,42 +2238,42 @@
           <!-- 1. TELEGRAM BOT -->
           <div class="p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4 flex flex-col justify-between hover:border-[#229ED9]/40 transition-all">
             <div class="space-y-3">
-              <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start sm:items-center gap-3 min-w-0 flex-1">
                   <div class="w-10 h-10 rounded-xl bg-[#229ED9]/15 border border-[#229ED9]/30 flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5 text-[#229ED9]" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
                     </svg>
                   </div>
-                  <div>
+                  <div class="min-w-0 flex-1">
                     <div class="flex items-center gap-2 flex-wrap">
                       <span class="font-outfit font-bold text-sm text-white">Telegram</span>
-                      <span id="settTgHandle" class="text-xs text-white/70 font-mono">@avito_deployer_bot</span>
-                      <span id="settTgStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/60 border border-white/15 flex items-center gap-1">
+                      <span id="settTgHandle" class="text-xs text-white/70 font-mono truncate">@avito_deployer_bot</span>
+                      <span id="settTgStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/60 border border-white/15 inline-flex items-center gap-1 shrink-0">
                         <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span> Не привязан
                       </span>
                     </div>
-                    <div id="settTgIdBadge" class="text-[11px] text-white/40 font-mono mt-0.5">ID не привязан</div>
+                    <div id="settTgIdBadge" class="text-[11px] text-white/40 font-mono mt-0.5 truncate">ID не привязан</div>
                   </div>
                 </div>
 
-                <button type="button" onclick="handleTgUnlinkClick()" class="btn-ghost px-3 py-1 rounded-xl text-xs font-semibold text-white/60 hover:text-white border border-white/10 hover:border-white/20 transition-all cursor-pointer">
-                  Отвязать
+                <button type="button" id="settTgActionBtn" data-tg-state="unlinked" onclick="handleTgUnlinkClick()" class="w-full sm:w-auto min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#229ED9]/15 hover:bg-[#229ED9]/25 text-[#64C4ED] border border-[#229ED9]/35 transition-all cursor-pointer shrink-0 whitespace-nowrap flex items-center justify-center gap-1.5">
+                  Привязать Telegram
                 </button>
               </div>
 
               <!-- Subrow: Пересылать сообщения в Telegram -->
-              <div class="border-t border-white/5 pt-3 flex items-start justify-between gap-3">
-                <div class="space-y-0.5">
+              <div id="settForwardTgRow" class="border-t border-white/5 pt-3 flex items-start justify-between gap-3">
+                <div class="space-y-0.5 min-w-0 flex-1">
                   <div class="text-xs font-bold text-white">Пересылать диалоги в Telegram</div>
                   <div class="text-[11px] text-white/50 leading-relaxed">
-                    Отвечайте покупателю прямо из Telegram через Reply на сообщение — менеджер мгновенно отправит ответ на Авито.
+                    Отвечайте покупателю прямо из Telegram через Reply или кнопку «Ответить покупателю» — менеджер передаст ответ в диалог на Авито.
                   </div>
                 </div>
 
                 <label class="relative inline-flex items-center cursor-pointer select-none shrink-0 mt-0.5">
                   <input type="checkbox" id="settForwardTgCheckbox" class="sr-only peer" onchange="toggleForwardTelegram(this)">
-                  <div class="w-10 h-5 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-status-green transition-colors"></div>
+                  <div class="w-10 h-5 bg-white/15 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-status-green peer-disabled:opacity-40 transition-colors"></div>
                 </label>
               </div>
             </div>
@@ -2246,8 +2282,8 @@
           <!-- 2. GOOGLE ВХОД / АККАУНТ -->
           <div class="p-4 sm:p-5 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4 flex flex-col justify-between hover:border-white/25 transition-all">
             <div class="space-y-3">
-              <div class="flex items-center justify-between gap-3">
-                <div class="flex items-center gap-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-start sm:items-center gap-3 min-w-0 flex-1">
                   <div class="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center shrink-0">
                     <svg class="w-5 h-5" viewBox="0 0 24 24">
                       <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -2256,19 +2292,19 @@
                       <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
                     </svg>
                   </div>
-                  <div>
+                  <div class="min-w-0 flex-1">
                     <div class="flex items-center gap-2 flex-wrap">
-                      <span class="font-outfit font-bold text-sm text-white">Google Вход</span>
-                      <span id="settGoogleBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/60 border border-white/15 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span> Не привязан
+                      <span class="font-outfit font-bold text-sm text-white">Google Вход / Email</span>
+                      <span id="settGoogleBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/60 border border-white/15 inline-flex items-center gap-1 shrink-0">
+                        <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span> Не указан
                       </span>
                     </div>
-                    <div id="settGoogleEmail" class="text-[11px] text-white/50 mt-0.5 font-mono">Вход в 1 клик</div>
+                    <div id="settGoogleEmail" class="text-[11px] text-white/50 mt-0.5 font-mono truncate">Резервная почта и отчётность</div>
                   </div>
                 </div>
 
-                <button type="button" id="settGoogleBtn" onclick="handleGoogleAccountClick()" class="btn-ghost px-3 py-1 rounded-xl text-xs font-semibold text-white/70 hover:text-white border border-white/10 hover:border-white/20 transition-all cursor-pointer">
-                  Привязать
+                <button type="button" id="settGoogleBtn" onclick="handleGoogleAccountClick()" class="btn-ghost w-full sm:w-auto min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold text-white/70 hover:text-white border border-white/10 hover:border-white/20 transition-all cursor-pointer shrink-0 whitespace-nowrap flex items-center justify-center">
+                  Указать почту
                 </button>
               </div>
 
@@ -2310,8 +2346,8 @@
           </label>
         </div>
 
-        <div class="pt-1 flex items-center gap-3">
-          <button type="button" onclick="sendTestBrowserPush()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-1.5 border border-white/10 hover:border-gold/30 hover:text-gold transition-all cursor-pointer">
+        <div class="pt-1 flex flex-col sm:flex-row sm:items-center gap-2.5 sm:gap-3">
+          <button type="button" onclick="sendTestBrowserPush()" class="btn-ghost min-h-[40px] px-4 py-2 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 border border-white/10 hover:border-gold/30 hover:text-gold transition-all cursor-pointer shrink-0">
             <span class="material-symbols-outlined text-sm" aria-hidden="true">send</span>
             <span>Отправить тестовый пуш</span>
           </button>
@@ -2329,12 +2365,12 @@
         <div class="space-y-4 max-w-2xl">
           <!-- User ID Row -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3.5 rounded-xl bg-white/[0.02] border border-white/5">
-            <div class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-white/40 text-sm" aria-hidden="true">badge</span>
-              <span class="text-xs text-white/60">ID пользователя:</span>
-              <span id="settUserIdText" class="font-mono font-bold text-sm text-white tracking-wider ml-1">...</span>
+            <div class="flex items-center gap-2 min-w-0 flex-wrap">
+              <span class="material-symbols-outlined text-white/40 text-sm shrink-0" aria-hidden="true">badge</span>
+              <span class="text-xs text-white/60 shrink-0">ID пользователя:</span>
+              <span id="settUserIdText" class="font-mono font-bold text-sm text-white tracking-wider ml-1 break-all">...</span>
             </div>
-            <button type="button" onclick="copySettUserId()" class="btn-ghost px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 hover:text-gold transition-colors self-start sm:self-auto cursor-pointer">
+            <button type="button" onclick="copySettUserId()" class="btn-ghost min-h-[38px] px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 hover:text-gold transition-colors self-start sm:self-auto cursor-pointer shrink-0">
               <span class="material-symbols-outlined text-sm" aria-hidden="true">content_copy</span>
               <span>Копировать ID</span>
             </button>
@@ -3040,7 +3076,7 @@
         <button onclick="toggleMobileMoreSheet(false); switchTab('referrals');" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-gold/10 border border-white/10 hover:border-white/10 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
           <div class="flex items-center justify-between w-full">
             <span class="material-symbols-outlined text-gold text-2xl" aria-hidden="true">group</span>
-            <span class="text-[9px] bg-white/10 text-zinc-300 px-1.5 py-0.5 rounded font-bold border border-white/10">25%</span>
+            <span class="text-[9px] bg-white/10 text-zinc-300 px-1.5 py-0.5 rounded font-bold border border-white/10">до 35%</span>
           </div>
           <div>
             <div class="font-outfit font-bold text-xs text-white">Рефералы</div>
@@ -3073,12 +3109,57 @@
         </a>
       </div>
 
-      <!-- LOGOUT BUTTON -->
-      <button onclick="toggleMobileMoreSheet(false); logoutUser();" class="w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-400 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 active:scale-98 transition-all">
-        <span class="material-symbols-outlined text-sm" aria-hidden="true">logout</span>
-        <span>Выйти из аккаунта</span>
+      <!-- AUTH / LOGOUT BUTTON -->
+      <button id="moreSheetAuthBtn" onclick="toggleMobileMoreSheet(false); handleMobileMoreAuthAction();" class="w-full min-h-[44px] py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer">
+        <span id="moreSheetAuthIcon" class="material-symbols-outlined text-sm" aria-hidden="true">logout</span>
+        <span id="moreSheetAuthText">Выйти из аккаунта</span>
       </button>
 
+    </div>
+  </div>
+
+  <!-- GUEST AUTH GATE MODAL (BLOCKS UNREGISTERED TOP-UPS & PAYMENTS) -->
+  <div id="guestAuthGateModal" class="fixed inset-0 z-[120] bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-4" role="dialog" aria-modal="true" aria-labelledby="guestAuthGateTitle">
+    <div class="glass-box max-w-md w-full p-5 sm:p-6 space-y-4 relative border border-white/15 bg-[#121214] rounded-2xl">
+      <button type="button" onclick="closeGuestAuthGateModal()" class="absolute top-3 right-3 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-colors cursor-pointer" aria-label="Закрыть">
+        <span class="material-symbols-outlined" aria-hidden="true">close</span>
+      </button>
+
+      <div class="flex items-center gap-3 pr-8">
+        <div class="w-11 h-11 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold shrink-0">
+          <span class="material-symbols-outlined text-2xl" aria-hidden="true">verified_user</span>
+        </div>
+        <div>
+          <h3 id="guestAuthGateTitle" class="font-outfit font-bold text-lg text-white leading-snug">Войдите или создайте аккаунт</h3>
+          <p class="text-xs text-zinc-400">Чтобы баланс и подписка закрепились за вами</p>
+        </div>
+      </div>
+
+      <div class="p-3.5 rounded-xl bg-white/[0.03] border border-white/10 space-y-1.5 text-xs text-zinc-300 leading-relaxed">
+        <div class="flex items-center justify-between gap-2 pb-1.5 border-b border-white/5">
+          <span class="text-zinc-400">Выбранная сумма:</span>
+          <span id="guestGateTariffLabel" class="font-outfit font-bold text-gold">6 490 ₽</span>
+        </div>
+        <p class="text-[11px] text-zinc-400 pt-0.5">
+          В демо-режиме пополнение счёта отключено для защиты ваших средств: регистрация занимает 10 секунд, после чего баланс и оплаченный магазин будут доступны с любого устройства.
+        </p>
+      </div>
+
+      <div class="space-y-2.5 pt-1">
+        <button type="button" onclick="proceedFromGuestGateToAuth()" class="btn-gold min-h-[44px] w-full py-3.5 px-4 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
+          <span class="material-symbols-outlined text-base" aria-hidden="true">login</span>
+          <span>Войти или зарегистрироваться (10 сек)</span>
+        </button>
+
+        <a href="https://t.me/avito_deployer_bot" target="_blank" rel="noopener noreferrer" class="min-h-[44px] w-full py-3 px-4 rounded-xl text-xs font-semibold bg-[#229ED9]/15 hover:bg-[#229ED9]/25 text-[#64C4ED] border border-[#229ED9]/35 flex items-center justify-center gap-2 transition-all">
+          <span class="material-symbols-outlined text-base" aria-hidden="true">send</span>
+          <span>Войти через Telegram (@avito_deployer_bot)</span>
+        </a>
+
+        <button type="button" onclick="closeGuestAuthGateModal()" class="w-full min-h-[40px] py-2 text-xs font-medium text-zinc-400 hover:text-white transition-colors cursor-pointer">
+          Продолжить ознакомление в демо-режиме
+        </button>
+      </div>
     </div>
   </div>
 
@@ -3165,7 +3246,7 @@
           <span>Мгновенное зачисление баланса</span>
         </div>
 
-        <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" rel="noopener noreferrer" class="space-y-4">
+        <form id="yoomoneyQuickpayForm" action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" rel="noopener noreferrer" onsubmit="return validateYooMoneySubmit(event)" class="space-y-4">
           <input type="hidden" name="receiver" value="4100119556996975">
           <input type="hidden" name="quickpay-form" value="button">
           <input type="hidden" name="targets" value="Оплата тарифа MAJORKA">
@@ -3424,7 +3505,7 @@
 
       <label class="flex items-start gap-2.5 p-3.5 rounded-xl bg-red-500/10 border border-red-500/25 text-xs text-white/80 cursor-pointer select-none">
         <input type="checkbox" id="delShopConsentCheckbox" onchange="toggleDeleteShopButton()" class="mt-0.5 accent-red-500">
-        <span>Я подтверждаю удаление магазина и понимаю, что менеджер будет остановлен, а оставшиеся оплаченные дни лицензии будут аннулированы без возврата.</span>
+        <span>Я подтверждаю отключение магазина и понимаю, что работа менеджера для этого слота будет остановлена. По вопросам сохранения или перерасчёта оставшегося периода можно обратиться в поддержку @chc332 согласно условиям Оферты.</span>
       </label>
 
       <div class="flex items-center justify-end gap-3 pt-2">
@@ -4103,6 +4184,41 @@
       if (banner) banner.classList.remove('hidden');
       const guestBtn = document.getElementById('headerGuestSignupBtn');
       if (guestBtn) guestBtn.classList.remove('hidden');
+      syncMobileMoreAuthUI();
+    }
+
+    function isGuestOrUnregistered() {
+      const cid = String(currentChatId || '').trim().toLowerCase();
+      if (!cid || cid === 'guest' || cid === 'unknown' || cid.startsWith('client_') || cid.startsWith('guest_')) {
+        return true;
+      }
+      const hasTok = Boolean(localStorage.getItem('session_token') || getCookie('session_token'));
+      if (!hasTok && !isTelegramMiniApp) {
+        return true;
+      }
+      return false;
+    }
+
+    function syncMobileMoreAuthUI() {
+      const iconEl = document.getElementById('moreSheetAuthIcon');
+      const txtEl = document.getElementById('moreSheetAuthText');
+      const btnEl = document.getElementById('moreSheetAuthBtn');
+      const guestMode = isGuestOrUnregistered();
+      if (iconEl) iconEl.textContent = guestMode ? 'person_add' : 'logout';
+      if (txtEl) txtEl.textContent = guestMode ? 'Войти / Создать аккаунт' : 'Выйти из аккаунта';
+      if (btnEl) {
+        btnEl.className = guestMode
+          ? 'btn-gold w-full min-h-[44px] py-3 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer'
+          : 'w-full min-h-[44px] py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-zinc-300 hover:text-white text-xs font-semibold flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer';
+      }
+    }
+
+    function handleMobileMoreAuthAction() {
+      if (isGuestOrUnregistered()) {
+        window.location.href = './index.html';
+        return;
+      }
+      logoutUser();
     }
 
     // USER & SUBSCRIPTION STATE
@@ -4139,6 +4255,7 @@
       const guestBtn = document.getElementById('headerGuestSignupBtn');
       if (guestBtn) guestBtn.classList.remove('hidden');
     }
+    syncMobileMoreAuthUI();
 
     // Payment Success Alert Check
     if (urlParams.get('payment') === 'success') {
@@ -4885,7 +5002,6 @@
     window.togglePasswordVisibility = togglePasswordVisibility;
 
     document.addEventListener('DOMContentLoaded', async () => {
-      initOverviewChart();
       const rawHash = (window.location.hash || '').replace(/^#/, '');
       const validHashTab = (rawHash && !rawHash.startsWith('tgWebApp') && !rawHash.includes('=')) ? rawHash : '';
       const initialTab = urlParams.get('tab') || validHashTab || 'overview';
@@ -4894,6 +5010,7 @@
       }
 
       await verifySessionAndBootstrap();
+      initOverviewChart();
 
       updateHarveyVisibility();
       if (window.isOwner) {
@@ -4905,13 +5022,202 @@
       loadUserStats();
       loadAnalyticsData();
       loadMyBots();
+      loadEscalationInbox();
 
-      loadStoreKnowledge();
+      loadStoreKnowledge().finally(() => updateStep2ReadinessScore());
       loadCatalogProducts();
+      ['kbCustomRules', 'kbStoreName', 'kbCityAddress', 'kbTelegramContact', 'kbDiscountPolicy'].forEach(fid => {
+        const el = document.getElementById(fid);
+        if (el) el.addEventListener('input', updateStep2ReadinessScore);
+      });
       if (typeof loadUserSettings === 'function') loadUserSettings();
       setTimeout(initChainLocksState, 500);
       initPushNotificationPrompt();
     });
+
+    function updateStep2ReadinessScore() {
+      const nameVal = (document.getElementById('kbStoreName')?.value || '').trim();
+      const cityVal = (document.getElementById('kbCityAddress')?.value || '').trim();
+      const rulesVal = (document.getElementById('kbCustomRules')?.value || '').trim();
+      const tgVal = (document.getElementById('kbTelegramContact')?.value || '').trim();
+      let score = 20; // discount_policy always selected
+      const missing = [];
+      if (nameVal.length >= 2) score += 20; else missing.push('название магазина');
+      if (cityVal.length >= 3) score += 25; else missing.push('город / адрес самовывоза');
+      if (rulesVal.length >= 20) score += 25; else missing.push('особые правила консультаций');
+      if (tgVal.length >= 3) score += 10;
+      score = Math.min(100, score);
+      const pctEl = document.getElementById('step2ReadinessPct');
+      const fillEl = document.getElementById('step2ReadinessFill');
+      const hintEl = document.getElementById('step2ReadinessHint');
+      if (pctEl) pctEl.textContent = score + '%';
+      if (fillEl) fillEl.style.width = score + '%';
+      if (hintEl) {
+        hintEl.textContent = missing.length
+          ? 'Добавьте: ' + missing.join(', ') + ' — чтобы свести уточнения у старшего менеджера к минимуму.'
+          : 'Отлично! Регламент заполнен подробно — менеджер готов уверенно закрывать сделки.';
+      }
+    }
+
+    function applyNichePreset(kind) {
+      const presets = {
+        fashion: '• Перед отправкой сверяем замеры стельки и плеч по росту и весу покупателя\n• Отправляем Авито Доставкой (СДЭК, Яндекс, Почта, Boxberry) в день заказа\n• В пункте выдачи у покупателя есть 15 минут на примерку и осмотр',
+        auto: '• Подбираем и проверяем совместимость детали по марке, году выпуска или VIN\n• Все крепления и разъёмы проверяются перед отправкой\n• Отправка СДЭК и Авито Доставкой с 15 минутами на осмотр в ПВЗ',
+        electronics: '• Каждое устройство проходит проверку работоспособности и комплектности перед выдачей\n• Серийный номер и пломбы фиксируются при упаковке\n• В пункте выдачи доступно 15 минут на осмотр',
+        services: '• Точную стоимость фиксируем до начала работ без скрытых доплат\n• Для оперативной записи уточняем удобное время и район клиента\n• Предоставляем гарантию на выполненные работы'
+      };
+      const area = document.getElementById('kbCustomRules');
+      if (!area || !presets[kind]) return;
+      area.value = presets[kind];
+      updateStep2ReadinessScore();
+      showToast('Шаблон применён', 'Отредактируйте адрес или детали под ваш магазин и нажмите «Сохранить регламент».', 'info');
+    }
+
+    async function loadEscalationInbox() {
+      const box = document.getElementById('overviewEscalationInbox');
+      const list = document.getElementById('overviewEscalationList');
+      const badge = document.getElementById('overviewEscCountBadge');
+      if (!box || !list || isGuestOrUnregistered()) {
+        if (box) box.classList.add('hidden');
+        return;
+      }
+      try {
+        const res = await apiFetch(`${API_BASE}/api/leads?chatId=${encodeURIComponent(currentChatId)}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        const activeEsc = (data.escalations || []).filter(e => e.status === 'waiting' || e.status === 'queued');
+        if (!activeEsc.length) {
+          box.classList.add('hidden');
+          list.replaceChildren();
+          return;
+        }
+        if (badge) badge.textContent = `${activeEsc.length} ожидают`;
+        const frag = document.createDocumentFragment();
+        activeEsc.slice(0, 5).forEach(esc => {
+          const card = document.createElement('div');
+          card.className = 'p-3.5 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/10 space-y-2.5';
+
+          const topRow = document.createElement('div');
+          topRow.className = 'flex flex-wrap items-center justify-between gap-2 text-xs';
+          const who = document.createElement('div');
+          who.className = 'font-bold text-white';
+          who.textContent = `${esc.buyer_name || 'Покупатель'} • ${esc.item_title || 'Товар'}`;
+          const stPill = document.createElement('span');
+          stPill.className = 'px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-white/10 text-zinc-300 border border-white/10';
+          stPill.textContent = esc.status === 'queued' ? 'В очереди отправки на Авито' : 'Ожидает вашего ответа';
+          topRow.appendChild(who);
+          topRow.appendChild(stPill);
+
+          const qText = document.createElement('p');
+          qText.className = 'text-xs text-zinc-200 leading-relaxed';
+          qText.textContent = `Вопрос: «${esc.buyer_message || ''}»`;
+
+          card.appendChild(topRow);
+          card.appendChild(qText);
+
+          if (esc.status === 'waiting') {
+            const formRow = document.createElement('div');
+            formRow.className = 'space-y-2 pt-1';
+            const inp = document.createElement('input');
+            inp.type = 'text';
+            inp.placeholder = 'Введите точный ответ для покупателя на Авито...';
+            inp.className = 'clean-input w-full px-3.5 py-2.5 text-xs text-white';
+
+            const ctrlRow = document.createElement('div');
+            ctrlRow.className = 'flex flex-col sm:flex-row sm:items-center justify-between gap-2';
+            const chkLabel = document.createElement('label');
+            chkLabel.className = 'inline-flex items-center gap-2 text-[11px] text-zinc-300 cursor-pointer select-none';
+            const chk = document.createElement('input');
+            chk.type = 'checkbox';
+            chk.checked = true;
+            chk.className = 'accent-[#FFDD2D] rounded';
+            const chkSpan = document.createElement('span');
+            chkSpan.textContent = 'Сохранить этот ответ в Регламент магазина';
+            chkLabel.appendChild(chk);
+            chkLabel.appendChild(chkSpan);
+
+            const actBtns = document.createElement('div');
+            actBtns.className = 'flex items-center gap-2';
+            const sendBtn = document.createElement('button');
+            sendBtn.type = 'button';
+            sendBtn.className = 'btn-gold min-h-[38px] px-4 py-2 rounded-xl text-xs font-bold cursor-pointer';
+            sendBtn.textContent = 'Отправить на Авито';
+            sendBtn.onclick = () => submitWebEscalationReply(esc.id, inp.value, chk.checked, sendBtn);
+
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.className = 'btn-ghost min-h-[38px] px-3 py-2 rounded-xl text-xs font-semibold text-zinc-400 hover:text-white border border-white/10 cursor-pointer';
+            closeBtn.textContent = 'Закрыть';
+            closeBtn.onclick = () => resolveWebEscalation(esc.id);
+
+            actBtns.appendChild(sendBtn);
+            actBtns.appendChild(closeBtn);
+            ctrlRow.appendChild(chkLabel);
+            ctrlRow.appendChild(actBtns);
+            formRow.appendChild(inp);
+            formRow.appendChild(ctrlRow);
+            card.appendChild(formRow);
+          }
+
+          frag.appendChild(card);
+        });
+        list.replaceChildren(frag);
+        box.classList.remove('hidden');
+      } catch (e) {
+        console.warn('loadEscalationInbox skipped:', e);
+      }
+    }
+
+    async function submitWebEscalationReply(escId, replyText, saveRule, btn) {
+      const txt = String(replyText || '').trim();
+      if (!txt) {
+        showToast('Введите текст ответа', 'Напишите, что передать покупателю в чат Авито.', 'warning');
+        return;
+      }
+      if (btn) btn.disabled = true;
+      try {
+        const res = await apiFetch(`${API_BASE}/api/leads/reply`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            chatId: currentChatId,
+            escalation_id: escId,
+            reply_text: txt,
+            save_to_rules: Boolean(saveRule)
+          })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) {
+          showToast('Ошибка отправки', data.error || 'Не удалось поставить ответ в очередь', 'error');
+          if (btn) btn.disabled = false;
+          return;
+        }
+        showToast(
+          'Ответ поставлен в очередь!',
+          data.rule_saved ? 'Ответ уйдёт покупателю на Авито и уже добавлен в Регламент магазина.' : 'Ответ будет доставлен в диалог покупателя на Авито.',
+          'success'
+        );
+        await loadEscalationInbox();
+        if (data.rule_saved) loadStoreKnowledge();
+      } catch (e) {
+        showToast('Ошибка соединения', 'Проверьте подключение к серверу', 'error');
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    async function resolveWebEscalation(escId) {
+      try {
+        await apiFetch(`${API_BASE}/api/leads/update_status`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: currentChatId, escalation_id: escId, status: 'resolved' })
+        });
+        await loadEscalationInbox();
+      } catch (e) {}
+    }
+
+    window.applyNichePreset = applyNichePreset;
+    window.loadEscalationInbox = loadEscalationInbox;
 
     function initTelegramSession() {
       localStorage.setItem('majorka_chatId', currentChatId);
@@ -6784,7 +7090,59 @@
       return 'Пополнение баланса';
     }
 
+    let pendingGuestGateAmount = 6490;
+
+    function openGuestAuthGateModal(amount, title) {
+      pendingGuestGateAmount = Math.max(100, Number(amount) || 6490);
+      try {
+        sessionStorage.setItem('majorka_pending_tariff', String(pendingGuestGateAmount));
+      } catch (e) {}
+      const lbl = document.getElementById('guestGateTariffLabel');
+      if (lbl) {
+        const resolvedTitle = title || getPaymentModalTitleForAmount(pendingGuestGateAmount);
+        lbl.textContent = `${pendingGuestGateAmount.toLocaleString('ru-RU')} ₽ • ${resolvedTitle}`;
+      }
+      const gateModal = document.getElementById('guestAuthGateModal');
+      if (gateModal) {
+        gateModal.classList.remove('hidden');
+        gateModal.classList.add('flex');
+      } else {
+        showToast('Требуется вход в аккаунт', 'Зарегистрируйтесь за 10 секунд, чтобы пополнить счёт и закрепить тариф за аккаунтом.', 'warning');
+      }
+    }
+
+    function closeGuestAuthGateModal() {
+      const gateModal = document.getElementById('guestAuthGateModal');
+      if (!gateModal) return;
+      gateModal.classList.add('hidden');
+      gateModal.classList.remove('flex');
+    }
+
+    function proceedFromGuestGateToAuth() {
+      try {
+        sessionStorage.setItem('majorka_pending_tariff', String(pendingGuestGateAmount || 6490));
+      } catch (e) {}
+      closeGuestAuthGateModal();
+      window.location.href = './index.html';
+    }
+
+    function validateYooMoneySubmit(ev) {
+      const labelVal = String(document.getElementById('modalPaymentLabelInput')?.value || currentChatId || '').trim();
+      if (isGuestOrUnregistered() || !labelVal || labelVal.toLowerCase().startsWith('client_') || labelVal.toLowerCase() === 'guest') {
+        if (ev && typeof ev.preventDefault === 'function') ev.preventDefault();
+        const amt = Number(document.getElementById('modalPaymentSumInput')?.value) || 6490;
+        closePaymentModal();
+        openGuestAuthGateModal(amt);
+        return false;
+      }
+      return true;
+    }
+
     function openPaymentModal(amount, title) {
+      if (isGuestOrUnregistered()) {
+        openGuestAuthGateModal(amount, title);
+        return;
+      }
       const modal = document.getElementById('paymentModal');
       if (!modal) return;
       if (window.currentUserData && window.currentUserData.balance !== undefined) {
@@ -6826,7 +7184,7 @@
     }
 
     function updatePaymentAmount(val) {
-      const numVal = Math.max(10, Number(val) || 0);
+      const numVal = Math.max(100, Number(val) || 100);
       const sumInp = document.getElementById('modalPaymentSumInput');
       if (sumInp) sumInp.value = numVal;
 
@@ -6925,8 +7283,8 @@
       const paneCard = document.getElementById('payPaneCard');
       const paneSbp = document.getElementById('payPaneSbp');
 
-      const activeClass = 'py-2 px-1 rounded-lg text-xs font-bold bg-gold text-black transition-all text-center';
-      const inactiveClass = 'py-2 px-1 rounded-lg text-xs font-bold text-white/60 hover:text-white transition-all text-center';
+      const activeClass = 'min-h-[40px] py-2 px-1.5 rounded-lg text-xs font-bold bg-gold text-black transition-all text-center flex items-center justify-center';
+      const inactiveClass = 'min-h-[40px] py-2 px-1.5 rounded-lg text-xs font-bold text-white/60 hover:text-white transition-all text-center flex items-center justify-center';
 
       if (tabBalance) tabBalance.className = (method === 'balance') ? activeClass : inactiveClass;
       if (tabCard) tabCard.className = (method === 'card') ? activeClass : inactiveClass;
@@ -6948,6 +7306,11 @@
 
     async function payFromUserBalance() {
       const amount = Number(document.getElementById('modalPaymentSumInput')?.value) || 1590;
+      if (isGuestOrUnregistered()) {
+        closePaymentModal();
+        openGuestAuthGateModal(amount);
+        return;
+      }
       if (userBalanceVal < amount) {
         showToast('Недостаточно средств', `На вашем балансе ${userBalanceVal.toLocaleString('ru-RU')} ₽. Пополните картой или через СБП`, 'warning');
         switchPaymentMethod('card');
@@ -6960,6 +7323,7 @@
       const tariffName = amount === 1590 ? 'trial_7days' : (amount === 6490 ? 'month' : (amount === 15900 ? 'quarter' : 'custom'));
 
       // 1. Sync payment strictly with backend API before mutating local balance/state
+      let backendSlotsCount = null;
       try {
         const res = await apiFetch(`${API_BASE}/api/pay_tariff`, {
           method: 'POST',
@@ -6981,6 +7345,9 @@
         } else {
           userBalanceVal = Math.max(0, userBalanceVal - amount);
         }
+        if (typeof data.slots_count === 'number') {
+          backendSlotsCount = data.slots_count;
+        }
       } catch (e) {
         console.error('payFromUserBalance error:', e);
         showToast('Ошибка соединения', 'Не удалось выполнить оплату. Проверьте подключение и попробуйте снова.', 'error');
@@ -6990,13 +7357,7 @@
 
       // 2. Persist verified balance & update dashboard UI
       localStorage.setItem('majorka_balance', userBalanceVal);
-
-      // INCREMENT SLOTS COUNT
-      if (userBotsList.length >= 1 || amount === 6490 || amount === 15900) {
-        userSlotsCount = Math.max(userSlotsCount + 1, (userBotsList ? userBotsList.length + 1 : 2), 2);
-      } else {
-        userSlotsCount = Math.max(userSlotsCount, 1);
-      }
+      userSlotsCount = backendSlotsCount !== null ? backendSlotsCount : Math.max(userSlotsCount, 1);
       localStorage.setItem('majorka_slots_count', userSlotsCount);
 
       const daysToAdd = amount === 1590 ? 7 : (amount === 15900 ? 90 : 30);
@@ -7123,15 +7484,33 @@
 
     async function submitSbpPaymentNotification() {
       const amount = Number(document.getElementById('modalPaymentSumInput')?.value) || 1590;
+      if (isGuestOrUnregistered()) {
+        closePaymentModal();
+        openGuestAuthGateModal(amount);
+        return;
+      }
       try {
-        await apiFetch(`${API_BASE}/api/manual_payment_request`, {
+        const res = await apiFetch(`${API_BASE}/api/manual_payment_request`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ chatId: currentChatId, amount: amount })
         });
-      } catch (e) {}
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.success === false) {
+          if (res.status === 401 || res.status === 403) {
+            closePaymentModal();
+            openGuestAuthGateModal(amount);
+            return;
+          }
+          showToast('Не удалось отправить заявку', data.error || 'Пожалуйста, отправьте чек напрямую в @chc332', 'error');
+          return;
+        }
+      } catch (e) {
+        showToast('Ошибка соединения', 'Не удалось связаться с сервером. Отправьте чек в Telegram @chc332', 'error');
+        return;
+      }
 
-      showToast('Заявка принята!', `Менеджер проверит перевод на сумму ${amount.toLocaleString('ru-RU')} ₽ и активирует доступ в течение 5-10 минут. Для ускорения отправьте чек в Telegram @avito_deployer_bot`, 'success');
+      showToast('Заявка принята!', `Менеджер проверит перевод на сумму ${amount.toLocaleString('ru-RU')} ₽ и активирует доступ в течение 5–10 минут. Для ускорения отправьте чек в @avito_deployer_bot`, 'success');
       closePaymentModal();
     }
 
@@ -7580,8 +7959,18 @@
       hapticClick('medium');
       amount = Number(amount) || 0;
 
+      if (isGuestOrUnregistered()) {
+        openGuestAuthGateModal(amount, tariffTitle);
+        return;
+      }
+
       if ((amount === 1590 || String(tariffTitle).includes('Пробный')) && userTrialUsed === 1) {
         showToast('Пробный доступ сгорел', 'Пробный доступ на 7 дней сгорает после первой покупки и доступен только новым клиентам. Выберите Полный доступ на 1 или 3 месяца.', 'warning');
+        return;
+      }
+
+      if (userBalanceVal < amount) {
+        openPaymentModal(amount, tariffTitle);
         return;
       }
 
@@ -8118,9 +8507,54 @@
       badgeEl.replaceChildren(dot, txt);
     }
 
+    function syncTelegramSettingsCardUI(isLinked, tgIdStr, hasEmailFallback, forwardEnabled) {
+      const tgIdEl = document.getElementById('settTgIdBadge');
+      if (tgIdEl) {
+        tgIdEl.innerText = isLinked ? ('ID ' + tgIdStr) : 'ID не привязан';
+      }
+      setSettingsBadgeState(document.getElementById('settTgStatusBadge'), isLinked, 'Подключён', 'Не привязан');
+
+      const tgBtn = document.getElementById('settTgActionBtn');
+      const isPrimaryTgAccount = /^\d+$/.test(String(currentChatId || ''));
+      if (tgBtn) {
+        if (!isLinked) {
+          tgBtn.dataset.tgState = 'unlinked';
+          tgBtn.innerText = 'Привязать Telegram';
+          tgBtn.className = 'w-full sm:w-auto min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold bg-[#229ED9]/15 hover:bg-[#229ED9]/25 text-[#64C4ED] border border-[#229ED9]/35 transition-all cursor-pointer shrink-0 whitespace-nowrap flex items-center justify-center gap-1.5';
+        } else if (!isPrimaryTgAccount) {
+          tgBtn.dataset.tgState = 'linked_secondary';
+          tgBtn.innerText = 'Отвязать';
+          tgBtn.className = 'btn-ghost w-full sm:w-auto min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold text-white/70 hover:text-white border border-white/10 hover:border-white/25 transition-all cursor-pointer shrink-0 whitespace-nowrap flex items-center justify-center gap-1.5';
+        } else {
+          tgBtn.dataset.tgState = 'linked_primary';
+          tgBtn.innerText = 'Основной вход';
+          tgBtn.className = 'w-full sm:w-auto min-h-[40px] px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/[0.04] text-zinc-400 border border-white/10 transition-all cursor-pointer shrink-0 whitespace-nowrap flex items-center justify-center gap-1.5';
+        }
+      }
+
+      const fwdCheck = document.getElementById('settForwardTgCheckbox');
+      const fwdRow = document.getElementById('settForwardTgRow');
+      if (fwdCheck) {
+        fwdCheck.disabled = !isLinked;
+        fwdCheck.checked = isLinked ? Boolean(forwardEnabled) : false;
+      }
+      if (fwdRow) {
+        fwdRow.classList.toggle('opacity-60', !isLinked);
+      }
+    }
+
     async function loadUserSettings() {
+      syncMobileMoreAuthUI();
       const targetChatId = currentChatId;
-      if (!targetChatId) {
+      if (!targetChatId || isGuestOrUnregistered()) {
+        const idEl = document.getElementById('settUserIdText');
+        if (idEl) idEl.innerText = isGuestOrUnregistered() ? 'Демо-гость (не зарегистрирован)' : (targetChatId || '—');
+        syncTelegramSettingsCardUI(false, '', false, false);
+        setSettingsBadgeState(document.getElementById('settGoogleBadge'), false, 'Указан', 'Не указан');
+        const gEmailEl = document.getElementById('settGoogleEmail');
+        if (gEmailEl) gEmailEl.innerText = 'Резервная почта и отчётность';
+        const gBtnEl = document.getElementById('settGoogleBtn');
+        if (gBtnEl) gBtnEl.innerText = 'Указать почту';
         updatePushNotificationUIState();
         return;
       }
@@ -8130,10 +8564,11 @@
         const data = await res.json();
         if (data.success && data.settings) {
           const s = data.settings;
+          const guestResp = Boolean(data.is_guest || s.is_guest);
           const idEl = document.getElementById('settUserIdText');
-          if (idEl) idEl.innerText = s.chatId || targetChatId;
+          if (idEl) idEl.innerText = guestResp ? 'Демо-гость (не зарегистрирован)' : (s.chatId || targetChatId);
 
-          const resolvedEmail = String(s.email || localStorage.getItem('majorka_userEmail') || '').trim();
+          const resolvedEmail = guestResp ? '' : String(s.email || localStorage.getItem('majorka_userEmail') || '').trim();
           const emailEl = document.getElementById('settEmailInput');
           if (emailEl && resolvedEmail) emailEl.value = resolvedEmail;
 
@@ -8150,31 +8585,24 @@
           const tgHandle = document.getElementById('settTgHandle');
           if (tgHandle) tgHandle.innerText = '@' + (s.telegram_bot_username || 'avito_deployer_bot');
 
-          const rawTgId = String(s.telegram_chat_id || targetChatId || '');
-          const isNumericTg = /^\d+$/.test(rawTgId) && !s.is_guest;
-          const tgIdEl = document.getElementById('settTgIdBadge');
-          if (tgIdEl) {
-            tgIdEl.innerText = isNumericTg ? ('ID ' + rawTgId) : 'ID не привязан';
-          }
-          setSettingsBadgeState(document.getElementById('settTgStatusBadge'), isNumericTg, 'Подключён', 'Не привязан');
-
+          const rawTgId = String(s.telegram_chat_id || (/^\d+$/.test(String(targetChatId)) ? targetChatId : '')).trim();
+          const isNumericTg = /^\d+$/.test(rawTgId) && !guestResp;
           const hasValidEmail = Boolean(resolvedEmail && resolvedEmail.includes('@'));
-          setSettingsBadgeState(document.getElementById('settGoogleBadge'), hasValidEmail, 'Привязан', 'Не привязан');
-          const gEmailEl = document.getElementById('settGoogleEmail');
-          if (gEmailEl) gEmailEl.innerText = hasValidEmail ? resolvedEmail : 'Вход в 1 клик';
-          const gBtnEl = document.getElementById('settGoogleBtn');
-          if (gBtnEl) gBtnEl.innerText = hasValidEmail ? 'Изменить' : 'Привязать';
+          syncTelegramSettingsCardUI(isNumericTg, rawTgId, hasValidEmail, s.forward_to_telegram);
 
-          const fwdCheck = document.getElementById('settForwardTgCheckbox');
-          if (fwdCheck) fwdCheck.checked = !!s.forward_to_telegram;
+          setSettingsBadgeState(document.getElementById('settGoogleBadge'), hasValidEmail, 'Указан', 'Не указан');
+          const gEmailEl = document.getElementById('settGoogleEmail');
+          if (gEmailEl) gEmailEl.innerText = hasValidEmail ? resolvedEmail : 'Резервная почта и отчётность';
+          const gBtnEl = document.getElementById('settGoogleBtn');
+          if (gBtnEl) gBtnEl.innerText = hasValidEmail ? 'Изменить' : 'Указать почту';
         }
       } catch (err) {
         console.warn('loadUserSettings error:', err);
-        const isNumericTg = /^\d+$/.test(String(targetChatId || ''));
-        setSettingsBadgeState(document.getElementById('settTgStatusBadge'), isNumericTg, 'Подключён', 'Не привязан');
+        const rawTgId = /^\d+$/.test(String(targetChatId || '')) ? String(targetChatId) : '';
         const cachedEmail = String(localStorage.getItem('majorka_userEmail') || '').trim();
         const hasEmail = Boolean(cachedEmail && cachedEmail.includes('@'));
-        setSettingsBadgeState(document.getElementById('settGoogleBadge'), hasEmail, 'Привязан', 'Не привязан');
+        syncTelegramSettingsCardUI(Boolean(rawTgId), rawTgId, hasEmail, Boolean(rawTgId));
+        setSettingsBadgeState(document.getElementById('settGoogleBadge'), hasEmail, 'Указан', 'Не указан');
         const gEmailEl = document.getElementById('settGoogleEmail');
         if (gEmailEl && hasEmail) gEmailEl.innerText = cachedEmail;
       }
@@ -8421,9 +8849,46 @@
       }
     }
 
-    function handleTgUnlinkClick() {
-      showToast('Привязка Telegram', 'Telegram-аккаунт надежно привязан к вашему профилю. Для смены аккаунта обратитесь в поддержку @chc332', 'info');
+    async function handleTgUnlinkClick() {
+      if (isGuestOrUnregistered()) {
+        openGuestAuthGateModal(6490, 'Привязка Telegram');
+        return;
+      }
+      const tgBtn = document.getElementById('settTgActionBtn');
+      const state = tgBtn?.dataset?.tgState || 'unlinked';
+      if (state === 'unlinked') {
+        window.open('https://t.me/avito_deployer_bot', '_blank', 'noopener,noreferrer');
+        showToast('Привязка Telegram', 'Откройте @avito_deployer_bot и нажмите Start — уведомления о заявках подключатся автоматически.', 'info');
+        return;
+      }
+      if (state === 'linked_primary') {
+        showToast('Основной аккаунт Telegram', 'Вы вошли напрямую через Telegram ID. Чтобы сменить аккаунт, укажите резервный Email ниже или напишите в @chc332.', 'info');
+        return;
+      }
+      try {
+        const res = await apiFetch(`${API_BASE}/api/user/unlink_telegram`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chatId: currentChatId })
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.success) {
+          showToast('Не удалось отвязать', data.error || 'Попробуйте снова или напишите в @chc332', 'warning');
+          return;
+        }
+        syncTelegramSettingsCardUI(false, '', true, false);
+        showToast('Telegram отвязан', 'Уведомления в Telegram отключены. Вы всегда можете привязать его снова.', 'success');
+      } catch (e) {
+        showToast('Ошибка сети', 'Не удалось выполнить запрос к серверу', 'error');
+      }
     }
+
+    window.isGuestOrUnregistered = isGuestOrUnregistered;
+    window.openGuestAuthGateModal = openGuestAuthGateModal;
+    window.closeGuestAuthGateModal = closeGuestAuthGateModal;
+    window.proceedFromGuestGateToAuth = proceedFromGuestGateToAuth;
+    window.validateYooMoneySubmit = validateYooMoneySubmit;
+    window.handleMobileMoreAuthAction = handleMobileMoreAuthAction;
 
     // Expose all interactive functions to global window scope
     window.hapticClick = hapticClick;
