@@ -24,7 +24,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" media="print" onload="this.media='all'" />
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" /></noscript>
-  <script defer src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
   <script>
     tailwind.config = {
@@ -234,6 +234,14 @@
     .bnav-btn.bnav-active span.material-symbols-outlined {
       filter: none !important;
     }
+    /* Telegram Mini App viewport & gesture adaptation */
+    body.tg-miniapp {
+      min-height: var(--tg-viewport-stable-height, 100dvh);
+      overscroll-behavior-y: none;
+    }
+    body.tg-miniapp main {
+      padding-bottom: calc(6.5rem + env(safe-area-inset-bottom, 0px));
+    }
 
     /* Tabular numbers for balances, prices, counters, and telemetry */
     .tabular-nums,
@@ -435,7 +443,7 @@
   </header>
 
   <!-- MAIN CONTAINER -->
-  <main class="flex-1 max-w-[1280px] w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 pb-28 md:pb-12 space-y-5 sm:space-y-8">
+  <main class="flex-1 max-w-[1280px] w-full mx-auto px-3 sm:px-6 py-4 sm:py-8 pb-28 lg:pb-12 space-y-5 sm:space-y-8">
 
     <!-- GUEST DEMO NOTICE BANNER (Only visible for guests) -->
     <div id="guestDemoBanner" class="hidden p-3.5 sm:p-4 rounded-2xl bg-brand-gold/[0.06] border border-brand-gold/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-lg">
@@ -3965,13 +3973,16 @@
     }
 
     let tg = window.Telegram?.WebApp;
+    const isTelegramMiniApp = Boolean(tg && (tg.initData || tg.platform && tg.platform !== 'unknown'));
     if (tg) {
       try {
         tg.ready();
         tg.expand();
         if (tg.setHeaderColor) tg.setHeaderColor('#121214');
         if (tg.setBackgroundColor) tg.setBackgroundColor('#121214');
+        if (tg.disableVerticalSwipes) tg.disableVerticalSwipes();
         if (tg.enableClosingConfirmation) tg.enableClosingConfirmation();
+        if (isTelegramMiniApp) document.body.classList.add('tg-miniapp');
       } catch (e) {}
     }
 
@@ -3983,7 +3994,16 @@
     }
 
     const paramChatId = isForcedGuest ? null : urlParams.get('chatId');
+    const paramToken = isForcedGuest ? null : (urlParams.get('token') || '').trim();
     const tgUser = isForcedGuest ? null : tg?.initDataUnsafe?.user;
+    const initSecBoot = cookieSecurityAttr();
+    const bootMaxAge = 365 * 24 * 3600;
+    if (paramToken) {
+      try {
+        localStorage.setItem('session_token', paramToken);
+        document.cookie = `session_token=${encodeURIComponent(paramToken)}; max-age=${bootMaxAge}; path=/; SameSite=Lax${initSecBoot}`;
+      } catch (e) {}
+    }
 
     // Helper: read cookie
     function getCookie(name) {
@@ -3993,12 +4013,12 @@
 
     // Secure multi-tenant resolution (server-verified before privileged actions):
     // 1. Telegram WebApp user (verified via /api/auth/telegram_session)
-    // 2. Saved authenticated session (verified via /api/auth/me)
+    // 2. Saved authenticated session or URL token (verified via /api/auth/me)
     // 3. Clean URL param (chatId, also verified via /api/auth/me unless client_ guest)
     // 4. Clean guest session client_XXXXXX
     const cookieChatId = getCookie('userChatId') || getCookie('majorka_chatId');
     const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId') || cookieChatId;
-    const savedToken = localStorage.getItem('session_token') || getCookie('session_token');
+    const savedToken = paramToken || localStorage.getItem('session_token') || getCookie('session_token');
 
     if (tgUser?.id) {
       currentChatId = String(tgUser.id);
@@ -4013,6 +4033,14 @@
         localStorage.setItem('majorka_guest_id', savedGuest);
       }
       currentChatId = savedGuest;
+    }
+
+    // Strip raw token from address bar immediately while preserving chatId & tab
+    if (paramToken && window.history?.replaceState) {
+      const cleanParams = new URLSearchParams(window.location.search);
+      cleanParams.delete('token');
+      const qs = cleanParams.toString();
+      window.history.replaceState({}, '', window.location.pathname + (qs ? `?${qs}` : '') + (window.location.hash || ''));
     }
 
     // Isolate browser state across different accounts
