@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Инструкция «Сотрудники» Авито PRO — Безопасное подключение | MAJORKA</title>
-  <meta name="description" content="Пошаговая инструкция безопасного подключения магазина через раздел «Сотрудники» Авито PRO и подробный разбор: что сломается, если нажать неправильно.">
+  <meta name="description" content="Пошаговая инструкция со скриншотами по безопасному подключению магазина через раздел «Сотрудники» Авито PRO: 5 шагов, разбор 7 частых ошибок и чек-лист.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'self'; form-action 'self'; object-src 'none'">
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@600;700&display=swap" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" crossorigin="anonymous">
   <link rel="stylesheet" href="./guide_styles.css">
   <script src="./guide_app.js" defer></script>
 </head>
@@ -17,16 +18,29 @@
 
   <header class="site-header" id="top">
     <div class="container header-inner">
-      <a class="brand" href="./dashboard.html" aria-label="MAJORKA — в Личный кабинет">
-        <span class="brand-mark" aria-hidden="true">M</span>
-        <span class="brand-name">MAJORKA</span>
+      <a class="brand" href="./dashboard.html" aria-label="MAJORKA — вернуться на главную">
+        <svg class="brand-emblem" viewBox="0 0 36 36" width="36" height="36" fill="none" aria-hidden="true" focusable="false">
+          <path d="M10 1H26L35 10V26L26 35H10L1 26V10L10 1Z" fill="#111215"/>
+          <path d="M10.7 2.8H25.3L33.2 10.7V25.3L25.3 33.2H10.7L2.8 25.3V10.7L10.7 2.8Z" stroke="#2D313B" stroke-width="1"/>
+          <path d="M8 27V12.2H12.1L18 20.4L23.9 12.2H28V27H24V18.3L18 26.5L12 18.3V27H8Z" fill="#FFFFFF"/>
+          <path d="M18 20.4L23.9 12.2H28V27H24V18.3L18 26.5V20.4Z" fill="#E3E6EE"/>
+          <polygon points="18,5.8 22.4,10.2 18,14.6 13.6,10.2" fill="#FFDD2D"/>
+          <polygon points="18,10.2 22.4,10.2 18,14.6" fill="#F2C900"/>
+        </svg>
+        <span class="brand-wordmark">
+          <span class="brand-name">MAJORKA</span>
+          <span class="brand-sub">Система продаж для Авито</span>
+        </span>
       </a>
-      <nav class="site-nav" aria-label="Навигация по разделам">
-        <a class="nav-link" href="#steps">5 шагов</a>
-        <a class="nav-link is-active" href="employee-guide.html" aria-current="page">Инструкция «Сотрудники»</a>
-        <a class="nav-link" href="#broken-settings">Что сломается</a>
-        <a class="nav-link" href="#guide-checklist">Чек-лист</a>
+
+      <nav class="site-nav" aria-label="Основная навигация">
+        <a class="nav-link" href="#steps">Как устроено</a>
+        <a class="nav-link is-active" href="employee-guide.html" aria-current="page">Безопасность PRO</a>
+        <a class="nav-link" href="#broken-settings">Тарифы</a>
+        <a class="nav-link" href="./dashboard.html">Партнёрам</a>
+        <a class="nav-link" href="#guide-checklist">Вопросы</a>
       </nav>
+
       <div class="header-actions">
         <a class="btn btn-primary btn-sm" href="./dashboard.html">Личный кабинет</a>
       </div>
@@ -39,29 +53,31 @@
         <div class="guide-hero-content">
           <a class="breadcrumb-link" href="./dashboard.html">← Вернуться в Личный Кабинет</a>
           <h1 id="guide-hero-heading">Безопасное подключение через «Сотрудники» Авито PRO</h1>
-          <p class="guide-hero-lead">Вам не нужно отдавать пароль от основного профиля, доступ к кошельку, оплате тарифов или чату с поддержкой Авито. Достаточно создать группу сотрудника только с двумя правами — просмотром объявлений и работой в чатах с покупателями.</p>
+          <p class="guide-hero-lead">Вам не нужно передавать пароль от основного профиля, доступ к кошельку, оплате тарифов или чату с поддержкой Авито. Создайте группу сотрудника только с двумя рабочими правами — просмотром объявлений компании и ответами покупателям в чатах.</p>
           <div class="guide-actions">
             <a class="btn btn-primary" href="#steps">Смотреть 5 шагов</a>
-            <a class="btn btn-secondary" href="#broken-settings">Что сломается при ошибке</a>
-            <a class="btn btn-ghost" href="#guide-checklist">Проверить себя</a>
+            <a class="btn btn-secondary" href="#broken-settings">7 частых ошибок</a>
+            <a class="btn btn-ghost" href="#guide-checklist">Чек-лист готовности</a>
           </div>
         </div>
 
-        <div class="guide-summary-strip" aria-label="Кратко о настройке">
+        <div class="guide-summary-strip" aria-label="Ключевые параметры подключения">
           <article class="stat-card">
             <div class="stat-value">~2 минуты</div>
             <div class="stat-title">Время настройки</div>
-            <p class="stat-desc">Пять простых шагов в кабинете Авито PRO без передачи основного пароля.</p>
+            <p class="stat-desc">Пять последовательных шагов в кабинете Авито PRO без передачи основного пароля.</p>
           </article>
+
           <article class="stat-card">
-            <div class="stat-value">Закрыто</div>
-            <div class="stat-title">Деньги и редактирование</div>
-            <p class="stat-desc">Кошелёк, тариф, бронирования и правка ваших объявлений полностью отключены.</p>
+            <div class="stat-value">Изолировано</div>
+            <div class="stat-title">Кошелёк и карточки</div>
+            <p class="stat-desc">Баланс, платные услуги, бронирования и редактирование ваших объявлений полностью закрыты.</p>
           </article>
+
           <article class="stat-card">
-            <div class="stat-value">Много магазинов</div>
-            <div class="stat-title">Поддержка всех филиалов</div>
-            <p class="stat-desc">Каждый магазин подключается отдельно со своим списком товаров и правилами.</p>
+            <div class="stat-value">Мульти-магазины</div>
+            <div class="stat-title">Для любого числа филиалов</div>
+            <p class="stat-desc">Каждый магазин подключается отдельной ссылкой со своим каталогом товаров и правилами доставки.</p>
           </article>
         </div>
       </div>
@@ -71,38 +87,39 @@
       <div class="container">
         <div class="section-head">
           <h2 id="steps-heading">5 шагов настройки в Авито PRO</h2>
+          <p>Нажмите на любой скриншот, чтобы открыть его в полном размере.</p>
         </div>
 
         <ol class="guide-steps">
           <li class="guide-step guide-step-full" id="step-1">
             <div class="guide-step-body">
               <div class="guide-step-head">
-                <span class="guide-step-num" aria-hidden="true">1</span>
+                <span class="guide-step-num" aria-hidden="true">01</span>
                 <h3><span class="visually-hidden">Шаг 1. </span>Перейдите во вкладку «Главное»</h3>
               </div>
-              <p>Нажмите на вашу аватарку (профиль) в правом верхнем углу сайта Авито и откройте вкладку <strong>«Главное»</strong> — откроется кабинет Авито PRO с левым меню магазина.</p>
+              <p>Нажмите на иконку вашего профиля в правом верхнем углу сайта Авито и выберите вкладку <strong>«Главное»</strong> — откроется кабинет Авито PRO с боковым меню магазина.</p>
             </div>
           </li>
 
           <li class="guide-step" id="step-2">
             <div class="guide-step-body">
               <div class="guide-step-head">
-                <span class="guide-step-num" aria-hidden="true">2</span>
+                <span class="guide-step-num" aria-hidden="true">02</span>
                 <h3><span class="visually-hidden">Шаг 2. </span>Откройте «Профиль и настройки» → «Сотрудники» → «Пригласить сотрудников»</h3>
               </div>
               <ul class="feature-list">
                 <li>В левом нижнем меню нажмите <strong>«Профиль и настройки»</strong>.</li>
-                <li>Во всплывающем списке выберите пункт <strong>«Сотрудники»</strong>.</li>
-                <li>В центре экрана нажмите синюю кнопку <strong>«Пригласить сотрудников»</strong>.</li>
+                <li>В раскрывшемся списке выберите раздел <strong>«Сотрудники»</strong>.</li>
+                <li>В центральной области экрана нажмите кнопку <strong>«Пригласить сотрудников»</strong>.</li>
               </ul>
             </div>
             <div class="guide-step-media">
               <figure class="guide-figure">
                 <button type="button" class="guide-zoom-btn" aria-label="Увеличить скриншот: Шаг 2 — Профиль и настройки, Сотрудники и Пригласить сотрудников">
                   <img class="guide-img" src="assets/guide/step2_employees_menu.png" alt="Шаг 2: Профиль и настройки, раздел Сотрудники и кнопка Пригласить сотрудников в Авито PRO" width="680" height="431" loading="eager" decoding="async" data-full-src="assets/guide/step2_employees_menu.png" data-caption="Шаг 2: Профиль и настройки → Сотрудники → Пригласить сотрудников">
-                  <span class="guide-zoom-hint">Открыть крупнее</span>
+                  <span class="guide-zoom-hint">Нажмите, чтобы увеличить скриншот</span>
                 </button>
-                <figcaption>Порядок нажатия: 1. Профиль и настройки → 2. Сотрудники → 3. Пригласить сотрудников.</figcaption>
+                <figcaption>Маршрут в меню: 1. Профиль и настройки → 2. Сотрудники → 3. Пригласить сотрудников.</figcaption>
               </figure>
             </div>
           </li>
@@ -110,21 +127,21 @@
           <li class="guide-step" id="step-3">
             <div class="guide-step-body">
               <div class="guide-step-head">
-                <span class="guide-step-num" aria-hidden="true">3</span>
+                <span class="guide-step-num" aria-hidden="true">03</span>
                 <h3><span class="visually-hidden">Шаг 3. </span>Нажмите «Создать группу»</h3>
               </div>
               <p>В блоке <strong>«Группы»</strong> нажмите кнопку <strong>«Создать группу»</strong>.</p>
               <div class="guide-note">
-                <p><strong>Важно:</strong> сначала создайте группу с правами, и только потом копируйте ссылку-приглашение.</p>
+                <p><strong>Важно:</strong> сначала создайте и сохраните группу с нужными правами, и только после этого копируйте ссылку приглашения.</p>
               </div>
             </div>
             <div class="guide-step-media">
               <figure class="guide-figure">
                 <button type="button" class="guide-zoom-btn" aria-label="Увеличить скриншот: Шаг 3 — Кнопка Создать группу">
                   <img class="guide-img" src="assets/guide/step3_create_group.png" alt="Шаг 3: Кнопка Создать группу в блоке Группы в Авито PRO" width="565" height="436" loading="lazy" decoding="async" data-full-src="assets/guide/step3_create_group.png" data-caption="Шаг 3: В блоке «Группы» нажмите «Создать группу»">
-                  <span class="guide-zoom-hint">Открыть крупнее</span>
+                  <span class="guide-zoom-hint">Нажмите, чтобы увеличить скриншот</span>
                 </button>
-                <figcaption>Группа заранее ограничивает доступ только нужными действиями.</figcaption>
+                <figcaption>Группа заранее задаёт строгие рамки доступа для нового сотрудника.</figcaption>
               </figure>
             </div>
           </li>
@@ -132,8 +149,8 @@
           <li class="guide-step guide-step-full" id="step-4">
             <div class="guide-step-body">
               <div class="guide-step-head">
-                <span class="guide-step-num" aria-hidden="true">4</span>
-                <h3><span class="visually-hidden">Шаг 4. </span>Настройте права группы (2 экрана: Объявления и Чаты/Финансы)</h3>
+                <span class="guide-step-num" aria-hidden="true">04</span>
+                <h3><span class="visually-hidden">Шаг 4. </span>Задайте права группы (верхний и нижний экраны настроек)</h3>
               </div>
 
               <div class="guide-substeps">
@@ -141,8 +158,8 @@
                   <div class="guide-substep-text">
                     <h4>Экран 4.1 — Верхняя часть: блок «Объявления»</h4>
                     <ul class="feature-list">
-                      <li><strong>ВКЛЮЧИТЬ:</strong> тумблер <strong>«Просмотр всех объявлений компании»</strong> (чтобы менеджер видел ваши товары, описания и цены).</li>
-                      <li><strong>СНЯТЬ ОБЕ ГАЛОЧКИ:</strong> <strong>«Продвижение объявлений коллег»</strong> и <strong>«Редактирование объявлений коллег»</strong> оставьте пустыми.</li>
+                      <li><strong>ВКЛЮЧИТЬ:</strong> тумблер <strong>«Просмотр всех объявлений компании»</strong> (чтобы менеджер знал ваши товары, цены и описания).</li>
+                      <li><strong>СНЯТЬ ОБЕ ГАЛОЧКИ:</strong> пункты <strong>«Продвижение объявлений коллег»</strong> и <strong>«Редактирование объявлений коллег»</strong> оставьте пустыми.</li>
                       <li><strong>ВЫКЛЮЧЕНО:</strong> тумблер <strong>«Продвижение объявлений за свой счёт»</strong>.</li>
                     </ul>
                   </div>
@@ -150,7 +167,7 @@
                     <figure class="guide-figure">
                       <button type="button" class="guide-zoom-btn" aria-label="Увеличить скриншот: Шаг 4.1 — Настройка прав в блоке Объявления">
                         <img class="guide-img" src="assets/guide/step4a_perms_top.png" alt="Шаг 4.1: Настройка прав в блоке Объявления — включён только просмотр, галочки сняты" width="450" height="867" loading="lazy" decoding="async" data-full-src="assets/guide/step4a_perms_top.png" data-caption="Шаг 4.1: Включите «Просмотр всех объявлений компании» и снимите обе галочки ниже">
-                        <span class="guide-zoom-hint">Открыть крупнее</span>
+                        <span class="guide-zoom-hint">Нажмите, чтобы увеличить скриншот</span>
                       </button>
                       <figcaption>Включён только просмотр объявлений компании; галочки редактирования и продвижения сняты.</figcaption>
                     </figure>
@@ -161,16 +178,16 @@
                   <div class="guide-substep-text">
                     <h4>Экран 4.2 — Нижняя часть: блоки «Чаты», «Аналитика» и «Финансы»</h4>
                     <ul class="feature-list">
-                      <li>Прокрутите вниз и <strong>ОБЯЗАТЕЛЬНО ВКЛЮЧИТЕ</strong> тумблер <strong>«Доступ ко всем чатам»</strong> (чат с поддержкой Авито в любом случае виден только владельцу).</li>
+                      <li>Прокрутите страницу ниже и <strong>ОБЯЗАТЕЛЬНО ВКЛЮЧИТЕ</strong> тумблер <strong>«Доступ ко всем чатам»</strong> (переписка с поддержкой Авито в любом случае видна только владельцу).</li>
                       <li><strong>ВЫКЛЮЧЕНЫ:</strong> <strong>«Управление бронированиями жилья»</strong>, раздел <strong>«Аналитика»</strong> и <strong>«Финансы → Работа с тарифом»</strong>.</li>
-                      <li>Нажмите чёрную кнопку <strong>«Продолжить»</strong> и сохраните группу.</li>
+                      <li>Нажмите кнопку <strong>«Продолжить»</strong> и сохраните созданную группу.</li>
                     </ul>
                   </div>
                   <div class="guide-step-media">
                     <figure class="guide-figure">
                       <button type="button" class="guide-zoom-btn" aria-label="Увеличить скриншот: Шаг 4.2 — Настройка прав в блоке Чаты и Финансы">
                         <img class="guide-img" src="assets/guide/step4b_perms_bot.png" alt="Шаг 4.2: Настройка прав в блоке Чаты и Финансы — Доступ ко всем чатам включён, Финансы выключены" width="461" height="865" loading="lazy" decoding="async" data-full-src="assets/guide/step4b_perms_bot.png" data-caption="Шаг 4.2: Включите «Доступ ко всем чатам», а «Финансы → Работа с тарифом» оставьте выключенным">
-                        <span class="guide-zoom-hint">Открыть крупнее</span>
+                        <span class="guide-zoom-hint">Нажмите, чтобы увеличить скриншот</span>
                       </button>
                       <figcaption>Включён «Доступ ко всем чатам», а «Финансы → Работа с тарифом» оставлен выключенным.</figcaption>
                     </figure>
@@ -183,21 +200,21 @@
           <li class="guide-step" id="step-5">
             <div class="guide-step-body">
               <div class="guide-step-head">
-                <span class="guide-step-num" aria-hidden="true">5</span>
-                <h3><span class="visually-hidden">Шаг 5. </span>Скопируйте ссылку и отправьте в Личный Кабинет</h3>
+                <span class="guide-step-num" aria-hidden="true">05</span>
+                <h3><span class="visually-hidden">Шаг 5. </span>Скопируйте ссылку и вставьте в Личный кабинет</h3>
               </div>
-              <p>В блоке <strong>«Приглашение для новых сотрудников»</strong> нажмите <strong>«Скопировать ссылку»</strong> и вставьте её при подключении магазина в Личном Кабинете MAJORKA.</p>
+              <p>В блоке <strong>«Приглашение для новых сотрудников»</strong> нажмите <strong>«Скопировать ссылку»</strong> и вставьте её на шаге подключения магазина в Личном кабинете MAJORKA.</p>
               <div class="guide-note">
-                <p><strong>Важно:</strong> не нажимайте кнопку <strong>«Обновить»</strong> после отправки ссылки — иначе старая ссылка сразу перестанет действовать.</p>
+                <p><strong>Важно:</strong> не нажимайте кнопку <strong>«Обновить»</strong> рядом со ссылкой после отправки — иначе переданная ссылка сразу станет недействительной.</p>
               </div>
             </div>
             <div class="guide-step-media">
               <figure class="guide-figure">
                 <button type="button" class="guide-zoom-btn" aria-label="Увеличить скриншот: Шаг 5 — Кнопка Скопировать ссылку">
-                  <img class="guide-img" src="assets/guide/step5_copy_link.png" alt="Шаг 5: Кнопка Скопировать ссылку для приглашения сотрудника и вставка в Личный кабинет MAJORKA" width="764" height="690" loading="lazy" decoding="async" data-full-src="assets/guide/step5_copy_link.png" data-caption="Шаг 5: Нажмите «Скопировать ссылку» и вставьте её в Личный Кабинет MAJORKA">
-                  <span class="guide-zoom-hint">Открыть крупнее</span>
+                  <img class="guide-img" src="assets/guide/step5_copy_link.png" alt="Шаг 5: Кнопка Скопировать ссылку для приглашения сотрудника и вставка в Личный кабинет MAJORKA" width="764" height="690" loading="lazy" decoding="async" data-full-src="assets/guide/step5_copy_link.png" data-caption="Шаг 5: Нажмите «Скопировать ссылку» и вставьте её в Личный кабинет MAJORKA">
+                  <span class="guide-zoom-hint">Нажмите, чтобы увеличить скриншот</span>
                 </button>
-                <figcaption>Нажмите «Скопировать ссылку» и вставьте её в Личный Кабинет, не нажимая «Обновить».</figcaption>
+                <figcaption>Нажмите «Скопировать ссылку» и вставьте её в Личный кабинет, не нажимая «Обновить».</figcaption>
               </figure>
             </div>
           </li>
@@ -205,54 +222,54 @@
       </div>
     </section>
 
-    <section id="broken-settings" class="section" aria-labelledby="broken-settings-heading">
+    <section id="broken-settings" class="section section-surface" aria-labelledby="broken-settings-heading">
       <div class="container">
         <div class="section-head">
           <h2 id="broken-settings-heading">Что сломается, если что-то нажать неправильно</h2>
-          <p>Если часть функций не работает или ответы не уходят покупателям, проверьте эти 7 пунктов.</p>
+          <p>Если подключение не завершается или покупателям не уходят ответы, сверьте эти 7 частых ошибок.</p>
         </div>
 
         <div class="mistakes-grid">
           <article class="mistake-card">
             <h3>Выключен тумблер «Доступ ко всем чатам»</h3>
-            <p class="mistake-impact"><strong>Что сломается:</strong> сервис вообще не увидит входящие сообщения покупателей и не сможет отвечать в диалогах.</p>
+            <p class="mistake-impact"><strong>Что сломается:</strong> менеджер не увидит входящие сообщения покупателей и не сможет отправлять ответы в диалогах.</p>
             <p class="mistake-fix"><strong>Как исправить:</strong> откройте настройки созданной группы и включите тумблер «Доступ ко всем чатам».</p>
           </article>
 
           <article class="mistake-card">
             <h3>Выключен тумблер «Просмотр всех объявлений компании»</h3>
-            <p class="mistake-impact"><strong>Что сломается:</strong> менеджер не сможет открыть карточки ваших товаров — пропадёт знание точных цен, наличия и описаний из объявлений.</p>
+            <p class="mistake-impact"><strong>Что сломается:</strong> закроется доступ к карточкам ваших товаров — пропадёт знание актуальных цен, размеров и описаний из объявлений.</p>
             <p class="mistake-fix"><strong>Как исправить:</strong> включите «Просмотр всех объявлений компании» в блоке «Объявления».</p>
           </article>
 
           <article class="mistake-card">
             <h3>Оставлены галочки «Редактирование» или «Продвижение объявлений коллег»</h3>
-            <p class="mistake-impact"><strong>Последствие:</strong> открываются лишние права на снятие, изменение объявлений и подключение платных услуг. Для ответов в чатах это не нужно.</p>
-            <p class="mistake-fix"><strong>Как исправить:</strong> снимите обе галочки внутри подсписка (квадратики должны быть пустыми).</p>
+            <p class="mistake-impact"><strong>Последствие:</strong> группе открываются лишние права на изменение карточек и подключение платных услуг, не нужные для общения в чатах.</p>
+            <p class="mistake-fix"><strong>Как исправить:</strong> снимите обе галочки внутри подсписка, чтобы квадратики оставались пустыми.</p>
           </article>
 
           <article class="mistake-card">
             <h3>Включены «Финансы → Работа с тарифом» или «Управление бронированиями жилья»</h3>
-            <p class="mistake-impact"><strong>Последствие:</strong> появляется лишний доступ к пополнению тарифа из кошелька компании и выводу денег при бронированиях.</p>
-            <p class="mistake-fix"><strong>Как исправить:</strong> держите оба тумблера выключенными.</p>
+            <p class="mistake-impact"><strong>Последствие:</strong> открывается лишний доступ к списаниям из кошелька компании и операциям с бронированиями.</p>
+            <p class="mistake-fix"><strong>Как исправить:</strong> оставьте оба тумблера в выключенном положении.</p>
           </article>
 
           <article class="mistake-card">
             <h3>Пропущен шаг «Создать группу» (скопировали ссылку сразу)</h3>
-            <p class="mistake-impact"><strong>Что сломается:</strong> приглашение сработает, но у сотрудника будут закрыты объявления и чаты, пока права не зададут вручную.</p>
-            <p class="mistake-fix"><strong>Как исправить:</strong> создайте группу по Шагу 4 и добавьте в неё подключённого сотрудника.</p>
+            <p class="mistake-impact"><strong>Что сломается:</strong> сотрудник добавится без группы, и у него останутся закрытыми объявления и чаты до ручной выдачи прав.</p>
+            <p class="mistake-fix"><strong>Как исправить:</strong> создайте группу по Шагу 4 и перенесите в неё подключённого сотрудника.</p>
           </article>
 
           <article class="mistake-card">
-            <h3>Нажали кнопку «Обновить» после отправки ссылки в Личный Кабинет</h3>
-            <p class="mistake-impact"><strong>Что сломается:</strong> старая ссылка моментально перестаёт действовать, и подключение не завершится.</p>
-            <p class="mistake-fix"><strong>Как исправить:</strong> снова нажмите «Скопировать ссылку» и отправьте новую ссылку в Личном Кабинете.</p>
+            <h3>Нажали кнопку «Обновить» после отправки ссылки в Личный кабинет</h3>
+            <p class="mistake-impact"><strong>Что сломается:</strong> предыдущая ссылка приглашения мгновенно аннулируется, и подключение магазина не пройдёт.</p>
+            <p class="mistake-fix"><strong>Как исправить:</strong> нажмите «Скопировать ссылку» ещё раз и передайте актуальную ссылку в Личном кабинете.</p>
           </article>
 
           <article class="mistake-card">
-            <h3>Сотрудника удалили из раздела «Сотрудники» или позже отключили права группы</h3>
-            <p class="mistake-impact"><strong>Что сломается:</strong> доступ мгновенно закроется, и ответы покупателям полностью остановятся.</p>
-            <p class="mistake-fix"><strong>Как исправить:</strong> проверьте список сотрудников и права группы в Авито PRO или напишите в поддержку <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer">@chc332</a>.</p>
+            <h3>Сотрудника удалили из списка или позже сняли права у группы</h3>
+            <p class="mistake-impact"><strong>Что сломается:</strong> доступ к чатам магазина закроется, и ответы покупателям сразу прекратятся.</p>
+            <p class="mistake-fix"><strong>Как исправить:</strong> проверьте раздел «Сотрудники» в Авито PRO или напишите в поддержку <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer">@chc332</a>.</p>
           </article>
         </div>
       </div>
@@ -263,7 +280,7 @@
         <div id="guide-checklist" class="checklist-card">
           <div class="section-head">
             <h2 id="checklist-heading">Самопроверка перед отправкой ссылки</h2>
-            <p>Отметьте все 6 пунктов, чтобы убедиться, что всё настроено правильно.</p>
+            <p>Отметьте все 6 пунктов, чтобы убедиться в правильной настройке прав группы.</p>
           </div>
 
           <div class="checklist-items">
@@ -297,8 +314,8 @@
             <p id="checklist-status" class="checklist-status" aria-live="polite">Готовность: 0 из 6</p>
 
             <div class="cta-row">
-              <a class="btn btn-primary" href="./dashboard.html">Перейти в Личный Кабинет</a>
-              <a class="btn btn-secondary" href="https://t.me/chc332" target="_blank" rel="noopener noreferrer">Помощь в Telegram @chc332</a>
+              <a class="btn btn-primary" href="./dashboard.html">Перейти в Личный кабинет</a>
+              <a class="btn btn-secondary" href="https://t.me/chc332" target="_blank" rel="noopener noreferrer">Помощь 24/7 @chc332</a>
             </div>
           </div>
         </div>
@@ -321,26 +338,38 @@
 
   <footer class="site-footer">
     <div class="container footer-inner">
-      <div>
-        <a class="brand" href="./dashboard.html" aria-label="MAJORKA — в Личный кабинет">
-          <span class="brand-mark" aria-hidden="true">M</span>
-          <span class="brand-name">MAJORKA</span>
+      <div class="footer-brand-col">
+        <a class="brand" href="./dashboard.html" aria-label="MAJORKA — вернуться на главную">
+          <svg class="brand-emblem" viewBox="0 0 36 36" width="36" height="36" fill="none" aria-hidden="true" focusable="false">
+            <path d="M10 1H26L35 10V26L26 35H10L1 26V10L10 1Z" fill="#111215"/>
+            <path d="M10.7 2.8H25.3L33.2 10.7V25.3L25.3 33.2H10.7L2.8 25.3V10.7L10.7 2.8Z" stroke="#2D313B" stroke-width="1"/>
+            <path d="M8 27V12.2H12.1L18 20.4L23.9 12.2H28V27H24V18.3L18 26.5L12 18.3V27H8Z" fill="#FFFFFF"/>
+            <path d="M18 20.4L23.9 12.2H28V27H24V18.3L18 26.5V20.4Z" fill="#E3E6EE"/>
+            <polygon points="18,5.8 22.4,10.2 18,14.6 13.6,10.2" fill="#FFDD2D"/>
+            <polygon points="18,10.2 22.4,10.2 18,14.6" fill="#F2C900"/>
+          </svg>
+          <span class="brand-wordmark">
+            <span class="brand-name">MAJORKA</span>
+            <span class="brand-sub">Система продаж для Авито</span>
+          </span>
         </a>
-        <p class="footer-tagline">Личный менеджер продаж 24/7 для магазинов на Авито.</p>
+        <p class="footer-tagline">Круглосуточный личный менеджер продаж для магазинов и авитологов на Авито.</p>
       </div>
 
       <div class="footer-links">
         <div class="footer-col">
-          <h2>Сервис</h2>
-          <a href="employee-guide.html" aria-current="page">Инструкция «Сотрудники»</a>
+          <h2>Платформа</h2>
+          <a href="#steps">Как устроено</a>
+          <a href="employee-guide.html" aria-current="page">Инструкция «Сотрудники» PRO</a>
           <a href="./dashboard.html">Личный кабинет</a>
-          <a href="https://t.me/avito_deployer_bot" target="_blank" rel="noopener noreferrer">Telegram-бот</a>
+          <a href="https://t.me/avito_deployer_bot" target="_blank" rel="noopener noreferrer">Telegram @avito_deployer_bot</a>
         </div>
+
         <div class="footer-col">
           <h2>Документы и поддержка</h2>
           <a href="./oferta.html" target="_blank" rel="noopener noreferrer">Публичная оферта</a>
           <a href="./privacy.html" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
-          <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer">Поддержка @chc332</a>
+          <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer">Поддержка 24/7 @chc332</a>
           <button type="button" class="btn btn-ghost btn-sm copy-btn" data-copy-text="@chc332">Скопировать @chc332</button>
         </div>
       </div>
