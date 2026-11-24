@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="36" height="36" fill="none">
+  <path d="M10 1H26L35 10V26L26 35H10L1 26V10L10 1Z" fill="#111215"/>
+  <path d="M10.7 2.8H25.3L33.2 10.7V25.3L25.3 33.2H10.7L2.8 25.3V10.7L10.7 2.8Z" stroke="#2D313B" stroke-width="1"/>
+  <path d="M8 27V12.2H12.1L18 20.4L23.9 12.2H28V27H24V18.3L18 26.5L12 18.3V27H8Z" fill="#FFFFFF"/>
+  <path d="M18 20.4L23.9 12.2H28V27H24V18.3L18 26.5V20.4Z" fill="#E3E6EE"/>
+  <polygon points="18,5.8 22.4,10.2 18,14.6 13.6,10.2" fill="#FFDD2D"/>
+  <polygon points="18,10.2 22.4,10.2 18,14.6" fill="#F2C900"/>
+</svg>
