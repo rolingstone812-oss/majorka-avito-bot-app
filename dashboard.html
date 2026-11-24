@@ -1315,6 +1315,32 @@
             </div>
           </div>
 
+          <!-- ОБЯЗАТЕЛЬНО К ПРОЧТЕНИЮ ПЕРЕД ПОДКЛЮЧЕНИЕМ -->
+          <div id="chainGuideMandatoryBlock" class="p-4 sm:p-5 rounded-2xl bg-[#16161B] border border-white/15 space-y-3">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="space-y-1.5">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/15 text-gold border border-gold/30 text-[10px] font-extrabold uppercase tracking-wider">
+                  <span class="material-symbols-outlined text-xs" aria-hidden="true">priority_high</span>
+                  <span>Обязательно к прочтению</span>
+                </div>
+                <h4 class="font-outfit font-bold text-sm sm:text-base text-white">Перед подключением прочитайте инструкцию (5 шагов и 7 частых ошибок)</h4>
+                <p class="text-xs text-white/75 leading-relaxed max-w-2xl">
+                  В инструкции со скриншотами показано, какие права нужно включить при подключении через «Сотрудники», почему нельзя нажимать кнопку «Обновить» у ссылки приглашения и <strong>что сломается, если пропустить нужный переключатель</strong>.
+                </p>
+              </div>
+              <div class="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-2 shrink-0">
+                <a href="./employee-guide.html" target="_blank" rel="noopener noreferrer" class="btn-gold px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap">
+                  <span class="material-symbols-outlined text-sm" aria-hidden="true">open_in_new</span>
+                  <span>Открыть полную инструкцию</span>
+                </a>
+                <button type="button" onclick="openEmployeeGuideModal()" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border border-gold/30 hover:bg-gold/10 flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap">
+                  <span class="material-symbols-outlined text-sm" aria-hidden="true">visibility</span>
+                  <span>Быстрый просмотр здесь</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div class="flex items-center gap-3">
             <div class="h-px bg-white/10 flex-1"></div>
             <span class="text-[10px] font-bold uppercase tracking-wider text-white/50">или если у вас обычный профиль без Авито PRO</span>
@@ -1356,32 +1382,6 @@
                 <button type="button" onclick="startChainAuthProcess()" id="btnStartChainAuth" class="btn-gold min-h-[44px] w-full py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
                   <span class="material-symbols-outlined text-base" aria-hidden="true">login</span>
                   <span>Войти и подключить</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- ОБЯЗАТЕЛЬНО К ПРОЧТЕНИЮ ПЕРЕД ПОДКЛЮЧЕНИЕМ -->
-          <div id="chainGuideMandatoryBlock" class="p-4 sm:p-5 rounded-2xl bg-[#16161B] border border-white/15 space-y-3">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div class="space-y-1.5">
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/15 text-gold border border-gold/30 text-[10px] font-extrabold uppercase tracking-wider">
-                  <span class="material-symbols-outlined text-xs" aria-hidden="true">priority_high</span>
-                  <span>Обязательно к прочтению</span>
-                </div>
-                <h4 class="font-outfit font-bold text-sm sm:text-base text-white">Перед подключением прочитайте инструкцию (5 шагов и 7 частых ошибок)</h4>
-                <p class="text-xs text-white/75 leading-relaxed max-w-2xl">
-                  В инструкции со скриншотами показано, какие права нужно включить при подключении через «Сотрудники», почему нельзя нажимать кнопку «Обновить» у ссылки приглашения и <strong>что сломается, если пропустить нужный переключатель</strong>.
-                </p>
-              </div>
-              <div class="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-2 shrink-0">
-                <a href="./employee-guide.html" target="_blank" rel="noopener noreferrer" class="btn-gold px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap">
-                  <span class="material-symbols-outlined text-sm" aria-hidden="true">open_in_new</span>
-                  <span>Открыть полную инструкцию</span>
-                </a>
-                <button type="button" onclick="openEmployeeGuideModal()" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border border-gold/30 hover:bg-gold/10 flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap">
-                  <span class="material-symbols-outlined text-sm" aria-hidden="true">visibility</span>
-                  <span>Быстрый просмотр здесь</span>
                 </button>
               </div>
             </div>
