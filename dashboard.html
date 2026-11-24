@@ -344,8 +344,8 @@
           </a>
         </div>
 
-        <div onclick="switchTab('settings')" class="hidden sm:flex items-center gap-1.5 px-2 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 cursor-pointer transition-colors shrink-0" title="Профиль и настройки">
-          <span id="headerUserLabel" class="font-medium truncate max-w-[78px]">Профиль</span>
+        <div onclick="switchTab('settings')" class="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 cursor-pointer transition-colors shrink-0" title="Профиль и настройки">
+          <span id="headerUserLabel" class="font-medium truncate max-w-[120px]">Профиль</span>
         </div>
 
         <div class="hidden sm:flex bg-white/5 border border-white/10 px-2.5 py-1.5 rounded-full items-center gap-1 shrink-0 whitespace-nowrap">
@@ -1012,7 +1012,7 @@
               <ul class="text-xs text-white/70 space-y-2 mt-4 pt-3 border-t border-white/5">
                 <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Автономная работа 24/7</li>
                 <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Повышение конверсии до +70%</li>
-                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Выделенный приоритетный магазин</li>
+                <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Выделенный изолированный слот магазина</li>
                 <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Безлимитный каталог товаров</li>
                 <li class="flex items-center gap-1.5"><span class="text-white/60 text-xs">✓</span> Продвинутый модуль аналитики PRO</li>
               </ul>
@@ -2398,7 +2398,7 @@
                   </li>
                   <li class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-gold text-sm">check_circle</span>
-                    <span>Выделенный приоритетный магазин</span>
+                    <span>Выделенный изолированный слот магазина</span>
                   </li>
                   <li class="flex items-center gap-2">
                     <span class="material-symbols-outlined text-gold text-sm">check_circle</span>
@@ -3031,14 +3031,18 @@
         <!-- QUICK PRESETS -->
         <div class="space-y-2 pt-1">
           <span class="text-[11px] font-semibold uppercase tracking-wider text-white/40 block">Готовые тарифы:</span>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            <button type="button" onclick="setPresetAmount(6490)" id="presetBtn-6490" class="p-2.5 bg-gold/10 hover:bg-gold/20 border border-white/10 rounded-xl text-xs font-bold text-gold flex items-center justify-between transition-all cursor-pointer">
-              <span>Полный Доступ (1 мес)</span>
-              <span class="font-outfit font-extrabold text-sm">6 490 ₽</span>
+          <div class="grid grid-cols-1 gap-2">
+            <button type="button" onclick="setPresetAmount(1590)" id="presetBtn-1590" class="w-full px-3.5 py-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/40 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer">
+              <span id="presetLabel-1590">Пробный период (7 дней)</span>
+              <span class="font-outfit font-extrabold text-sm whitespace-nowrap">1 590 ₽</span>
             </button>
-            <button type="button" onclick="setPresetAmount(1590)" id="presetBtn-1590" class="p-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-white/10 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer">
-              <span>Пробный период (7 дней)</span>
-              <span class="font-outfit font-extrabold text-sm">1 590 ₽</span>
+            <button type="button" onclick="setPresetAmount(6490)" id="presetBtn-6490" class="w-full px-3.5 py-2.5 bg-gold/15 border border-gold/50 rounded-xl text-xs font-bold text-gold flex items-center justify-between transition-all cursor-pointer">
+              <span>Полный Доступ (1 месяц)</span>
+              <span class="font-outfit font-extrabold text-sm whitespace-nowrap">6 490 ₽</span>
+            </button>
+            <button type="button" onclick="setPresetAmount(15900)" id="presetBtn-15900" class="w-full px-3.5 py-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/40 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer">
+              <span>Квартал (3 месяца)</span>
+              <span class="font-outfit font-extrabold text-sm whitespace-nowrap">15 900 ₽</span>
             </button>
           </div>
         </div>
@@ -4007,11 +4011,33 @@
       if (guestBtn) guestBtn.classList.remove('hidden');
     }
 
+    // USER & SUBSCRIPTION STATE
+    let userBalanceVal = 0;
+    let userTrialUsed = 0;
+    let userSlotsCount = 0;
+    userBotsList = [];
+
+    function resolveUserDisplayName(userObj, tgObj, isOwnerFlag, chatIdStr) {
+      if (tgObj && tgObj.username) return '@' + tgObj.username;
+      const rawName = String((userObj && userObj.first_name) || (tgObj && tgObj.first_name) || '').trim();
+      const genericNames = ['клиент', 'user', 'гость', 'новый клиент', 'пользователь', ''];
+      if (rawName && !genericNames.includes(rawName.toLowerCase())) {
+        return rawName;
+      }
+      const emailStr = String((userObj && (userObj.email || userObj.contact_email)) || '').trim();
+      if (emailStr) {
+        return emailStr.includes('@') ? emailStr.split('@')[0] : emailStr;
+      }
+      if (isOwnerFlag) return 'Владелец';
+      if (String(chatIdStr || '').startsWith('client_')) return 'Демо-гость';
+      return 'Профиль';
+    }
+
     // Update Header active user label and guest indicators
     const isGuest = currentChatId.startsWith('client_');
     const headerUserEl = document.getElementById('headerUserLabel');
     if (headerUserEl) {
-      headerUserEl.textContent = tgUser?.username ? ('@' + tgUser.username) : (tgUser?.first_name || (isGuest ? 'Демо-гость' : 'Клиент'));
+      headerUserEl.textContent = resolveUserDisplayName(null, tgUser, false, currentChatId);
     }
     if (isGuest) {
       const banner = document.getElementById('guestDemoBanner');
@@ -4073,6 +4099,7 @@
             }
             currentChatId = verifiedId;
             window.currentChatId = verifiedId;
+            window.currentUserData = meData.user;
             isOwner = (meData.user.level === 'Владелец');
             window.isOwner = isOwner;
             localStorage.setItem('userChatId', verifiedId);
@@ -4080,15 +4107,26 @@
             localStorage.setItem('majorka_last_chatId', verifiedId);
             document.cookie = `userChatId=${encodeURIComponent(verifiedId)}; max-age=${maxAge}; path=/; SameSite=Lax${sec}`;
             document.cookie = `majorka_chatId=${encodeURIComponent(verifiedId)}; max-age=${maxAge}; path=/; SameSite=Lax${sec}`;
-            currentTgUser = tgUser?.username
-              ? '@' + tgUser.username
-              : (meData.user.first_name || tgUser?.first_name || (isOwner ? 'Владелец' : 'Клиент ID ' + verifiedId));
+
+            const displayName = resolveUserDisplayName(meData.user, tgUser, isOwner, verifiedId);
+            currentTgUser = displayName;
             const hdrEl = document.getElementById('headerUserLabel');
-            if (hdrEl) {
-              hdrEl.textContent = tgUser?.username
-                ? ('@' + tgUser.username)
-                : (meData.user.first_name || tgUser?.first_name || (isOwner ? 'Владелец' : 'Клиент'));
-            }
+            if (hdrEl) hdrEl.textContent = displayName;
+
+            userBalanceVal = Number(meData.user.balance || 0);
+            userSlotsCount = Number(meData.user.slots_count || 0);
+            userTrialUsed = (Number(meData.user.trial_used || 0) === 1 || Number(meData.user.total_purchases || 0) > 0 || isOwner) ? 1 : 0;
+            localStorage.setItem('majorka_balance', userBalanceVal);
+            localStorage.setItem('majorka_slots_count', userSlotsCount);
+            if (userTrialUsed === 1) localStorage.setItem('majorka_trial_used', '1');
+            else localStorage.removeItem('majorka_trial_used');
+
+            if (typeof renderUserBalance === 'function') renderUserBalance(userBalanceVal);
+            if (typeof renderTrialStatusUI === 'function') renderTrialStatusUI();
+            if (typeof initChainLocksState === 'function') initChainLocksState();
+            if (typeof updateQuotaBannerUI === 'function') updateQuotaBannerUI();
+            if (typeof updateHarveyVisibility === 'function') updateHarveyVisibility();
+
             const gBanner = document.getElementById('guestDemoBanner');
             if (gBanner) gBanner.classList.add('hidden');
             const gBtn = document.getElementById('headerGuestSignupBtn');
@@ -4110,12 +4148,6 @@
       })();
       return authVerificationPromise;
     }
-
-    // USER & SUBSCRIPTION STATE
-    let userBalanceVal = 0;
-    let userTrialUsed = 0;
-    let userSlotsCount = 0;
-    userBotsList = [];
 
     // TOAST NOTIFICATION ENGINE
     function showToast(title, message, type = 'info', duration = 4000) {
@@ -4822,9 +4854,11 @@
           trialTag.className = 'text-[10px] font-bold text-red-400/90 bg-red-500/10 px-2 py-0.5 rounded border border-red-500/20';
         }
         if (trialSub) trialSub.innerText = 'Пробный доступ сгорел после первой покупки';
+        const presetLabel1590 = document.getElementById('presetLabel-1590');
+        if (presetLabel1590) presetLabel1590.innerText = 'Пробный (использован)';
         if (preset1590) {
           preset1590.disabled = true;
-          preset1590.className = 'p-2.5 bg-white/5 border border-white/5 rounded-xl text-xs font-bold text-white/20 flex items-center justify-between cursor-not-allowed opacity-40 line-through';
+          preset1590.className = 'w-full px-3.5 py-2.5 bg-white/5 border border-white/5 rounded-xl text-xs font-bold text-white/25 flex items-center justify-between cursor-not-allowed opacity-45 line-through';
           preset1590.title = 'Пробный доступ сгорает после первой покупки';
         }
 
@@ -4875,9 +4909,14 @@
           trialTag.className = 'text-[10px] font-bold text-gold bg-gold/10 px-2 py-0.5 rounded border border-white/10';
         }
         if (trialSub) trialSub.innerText = 'Доступ на 7 дней (сгорает после первой покупки)';
+        const presetLabel1590 = document.getElementById('presetLabel-1590');
+        if (presetLabel1590) presetLabel1590.innerText = 'Пробный период (7 дней)';
         if (preset1590) {
           preset1590.disabled = false;
-          preset1590.className = 'p-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-white/10 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer';
+          const isCur1590 = Number(document.getElementById('customPaymentAmount')?.value || 0) === 1590;
+          preset1590.className = isCur1590
+            ? 'w-full px-3.5 py-2.5 bg-gold/15 border border-gold/50 rounded-xl text-xs font-bold text-gold flex items-center justify-between transition-all cursor-pointer'
+            : 'w-full px-3.5 py-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/40 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer';
           preset1590.title = '';
         }
 
@@ -4916,8 +4955,32 @@
       const heroDot = document.getElementById('heroStoreDot');
 
       const active = isOwner || hasActiveBot || (isPaid && userBotsList && userBotsList.length > 0);
+      const hasPaidQuota = Boolean(isPaid) || Number(userSlotsCount || 0) > 0;
 
-      if (!active) {
+      if (!active && hasPaidQuota) {
+        const slotsTotal = Math.max(1, Number(userSlotsCount || 1));
+        if (overDetails) overDetails.innerText = `Доступ оплачен • Доступно слотов: ${slotsTotal}`;
+        if (overPill) {
+          overPill.innerText = 'Готов к настройке';
+          overPill.className = 'text-[10px] sm:text-xs font-semibold px-2 py-0.5 sm:px-3 sm:py-1 bg-gold/15 text-gold rounded-full border border-gold/30 self-start sm:self-auto shrink-0';
+        }
+        if (heroDot) heroDot.className = 'hidden';
+        if (heroBadge) heroBadge.innerText = 'ОПЛАЧЕНО • ГОТОВО К ЗАПУСКУ';
+        if (heroTitle) heroTitle.innerText = '«MAJORKA» — Твой Менеджер Продаж';
+        if (heroDesc) heroDesc.innerText = `У вас оплачено слотов: ${slotsTotal}. Заполните регламент магазина на Шаге 2 и подключите Авито, чтобы менеджер начал отвечать покупателям 24/7.`;
+        if (heroActions) {
+          heroActions.innerHTML = `
+            <button type="button" onclick="openShopSetupWizard()" class="w-full sm:w-auto btn-gold px-8 py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press">
+              <span class="material-symbols-outlined text-base">tune</span>
+              <span>Настроить магазин (Шаг 2)</span>
+            </button>
+            <button type="button" onclick="switchTab('tariffs')" class="btn-ghost px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
+              <span class="material-symbols-outlined text-base">payments</span>
+              <span>Тарифы</span>
+            </button>
+          `;
+        }
+      } else if (!active) {
         if (overDetails) overDetails.innerText = 'Доступ не активен • Ожидает настройки';
         if (overPill) {
           overPill.innerText = 'Не активен';
@@ -4928,14 +4991,21 @@
         }
         if (heroBadge) heroBadge.innerText = 'ТРЕБУЕТСЯ АКТИВАЦИЯ';
         if (heroTitle) heroTitle.innerText = '«MAJORKA» — Твой Менеджер Продаж';
-        if (heroDesc) heroDesc.innerText = 'Для подключения и запуска личного менеджера на Авито оплатите тариф (пробный период 7 дней за 1 590 ₽ или полный месяц). Настройка регламента откроется сразу после подтверждения оплаты.';
+        if (heroDesc) {
+          heroDesc.innerText = (userTrialUsed === 1)
+            ? 'Для подключения и запуска личного менеджера на Авито выберите полный тариф на 1 или 3 месяца. Настройка регламента откроется сразу после подтверждения оплаты.'
+            : 'Для подключения и запуска личного менеджера на Авито оплатите тариф (пробный период 7 дней за 1 590 ₽ или полный месяц). Настройка регламента откроется сразу после подтверждения оплаты.';
+        }
         if (heroActions) {
+          const startBtnLabel = (userTrialUsed === 1)
+            ? 'Оплатить и настроить менеджера (6 490 ₽)'
+            : 'Оплатить и настроить менеджера (1 590 ₽)';
           heroActions.innerHTML = `
-            <button onclick="openShopSetupWizard()" class="w-full sm:w-auto btn-gold px-8 py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press">
+            <button type="button" onclick="openShopSetupWizard()" class="w-full sm:w-auto btn-gold px-8 py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press">
               <span class="material-symbols-outlined text-base">credit_card</span>
-              <span>Оплатить и настроить менеджера (1 590 ₽)</span>
+              <span>${startBtnLabel}</span>
             </button>
-            <button onclick="switchTab('tariffs')" class="btn-ghost px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
+            <button type="button" onclick="switchTab('tariffs')" class="btn-ghost px-5 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
               <span class="material-symbols-outlined text-base">payments</span>
               <span>Тарифы</span>
             </button>
@@ -5063,7 +5133,8 @@
       renderTrialStatusUI();
       updateQuotaBannerUI();
       const hasBot = (userBotsList && userBotsList.length > 0 && userBotsList.some(b => Number(b.is_paid) === 1));
-      const isPaidUser = userSlotsCount > 0;
+      const isPaidUser = userSlotsCount > 0 || hasBot || Boolean(window.currentUserData && window.currentUserData.is_paid);
+      initChainLocksState();
       updateOverviewUI(hasBot, isPaidUser);
       updateKbUI(hasBot, isPaidUser);
     }
@@ -5391,7 +5462,7 @@
         else navBadge.classList.add('hidden');
       }
       if (quotaBadge) {
-        const totalSlots = Math.max(1, userSlotsCount || 1);
+        const totalSlots = isOwner ? Math.max(1, Number(userSlotsCount || 0), safeBots.length) : Math.max(0, Number(userSlotsCount || 0));
         quotaBadge.innerText = `${safeBots.length} из ${totalSlots} активно`;
       }
 
@@ -5408,7 +5479,7 @@
 
       updateQuotaBannerUI();
       const hasBot = (safeBots.length > 0 && safeBots.some(b => Number(b.is_paid) === 1));
-      const isPaidUser = userSlotsCount > 0;
+      const isPaidUser = userSlotsCount > 0 || hasBot || Boolean(window.currentUserData && window.currentUserData.is_paid);
       updateOverviewUI(hasBot, isPaidUser);
       updateKbUI(hasBot, isPaidUser);
       checkAndRenderSessionStatus(safeBots);
@@ -5667,12 +5738,14 @@
     function updateQuotaBannerUI() {
       const badge = document.getElementById('shopsQuotaBadge');
       const desc = document.getElementById('shopsQuotaDesc');
-      const total = Math.max(1, userSlotsCount || 1);
       const active = (userBotsList || []).length;
+      const total = isOwner ? Math.max(1, Number(userSlotsCount || 0), active) : Math.max(0, Number(userSlotsCount || 0));
 
       if (badge) {
         badge.innerText = `${active} из ${total} активно`;
-        if (active < total) {
+        if (total <= 0) {
+          badge.className = 'px-2.5 py-0.5 rounded-full bg-white/5 text-white/55 font-bold text-[11px] border border-white/10';
+        } else if (active < total) {
           badge.className = 'px-2.5 py-0.5 rounded-full bg-status-green/10 text-status-green font-bold text-[11px] border border-status-green/30 ';
         } else {
           badge.className = 'px-2.5 py-0.5 rounded-full bg-gold/10 text-gold font-bold text-[11px] border border-white/10';
@@ -5680,7 +5753,9 @@
       }
 
       if (desc) {
-        if (total === 1) {
+        if (total <= 0) {
+          desc.innerText = 'Тариф ещё не активирован. Выберите тариф в разделе «Тарифы» или на Шаге 1, чтобы запустить первый магазин.';
+        } else if (total === 1) {
           if (userTrialUsed === 1) {
             desc.innerHTML = 'Вам доступно <strong>1 активный магазин</strong> по вашей активной подписке (пробный доступ сгорел после первой покупки). Для подключения 2-го магазина подключите дополнительный магазин в разделе «Тарифы».';
           } else {
@@ -5706,10 +5781,11 @@
       openShopSetupWizard();
     }
 
-        function openShopSetupWizard() {
+    function openShopSetupWizard() {
       switchTab('knowledge');
+      const goStep = (isChainStep1Paid || Number(userSlotsCount || 0) > 0 || isOwner) ? 2 : 1;
       setTimeout(() => {
-        scrollToStep(1);
+        scrollToStep(goStep);
       }, 100);
     }
 
@@ -6588,31 +6664,34 @@
     }
 
     // PAYMENT MODAL (BALANCE + YOOMONEY + SBP)
+    function getPaymentModalTitleForAmount(numVal) {
+      const n = Number(numVal) || 0;
+      if (n === 1590 && userTrialUsed !== 1) return 'Пробный доступ (7 дней)';
+      if (n === 6490) return 'Полный Доступ (1 месяц)';
+      if (n === 15900) return 'Квартал (3 месяца)';
+      return 'Пополнение баланса';
+    }
+
     function openPaymentModal(amount, title) {
       const modal = document.getElementById('paymentModal');
       if (!modal) return;
-      let val = amount || '6490';
-      if (userTrialUsed === 1 && Number(val) === 1590) {
-        val = '6490';
+      if (window.currentUserData && window.currentUserData.balance !== undefined) {
+        userBalanceVal = Number(window.currentUserData.balance || 0);
+      }
+      let val = Number(amount) || 6490;
+      if (userTrialUsed === 1 && val === 1590) {
+        val = 6490;
+        showToast('Пробный доступ уже использован', 'Выбран тариф Полный Доступ на 1 месяц (6 490 ₽).', 'info');
       }
       const customInp = document.getElementById('customPaymentAmount');
-      if (customInp) customInp.value = val;
-      updatePaymentAmount(val);
+      if (customInp) customInp.value = String(val);
       renderTrialStatusUI();
+      updatePaymentAmount(val);
 
       const titleEl = document.getElementById('modalPaymentTitle');
       if (titleEl) {
-        if (title) {
-          titleEl.innerText = title;
-        } else if (Number(val) === 1590) {
-          titleEl.innerText = 'Пробный доступ (7 дней)';
-        } else if (Number(val) === 6490) {
-          titleEl.innerText = 'Полный Доступ (1 месяц)';
-        } else if (Number(val) === 15900) {
-          titleEl.innerText = 'Квартал (3 месяца)';
-        } else {
-          titleEl.innerText = 'Оплата подписки';
-        }
+        const resolvedTitle = getPaymentModalTitleForAmount(val);
+        titleEl.innerText = (val !== 1590 && val !== 6490 && val !== 15900 && title) ? title : resolvedTitle;
       }
 
       const labelInput = document.getElementById('modalPaymentLabelInput');
@@ -6624,7 +6703,7 @@
       }
 
       // If user has enough balance, default to Balance tab, otherwise Card tab
-      if (userBalanceVal >= Number(val)) {
+      if (userBalanceVal >= val) {
         switchPaymentMethod('balance');
       } else {
         switchPaymentMethod('card');
@@ -6638,6 +6717,18 @@
       const numVal = Math.max(10, Number(val) || 0);
       const sumInp = document.getElementById('modalPaymentSumInput');
       if (sumInp) sumInp.value = numVal;
+
+      const titleEl = document.getElementById('modalPaymentTitle');
+      if (titleEl) titleEl.innerText = getPaymentModalTitleForAmount(numVal);
+
+      const activePresetCls = 'w-full px-3.5 py-2.5 bg-gold/15 border border-gold/50 rounded-xl text-xs font-bold text-gold flex items-center justify-between transition-all cursor-pointer';
+      const inactivePresetCls = 'w-full px-3.5 py-2.5 bg-white/5 hover:bg-gold/10 border border-white/10 hover:border-gold/40 rounded-xl text-xs font-bold text-white hover:text-gold flex items-center justify-between transition-all cursor-pointer';
+      [1590, 6490, 15900].forEach(p => {
+        const pBtn = document.getElementById(`presetBtn-${p}`);
+        if (!pBtn) return;
+        if (p === 1590 && userTrialUsed === 1) return;
+        pBtn.className = (numVal === p) ? activePresetCls : inactivePresetCls;
+      });
 
       const cardBtnText = document.getElementById('modalPaymentBtnText');
       if (cardBtnText) cardBtnText.innerText = 'Оплатить картой ' + numVal.toLocaleString('ru-RU') + ' ₽';
@@ -6664,18 +6755,26 @@
         }
       }
 
+      const isTariffSum = (numVal === 6490 || numVal === 15900 || (numVal === 1590 && userTrialUsed !== 1));
       const balBtnText = document.getElementById('btnPayFromBalanceText');
-      if (balBtnText) balBtnText.innerText = 'Оплатить ' + numVal.toLocaleString('ru-RU') + ' ₽ с баланса';
-
       const balBtn = document.getElementById('btnPayFromBalance');
       const warnBox = document.getElementById('payBalanceInsufficientWarning');
       const tabBalance = document.getElementById('payTabBalance');
 
-      if (userBalanceVal < numVal) {
+      if (!isTariffSum) {
         if (balBtn) {
           balBtn.disabled = true;
           balBtn.classList.add('opacity-50', 'cursor-not-allowed');
         }
+        if (balBtnText) balBtnText.innerText = 'Выберите готовый тариф выше';
+        if (warnBox) warnBox.classList.add('hidden');
+        if (tabBalance) tabBalance.innerText = 'С баланса';
+      } else if (userBalanceVal < numVal) {
+        if (balBtn) {
+          balBtn.disabled = true;
+          balBtn.classList.add('opacity-50', 'cursor-not-allowed');
+        }
+        if (balBtnText) balBtnText.innerText = 'Оплатить ' + numVal.toLocaleString('ru-RU') + ' ₽ с баланса';
         if (warnBox) warnBox.classList.remove('hidden');
         if (tabBalance) tabBalance.innerText = 'С баланса (мало)';
       } else {
@@ -6683,6 +6782,7 @@
           balBtn.disabled = false;
           balBtn.classList.remove('opacity-50', 'cursor-not-allowed');
         }
+        if (balBtnText) balBtnText.innerText = 'Оплатить ' + numVal.toLocaleString('ru-RU') + ' ₽ с баланса';
         if (warnBox) warnBox.classList.add('hidden');
         if (tabBalance) tabBalance.innerText = 'С баланса';
       }
@@ -6694,7 +6794,7 @@
         return;
       }
       const customInp = document.getElementById('customPaymentAmount');
-      if (customInp) customInp.value = presetVal;
+      if (customInp) customInp.value = String(presetVal);
       updatePaymentAmount(presetVal);
     }
 
@@ -7304,7 +7404,8 @@
 
     function initChainLocksState() {
       renderTrialStatusUI();
-      const hasPaid = Boolean(isOwner) || Boolean(userBotsList && userBotsList.length > 0 && userBotsList.some(b => Number(b.is_paid) === 1));
+      const hasPaidBot = Boolean(userBotsList && userBotsList.length > 0 && userBotsList.some(b => Number(b.is_paid) === 1));
+      const hasPaid = Boolean(isOwner) || Number(userSlotsCount || 0) > 0 || Boolean(window.currentUserData && window.currentUserData.is_paid) || hasPaidBot;
       const notice = document.getElementById('alreadyPaidNotice');
       const step1Text = document.getElementById('step1StatusText');
       const step1Badge = document.getElementById('step1StatusBadge');
@@ -7315,10 +7416,16 @@
       if (hasPaid) {
         isChainStep1Paid = true;
         if (notice) notice.classList.remove('hidden');
-        if (step1Text) step1Text.innerText = 'Оплачено (активный магазин)';
+        if (step1Text) {
+          step1Text.innerText = (!hasPaidBot && Number(userSlotsCount || 0) > 0)
+            ? `Оплачено (доступно слотов: ${Number(userSlotsCount)})`
+            : 'Оплачено (активный магазин)';
+        }
         if (step1Badge) {
           step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-white/5 text-zinc-300 border border-white/10 flex items-center gap-1.5';
-          step1Badge.textContent = 'Тариф оплачен';
+          step1Badge.textContent = (!hasPaidBot && Number(userSlotsCount || 0) > 0)
+            ? `Слоты оплачены (${Number(userSlotsCount)})`
+            : 'Тариф оплачен';
         }
         if (lock2) lock2.classList.add('hidden');
         if (lockCatalog) lockCatalog.classList.add('hidden');
@@ -8247,7 +8354,7 @@
   </script>
 
   <!-- ==================== FLOATING PUSH PROMPT BANNER ==================== -->
-  <div id="pushPromptToast" class="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-[120] max-w-sm sm:max-w-md p-4 sm:p-5 rounded-2xl bg-[#18181D]/95 backdrop-blur-2xl border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.85)] transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none flex flex-col gap-3.5">
+  <div id="pushPromptToast" class="fixed bottom-24 sm:bottom-6 left-4 sm:left-6 z-[120] max-w-[calc(100vw-2rem)] sm:max-w-md p-4 sm:p-5 rounded-2xl bg-[#18181D]/95 backdrop-blur-2xl border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.85)] transition-all duration-300 transform translate-y-10 opacity-0 pointer-events-none flex flex-col gap-3.5">
     <div class="flex items-start justify-between gap-3">
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-xl bg-gold/15 text-gold border border-gold/30 flex items-center justify-center shrink-0">
