@@ -195,8 +195,9 @@
       try {
         localStorage.clear();
         sessionStorage.clear();
+        const secAttr = window.location.protocol === 'https:' ? '; Secure' : '';
         ['session_token', 'userChatId', 'majorka_chatId', 'majorka_guest_id'].forEach(name => {
-          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax${secAttr}`;
         });
       } catch(e) {}
     }
@@ -416,7 +417,7 @@
             <!-- TERMS CHECKBOX -->
             <label class="flex items-start gap-2 text-[10px] text-white/60 cursor-pointer pt-0.5">
               <input type="checkbox" id="indexTermsCheckbox" checked class="mt-0.5 rounded text-brand-gold focus:ring-brand-gold bg-black/40 border-white/20">
-              <span>Согласен с <a href="oferta.html" target="_blank" class="text-brand-gold hover:underline">Офертой</a> и <a href="privacy.html" target="_blank" class="text-brand-gold hover:underline">152-ФЗ РФ</a></span>
+              <span>Согласен с <a href="oferta.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline">Офертой</a> и <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline">152-ФЗ РФ</a></span>
             </label>
 
             <!-- SUBMIT BUTTON -->
@@ -437,9 +438,9 @@
             <!-- 152-FZ & OFFER CONSENT NOTICE -->
             <p class="text-[10px] text-white/40 text-center leading-tight pt-1">
               Нажимая кнопку, вы принимаете условия 
-              <a href="oferta.html" target="_blank" class="text-brand-gold hover:underline">Публичной оферты</a> 
+              <a href="oferta.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline">Публичной оферты</a> 
               и даёте согласие на обработку данных по 
-              <a href="privacy.html" target="_blank" class="text-brand-gold hover:underline">152-ФЗ РФ</a>.
+              <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline">152-ФЗ РФ</a>.
             </p>
           </div>
 
@@ -493,7 +494,7 @@
             Сервер 24/7
           </span>
         </div>
-        <a href="https://t.me/chc332" target="_blank" class="hover:text-brand-gold transition-colors flex items-center gap-1.5 font-medium">
+        <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors flex items-center gap-1.5 font-medium">
           <span class="material-symbols-outlined text-sm">support_agent</span>
           Поддержка @chc332
         </a>
@@ -512,7 +513,7 @@
       <div class="flex items-center justify-end z-10">
         <div class="flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/[0.03] border border-white/10 backdrop-blur-md text-[11px] text-white/70">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Слот магазина онлайн • отклик 0.3с</span>
+          <span>Слот магазина онлайн • отклик &lt; 15 с</span>
         </div>
       </div>
 
@@ -588,41 +589,40 @@
 
         </div>
 
-        <!-- FLOATING CARD 1: TOP-LEFT ANALYTICS DONUT -->
+        <!-- FLOATING CARD 1: TOP-LEFT RESPONSE SPEED -->
         <div class="absolute -top-4 -left-4 sm:left-2 glass-card rounded-2xl p-3.5 sm:p-4 w-44 sm:w-48 anim-float pointer-events-none sm:pointer-events-auto">
           <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] uppercase font-bold text-white/50 tracking-wider">Конверсия</span>
-            <span class="text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">+42%</span>
+            <span class="text-[10px] uppercase font-bold text-white/50 tracking-wider">Отклик 24/7</span>
+            <span class="text-[10px] font-bold text-emerald-400 bg-emerald-400/10 px-1.5 py-0.5 rounded">Без пауз</span>
           </div>
           <div class="flex items-center gap-3">
-            <!-- Mini SVG Donut -->
+            <!-- Mini SVG Indicator -->
             <div class="relative w-11 h-11 shrink-0">
               <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="4"></circle>
-                <circle cx="18" cy="18" r="14" fill="none" stroke="#00D2FF" stroke-width="4" stroke-dasharray="88" stroke-dashoffset="20" stroke-linecap="round"></circle>
+                <circle cx="18" cy="18" r="14" fill="none" stroke="#00D2FF" stroke-width="4" stroke-dasharray="88" stroke-dashoffset="16" stroke-linecap="round"></circle>
               </svg>
-              <span class="absolute inset-0 flex items-center justify-center text-[10px] font-bold text-white">78%</span>
+              <span class="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white">&lt;15с</span>
             </div>
             <div class="space-y-1.5 flex-1">
-              <div class="h-1.5 rounded-full bg-white/10 w-full overflow-hidden">
-                <div class="h-full bg-cyan-400 w-4/5 rounded-full"></div>
-              </div>
+              <div class="text-[10px] font-semibold text-white/80 leading-tight">Ответ днём и ночью</div>
               <div class="h-1.5 rounded-full bg-white/10 w-3/4 overflow-hidden">
-                <div class="h-full bg-brand-gold w-3/5 rounded-full"></div>
+                <div class="h-full bg-brand-gold w-4/5 rounded-full"></div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- FLOATING CARD 2: TOP-RIGHT SALES GROWTH SPLINE -->
+        <!-- FLOATING CARD 2: TOP-RIGHT CONVERSION BENCHMARK -->
         <div class="absolute -top-2 -right-4 sm:right-2 glass-card rounded-2xl p-3.5 sm:p-4 w-44 sm:w-52 anim-float-rev pointer-events-none sm:pointer-events-auto">
           <div class="flex items-center justify-between mb-1">
-            <span class="text-[10px] font-medium text-white/50">Продажи за неделю</span>
+            <span class="text-[10px] font-medium text-white/50">Рост конверсии</span>
             <span class="material-symbols-outlined text-xs text-brand-gold">trending_up</span>
           </div>
-          <div class="text-base sm:text-lg font-extrabold text-white tracking-tight">284 500 ₽</div>
-          <!-- Wave spline chart -->
-          <div class="mt-2 h-7 w-full">
+          <div class="text-base sm:text-lg font-extrabold text-white tracking-tight">до +70%</div>
+          <div class="text-[9px] text-white/40 mt-0.5">За счёт ответов за 15 сек</div>
+          <!-- Wave spline visual -->
+          <div class="mt-2 h-6 w-full">
             <svg class="w-full h-full" viewBox="0 0 100 30" fill="none" preserveAspectRatio="none">
               <path d="M0 25 C20 20, 35 5, 55 15 C75 25, 85 8, 100 2" stroke="#FFDD2D" stroke-width="2" stroke-linecap="round"/>
               <path d="M0 25 C20 20, 35 5, 55 15 C75 25, 85 8, 100 2 L 100 30 L 0 30 Z" fill="url(#chartGrad)" opacity="0.15"/>
@@ -645,7 +645,7 @@
             </div>
             <div class="text-left">
               <p class="text-[10px] font-bold text-white leading-none">Авито Магазин</p>
-              <p class="text-[8px] text-emerald-400 leading-none mt-0.5">Синхронизирован</p>
+              <p class="text-[8px] text-emerald-400 leading-none mt-0.5">Каталог и правила</p>
             </div>
           </div>
 
@@ -656,14 +656,14 @@
           </div>
         </div>
 
-        <!-- FLOATING CARD 3: BOTTOM-RIGHT LIVE TRANSACTION/ORDER FEED -->
+        <!-- FLOATING CARD 3: BOTTOM-RIGHT SCENARIO PREVIEW -->
         <div class="absolute -bottom-6 -right-2 sm:right-4 glass-card rounded-2xl p-3.5 sm:p-4 w-52 sm:w-60 anim-float pointer-events-none sm:pointer-events-auto">
           <div class="flex items-center justify-between pb-2 border-b border-white/5 mb-2">
             <span class="text-[10px] font-bold text-white/70 flex items-center gap-1.5">
               <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
-              Поток заказов
+              Сценарий работы
             </span>
-            <span class="text-[9px] text-white/40">онлайн</span>
+            <span class="text-[9px] text-white/40">пример</span>
           </div>
           <div class="space-y-2">
             <div class="flex items-center justify-between text-[11px]">
@@ -671,27 +671,27 @@
                 <span class="material-symbols-outlined text-sm text-brand-gold">local_shipping</span>
                 <div>
                   <p class="font-semibold text-white leading-none text-[10px]">Авито Доставка</p>
-                  <p class="text-[8px] text-white/40 leading-none mt-0.5">Покупатель: Артем</p>
+                  <p class="text-[8px] text-white/40 leading-none mt-0.5">СДЭК, Почта, самовывоз</p>
                 </div>
               </div>
-              <span class="font-bold text-emerald-400 text-[10px]">+18 900 ₽</span>
+              <span class="font-bold text-emerald-400 text-[10px]">24/7</span>
             </div>
             <div class="flex items-center justify-between text-[11px] pt-1 border-t border-white/5">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-sm text-cyan-400">forum</span>
                 <div>
-                  <p class="font-semibold text-white leading-none text-[10px]">Квалификация лида</p>
-                  <p class="text-[8px] text-white/40 leading-none mt-0.5">Готов к покупке</p>
+                  <p class="font-semibold text-white leading-none text-[10px]">Заявка в Telegram</p>
+                  <p class="text-[8px] text-white/40 leading-none mt-0.5">Мгновенный отчёт</p>
                 </div>
               </div>
-              <span class="font-bold text-brand-gold text-[10px]">100%</span>
+              <span class="font-bold text-brand-gold text-[10px]">&lt; 15 с</span>
             </div>
           </div>
         </div>
 
       </div>
 
-      <!-- MOBILE ONLY: ULTRA-CLEAN HIGH-CONVERTING METRIC CARDS -->
+      <!-- MOBILE ONLY: ULTRA-CLEAN CAPABILITY METRIC CARDS -->
       <div class="flex lg:hidden flex-col gap-3 my-4 sm:my-6 z-10 w-full max-w-md mx-auto">
         <!-- Live Store Status Banner -->
         <div class="glass-card p-3 rounded-2xl border-brand-gold/30 bg-gradient-to-r from-brand-gold/10 via-[#141418] to-[#09090b] flex items-center justify-between shadow-lg">
@@ -716,26 +716,26 @@
           <span class="text-[10px] font-bold text-brand-gold bg-brand-gold/15 px-2 py-0.5 rounded-lg border border-brand-gold/30">PRO</span>
         </div>
 
-        <!-- 2x2 Grid of High-Converting Metric Cards -->
+        <!-- 2x2 Grid of Capability Cards -->
         <div class="grid grid-cols-2 gap-2.5">
-          <!-- Card 1: Conversion -->
+          <!-- Card 1: Response Speed -->
+          <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
+            <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
+              <span>Скорость 24/7</span>
+              <span class="text-emerald-400 font-bold bg-emerald-400/10 px-1.5 py-0.5 rounded text-[9px]">Без пауз</span>
+            </div>
+            <div class="text-lg font-black text-white font-outfit">&lt; 15 с</div>
+            <div class="text-[9px] text-white/40 mt-1">Ответ днём и ночью</div>
+          </div>
+
+          <!-- Card 2: Conversion -->
           <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
             <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
               <span>Конверсия</span>
-              <span class="text-emerald-400 font-bold bg-emerald-400/10 px-1.5 py-0.5 rounded text-[9px]">+42%</span>
-            </div>
-            <div class="text-lg font-black text-white font-outfit">78%</div>
-            <div class="text-[9px] text-white/40 mt-1">Отклик &lt; 15 сек</div>
-          </div>
-
-          <!-- Card 2: Sales -->
-          <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
-            <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
-              <span>Оборот</span>
               <span class="material-symbols-outlined text-xs text-brand-gold">trending_up</span>
             </div>
-            <div class="text-lg font-black text-brand-gold font-outfit">284 500 ₽</div>
-            <div class="text-[9px] text-white/40 mt-1">Средний за неделю</div>
+            <div class="text-lg font-black text-brand-gold font-outfit">до +70%</div>
+            <div class="text-[9px] text-white/40 mt-1">Удержание покупателей</div>
           </div>
 
           <!-- Card 3: Avito Sync -->
@@ -744,8 +744,8 @@
               <span>Авито Слот</span>
               <span class="material-symbols-outlined text-xs text-cyan-400">sync</span>
             </div>
-            <div class="text-xs font-bold text-white">СМС-код 1 мин</div>
-            <div class="text-[9px] text-emerald-400 mt-1 font-medium">Синхронизирован</div>
+            <div class="text-xs font-bold text-white">«Сотрудники» PRO</div>
+            <div class="text-[9px] text-emerald-400 mt-1 font-medium">Без главного пароля</div>
           </div>
 
           <!-- Card 4: Orders & Delivery -->
@@ -755,7 +755,7 @@
               <span class="material-symbols-outlined text-xs text-emerald-400">local_shipping</span>
             </div>
             <div class="text-xs font-bold text-white">Авито Доставка</div>
-            <div class="text-[9px] text-emerald-400 font-bold mt-1">100% автономно</div>
+            <div class="text-[9px] text-emerald-400 font-bold mt-1">Контроль в Telegram</div>
           </div>
         </div>
       </div>
@@ -777,7 +777,7 @@
             <span class="material-symbols-outlined text-sm">bolt</span>
             <span>Пробный период 7 дней за 1 590 ₽</span>
           </button>
-          <a href="https://t.me/chc332" target="_blank" class="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 hover:border-brand-gold/30 transition-colors flex items-center gap-2 text-xs text-white/80">
+          <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 hover:border-brand-gold/30 transition-colors flex items-center gap-2 text-xs text-white/80">
             <span class="material-symbols-outlined text-cyan-400 text-sm">support_agent</span>
             <span>Поддержка 24/7 @chc332</span>
           </a>
@@ -812,7 +812,7 @@
     </div>
   </div>
 
-  <!-- TARIFFS & TEST-DRIVE MODAL -->
+  <!-- TARIFFS & TRIAL MODAL -->
   <div id="tariffModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
     <div class="glass-card max-w-4xl w-full max-h-[90vh] flex flex-col p-6 sm:p-8 space-y-6 shadow-2xl relative border-brand-gold/30 rounded-3xl overflow-y-auto">
       
@@ -835,7 +835,7 @@
       <!-- 3 CARDS IN MODAL -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5 items-stretch pt-2">
         
-        <!-- CARD 1: TEST DRIVE 7 DAYS -->
+        <!-- CARD 1: TRIAL 7 DAYS -->
         <div class="p-6 rounded-2xl bg-white/[0.03] border border-brand-gold/30 flex flex-col justify-between space-y-5 relative hover:border-brand-gold/60 transition-all">
           <div class="space-y-3">
             <div class="flex items-center justify-between">
@@ -858,7 +858,7 @@
               </li>
               <li class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
-                <span>SPIN-скрипты продаж</span>
+                <span>Живые сценарии продаж</span>
               </li>
               <li class="flex items-center gap-2 text-emerald-400 font-medium">
                 <span class="material-symbols-outlined text-emerald-400 text-sm">shield</span>
@@ -875,14 +875,13 @@
         <!-- CARD 2: FULL MONTH -->
         <div class="p-6 rounded-2xl bg-brand-gold/[0.04] border-2 border-brand-gold/50 flex flex-col justify-between space-y-5 relative shadow-[0_10px_35px_rgba(255,221,45,0.12)]">
           <div class="absolute -top-3 right-4 bg-brand-gold text-[#121214] font-outfit font-extrabold text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
-            ХИТ ПРОДАЖ • -50%
+            ОПТИМАЛЬНЫЙ ВЫБОР
           </div>
           <div class="space-y-3">
             <span class="text-[10px] font-bold uppercase tracking-wider text-brand-gold px-2.5 py-0.5 bg-brand-gold/10 rounded-full border border-brand-gold/30">Максимум</span>
             <div>
               <h4 class="font-outfit font-bold text-lg text-white">Полный Месяц</h4>
               <div class="flex items-baseline gap-2 mt-2">
-                <span class="text-xs text-white/30 line-through">12 990 ₽</span>
                 <span class="font-outfit font-extrabold text-3xl text-brand-gold">6 490 ₽</span>
                 <span class="text-xs text-white/40">/мес</span>
               </div>
@@ -953,7 +952,7 @@
             <div class="text-[11px] text-white/60">Если система продаж или работа ассистента вам не подойдут — вернем всю сумму на карту без лишней бюрократии.</div>
           </div>
         </div>
-        <a href="https://t.me/chc332" target="_blank" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold flex items-center gap-1.5 shrink-0 transition-colors">
+        <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold flex items-center gap-1.5 shrink-0 transition-colors">
           <span>Поддержка 24/7 @chc332</span>
           <span class="material-symbols-outlined text-sm">north_east</span>
         </a>
@@ -1005,7 +1004,7 @@
             <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </button>
 
-          <a href="https://t.me/chc332" target="_blank" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-cyan-300 flex items-center justify-between transition-colors cursor-pointer">
+          <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-cyan-300 flex items-center justify-between transition-colors cursor-pointer">
             <span class="flex items-center gap-2">
               <span class="material-symbols-outlined text-sm text-cyan-300">forum</span>
               <span>Чат с поддержкой (@chc332)</span>
@@ -1016,7 +1015,7 @@
       </div>
 
       <div class="pt-2 border-t border-white/10">
-        <a href="https://t.me/chc332" target="_blank" class="w-full btn-gold py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+        <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="w-full btn-gold py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm">
           <svg class="w-3.5 h-3.5 fill-black" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
           <span>Задать вопрос в Telegram</span>
         </a>
@@ -1080,21 +1079,35 @@
       return fetch(url, { ...options, credentials: options.credentials || 'include', headers });
     };
 
+    function cookieSecurityAttr() {
+      return window.location.protocol === 'https:' ? '; Secure' : '';
+    }
+
+    function sanitizeTelegramUrl(rawUrl, fallback = 'https://t.me/avito_deployer_bot?start=auth') {
+      try {
+        const parsed = new URL(String(rawUrl || ''), window.location.origin);
+        if (parsed.protocol === 'https:' && (parsed.hostname === 't.me' || parsed.hostname === 'telegram.me')) {
+          return parsed.href;
+        }
+      } catch (e) {}
+      return fallback;
+    }
+
     function clearAuthClientState() {
       try {
         localStorage.clear();
         sessionStorage.clear();
+        const secAttr = cookieSecurityAttr();
         ['session_token', 'userChatId', 'majorka_chatId', 'majorka_guest_id'].forEach(name => {
-          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax${secAttr}`;
         });
       } catch (e) {}
     }
 
-    const authStatus = (message = '', type = 'info', isHtml = false) => {
+    const authStatus = (message = '', type = 'info') => {
       const el = document.getElementById('authStatus');
       if (el) { 
-        if (isHtml) el.innerHTML = message;
-        else el.textContent = message; 
+        el.textContent = message; 
         el.className = `auth-status ${type}`; 
       }
     };
@@ -1114,7 +1127,7 @@
       const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId') || cookieChatId;
       const navLoginBtn = document.getElementById('navLoginBtn');
       if (savedChatId && !savedChatId.startsWith('client_') && navLoginBtn) {
-        navLoginBtn.innerHTML = '👉 Личный Кабинет';
+        navLoginBtn.textContent = '👉 Личный Кабинет';
         navLoginBtn.className = 'btn-gold px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-neon-glow';
         const navReg = document.getElementById('navRegisterBtn');
         if (navReg) navReg.classList.add('hidden');
@@ -1204,9 +1217,13 @@
       if (pwdInput) pwdInput.setAttribute('autocomplete', isRegister ? 'new-password' : 'current-password');
       
       if (switchPrompt) {
-        switchPrompt.innerHTML = isRegister
-          ? 'Уже есть аккаунт? <button type="button" onclick="setAuthMode(\'login\')" class="text-brand-gold font-bold hover:underline cursor-pointer ml-1">Войти в кабинет</button>'
-          : 'Впервые у нас? <button type="button" onclick="setAuthMode(\'register\')" class="text-brand-gold font-bold hover:underline cursor-pointer ml-1">Создать аккаунт</button>';
+        const promptText = document.createTextNode(isRegister ? 'Уже есть аккаунт? ' : 'Впервые у нас? ');
+        const switchBtn = document.createElement('button');
+        switchBtn.type = 'button';
+        switchBtn.className = 'text-brand-gold font-bold hover:underline cursor-pointer ml-1';
+        switchBtn.textContent = isRegister ? 'Войти в кабинет' : 'Создать аккаунт';
+        switchBtn.addEventListener('click', () => setAuthMode(isRegister ? 'login' : 'register'));
+        switchPrompt.replaceChildren(promptText, switchBtn);
       }
 
       authStatus('');
@@ -1235,8 +1252,11 @@
     }
 
     function saveAuthAndContinue(data) {
+      if (!data?.session_token || !data?.user?.chatId) {
+        throw new Error('Сервер не передал токен сессии.');
+      }
       const chatId = String(data.user.chatId);
-      const token = data.session_token || ('tok_' + Date.now());
+      const token = String(data.session_token);
       
       // Clear storage if changing user
       const prevChatId = localStorage.getItem('majorka_chatId');
@@ -1247,6 +1267,9 @@
         localStorage.removeItem('majorka_slots_count');
         localStorage.removeItem('majorka_trial_used');
         localStorage.removeItem('majorka_balance');
+        localStorage.removeItem('majorka_userEmail');
+        localStorage.removeItem('majorka_user_email');
+        localStorage.removeItem('majorka_userName');
       }
 
       // 1. Save in localStorage
@@ -1260,17 +1283,23 @@
 
       // 2. Save in permanent cookies (365 days / 1 year)
       const maxAge = 365 * 24 * 3600;
-      document.cookie = `session_token=${token}; max-age=${maxAge}; path=/; SameSite=Lax`;
-      document.cookie = `userChatId=${chatId}; max-age=${maxAge}; path=/; SameSite=Lax`;
-      document.cookie = `majorka_chatId=${chatId}; max-age=${maxAge}; path=/; SameSite=Lax`;
+      const secAttr = cookieSecurityAttr();
+      document.cookie = `session_token=${encodeURIComponent(token)}; max-age=${maxAge}; path=/; SameSite=Lax${secAttr}`;
+      document.cookie = `userChatId=${encodeURIComponent(chatId)}; max-age=${maxAge}; path=/; SameSite=Lax${secAttr}`;
+      document.cookie = `majorka_chatId=${encodeURIComponent(chatId)}; max-age=${maxAge}; path=/; SameSite=Lax${secAttr}`;
 
-      window.location.href = './dashboard.html?chatId=' + chatId;
+      window.location.href = './dashboard.html?chatId=' + encodeURIComponent(chatId);
     }
 
     function initGoogleSignIn() {
       const container = document.getElementById('googleSignInButton');
       if (!container || !window.google?.accounts?.id || !googleClientId) {
-        if (container) container.innerHTML = '<span class="text-[11px] text-white/35">Быстрый вход Google готов</span>';
+        if (container) {
+          const fallbackSpan = document.createElement('span');
+          fallbackSpan.className = 'text-[11px] text-white/35';
+          fallbackSpan.textContent = 'Быстрый вход Google готов';
+          container.replaceChildren(fallbackSpan);
+        }
         return;
       }
       google.accounts.id.initialize({ client_id: googleClientId, callback: handleGoogleCredential, auto_select: false, cancel_on_tap_outside: true });
@@ -1328,52 +1357,82 @@
 
       // Desktop / Web Browser: Fast direct handshake with @avito_deployer_bot
       authStatus('Создаём сессию быстрого входа через Telegram…', 'info');
+      const fallbackBotUrl = 'https://t.me/avito_deployer_bot?start=auth';
       let ticketId = null;
-      let botUrl = 'https://t.me/avito_deployer_bot?start=auth';
+      let botUrl = fallbackBotUrl;
 
       try {
         const controller = new AbortController();
         const timeoutId = setTimeout(() => controller.abort(), 6000);
         const ticketRes = await apiFetch(`${API_BASE}/api/auth/telegram_qr_start`, {
+          method: 'POST',
           signal: controller.signal
         });
         clearTimeout(timeoutId);
         if (ticketRes.ok) {
           const ticketData = await ticketRes.json();
           if (ticketData?.success && ticketData.ticket_id) {
-            ticketId = ticketData.ticket_id;
-            botUrl = ticketData.bot_url || `https://t.me/avito_deployer_bot?start=login_${ticketId}`;
+            ticketId = String(ticketData.ticket_id);
+            const rawBotUrl = ticketData.bot_url || `https://t.me/avito_deployer_bot?start=login_${encodeURIComponent(ticketId)}`;
+            botUrl = sanitizeTelegramUrl(rawBotUrl, fallbackBotUrl);
           }
         }
       } catch (e) {
         console.log('Ticket API fallback to direct bot link:', e);
       }
 
+      const safeBotUrl = sanitizeTelegramUrl(botUrl, fallbackBotUrl);
+
       // Open bot link in new tab or redirect on mobile
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       if (isMobile) {
-        window.location.href = botUrl;
+        window.location.href = safeBotUrl;
       } else {
-        try { window.open(botUrl, '_blank'); } catch(e) {}
+        try { window.open(safeBotUrl, '_blank', 'noopener,noreferrer'); } catch(e) {}
       }
 
-      // Display verified Telegram Auth card (requires server-side bot confirmation)
-      const cardHtml = `
-        <div class="p-4 rounded-xl bg-[#2AABEE]/15 border border-[#2AABEE]/40 text-center space-y-3 my-2">
-          <div class="text-xs font-bold text-white flex items-center justify-center gap-2">
-            <span class="w-2.5 h-2.5 rounded-full bg-[#2AABEE] animate-pulse"></span>
-            <span>Подтверждение входа через Telegram</span>
-          </div>
-          <p class="text-[11px] text-white/70">Откройте Telegram @avito_deployer_bot и нажмите <b>START</b> для подтверждения входа.</p>
-          <a href="${botUrl}" target="_blank" class="block w-full py-2.5 px-3 rounded-lg bg-[#2AABEE] hover:bg-[#229ED9] text-white font-extrabold text-xs shadow-md shadow-[#2AABEE]/25 transition-all text-center">
-            👉 Открыть @avito_deployer_bot в Telegram
-          </a>
-          <div class="pt-2 border-t border-white/10 flex justify-center items-center text-[10px]">
-            <button type="button" onclick="goToGuestDemo()" class="text-white/60 hover:text-white cursor-pointer">Демо-доступ 👁️</button>
-          </div>
-        </div>
-      `;
-      authStatus(cardHtml, 'info', true);
+      // Display verified Telegram Auth card via safe DOM nodes (no innerHTML XSS sink)
+      const statusEl = document.getElementById('authStatus');
+      if (statusEl) {
+        statusEl.className = 'auth-status info';
+        const card = document.createElement('div');
+        card.className = 'p-4 rounded-xl bg-[#2AABEE]/15 border border-[#2AABEE]/40 text-center space-y-3 my-2';
+
+        const header = document.createElement('div');
+        header.className = 'text-xs font-bold text-white flex items-center justify-center gap-2';
+        const dot = document.createElement('span');
+        dot.className = 'w-2.5 h-2.5 rounded-full bg-[#2AABEE] animate-pulse';
+        const titleSpan = document.createElement('span');
+        titleSpan.textContent = 'Подтверждение входа через Telegram';
+        header.append(dot, titleSpan);
+
+        const desc = document.createElement('p');
+        desc.className = 'text-[11px] text-white/70';
+        desc.append(
+          document.createTextNode('Откройте Telegram @avito_deployer_bot и нажмите '),
+          Object.assign(document.createElement('b'), { textContent: 'START' }),
+          document.createTextNode(' для подтверждения входа.')
+        );
+
+        const tgLink = document.createElement('a');
+        tgLink.href = safeBotUrl;
+        tgLink.target = '_blank';
+        tgLink.rel = 'noopener noreferrer';
+        tgLink.className = 'block w-full py-2.5 px-3 rounded-lg bg-[#2AABEE] hover:bg-[#229ED9] text-white font-extrabold text-xs shadow-md shadow-[#2AABEE]/25 transition-all text-center';
+        tgLink.textContent = '👉 Открыть @avito_deployer_bot в Telegram';
+
+        const demoRow = document.createElement('div');
+        demoRow.className = 'pt-2 border-t border-white/10 flex justify-center items-center text-[10px]';
+        const demoBtn = document.createElement('button');
+        demoBtn.type = 'button';
+        demoBtn.className = 'text-white/60 hover:text-white cursor-pointer';
+        demoBtn.textContent = 'Демо-доступ 👁️';
+        demoBtn.addEventListener('click', goToGuestDemo);
+        demoRow.appendChild(demoBtn);
+
+        card.append(header, desc, tgLink, demoRow);
+        statusEl.replaceChildren(card);
+      }
 
       // If we have a ticket, poll for confirmation
       if (ticketId) {
