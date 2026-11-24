@@ -344,11 +344,7 @@
       const helperField = document.createElement('textarea');
       helperField.value = text;
       helperField.setAttribute('readonly', '');
-      helperField.style.position = 'fixed';
-      helperField.style.top = '0';
-      helperField.style.left = '0';
-      helperField.style.opacity = '0';
-      helperField.style.pointerEvents = 'none';
+      helperField.className = 'visually-hidden';
       document.body.appendChild(helperField);
       helperField.focus({ preventScroll: true });
       helperField.select();
