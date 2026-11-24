@@ -1258,15 +1258,18 @@
           </span>
         </div>
 
-        <!-- ПРАВИЛО БЕЗОПАСНОСТИ: ПЛАНОВЫЙ СБРОС СЕССИЙ РАЗ В МЕСЯЦ -->
-        <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-start gap-3">
-          <span class="material-symbols-outlined text-amber-400 text-xl shrink-0 mt-0.5" aria-hidden="true">verified_user</span>
-          <div class="text-xs space-y-1">
-            <div class="font-bold text-amber-300 text-sm">Безопасность и плановое подтверждение сессии (раз в 30 дней)</div>
-            <div class="text-white/70 leading-relaxed">
-              По правилам безопасности Авито, авторизация в приложении периодически обновляется (примерно 1 раз в месяц). 
-              Если потребуется подтвердить сессию, сервис <strong>мгновенно уведомит вас в Telegram и в этом кабинете</strong>. 
-              Вам потребуется только нажать «Подтвердить вход» и ввести 4-значный код из СМС — все ваши регламенты, база знаний и каталог сохраняются без изменений.
+        <!-- ПРАВИЛО БЕЗОПАСНОСТИ: МАКСИМАЛЬНАЯ ЗАЩИТА АККАУНТА И СРЕДСТВ -->
+        <div class="p-4 sm:p-5 rounded-2xl bg-[#16161B] border border-white/12 flex items-start gap-3.5">
+          <div class="w-9 h-9 rounded-xl bg-gold/12 border border-gold/30 flex items-center justify-center shrink-0 mt-0.5">
+            <span class="material-symbols-outlined text-gold text-xl" aria-hidden="true">verified_user</span>
+          </div>
+          <div class="text-xs space-y-1.5">
+            <div class="font-outfit font-bold text-white text-sm sm:text-base">Максимальная безопасность аккаунта и ваших средств</div>
+            <div class="text-white/75 leading-relaxed">
+              Подключение устроено так, чтобы ваши деньги и объявления всегда оставались под вашим полным контролем: через раздел «Сотрудники» Авито PRO основной пароль не требуется — кошелёк, банковские карты, тариф и правка объявлений <strong>физически закрыты самим Авито</strong>. Если у вас обычный профиль без PRO, доступен прямой вход по номеру и СМС в выделенный изолированный слот.
+            </div>
+            <div class="text-[11px] text-white/55 leading-relaxed">
+              Примерно раз в 30 дней Авито запрашивает плановое подтверждение сессии по СМС — мы мгновенно пришлём уведомление в Telegram и здесь в кабинете, чтобы вы подтвердили 4-значный код без потери настроек и каталога.
             </div>
           </div>
         </div>
@@ -1277,12 +1280,12 @@
         <div id="chainAuthStage1" class="space-y-5">
 
           <!-- СПОСОБ 1: СОТРУДНИКИ АВИТО PRO (БЕЗ ОСНОВНОГО ПАРОЛЯ) -->
-          <div class="p-4 sm:p-5 rounded-2xl bg-emerald-500/[0.06] border border-emerald-500/30 space-y-3.5">
+          <div class="p-4 sm:p-5 rounded-2xl bg-[#16161B] border border-gold/30 space-y-3.5">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div class="space-y-1">
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold uppercase tracking-wider">
+              <div class="space-y-1.5">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/12 text-gold border border-gold/30 text-[10px] font-bold uppercase tracking-wider">
                   <span class="material-symbols-outlined text-xs" aria-hidden="true">shield</span>
-                  <span>Способ 1 (Рекомендуемый — без основного пароля)</span>
+                  <span>Способ 1 • Авито PRO (Максимальная защита без пароля)</span>
                 </div>
                 <h4 class="font-outfit font-bold text-sm sm:text-base text-white">Подключение через раздел «Сотрудники» в Авито PRO</h4>
                 <p class="text-xs text-white/70 leading-relaxed max-w-2xl">
@@ -1297,7 +1300,7 @@
 
             <div class="flex flex-col sm:flex-row gap-2.5">
               <div class="relative flex-1">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-emerald-400 text-base" aria-hidden="true">link</span>
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base" aria-hidden="true">link</span>
                 <input type="url" id="chainEmployeeInviteUrl" aria-label="Ссылка-приглашение сотрудника Авито PRO" placeholder="https://www.avito.ru/... — вставьте ссылку-приглашение сотрудника" class="clean-input w-full pl-10 pr-3 py-3 text-xs sm:text-sm text-white">
               </div>
               <button type="button" id="btnSubmitEmployeeInvite" onclick="submitEmployeeInviteLink(this)" class="btn-gold min-h-[44px] px-5 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shrink-0">
@@ -1306,23 +1309,29 @@
               </button>
             </div>
 
-            <div id="chainInviteSuccessBox" class="hidden p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-xs text-emerald-200 flex items-center gap-2">
-              <span class="material-symbols-outlined text-base text-emerald-400" aria-hidden="true">verified</span>
+            <div id="chainInviteSuccessBox" class="hidden p-3 rounded-xl bg-[#1C1C22] border border-gold/35 text-xs text-white flex items-center gap-2">
+              <span class="material-symbols-outlined text-base text-gold shrink-0" aria-hidden="true">verified</span>
               <span>Ссылка-приглашение сохранена! Пожалуйста, не нажимайте кнопку «Обновить» в разделе «Сотрудники» Авито PRO, чтобы приглашение не сгорело.</span>
             </div>
           </div>
 
           <div class="flex items-center gap-3">
             <div class="h-px bg-white/10 flex-1"></div>
-            <span class="text-[10px] font-bold uppercase tracking-wider text-white/40">или прямой вход по телефону и СМС</span>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-white/50">или если у вас обычный профиль без Авито PRO</span>
             <div class="h-px bg-white/10 flex-1"></div>
           </div>
 
           <!-- СПОСОБ 2: ТЕЛЕФОН, ПАРОЛЬ И СМС -->
-          <div class="space-y-3">
-            <p class="text-xs text-white/60 leading-relaxed">
-              <strong>Способ 2:</strong> Укажите номер телефона и пароль от аккаунта Авито для подключения через выделенный слот:
-            </p>
+          <div class="p-4 sm:p-5 rounded-2xl bg-[#141418] border border-white/10 space-y-3.5">
+            <div class="space-y-1">
+              <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/5 text-white/75 border border-white/15 text-[10px] font-bold uppercase tracking-wider">
+                <span class="material-symbols-outlined text-xs text-white/70" aria-hidden="true">smartphone</span>
+                <span>Способ 2 • Обычный профиль Авито (без PRO)</span>
+              </div>
+              <p class="text-xs text-white/70 leading-relaxed pt-1">
+                Укажите номер телефона и пароль от аккаунта Авито для безопасного подключения через выделенный изолированный слот и 4-значный код из СМС:
+              </p>
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
               <div class="sm:col-span-5 space-y-1.5">
                 <label for="chainPhoneInput" class="block text-xs font-bold uppercase tracking-wider text-white/80">Номер телефона Авито</label>
@@ -1353,7 +1362,7 @@
           </div>
 
           <!-- ОБЯЗАТЕЛЬНО К ПРОЧТЕНИЮ ПЕРЕД ПОДКЛЮЧЕНИЕМ -->
-          <div id="chainGuideMandatoryBlock" class="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/35 space-y-3">
+          <div id="chainGuideMandatoryBlock" class="p-4 sm:p-5 rounded-2xl bg-[#16161B] border border-white/15 space-y-3">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div class="space-y-1.5">
                 <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/15 text-gold border border-gold/30 text-[10px] font-extrabold uppercase tracking-wider">
@@ -2821,6 +2830,7 @@
     <div class="max-w-[1280px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
       <div class="flex flex-wrap items-center gap-4">
         <span>© 2026 MAJORKA. Все права защищены.</span>
+        <a href="./info.html" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition-colors underline text-white/65 font-medium">О сервисе</a>
         <a href="oferta.html" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition-colors underline text-white/50 font-medium">Публичная оферта</a>
         <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition-colors underline text-white/50 font-medium">Политика конфиденциальности (152-ФЗ)</a>
         <a href="./employee-guide.html" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition-colors underline text-gold/90 font-semibold">Инструкция (обязательно к прочтению)</a>
