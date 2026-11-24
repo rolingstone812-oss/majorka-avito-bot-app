@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MAJORKA // Твой Личный Менеджер Продаж на Авито 24/7</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   
   <!-- SEO & BROWSER META -->
   <meta name="description" content="MAJORKA — Твой управляющий продажами на Авито 24/7. Мгновенные ответы покупателям, консультации по наличию и закрытие сделок без пауз и выходных. Пробный доступ на 7 дней за 1 590 ₽. 100% гарантия возврата 24ч.">
@@ -80,9 +81,11 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap"></noscript>
+  <script defer src="https://telegram.org/js/telegram-web-app.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <script>
@@ -98,8 +101,10 @@
               border: 'rgba(255, 255, 255, 0.08)',
               borderFocus: '#FFDD2D',
               gold: '#FFDD2D',
-              'gold-hover': '#FFC700'
-            }
+              'gold-hover': '#F2C900',
+              'gold-active': '#E5BE00'
+            },
+            'gold': '#FFDD2D' 
           },
           fontFamily: {
             sans: ['Inter', 'sans-serif'],
@@ -125,67 +130,84 @@
     .auth-status.info { color: rgba(255,255,255,.6); }
     .auth-status.success { color: #34d399; }
     
-    .auth-mode { color: rgba(255,255,255,.45); transition: all .2s ease; }
-    .auth-mode.active { color: #121214; background: #FFDD2D; font-weight: 700; box-shadow: 0 2px 10px rgba(255,221,45,.2); }
+    .auth-mode { color: rgba(228, 228, 234, 0.75); transition: background-color .15s ease, color .15s ease; }
+    .auth-mode.active { color: #111215; background: #FFDD2D; font-weight: 700; box-shadow: none; }
     
-    .password-hint { color: rgba(255,255,255,.4); }
+    .password-hint { color: rgba(228, 228, 234, 0.72); }
     .password-hint.valid { color: #34d399; }
     .password-hint.invalid { color: #f87171; }
 
     .rolly-input {
       background: #141417;
-      border: 1px solid rgba(255, 255, 255, 0.09);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       color: #ffffff;
       border-radius: 0.75rem;
-      transition: all 0.2s ease;
+      transition: border-color 0.15s ease, background-color 0.15s ease;
+    }
+    .rolly-input::placeholder {
+      color: rgba(255, 255, 255, 0.52) !important;
     }
     .rolly-input:focus {
       border-color: #FFDD2D;
       outline: none;
-      box-shadow: 0 0 0 1px rgba(255, 221, 45, 0.35);
+      box-shadow: none;
       background: #17171b;
     }
 
     .btn-gold {
-      background: #FFDD2D;
-      color: #121214;
-      font-weight: 700;
-      border-radius: 0.75rem;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 18px rgba(255, 221, 45, 0.2);
+      background: #FFDD2D !important;
+      color: #111215 !important;
+      font-weight: 700 !important;
+      border: 1px solid rgba(255, 255, 255, 0.14) !important;
+      border-radius: 0.75rem !important;
+      box-shadow: none !important;
+      transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease !important;
     }
     .btn-gold:hover {
-      background: #FFC700;
+      background: #F2C900 !important;
       transform: translateY(-1px);
-      box-shadow: 0 6px 24px rgba(255, 221, 45, 0.32);
+      box-shadow: none !important;
     }
     .btn-gold:active {
+      background: #E5BE00 !important;
       transform: translateY(0);
+      box-shadow: none !important;
     }
 
     .glass-card {
-      background: rgba(18, 22, 34, 0.65);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      background: #16161B;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    .tabular-nums,
+    .font-outfit {
+      font-variant-numeric: tabular-nums;
+    }
+
+    .text-white\/20,
+    .text-white\/25,
+    .text-white\/30,
+    .text-white\/35,
+    .text-white\/40,
+    .text-white\/45,
+    .text-white\/50 {
+      color: rgba(228, 228, 234, 0.72) !important;
+    }
+    .text-white\/60 {
+      color: rgba(236, 236, 241, 0.82) !important;
     }
 
     @keyframes floatSlow {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
+      50% { transform: translateY(-6px); }
     }
     @keyframes floatReverse {
       0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(6px); }
-    }
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.4; transform: scale(1); }
-      50% { opacity: 0.75; transform: scale(1.03); }
+      50% { transform: translateY(5px); }
     }
     .anim-float { animation: floatSlow 6s ease-in-out infinite; }
     .anim-float-rev { animation: floatReverse 7s ease-in-out infinite; }
-    .anim-pulse-glow { animation: pulseGlow 5s ease-in-out infinite; }
   </style>
 
   <script>
@@ -215,7 +237,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between selection:bg-brand-gold selection:text-black">
 
-  <div class="min-h-screen w-full flex flex-col lg:flex-row">
+  <main class="min-h-screen w-full flex flex-col lg:flex-row">
 
     <!-- ==================== LEFT COLUMN: AUTHENTICATION FORM ==================== -->
     <div class="w-full lg:w-[45%] xl:w-[42%] flex flex-col justify-between p-4 sm:p-8 lg:p-14 border-b lg:border-b-0 lg:border-r border-white/5 bg-[#09090b] relative z-20">
@@ -223,7 +245,7 @@
       <!-- TOP: BRAND LOGO -->
       <div class="flex items-center justify-between">
         <div class="flex items-center gap-3 cursor-pointer group">
-          <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-b from-[#22201b] to-[#121214] border border-brand-gold/30 shadow-[0_2px_12px_rgba(255,221,45,0.12)]">
+          <div class="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-b from-[#22201b] to-[#121214] border border-brand-gold/30">
             <!-- 3D FACETED MONOGRAM M -->
             <svg class="w-5 h-5 transform group-hover:scale-105 transition-transform duration-300" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
               <defs>
@@ -269,11 +291,11 @@
           <button id="navLoginBtn" type="button" onclick="handleTopNavAuthClick()" class="px-3 py-1.5 rounded-xl border border-white/10 hover:border-white/30 text-xs font-semibold text-white/80 hover:text-white transition-all cursor-pointer">
             Войти
           </button>
-          <button id="navRegisterBtn" type="button" onclick="setAuthModeAndScroll('register')" class="btn-gold px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-neon-glow">
+          <button id="navRegisterBtn" type="button" onclick="setAuthModeAndScroll('register')" class="btn-gold px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer">
             Регистрация
           </button>
           <button type="button" onclick="openTariffModal()" class="hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-brand-gold/30 bg-brand-gold/10 hover:bg-brand-gold/20 text-[11px] font-bold text-brand-gold transition-all cursor-pointer">
-            <span class="material-symbols-outlined text-sm">payments</span>
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">payments</span>
             <span>Тарифы</span>
           </button>
         </div>
@@ -312,7 +334,7 @@
             <div class="text-[10px] text-white/40 mt-0.5 font-medium">Конверсия</div>
           </div>
           <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-center">
-            <div class="font-outfit font-black text-cyan-400 text-sm sm:text-base">100%</div>
+            <div class="font-outfit font-black text-white text-sm sm:text-base tabular-nums">100%</div>
             <div class="text-[10px] text-white/40 mt-0.5 font-medium">Гарантия 24ч</div>
           </div>
         </div>
@@ -322,7 +344,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2.5">
               <div class="w-9 h-9 rounded-xl bg-brand-gold/20 border border-brand-gold/40 flex items-center justify-center text-brand-gold font-bold">
-                <span class="material-symbols-outlined text-lg">account_circle</span>
+                <span class="material-symbols-outlined text-lg" aria-hidden="true">account_circle</span>
               </div>
               <div>
                 <div id="returningUserName" class="text-xs font-bold text-white">Вы уже в системе</div>
@@ -330,14 +352,14 @@
               </div>
             </div>
             <button type="button" onclick="logoutCurrentUser()" class="text-[10px] text-white/40 hover:text-red-400 transition-colors cursor-pointer flex items-center gap-1">
-              <span class="material-symbols-outlined text-xs">logout</span>
+              <span class="material-symbols-outlined text-xs" aria-hidden="true">logout</span>
               <span>Сменить аккаунт</span>
             </button>
           </div>
-          <button onclick="goToCabinet()" class="w-full btn-gold py-3.5 px-4 rounded-xl text-sm font-extrabold flex items-center justify-center gap-2 cursor-pointer shadow-neon-glow group">
-            <span class="material-symbols-outlined text-lg">dashboard</span>
+          <button onclick="goToCabinet()" class="min-h-[44px] w-full btn-gold py-3.5 px-4 rounded-xl text-sm font-extrabold flex items-center justify-center gap-2 cursor-pointer group">
+            <span class="material-symbols-outlined text-lg" aria-hidden="true">dashboard</span>
             <span>Перейти в Мой Кабинет</span>
-            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            <span class="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
           </button>
         </div>
 
@@ -345,20 +367,20 @@
         <div id="authMainCard" class="p-5 sm:p-6 rounded-2xl bg-white/[0.03] border border-white/10 space-y-4 shadow-xl">
           
           <!-- MODE SWITCHER TABS: REGISTRATION / LOGIN -->
-          <div class="grid grid-cols-2 gap-1.5 p-1 bg-[#141417] rounded-xl border border-white/5">
-            <button id="registerModeButton" type="button" onclick="setAuthMode('register')" class="auth-mode active py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
-              <span class="material-symbols-outlined text-sm">person_add</span>
+          <div class="grid grid-cols-2 gap-1.5 p-1 bg-[#141417] rounded-xl border border-white/10">
+            <button id="registerModeButton" type="button" onclick="setAuthMode('register')" class="auth-mode active min-h-[44px] py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
+              <span class="material-symbols-outlined text-sm" aria-hidden="true">person_add</span>
               <span>Регистрация</span>
             </button>
-            <button id="loginModeButton" type="button" onclick="setAuthMode('login')" class="auth-mode py-2 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
-              <span class="material-symbols-outlined text-sm">login</span>
+            <button id="loginModeButton" type="button" onclick="setAuthMode('login')" class="auth-mode min-h-[44px] py-2.5 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
+              <span class="material-symbols-outlined text-sm" aria-hidden="true">login</span>
               <span>Войти</span>
             </button>
           </div>
 
           <div>
-            <h4 id="authTitle" class="text-sm sm:text-base font-bold text-white mb-0.5">Создание Личного Кабинета</h4>
-            <p id="authSubtitle" class="text-[11px] text-white/50">Зарегистрируйтесь, чтобы закрепить магазин за своим аккаунтом</p>
+            <h3 id="authTitle" class="text-sm sm:text-base font-bold text-white mb-0.5">Создание Личного Кабинета</h3>
+            <p id="authSubtitle" class="text-[11px] text-white/60">Зарегистрируйтесь, чтобы закрепить магазин за своим аккаунтом</p>
           </div>
 
           <!-- 1-CLICK SOCIAL ENTRANCE -->
@@ -367,7 +389,7 @@
             <div id="googleSignInButton" class="w-full flex justify-center"></div>
 
             <!-- TELEGRAM 1-CLICK AUTH -->
-            <button type="button" onclick="submitTelegramAuth()" class="w-full py-2.5 px-4 rounded-xl bg-[#2AABEE]/10 hover:bg-[#2AABEE]/20 border border-[#2AABEE]/30 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer">
+            <button type="button" onclick="submitTelegramAuth()" class="min-h-[44px] w-full py-2.5 px-4 rounded-xl bg-[#202026] hover:bg-[#2A2A32] border border-white/15 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer">
               <svg class="w-4 h-4 fill-[#2AABEE]" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
               <span>Войти через Telegram</span>
             </button>
@@ -383,32 +405,32 @@
           <div class="space-y-3">
             <!-- NAME (Register only) -->
             <div id="nameField">
-              <label class="block text-[10px] font-semibold text-white/60 mb-1">Ваше имя</label>
-              <input type="text" id="nameInput" autocomplete="name" class="rolly-input w-full px-3.5 py-2.5 text-xs placeholder-white/20" placeholder="Например, Александр">
+              <label for="nameInput" class="block text-[11px] font-semibold text-white/75 mb-1">Ваше имя</label>
+              <input type="text" id="nameInput" autocomplete="name" class="rolly-input min-h-[44px] w-full px-3.5 py-2.5 text-xs" placeholder="Например, Александр">
             </div>
 
             <!-- EMAIL -->
             <div>
-              <label class="block text-[10px] font-semibold text-white/60 mb-1">Email</label>
-              <input type="email" id="emailInput" autocomplete="email" class="rolly-input w-full px-3.5 py-2.5 text-xs placeholder-white/20" placeholder="name@domain.com">
+              <label for="emailInput" class="block text-[11px] font-semibold text-white/75 mb-1">Email</label>
+              <input type="email" id="emailInput" autocomplete="email" class="rolly-input min-h-[44px] w-full px-3.5 py-2.5 text-xs" placeholder="name@domain.com">
             </div>
 
             <!-- PASSWORD -->
             <div class="space-y-1">
-              <label class="block text-[10px] font-semibold text-white/60 mb-1">Пароль</label>
+              <label for="passwordInput" class="block text-[11px] font-semibold text-white/75 mb-1">Пароль</label>
               <div class="relative">
-                <input type="password" id="passwordInput" autocomplete="new-password" oninput="updatePasswordHint()" class="rolly-input w-full px-3.5 pr-9 py-2.5 text-xs placeholder-white/20" placeholder="Минимум 8 символов">
-                <button type="button" onclick="togglePasswordVisibility()" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white p-1">
-                  <span id="eyeIcon" class="material-symbols-outlined text-sm select-none">visibility</span>
+                <input type="password" id="passwordInput" autocomplete="new-password" oninput="updatePasswordHint()" class="rolly-input min-h-[44px] w-full px-3.5 pr-10 py-2.5 text-xs" placeholder="Минимум 8 символов">
+                <button type="button" onclick="togglePasswordVisibility()" class="absolute right-1.5 top-1/2 -translate-y-1/2 min-h-[36px] min-w-[36px] flex items-center justify-center text-white/60 hover:text-white p-1 rounded-lg cursor-pointer" aria-label="Показать или скрыть пароль">
+                  <span id="eyeIcon" class="material-symbols-outlined text-base select-none" aria-hidden="true">visibility</span>
                 </button>
               </div>
-              <div id="passwordHint" class="password-hint text-[11px] text-white/40">Не менее 8 символов, 1 латинская буква и 1 цифра</div>
+              <div id="passwordHint" class="password-hint text-[11px]">Не менее 8 символов, 1 латинская буква и 1 цифра</div>
             </div>
 
             <!-- CONFIRM PASSWORD (Register only) -->
             <div id="passwordConfirmField">
-              <label class="block text-[10px] font-semibold text-white/60 mb-1">Повторите пароль</label>
-              <input type="password" id="passwordConfirmInput" autocomplete="new-password" class="rolly-input w-full px-3.5 py-2.5 text-xs placeholder-white/20" placeholder="Повторите пароль">
+              <label for="passwordConfirmInput" class="block text-[11px] font-semibold text-white/75 mb-1">Повторите пароль</label>
+              <input type="password" id="passwordConfirmInput" autocomplete="new-password" class="rolly-input min-h-[44px] w-full px-3.5 py-2.5 text-xs" placeholder="Повторите пароль">
             </div>
 
             <!-- STATUS ALERT -->
@@ -417,30 +439,30 @@
             <!-- TERMS CHECKBOX -->
             <label class="flex items-start gap-2 text-[10px] text-white/60 cursor-pointer pt-0.5">
               <input type="checkbox" id="indexTermsCheckbox" checked class="mt-0.5 rounded text-brand-gold focus:ring-brand-gold bg-black/40 border-white/20">
-              <span>Согласен с <a href="oferta.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline">Офертой</a> и <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline">152-ФЗ РФ</a></span>
+              <span>Согласен с <a href="oferta.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold underline hover:opacity-85">Офертой</a> и <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold underline hover:opacity-85">152-ФЗ РФ</a></span>
             </label>
 
             <!-- SUBMIT BUTTON -->
-            <button id="emailLoginButton" onclick="submitEmailAuth()" class="w-full btn-gold py-3 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-neon-glow">
+            <button id="emailLoginButton" onclick="submitEmailAuth()" class="min-h-[44px] w-full btn-gold py-3 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer">
               <span id="emailActionText">Создать Личный Кабинет</span>
-              <span class="material-symbols-outlined text-sm">arrow_forward</span>
+              <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
             </button>
 
             <!-- 1-CLICK INSTANT DEMO / GUEST ACCESS -->
             <div class="pt-2 text-center border-t border-white/5 space-y-1">
-              <button type="button" onclick="goToGuestDemo()" class="w-full py-2.5 px-3 rounded-xl border border-white/10 hover:border-brand-gold/40 hover:bg-brand-gold/5 text-xs font-semibold text-white/70 hover:text-brand-gold flex items-center justify-center gap-2 transition-all cursor-pointer">
-                <span class="material-symbols-outlined text-sm text-brand-gold">visibility</span>
+              <button type="button" onclick="goToGuestDemo()" class="min-h-[44px] w-full py-2.5 px-3 rounded-xl border border-white/15 hover:border-brand-gold/40 hover:bg-brand-gold/5 text-xs font-semibold text-white/80 hover:text-brand-gold flex items-center justify-center gap-2 transition-colors cursor-pointer">
+                <span class="material-symbols-outlined text-sm text-brand-gold" aria-hidden="true">visibility</span>
                 <span>Ознакомительный доступ (Демо Личного Кабинета)</span>
               </button>
-              <p class="text-[10px] text-white/35">Мгновенный вход для знакомства с платформой без ввода данных</p>
+              <p class="text-[10px] text-white/55">Мгновенный вход для знакомства с платформой без ввода данных</p>
             </div>
 
             <!-- 152-FZ & OFFER CONSENT NOTICE -->
-            <p class="text-[10px] text-white/40 text-center leading-tight pt-1">
+            <p class="text-[10px] text-white/55 text-center leading-tight pt-1">
               Нажимая кнопку, вы принимаете условия 
-              <a href="oferta.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline">Публичной оферты</a> 
+              <a href="oferta.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold underline hover:opacity-85">Публичной оферты</a> 
               и даёте согласие на обработку данных по 
-              <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold hover:underline">152-ФЗ РФ</a>.
+              <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="text-brand-gold underline hover:opacity-85">152-ФЗ РФ</a>.
             </p>
           </div>
 
@@ -450,7 +472,7 @@
               Уже есть аккаунт? <button type="button" onclick="setAuthMode('login')" class="text-brand-gold font-bold hover:underline cursor-pointer ml-1">Войти в кабинет</button>
             </div>
             <button type="button" onclick="goToGuestDemo()" class="text-[11px] text-white/35 hover:text-white/70 transition-colors cursor-pointer flex items-center gap-1">
-              <span class="material-symbols-outlined text-xs">visibility</span>
+              <span class="material-symbols-outlined text-xs" aria-hidden="true">visibility</span>
               <span>Быстрый демо-просмотр кабинета без регистрации</span>
             </button>
           </div>
@@ -462,7 +484,7 @@
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2.5">
               <div class="w-8 h-8 rounded-lg bg-brand-gold/15 border border-brand-gold/30 flex items-center justify-center text-brand-gold">
-                <span class="material-symbols-outlined text-lg">bolt</span>
+                <span class="material-symbols-outlined text-lg" aria-hidden="true">bolt</span>
               </div>
               <div>
                 <div class="text-xs font-bold text-white flex items-center gap-1.5">
@@ -470,13 +492,13 @@
                   <span class="text-[9px] bg-brand-gold text-[#121214] px-1.5 py-0.5 rounded font-extrabold uppercase tracking-wider">ХИТ</span>
                 </div>
                 <div class="text-[10px] text-white/50 flex items-center gap-1 mt-0.5">
-                  <span class="text-emerald-400 flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px]">verified_user</span> 100% гарантия возврата 24ч</span>
+                  <span class="text-emerald-400 flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px]" aria-hidden="true">verified_user</span> 100% гарантия возврата 24ч</span>
                   <span>•</span>
                   <span>без переплат</span>
                 </div>
               </div>
             </div>
-            <span class="material-symbols-outlined text-sm text-brand-gold group-hover:translate-x-1 transition-transform">arrow_forward</span>
+            <span class="material-symbols-outlined text-sm text-brand-gold group-hover:translate-x-1 transition-transform" aria-hidden="true">arrow_forward</span>
           </div>
         </div>
 
@@ -486,28 +508,24 @@
       <div class="pt-6 border-t border-white/5 flex flex-wrap items-center justify-between gap-3 text-[11px] text-white/40">
         <div class="flex items-center gap-4">
           <span class="flex items-center gap-1.5">
-            <span class="material-symbols-outlined text-sm text-white/30">lock</span>
+            <span class="material-symbols-outlined text-sm text-white/30" aria-hidden="true">lock</span>
             Шифрование сессии
           </span>
           <span class="flex items-center gap-1.5">
-            <span class="material-symbols-outlined text-sm text-white/30">security</span>
+            <span class="material-symbols-outlined text-sm text-white/30" aria-hidden="true">security</span>
             Сервер 24/7
           </span>
         </div>
         <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="hover:text-brand-gold transition-colors flex items-center gap-1.5 font-medium">
-          <span class="material-symbols-outlined text-sm">support_agent</span>
+          <span class="material-symbols-outlined text-sm" aria-hidden="true">support_agent</span>
           Поддержка @chc332
         </a>
       </div>
 
     </div>
 
-    <!-- ==================== RIGHT COLUMN: 3D ISOMETRIC LUXURY SHOWCASE ==================== -->
-    <div class="flex-1 min-h-[420px] lg:min-h-screen relative overflow-hidden flex flex-col justify-between p-4 sm:p-8 lg:p-16 bg-[#08080a]" style="background: radial-gradient(circle at 65% 42%, #0e1e36 0%, #0a1120 45%, #08080a 90%);">
-      
-      <!-- AMBIENT GLOW BACKDROPS -->
-      <div class="absolute top-1/4 right-1/4 w-96 h-96 rounded-full bg-blue-600/10 blur-[120px] pointer-events-none anim-pulse-glow"></div>
-      <div class="absolute bottom-1/3 left-1/3 w-80 h-80 rounded-full bg-brand-gold/[0.04] blur-[100px] pointer-events-none"></div>
+    <!-- ==================== RIGHT COLUMN: ARCHITECTURAL SHOWCASE ==================== -->
+    <div class="flex-1 min-h-[420px] lg:min-h-screen relative overflow-hidden flex flex-col justify-between p-4 sm:p-8 lg:px-16 lg:pt-14 lg:pb-24 pb-24 bg-[#0d0d10]" style="background: radial-gradient(circle at 65% 42%, #19191F 0%, #121216 50%, #0B0B0D 95%);">
 
       <!-- TOP RIGHT: LIVE STATUS PILL -->
       <div class="flex items-center justify-end z-10">
@@ -520,59 +538,44 @@
       <!-- CENTER: 3D ISOMETRIC GLASS HUB & FLOATING CARDS (DESKTOP ONLY) -->
       <div class="hidden lg:flex relative w-full max-w-[620px] mx-auto my-auto py-10 z-10 items-center justify-center min-h-[380px]">
         
-        <!-- SVG CONNECTING CIRCUITS & ISOMETRIC PLATFORM -->
-        <svg class="absolute inset-0 w-full h-full pointer-events-none overflow-visible" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- SVG ARCHITECTURAL CONNECTORS (CRISP MATTE, NO NEON GLOW) -->
+        <svg aria-hidden="true" class="absolute inset-0 w-full h-full pointer-events-none overflow-visible" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <filter id="circuitGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feMerge>
-                <feMergeNode in="blur" />
-                <feMergeNode in="SourceGraphic" />
-              </feMerge>
-            </filter>
-            <linearGradient id="neonCyanLine" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#00D2FF" stop-opacity="0.8"/>
-              <stop offset="100%" stop-color="#0066FF" stop-opacity="0.2"/>
+            <linearGradient id="archZincLine" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#E4E4E7" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="#E4E4E7" stop-opacity="0.06"/>
             </linearGradient>
-            <linearGradient id="neonGoldLine" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#FFDD2D" stop-opacity="0.7"/>
-              <stop offset="100%" stop-color="#FF9900" stop-opacity="0.1"/>
+            <linearGradient id="archGoldLine" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FFDD2D" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#FFDD2D" stop-opacity="0.1"/>
             </linearGradient>
           </defs>
 
-          <!-- CIRCUIT TRACK 1: To Top-Left Card -->
-          <path d="M 300 200 L 220 160 L 160 120" stroke="url(#neonCyanLine)" stroke-width="2" stroke-dasharray="4 4" filter="url(#circuitGlow)"/>
-          
-          <!-- CIRCUIT TRACK 2: To Top-Right Card -->
-          <path d="M 330 190 L 410 150 L 460 110" stroke="url(#neonCyanLine)" stroke-width="2" stroke-dasharray="4 4" filter="url(#circuitGlow)"/>
-          
-          <!-- CIRCUIT TRACK 3: To Left Badges -->
-          <path d="M 270 215 L 180 230 L 110 240" stroke="url(#neonCyanLine)" stroke-width="2" stroke-linecap="round" filter="url(#circuitGlow)"/>
-          
-          <!-- CIRCUIT TRACK 4: To Bottom-Right Orders Card -->
-          <path d="M 330 230 L 400 270 L 460 300" stroke="url(#neonGoldLine)" stroke-width="2" stroke-dasharray="4 4" filter="url(#circuitGlow)"/>
+          <path d="M 300 200 L 220 160 L 160 120" stroke="url(#archZincLine)" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <path d="M 330 190 L 410 150 L 460 110" stroke="url(#archGoldLine)" stroke-width="1.5" stroke-dasharray="4 4"/>
+          <path d="M 270 215 L 180 230 L 110 240" stroke="url(#archZincLine)" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M 330 230 L 400 270 L 460 300" stroke="url(#archGoldLine)" stroke-width="1.5" stroke-dasharray="4 4"/>
 
-          <!-- CONNECTION PULSE NODES -->
-          <circle cx="160" cy="120" r="4" fill="#00D2FF" filter="url(#circuitGlow)"/>
-          <circle cx="460" cy="110" r="4" fill="#00D2FF" filter="url(#circuitGlow)"/>
-          <circle cx="110" cy="240" r="4" fill="#00D2FF" filter="url(#circuitGlow)"/>
-          <circle cx="460" cy="300" r="4" fill="#FFDD2D" filter="url(#circuitGlow)"/>
+          <circle cx="160" cy="120" r="3.5" fill="#A1A1AA"/>
+          <circle cx="460" cy="110" r="3.5" fill="#FFDD2D"/>
+          <circle cx="110" cy="240" r="3.5" fill="#A1A1AA"/>
+          <circle cx="460" cy="300" r="3.5" fill="#FFDD2D"/>
         </svg>
 
-        <!-- CENTRAL 3D ISOMETRIC GLASS HUB -->
+        <!-- CENTRAL ARCHITECTURAL MATTE HUB -->
         <div class="relative z-10 flex items-center justify-center">
           
-          <!-- Outer Shadow Platform -->
-          <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-3xl bg-gradient-to-tr from-[#0b162c] to-[#040812] border-2 border-cyan-500/30 shadow-[0_20px_60px_rgba(0,112,243,0.35)] flex items-center justify-center transform -rotate-12 hover:rotate-0 transition-transform duration-700 ease-out cursor-pointer group">
+          <!-- Outer Matte Platform -->
+          <div class="w-48 h-48 sm:w-56 sm:h-56 rounded-3xl bg-gradient-to-tr from-[#18181E] to-[#101014] border border-white/15 shadow-2xl flex items-center justify-center transform -rotate-12 hover:rotate-0 transition-transform duration-700 ease-out cursor-pointer group">
             
-            <!-- Mid Glowing Rim -->
-            <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl bg-gradient-to-b from-blue-900/40 via-cyan-950/20 to-black/80 border border-cyan-400/40 shadow-inner flex items-center justify-center p-3 relative overflow-hidden">
+            <!-- Mid Rim -->
+            <div class="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl bg-gradient-to-b from-[#222229] via-[#16161B] to-[#0E0E11] border border-brand-gold/30 flex items-center justify-center p-3 relative overflow-hidden">
               
-              <!-- Subtle light reflection across glass -->
-              <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-cyan-400/10 to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              <!-- Subtle light reflection -->
+              <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.05] to-transparent transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
 
               <!-- Top Surface: Monogram M Plate -->
-              <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-[#0e131d] border border-white/10 shadow-2xl flex flex-col items-center justify-center relative">
+              <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-[#121216] border border-white/12 shadow-xl flex flex-col items-center justify-center relative">
                 <svg class="w-12 h-12 transform group-hover:scale-110 transition-transform duration-300" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M4 29L7.5 7L13 18L10 29H4Z" fill="url(#idx_m_facet_left)"/>
                   <path d="M7.5 7L18 23.5L13 18L7.5 7Z" fill="url(#idx_m_facet_mid_l)"/>
@@ -600,7 +603,7 @@
             <div class="relative w-11 h-11 shrink-0">
               <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
                 <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="4"></circle>
-                <circle cx="18" cy="18" r="14" fill="none" stroke="#00D2FF" stroke-width="4" stroke-dasharray="88" stroke-dashoffset="16" stroke-linecap="round"></circle>
+                <circle cx="18" cy="18" r="14" fill="none" stroke="#FFDD2D" stroke-width="4" stroke-dasharray="88" stroke-dashoffset="16" stroke-linecap="round"></circle>
               </svg>
               <span class="absolute inset-0 flex items-center justify-center text-[9px] font-bold text-white">&lt;15с</span>
             </div>
@@ -617,7 +620,7 @@
         <div class="absolute -top-2 -right-4 sm:right-2 glass-card rounded-2xl p-3.5 sm:p-4 w-44 sm:w-52 anim-float-rev pointer-events-none sm:pointer-events-auto">
           <div class="flex items-center justify-between mb-1">
             <span class="text-[10px] font-medium text-white/50">Рост конверсии</span>
-            <span class="material-symbols-outlined text-xs text-brand-gold">trending_up</span>
+            <span class="material-symbols-outlined text-xs text-brand-gold" aria-hidden="true">trending_up</span>
           </div>
           <div class="text-base sm:text-lg font-extrabold text-white tracking-tight">до +70%</div>
           <div class="text-[9px] text-white/40 mt-0.5">За счёт ответов за 15 сек</div>
@@ -639,8 +642,8 @@
         <!-- FLOATING BADGES: LEFT CIRCULAR NODES -->
         <div class="absolute left-0 bottom-12 space-y-2.5">
           <!-- Avito Node -->
-          <div class="glass-card rounded-xl px-3 py-1.5 flex items-center gap-2 border-cyan-500/20 shadow-lg anim-float">
-            <div class="w-6 h-6 rounded-lg bg-blue-500/20 flex items-center justify-center text-cyan-400 font-black text-xs">
+          <div class="glass-card rounded-xl px-3 py-1.5 flex items-center gap-2 border-white/10 shadow-lg anim-float">
+            <div class="w-6 h-6 rounded-lg bg-white/10 flex items-center justify-center text-white font-black text-xs">
               A
             </div>
             <div class="text-left">
@@ -651,7 +654,7 @@
 
           <!-- Speed Node -->
           <div class="glass-card rounded-xl px-3 py-1.5 flex items-center gap-2 border-brand-gold/20 shadow-lg anim-float-rev">
-            <span class="material-symbols-outlined text-sm text-brand-gold">bolt</span>
+            <span class="material-symbols-outlined text-sm text-brand-gold" aria-hidden="true">bolt</span>
             <span class="text-[10px] font-bold text-white">&lt;15 сек отклик</span>
           </div>
         </div>
@@ -660,7 +663,7 @@
         <div class="absolute -bottom-6 -right-2 sm:right-4 glass-card rounded-2xl p-3.5 sm:p-4 w-52 sm:w-60 anim-float pointer-events-none sm:pointer-events-auto">
           <div class="flex items-center justify-between pb-2 border-b border-white/5 mb-2">
             <span class="text-[10px] font-bold text-white/70 flex items-center gap-1.5">
-              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400"></span>
+              <span class="w-1.5 h-1.5 rounded-full bg-brand-gold"></span>
               Сценарий работы
             </span>
             <span class="text-[9px] text-white/40">пример</span>
@@ -668,7 +671,7 @@
           <div class="space-y-2">
             <div class="flex items-center justify-between text-[11px]">
               <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm text-brand-gold">local_shipping</span>
+                <span class="material-symbols-outlined text-sm text-brand-gold" aria-hidden="true">local_shipping</span>
                 <div>
                   <p class="font-semibold text-white leading-none text-[10px]">Авито Доставка</p>
                   <p class="text-[8px] text-white/40 leading-none mt-0.5">СДЭК, Почта, самовывоз</p>
@@ -678,7 +681,7 @@
             </div>
             <div class="flex items-center justify-between text-[11px] pt-1 border-t border-white/5">
               <div class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-sm text-cyan-400">forum</span>
+                <span class="material-symbols-outlined text-sm text-zinc-300" aria-hidden="true">forum</span>
                 <div>
                   <p class="font-semibold text-white leading-none text-[10px]">Заявка в Telegram</p>
                   <p class="text-[8px] text-white/40 leading-none mt-0.5">Мгновенный отчёт</p>
@@ -732,7 +735,7 @@
           <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
             <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
               <span>Конверсия</span>
-              <span class="material-symbols-outlined text-xs text-brand-gold">trending_up</span>
+              <span class="material-symbols-outlined text-xs text-brand-gold" aria-hidden="true">trending_up</span>
             </div>
             <div class="text-lg font-black text-brand-gold font-outfit">до +70%</div>
             <div class="text-[9px] text-white/40 mt-1">Удержание покупателей</div>
@@ -742,7 +745,7 @@
           <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
             <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
               <span>Авито Слот</span>
-              <span class="material-symbols-outlined text-xs text-cyan-400">sync</span>
+              <span class="material-symbols-outlined text-xs text-zinc-300" aria-hidden="true">sync</span>
             </div>
             <div class="text-xs font-bold text-white">«Сотрудники» PRO</div>
             <div class="text-[9px] text-emerald-400 mt-1 font-medium">Без главного пароля</div>
@@ -752,7 +755,7 @@
           <div class="glass-card p-3 rounded-xl border-white/10 flex flex-col justify-between">
             <div class="flex items-center justify-between text-[10px] text-white/50 mb-1">
               <span>Заказы</span>
-              <span class="material-symbols-outlined text-xs text-emerald-400">local_shipping</span>
+              <span class="material-symbols-outlined text-xs text-emerald-400" aria-hidden="true">local_shipping</span>
             </div>
             <div class="text-xs font-bold text-white">Авито Доставка</div>
             <div class="text-[9px] text-emerald-400 font-bold mt-1">Контроль в Telegram</div>
@@ -770,15 +773,15 @@
         </p>
         <div class="flex flex-wrap items-center gap-3 mt-5">
           <div class="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 backdrop-blur-md flex items-center gap-2 text-xs text-white/80">
-            <span class="material-symbols-outlined text-emerald-400 text-sm">verified_user</span>
+            <span class="material-symbols-outlined text-emerald-400 text-sm" aria-hidden="true">verified_user</span>
             <span class="font-medium">100% Гарантия возврата 24ч</span>
           </div>
           <button type="button" onclick="openTariffModal()" class="px-3.5 py-2 rounded-xl bg-brand-gold/10 border border-brand-gold/25 hover:bg-brand-gold/20 backdrop-blur-md flex items-center gap-2 text-xs text-brand-gold font-bold transition-colors cursor-pointer">
-            <span class="material-symbols-outlined text-sm">bolt</span>
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">bolt</span>
             <span>Пробный период 7 дней за 1 590 ₽</span>
           </button>
           <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl bg-white/[0.04] border border-white/10 hover:border-brand-gold/30 transition-colors flex items-center gap-2 text-xs text-white/80">
-            <span class="material-symbols-outlined text-cyan-400 text-sm">support_agent</span>
+            <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">support_agent</span>
             <span>Поддержка 24/7 @chc332</span>
           </a>
         </div>
@@ -789,24 +792,24 @@
   </div>
 
   <!-- COOKIE CONSENT BANNER (152-ФЗ / GDPR) -->
-  <div id="cookieConsentBanner" class="fixed bottom-5 right-5 z-50 max-w-md w-[calc(100%-2rem)] sm:w-full p-5 glass-card border-brand-gold/30 rounded-2xl shadow-2xl space-y-3 hidden transition-all duration-300">
+  <div id="cookieConsentBanner" class="fixed bottom-5 left-4 sm:left-6 z-50 max-w-md w-[calc(100%-2rem)] sm:w-full p-5 glass-card border-brand-gold/30 rounded-2xl shadow-2xl space-y-3 hidden transition-all duration-300">
     <div class="flex items-start justify-between gap-3">
       <div class="flex items-center gap-2 text-brand-gold font-bold font-outfit text-sm">
-        <span class="material-symbols-outlined text-base">cookie</span>
+        <span class="material-symbols-outlined text-base" aria-hidden="true">cookie</span>
         <span>Файлы Cookie и Безопасность</span>
       </div>
-      <button onclick="dismissCookieBanner()" class="text-white/40 hover:text-white transition-colors cursor-pointer">
-        <span class="material-symbols-outlined text-sm">close</span>
+      <button type="button" onclick="dismissCookieBanner()" class="min-h-[36px] min-w-[36px] flex items-center justify-center rounded-lg text-white/60 hover:text-white transition-colors cursor-pointer" aria-label="Закрыть уведомление о cookie">
+        <span class="material-symbols-outlined text-sm" aria-hidden="true">close</span>
       </button>
     </div>
     <p class="text-xs text-white/70 leading-relaxed">
       Мы используем файлы cookie и зашифрованные сессионные токены для сохранения вашего входа и безопасной работы Личного Кабинета.
     </p>
     <div class="flex items-center gap-2 pt-1">
-      <button onclick="acceptCookies('all')" class="btn-gold flex-1 py-2.5 rounded-xl text-xs font-bold cursor-pointer">
+      <button type="button" onclick="acceptCookies('all')" class="btn-gold min-h-[44px] flex-1 py-2.5 rounded-xl text-xs font-bold cursor-pointer">
         Принять все
       </button>
-      <button onclick="acceptCookies('essential')" class="flex-1 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-white/80 transition-colors cursor-pointer">
+      <button type="button" onclick="acceptCookies('essential')" class="min-h-[44px] flex-1 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-xs font-semibold text-white/80 transition-colors cursor-pointer">
         Только необходимые
       </button>
     </div>
@@ -827,8 +830,8 @@
           </div>
           <h3 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white mt-1">Тарифы и Пробный период MAJORKA</h3>
         </div>
-        <button onclick="closeTariffModal()" class="text-white/40 hover:text-white transition-colors cursor-pointer p-2 rounded-xl bg-white/5 hover:bg-white/10">
-          <span class="material-symbols-outlined text-xl">close</span>
+        <button type="button" onclick="closeTariffModal()" class="min-h-[44px] min-w-[44px] flex items-center justify-center text-white/60 hover:text-white transition-colors cursor-pointer p-2 rounded-xl bg-white/5 hover:bg-white/10" aria-label="Закрыть окно тарифов">
+          <span class="material-symbols-outlined text-xl" aria-hidden="true">close</span>
         </button>
       </div>
 
@@ -849,31 +852,31 @@
             </div>
             <ul class="space-y-2 text-xs text-white/70 pt-2">
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span>Слот магазина 24/7</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span>Ответ покупателю &lt;15 сек</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span>Живые сценарии продаж</span>
               </li>
               <li class="flex items-center gap-2 text-emerald-400 font-medium">
-                <span class="material-symbols-outlined text-emerald-400 text-sm">shield</span>
+                <span class="material-symbols-outlined text-emerald-400 text-sm" aria-hidden="true">shield</span>
                 <span>Возврат 100% если не подошло</span>
               </li>
             </ul>
           </div>
-          <button onclick="selectTariffFromModal('trial_7days')" class="w-full py-3 rounded-xl text-xs font-bold text-brand-gold border border-brand-gold/40 hover:bg-brand-gold/15 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <button type="button" onclick="selectTariffFromModal('trial_7days')" class="min-h-[44px] w-full py-3 rounded-xl text-xs font-bold text-brand-gold border border-brand-gold/40 hover:bg-brand-gold/15 transition-colors flex items-center justify-center gap-2 cursor-pointer">
             <span>Выбрать Пробный период</span>
-            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
           </button>
         </div>
 
         <!-- CARD 2: FULL MONTH -->
-        <div class="p-6 rounded-2xl bg-brand-gold/[0.04] border-2 border-brand-gold/50 flex flex-col justify-between space-y-5 relative shadow-[0_10px_35px_rgba(255,221,45,0.12)]">
+        <div class="p-6 rounded-2xl bg-brand-gold/[0.04] border border-brand-gold/45 flex flex-col justify-between space-y-5 relative shadow-none">
           <div class="absolute -top-3 right-4 bg-brand-gold text-[#121214] font-outfit font-extrabold text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
             ОПТИМАЛЬНЫЙ ВЫБОР
           </div>
@@ -889,26 +892,26 @@
             </div>
             <ul class="space-y-2 text-xs text-white/80 pt-2">
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span class="font-semibold text-white">Приоритетный сервер 24/7</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span>Безлимитный каталог товаров</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span>До 5 магазинов на аккаунте</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span>PRO-аналитика и воронка</span>
               </li>
             </ul>
           </div>
-          <button onclick="selectTariffFromModal('month')" class="w-full btn-gold py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md">
+          <button type="button" onclick="selectTariffFromModal('month')" class="min-h-[44px] w-full btn-gold py-3 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer">
             <span>Оформить Подписку</span>
-            <span class="material-symbols-outlined text-sm">rocket_launch</span>
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">rocket_launch</span>
           </button>
         </div>
 
@@ -923,20 +926,20 @@
             </div>
             <ul class="space-y-2 text-xs text-white/70 pt-2">
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span>90 дней непрерывных продаж 24/7</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span>Полное сопровождение и регламент</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="material-symbols-outlined text-brand-gold text-sm">check_circle</span>
+                <span class="material-symbols-outlined text-brand-gold text-sm" aria-hidden="true">check_circle</span>
                 <span>Приоритетная линия поддержки 24/7</span>
               </li>
             </ul>
           </div>
-          <button type="button" onclick="selectTariffFromModal('quarter')" class="w-full py-3 rounded-xl bg-white/5 border border-white/10 text-center text-xs font-bold text-white hover:border-brand-gold hover:text-brand-gold transition-colors block cursor-pointer">
+          <button type="button" onclick="selectTariffFromModal('quarter')" class="min-h-[44px] w-full py-3 rounded-xl bg-white/5 border border-white/10 text-center text-xs font-bold text-white hover:border-brand-gold hover:text-brand-gold transition-colors block cursor-pointer">
             Выбрать 3 Месяца
           </button>
         </div>
@@ -946,7 +949,7 @@
       <!-- GUARANTEE ACCORDION / BANNER -->
       <div class="p-4 rounded-2xl bg-emerald-500/[0.06] border border-emerald-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-          <span class="material-symbols-outlined text-emerald-400 text-2xl">verified_user</span>
+          <span class="material-symbols-outlined text-emerald-400 text-2xl" aria-hidden="true">verified_user</span>
           <div>
             <div class="text-xs font-bold text-white">100% Гарантия возврата средств в течение 24 часов</div>
             <div class="text-[11px] text-white/60">Если система продаж или работа ассистента вам не подойдут — вернем всю сумму на карту без лишней бюрократии.</div>
@@ -954,18 +957,18 @@
         </div>
         <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold flex items-center gap-1.5 shrink-0 transition-colors">
           <span>Поддержка 24/7 @chc332</span>
-          <span class="material-symbols-outlined text-sm">north_east</span>
+          <span class="material-symbols-outlined text-sm" aria-hidden="true">north_east</span>
         </a>
       </div>
 
     </div>
-  </div>
+  </main>
 
   <!-- FLOATING LIVE SUPPORT WIDGET -->
   <div id="liveSupportWidget" class="fixed bottom-6 right-6 z-40 flex flex-col items-end">
     
     <!-- POPUP SUPPORT WINDOW -->
-    <div id="supportPopupCard" class="hidden w-[340px] sm:w-[360px] glass-card rounded-2xl border border-brand-gold/30 shadow-[0_20px_50px_rgba(0,0,0,0.7)] p-5 mb-3 transition-all duration-300">
+    <div id="supportPopupCard" class="hidden w-[340px] sm:w-[360px] glass-card rounded-2xl border border-white/12 shadow-2xl p-5 mb-3 transition-all duration-300">
       <div class="flex items-center justify-between pb-3 border-b border-white/10">
         <div class="flex items-center gap-2.5">
           <div class="relative w-9 h-9 rounded-xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-brand-gold/40 flex items-center justify-center text-brand-gold font-bold font-outfit text-sm">
@@ -977,8 +980,8 @@
             <span class="text-[10px] text-emerald-400 font-medium">Оператор на связи • ответ 2 мин</span>
           </div>
         </div>
-        <button onclick="toggleSupportWidget()" class="text-white/40 hover:text-white p-1 rounded-lg cursor-pointer">
-          <span class="material-symbols-outlined text-base">close</span>
+        <button type="button" onclick="toggleSupportWidget()" class="min-h-[36px] min-w-[36px] flex items-center justify-center text-white/60 hover:text-white p-1 rounded-lg cursor-pointer" aria-label="Закрыть окно поддержки">
+          <span class="material-symbols-outlined text-base" aria-hidden="true">close</span>
         </button>
       </div>
 
@@ -990,26 +993,26 @@
         <div class="space-y-1.5 pt-1">
           <button onclick="openTariffModal(); toggleSupportWidget();" class="w-full text-left p-2.5 rounded-xl bg-brand-gold/10 hover:bg-brand-gold/20 border border-brand-gold/30 text-xs text-brand-gold font-semibold flex items-center justify-between transition-colors cursor-pointer">
             <span class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-sm text-brand-gold">tune</span>
+              <span class="material-symbols-outlined text-sm text-brand-gold" aria-hidden="true">tune</span>
               <span>Тарифы и Пробный период (1 590 ₽)</span>
             </span>
-            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
           </button>
 
           <button onclick="openDocModal(); toggleSupportWidget();" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-white/80 flex items-center justify-between transition-colors cursor-pointer">
             <span class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-sm text-emerald-400">verified_user</span>
+              <span class="material-symbols-outlined text-sm text-emerald-400" aria-hidden="true">verified_user</span>
               <span>100% Гарантия возврата 24ч</span>
             </span>
-            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">arrow_forward</span>
           </button>
 
-          <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-cyan-300 flex items-center justify-between transition-colors cursor-pointer">
+          <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-zinc-200 flex items-center justify-between transition-colors cursor-pointer">
             <span class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-sm text-cyan-300">forum</span>
+              <span class="material-symbols-outlined text-sm text-brand-gold" aria-hidden="true">forum</span>
               <span>Чат с поддержкой (@chc332)</span>
             </span>
-            <span class="material-symbols-outlined text-sm">north_east</span>
+            <span class="material-symbols-outlined text-sm" aria-hidden="true">north_east</span>
           </a>
         </div>
       </div>
@@ -1023,9 +1026,9 @@
     </div>
 
     <!-- FLOATING TRIGGER BUTTON -->
-    <button onclick="toggleSupportWidget()" class="group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#141418] hover:bg-[#1a1a20] border border-brand-gold/40 shadow-[0_4px_25px_rgba(255,221,45,0.25)] hover:shadow-[0_6px_30px_rgba(255,221,45,0.4)] transition-all duration-300 cursor-pointer">
+    <button type="button" onclick="toggleSupportWidget()" class="min-h-[44px] group relative flex items-center gap-2.5 px-4 py-3 rounded-full bg-[#16161B] hover:bg-[#202027] border border-white/15 shadow-xl transition-colors duration-200 cursor-pointer" aria-label="Служба заботы 24/7">
       <div class="relative flex items-center justify-center">
-        <span class="material-symbols-outlined text-brand-gold text-xl group-hover:scale-110 transition-transform">support_agent</span>
+        <span class="material-symbols-outlined text-brand-gold text-xl group-hover:scale-110 transition-transform" aria-hidden="true">support_agent</span>
         <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 border border-black animate-pulse"></span>
       </div>
       <span class="text-xs font-bold text-white group-hover:text-brand-gold transition-colors">Служба заботы 24/7</span>
@@ -1037,11 +1040,11 @@
     <div class="glass-card max-w-2xl w-full max-h-[85vh] flex flex-col p-6 sm:p-8 space-y-6 shadow-2xl relative border-white/10 rounded-3xl">
       <div class="flex items-center justify-between border-b border-white/10 pb-4">
         <h3 class="font-outfit text-xl font-bold text-white flex items-center gap-2">
-          <span class="material-symbols-outlined text-brand-gold">description</span>
+          <span class="material-symbols-outlined text-brand-gold" aria-hidden="true">description</span>
           <span>Условия использования и Политика</span>
         </h3>
-        <button onclick="closeDocModal()" class="text-white/40 hover:text-white transition-colors cursor-pointer">
-          <span class="material-symbols-outlined text-xl">close</span>
+        <button type="button" onclick="closeDocModal()" class="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-colors cursor-pointer" aria-label="Закрыть документ">
+          <span class="material-symbols-outlined text-xl" aria-hidden="true">close</span>
         </button>
       </div>
 
@@ -1057,7 +1060,7 @@
       </div>
 
       <div class="pt-4 border-t border-white/10 flex justify-end">
-        <button onclick="closeDocModal()" class="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold cursor-pointer">
+        <button type="button" onclick="closeDocModal()" class="btn-gold min-h-[44px] px-6 py-2.5 rounded-xl text-xs font-bold cursor-pointer">
           Понятно, закрыть
         </button>
       </div>
@@ -1127,8 +1130,8 @@
       const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId') || cookieChatId;
       const navLoginBtn = document.getElementById('navLoginBtn');
       if (savedChatId && !savedChatId.startsWith('client_') && navLoginBtn) {
-        navLoginBtn.textContent = '👉 Личный Кабинет';
-        navLoginBtn.className = 'btn-gold px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer shadow-neon-glow';
+        navLoginBtn.textContent = 'Личный Кабинет';
+        navLoginBtn.className = 'btn-gold px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer';
         const navReg = document.getElementById('navRegisterBtn');
         if (navReg) navReg.classList.add('hidden');
       }
@@ -1418,15 +1421,15 @@
         tgLink.href = safeBotUrl;
         tgLink.target = '_blank';
         tgLink.rel = 'noopener noreferrer';
-        tgLink.className = 'block w-full py-2.5 px-3 rounded-lg bg-[#2AABEE] hover:bg-[#229ED9] text-white font-extrabold text-xs shadow-md shadow-[#2AABEE]/25 transition-all text-center';
-        tgLink.textContent = '👉 Открыть @avito_deployer_bot в Telegram';
+        tgLink.className = 'min-h-[44px] flex items-center justify-center w-full py-2.5 px-3 rounded-lg bg-[#2AABEE] hover:bg-[#229ED9] text-white font-extrabold text-xs transition-colors text-center';
+        tgLink.textContent = 'Открыть @avito_deployer_bot в Telegram';
 
         const demoRow = document.createElement('div');
         demoRow.className = 'pt-2 border-t border-white/10 flex justify-center items-center text-[10px]';
         const demoBtn = document.createElement('button');
         demoBtn.type = 'button';
         demoBtn.className = 'text-white/60 hover:text-white cursor-pointer';
-        demoBtn.textContent = 'Демо-доступ 👁️';
+        demoBtn.textContent = 'Демо-доступ';
         demoBtn.addEventListener('click', goToGuestDemo);
         demoRow.appendChild(demoBtn);
 
@@ -1448,7 +1451,7 @@
             const checkData = await checkRes.json();
             if (checkData.success && checkData.session_token) {
               clearInterval(pollInterval);
-              authStatus('✅ Вход успешно подтверждён! Переходим в кабинет…', 'success');
+              authStatus('Вход успешно подтверждён! Переходим в кабинет…', 'success');
               saveAuthAndContinue(checkData);
             }
           } catch (e) {}
