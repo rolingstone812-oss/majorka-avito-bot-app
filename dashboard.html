@@ -12,9 +12,7 @@
   <link rel="canonical" href="https://rolingstone812-oss.github.io/majorka-avito-bot-app/dashboard.html">
   
   <!-- GITHUB OPEN SOURCE LIBRARIES INTEGRATION -->
-  <!-- 1. Lucide Icons (lucide-icons/lucide on GitHub) - pixel-perfect fintech SVG icons -->
-  <script defer src="https://unpkg.com/lucide@latest"></script>
-  <!-- 2. Canvas Confetti (catdad/canvas-confetti on GitHub) - micro-delight celebration effects -->
+  <!-- 1. Canvas Confetti (catdad/canvas-confetti on GitHub) - micro-delight celebration effects -->
   <script defer src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js" integrity="sha384-sPwMflxqfAN+Q5mvlkLmHiX3PORGbZSXHiSGPTXT9VHCD/AB+b+r+vJWsqprv+7k" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <!-- 3. Chart.js (chartjs/Chart.js on GitHub) - modern dark telemetry charts -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" integrity="sha384-9nhczxUqK87bcKHh20fSQcTGD4qq5GhayNYSYWqwBkINBhOfQLg/P5HG5lF1urn4" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -62,11 +60,19 @@
   </script>
 
   <style>
+    html,
+    body {
+      overflow-x: clip;
+    }
+
+    #headerGuestSignupBtn:not(.hidden) {
+      display: inline-flex;
+    }
+
     body {
       background-color: #121214;
       color: #F3F4F6;
       font-family: 'Inter', sans-serif;
-      overflow-x: hidden;
     }
     
     /* CALM MATTE STYLING (NO TOXIC NEON GLOW) */
@@ -239,14 +245,14 @@
 
   <!-- HEADER -->
   <header class="sticky top-0 z-40 bg-[#121214]/90 backdrop-blur-xl border-b border-glass-border">
-    <div class="max-w-[1280px] mx-auto px-3 sm:px-6 h-16 sm:h-20 flex items-center justify-between gap-2 sm:gap-4">
+    <div class="max-w-[1280px] mx-auto px-3 sm:px-5 h-16 sm:h-20 flex items-center justify-between gap-2">
       
       <!-- LOGO -->
-      <div class="flex items-center gap-2.5 sm:gap-3.5 cursor-pointer group" onclick="switchTab('overview')">
-        <div class="relative flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/35 border-white/10 group-hover:border-white/20 transition-all duration-300">
-          <div class="absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-t from-transparent via-white/[0.03] to-white/[0.08] pointer-events-none"></div>
+      <div class="flex items-center gap-2 cursor-pointer group shrink-0" onclick="switchTab('overview')">
+        <div class="relative flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-b from-[#25221b] to-[#121214] border border-gold/35 border-white/10 group-hover:border-white/20 transition-all duration-300 shrink-0">
+          <div class="absolute inset-0 rounded-xl bg-gradient-to-t from-transparent via-white/[0.03] to-white/[0.08] pointer-events-none"></div>
           <!-- 3D FACETED MONOGRAM M -->
-          <svg class="w-5 h-5 sm:w-6 sm:h-6 transform group-hover:scale-105 transition-transform duration-300" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <svg class="w-5 h-5 transform group-hover:scale-105 transition-transform duration-300" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <linearGradient id="m_facet_left" x1="4" y1="6" x2="13" y2="29" gradientUnits="userSpaceOnUse">
                 <stop offset="0%" stop-color="#FFF8D6"/>
@@ -281,85 +287,87 @@
           </svg>
         </div>
         <div class="flex flex-col">
-          <div class="flex items-center gap-1.5 sm:gap-2">
-            <span class="font-outfit text-lg sm:text-2xl font-black text-white tracking-widest leading-none">MAJOR<span class="text-gold">KA</span></span>
-            </div>
-          <span class="hidden xs:block text-[10px] text-white/40 font-medium tracking-wide -mt-0.5">Управляющий продажами</span>
+          <div class="flex items-center gap-1.5">
+            <span class="font-outfit text-base sm:text-xl font-black text-white tracking-wider leading-none">MAJOR<span class="text-gold">KA</span></span>
+          </div>
+          <span class="hidden 2xl:block text-[10px] text-white/40 font-medium tracking-wide -mt-0.5 whitespace-nowrap">Управляющий продажами</span>
         </div>
       </div>
 
       <!-- DESKTOP NAV TABS (MERCURY LIQUID GLASS) -->
-      <nav class="hidden lg:flex items-center gap-1.5 mercury-glass-nav p-1.5 rounded-2xl">
-        <button id="tab-btn-overview" onclick="switchTab('overview')" class="nav-tab-btn nav-tab-active px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200">Обзор</button>
-        <button id="tab-btn-shops" onclick="switchTab('shops')" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
+      <nav class="hidden lg:flex items-center gap-0.5 mercury-glass-nav p-1 rounded-2xl shrink-0">
+        <button id="tab-btn-overview" onclick="switchTab('overview')" class="nav-tab-btn nav-tab-active px-2 2xl:px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-200 whitespace-nowrap">Обзор</button>
+        <button id="tab-btn-shops" onclick="switchTab('shops')" class="nav-tab-btn px-2 2xl:px-3.5 py-1.5 rounded-xl text-xs font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1 whitespace-nowrap">
           <span>Мои Магазины</span>
           <span id="tabShopsCountBadge" class="hidden text-[10px] bg-white/10 text-white/80 px-1.5 py-0.2 rounded-full font-bold">1</span>
         </button>
-        <button id="tab-btn-knowledge" onclick="switchTab('knowledge')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
+        <button id="tab-btn-knowledge" onclick="switchTab('knowledge')" class="nav-tab-btn px-2 2xl:px-3 py-1.5 rounded-xl text-xs font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1 whitespace-nowrap">
           <span class="material-symbols-outlined text-sm">inventory_2</span>
           <span>Каталог</span>
         </button>
-        <button id="tab-btn-tariffs" onclick="switchTab('tariffs')" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200">Тарифы</button>
-        <button id="tab-btn-harvey" onclick="switchTab('harvey')" class="nav-tab-btn hidden px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
+        <button id="tab-btn-tariffs" onclick="switchTab('tariffs')" class="nav-tab-btn px-2 2xl:px-3.5 py-1.5 rounded-xl text-xs font-semibold text-white/60 hover:text-white transition-all duration-200 whitespace-nowrap">Тарифы</button>
+        <button id="tab-btn-harvey" onclick="switchTab('harvey')" class="nav-tab-btn hidden px-2 py-1.5 rounded-xl text-xs font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1 whitespace-nowrap">
           <span>Поиск Harvey</span>
           <span class="text-[9px] bg-emerald-500/15 text-emerald-400 px-1.5 py-0.5 rounded font-extrabold border border-emerald-500/20">PRO</span>
         </button>
-        <button id="tab-btn-analytics" onclick="switchTab('analytics')" class="nav-tab-btn px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1.5">
+        <button id="tab-btn-analytics" onclick="switchTab('analytics')" class="nav-tab-btn px-2 2xl:px-3 py-1.5 rounded-xl text-xs font-semibold text-white/60 hover:text-white transition-all duration-200 flex items-center gap-1 whitespace-nowrap">
           <span>Аналитика</span>
           <span class="text-[9px] bg-white/10 text-white/80 px-1.5 py-0.5 rounded font-extrabold border border-white/10">PRO</span>
         </button>
-        <button id="tab-btn-referrals" onclick="switchTab('referrals')" class="nav-tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold text-white/60 hover:text-white transition-all duration-200">Рефералы</button>
+        <button id="tab-btn-referrals" onclick="switchTab('referrals')" class="nav-tab-btn px-2 2xl:px-3.5 py-1.5 rounded-xl text-xs font-semibold text-white/60 hover:text-white transition-all duration-200 whitespace-nowrap">Рефералы</button>
       </nav>
 
       <!-- RIGHT USER BALANCE & TOP UP -->
-      <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-        <!-- PROMINENT SUPPORT 24/7 BUTTON (ALWAYS VISIBLE IN HEADER) -->
-        <a href="https://t.me/chc332" target="_blank" class="flex items-center gap-1 sm:gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/90 text-xs font-bold transition-all shadow-none active:scale-95 touch-press" title="Поддержка 24/7 в Telegram">
-          <span class="material-symbols-outlined text-sm sm:text-base text-gold ">support_agent</span>
-          <span class="text-[11px] sm:text-xs">Поддержка</span>
+      <div class="flex items-center gap-1 2xl:gap-1.5 shrink-0">
+        <!-- PROMINENT SUPPORT 24/7 BUTTON -->
+        <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/90 text-xs font-bold transition-all shadow-none active:scale-95 touch-press shrink-0 whitespace-nowrap" title="Поддержка 24/7 в Telegram">
+          <span class="material-symbols-outlined text-sm sm:text-base text-gold">support_agent</span>
+          <span class="text-[11px] sm:hidden 2xl:inline">Поддержка</span>
         </a>
 
         <!-- MOBILE QUICK BALANCE PILL (TAPPABLE TO RECHARGE) -->
-        <button onclick="openPaymentModal('6490')" class="sm:hidden flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-gold/15 border border-white/10 text-gold active:scale-95 transition-all shadow-none touch-press" title="Пополнить баланс">
+        <button onclick="openPaymentModal('6490')" class="sm:hidden flex items-center gap-1.5 px-2.5 py-1.5 rounded-full bg-gold/15 border border-white/10 text-gold active:scale-95 transition-all shadow-none touch-press shrink-0 whitespace-nowrap" title="Пополнить баланс">
           <span id="userBalanceTextMobile" class="font-outfit font-black text-xs text-white tracking-tight">0 ₽</span>
           <span class="material-symbols-outlined text-sm text-gold font-bold">add_circle</span>
         </button>
 
         <!-- MOBILE MORE MENU TRIGGER (OPENS BOTTOM SHEET) -->
-        <button onclick="toggleMobileMoreSheet(true)" class="sm:hidden p-2 rounded-xl bg-white/5 active:bg-white/10 border border-white/10 text-white/70 active:scale-95 transition-all flex items-center justify-center cursor-pointer touch-press" aria-label="Меню действий">
+        <button onclick="toggleMobileMoreSheet(true)" class="sm:hidden p-2 rounded-xl bg-white/5 active:bg-white/10 border border-white/10 text-white/70 active:scale-95 transition-all flex items-center justify-center cursor-pointer touch-press shrink-0" aria-label="Меню действий">
           <span class="material-symbols-outlined text-lg">more_vert</span>
         </button>
 
         <!-- DESKTOP / TABLET CONTROLS -->
-        <a id="headerGuestSignupBtn" href="./index.html" class="hidden px-2.5 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/90 text-xs font-bold transition-all flex items-center gap-1">
-          <span class="material-symbols-outlined text-sm">person_add</span>
-          <span>Зарегистрироваться</span>
-        </a>
-
-        <div onclick="switchTab('settings')" class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 cursor-pointer transition-colors" title="Профиль и настройки">
-          <span id="headerUserLabel" class="font-medium truncate max-w-[120px]">Профиль</span>
+        <div class="hidden sm:inline-flex shrink-0">
+          <a id="headerGuestSignupBtn" href="./index.html" class="hidden px-2 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/90 text-xs font-bold transition-all items-center gap-1 whitespace-nowrap">
+            <span class="material-symbols-outlined text-sm">person_add</span>
+            <span>Регистрация</span>
+          </a>
         </div>
 
-        <div class="hidden sm:flex bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full items-center gap-1 shrink-0 whitespace-nowrap">
-          <span class="text-[11px] text-white/50 font-medium uppercase tracking-wider hidden md:inline">Баланс:</span>
-          <span id="userBalanceText" class="font-outfit font-black text-white text-sm tracking-tight whitespace-nowrap">0 ₽</span>
+        <div onclick="switchTab('settings')" class="hidden sm:flex items-center gap-1.5 px-2 py-1.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-white/80 cursor-pointer transition-colors shrink-0" title="Профиль и настройки">
+          <span id="headerUserLabel" class="font-medium truncate max-w-[78px]">Профиль</span>
         </div>
 
-        <button onclick="openPaymentModal('6490')" class="hidden sm:flex btn-gold px-4 py-2 rounded-xl text-sm font-bold items-center gap-1 cursor-pointer shrink-0" title="Пополнить баланс">
-          <span class="material-symbols-outlined text-base">add_card</span>
+        <div class="hidden sm:flex bg-white/5 border border-white/10 px-2.5 py-1.5 rounded-full items-center gap-1 shrink-0 whitespace-nowrap">
+          <span class="text-[11px] text-white/50 font-medium uppercase tracking-wider hidden 2xl:inline">Баланс:</span>
+          <span id="userBalanceText" class="font-outfit font-black text-white text-xs sm:text-sm tracking-tight whitespace-nowrap">0 ₽</span>
+        </div>
+
+        <button onclick="openPaymentModal('6490')" class="hidden sm:flex btn-gold px-2.5 2xl:px-3 py-1.5 rounded-xl text-xs font-bold items-center gap-1 cursor-pointer shrink-0 whitespace-nowrap" title="Пополнить баланс">
+          <span class="material-symbols-outlined text-sm">add_card</span>
           <span>Пополнить</span>
         </button>
 
         <!-- SETTINGS GEAR BUTTON (RIGHT HEADER ACTION) -->
-        <button id="headerSettingsBtn" onclick="switchTab('settings')" class="hidden sm:flex p-2 rounded-xl bg-white/5 hover:bg-white/10 hover:text-gold border border-white/10 text-white/60 transition-colors cursor-pointer shrink-0" title="Настройки аккаунта и интеграций">
+        <button id="headerSettingsBtn" onclick="switchTab('settings')" class="hidden sm:flex p-1.5 rounded-xl bg-white/5 hover:bg-white/10 hover:text-gold border border-white/10 text-white/60 transition-colors cursor-pointer shrink-0" title="Настройки аккаунта и интеграций">
           <span class="material-symbols-outlined text-base">settings</span>
         </button>
 
-        <a href="./index.html" class="hidden sm:flex p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-gold transition-colors cursor-pointer shrink-0" title="Начальный экран">
+        <a href="./index.html" class="hidden sm:flex lg:hidden 2xl:flex p-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-gold transition-colors cursor-pointer shrink-0" title="Начальный экран">
           <span class="material-symbols-outlined text-base">home</span>
         </a>
 
-        <button onclick="logoutUser()" class="hidden sm:flex p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white transition-colors cursor-pointer shrink-0" title="Выйти из аккаунта">
+        <button onclick="logoutUser()" class="hidden sm:flex p-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white/60 hover:text-white transition-colors cursor-pointer shrink-0" title="Выйти из аккаунта">
           <span class="material-symbols-outlined text-base">logout</span>
         </button>
       </div>
@@ -417,8 +425,8 @@
               <span class="material-symbols-outlined text-xs">shield</span>
               <span>Товары и регламенты сохранены</span>
             </span>
-            <button type="button" onclick="toggleReauthBannerDemo()" id="bannerDemoToggleBtn" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 text-white/90 border border-white/15 transition-all flex items-center gap-1.5 cursor-pointer">
-              <span class="material-symbols-outlined text-xs text-gold">visibility</span>
+            <button type="button" onclick="dismissReauthBanner()" id="bannerDemoToggleBtn" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-white/10 hover:bg-white/20 text-white/90 border border-white/15 transition-all flex items-center gap-1.5 cursor-pointer">
+              <span class="material-symbols-outlined text-xs text-gold">close</span>
               <span id="bannerDemoToggleText">✕ Закрыть</span>
             </button>
           </div>
@@ -722,7 +730,11 @@
             <span>Для создания нового менеджера требуется активная подписка на тариф. При нажатии вы сразу перейдете к выбору тарифа.</span>
           </div>
 
-          <div class="flex items-center gap-2 w-full sm:w-auto">
+          <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            <button type="button" onclick="openEmployeeGuideModal()" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-white/80 hover:text-gold border-white/10 flex items-center justify-center gap-1.5 cursor-pointer w-full sm:w-auto">
+              <span class="material-symbols-outlined text-sm text-gold">verified_user</span>
+              <span>Инструкция «Сотрудники»</span>
+            </button>
             <button type="button" onclick="switchTab('tariffs')" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border-white/10 hover:bg-gold/10 flex items-center justify-center gap-1.5 cursor-pointer w-full sm:w-auto">
               <span class="material-symbols-outlined text-sm">credit_card</span>
               <span>Тарифы подписки</span>
@@ -773,9 +785,9 @@
             <div class="p-3 rounded-xl bg-white/[0.03] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs text-white/70">
               <div class="flex items-center gap-2">
                 <span class="material-symbols-outlined text-gold text-base shrink-0">help</span>
-                <span>Если не отображаются ваши объявления — напишите в Telegram: <a href="https://t.me/chc332" target="_blank" class="text-gold font-bold hover:underline">@chc332</a></span>
+                <span>Если не отображаются ваши объявления — напишите в Telegram: <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="text-gold font-bold hover:underline">@chc332</a></span>
               </div>
-              <a href="https://t.me/chc332" target="_blank" class="px-3 py-1.5 rounded-lg bg-white/5 text-white/80 border border-white/10 text-xs font-bold hover:bg-gold/25 text-center shrink-0">Написать в Telegram</a>
+              <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-white/5 text-white/80 border border-white/10 text-xs font-bold hover:bg-gold/25 text-center shrink-0">Написать в Telegram</a>
             </div>
 
             <!-- REAL ITEMS LIST FROM DATABASE -->
@@ -974,12 +986,12 @@
               </ul>
             </div>
 
-            <button type="button" id="btnChainTrial" onclick="payTariffFromBalanceAction(1590, 'Пробный доступ (7 дней)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
+            <button type="button" id="btnChainTrial" onclick="payTariffFromBalanceAction(1590, 'Пробный доступ (7 дней)', this)" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
               <span id="btnChainTrialText">Оформить 7 Дней за 1 590 ₽</span>
             </button>
           </div>
 
-          <!-- ТАРИФ 2: ПОЛНЫЙ ДОСТУП НА 1 МЕСЯЦ (ХИТ ПРОДАЖ, СКИДКА 50%) -->
+          <!-- ТАРИФ 2: ПОЛНЫЙ ДОСТУП НА 1 МЕСЯЦ -->
           <div class="p-6 rounded-2xl bg-[#141418] border border-white/10 transition-all flex flex-col justify-between space-y-5 relative">
             <div class="absolute -top-3 right-4 flex items-center gap-1">
               
@@ -992,7 +1004,6 @@
               </div>
               <div class="font-outfit font-extrabold text-2xl text-white mt-3">Полный Доступ на 1 Месяц</div>
               <div class="flex items-baseline gap-2.5 mt-1.5">
-                <span class="text-sm text-white/30 line-through">12 990 ₽</span>
                 <span class="font-outfit font-black text-3xl sm:text-4xl text-gold">6 490 ₽</span>
                 <span class="text-xs text-white/50">/ мес</span>
               </div>
@@ -1007,7 +1018,7 @@
               </ul>
             </div>
 
-            <button type="button" onclick="payTariffFromBalanceAction(6490, 'Полный доступ (1 Месяц)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
+            <button type="button" onclick="payTariffFromBalanceAction(6490, 'Полный доступ (1 Месяц)', this)" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
               Оплатить 6 490 ₽ с баланса
             </button>
           </div>
@@ -1022,7 +1033,6 @@
               </div>
               <div class="font-outfit font-extrabold text-2xl text-white mt-3">Квартал на 3 Месяца</div>
               <div class="flex items-baseline gap-2.5 mt-1.5">
-                <span class="text-sm text-white/30 line-through">38 970 ₽</span>
                 <span class="font-outfit font-black text-3xl sm:text-4xl text-white">15 900 ₽</span>
               </div>
               <div class="text-[11px] text-white/40 mt-1">90 дней бесперебойных продаж 24/7 (5 300 ₽/мес)</div>
@@ -1034,7 +1044,7 @@
               </ul>
             </div>
 
-            <button type="button" onclick="payTariffFromBalanceAction(15900, 'Квартал (3 Месяца)')" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
+            <button type="button" onclick="payTariffFromBalanceAction(15900, 'Квартал (3 Месяца)', this)" class="btn-gold w-full py-3.5 rounded-xl text-xs sm:text-sm font-bold cursor-pointer">
               Оплатить 15 900 ₽ с баланса
             </button>
           </div>
@@ -1149,7 +1159,7 @@
 
         <div class="flex items-center justify-between pt-2 border-t border-white/5">
           <span class="text-[11px] text-white/40">Изменения мгновенно подгружаются в память менеджера</span>
-          <button type="button" onclick="proceedFromStep2ToStep3()" class="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
+          <button type="button" onclick="proceedFromStep2ToStep3(this)" class="btn-gold px-6 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer">
             <span>Сохранить и перейти к Шагу 3 (Вход)</span>
             <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </button>
@@ -1207,36 +1217,108 @@
 
         <!-- 5-СТАДИЙНЫЙ ИНТЕРАКТИВНЫЙ ВХОД -->
         
-        <!-- СТАДИЯ 1: ВВОД ТЕЛЕФОНА И ПАРОЛЯ -->
-        <div id="chainAuthStage1" class="space-y-4">
-          <p class="text-xs text-white/60 leading-relaxed">
-            Укажите номер телефона и пароль от вашего аккаунта Авито для подключения управляющего продажами:
-          </p>
-          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-            <div class="sm:col-span-5 space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Номер телефона Авито</label>
-              <div class="relative">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base">smartphone</span>
-                <input type="tel" id="chainPhoneInput" placeholder="+7 (999) 000-00-00" value="" class="clean-input w-full pl-10 pr-3 py-3 text-xs sm:text-sm text-white">
+        <!-- СТАДИЯ 1: БЕЗОПАСНОЕ ПОДКЛЮЧЕНИЕ (СОТРУДНИКИ АВИТО PRO ИЛИ ТЕЛЕФОН + СМС) -->
+        <div id="chainAuthStage1" class="space-y-5">
+
+          <!-- СПОСОБ 1: СОТРУДНИКИ АВИТО PRO (БЕЗ ОСНОВНОГО ПАРОЛЯ) -->
+          <div class="p-4 sm:p-5 rounded-2xl bg-emerald-500/[0.06] border border-emerald-500/30 space-y-3.5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="space-y-1">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold uppercase tracking-wider">
+                  <span class="material-symbols-outlined text-xs">shield</span>
+                  <span>Способ 1 (Рекомендуемый — без основного пароля)</span>
+                </div>
+                <h4 class="font-outfit font-bold text-sm sm:text-base text-white">Подключение через раздел «Сотрудники» в Авито PRO</h4>
+                <p class="text-xs text-white/70 leading-relaxed max-w-2xl">
+                  Создайте группу сотрудника только с правами на просмотр объявлений и чаты с покупателями (кошелёк, тариф и правка объявлений остаются закрытыми), нажмите «Скопировать ссылку» и вставьте её ниже.
+                </p>
               </div>
+              <button type="button" onclick="openEmployeeGuideModal()" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border border-gold/30 hover:bg-gold/10 flex items-center justify-center gap-1.5 cursor-pointer shrink-0">
+                <span class="material-symbols-outlined text-sm">menu_book</span>
+                <span>Фото-инструкция (5 шагов)</span>
+              </button>
             </div>
 
-            <div class="sm:col-span-4 space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Пароль от Авито</label>
-              <div class="relative">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base">lock</span>
-                <input type="password" id="chainPasswordInput" placeholder="Пароль профиля" value="" class="clean-input w-full pl-10 pr-10 py-3 text-xs sm:text-sm text-white">
-                <button type="button" onclick="togglePasswordVisibility('chainPasswordInput', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors cursor-pointer p-1" title="Показать/скрыть пароль">
-                  <span class="material-symbols-outlined text-base">visibility</span>
+            <div class="flex flex-col sm:flex-row gap-2.5">
+              <div class="relative flex-1">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-emerald-400 text-base">link</span>
+                <input type="url" id="chainEmployeeInviteUrl" placeholder="https://www.avito.ru/... — вставьте ссылку-приглашение сотрудника" class="clean-input w-full pl-10 pr-3 py-3 text-xs sm:text-sm text-white">
+              </div>
+              <button type="button" id="btnSubmitEmployeeInvite" onclick="submitEmployeeInviteLink(this)" class="btn-gold px-5 py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer shrink-0">
+                <span class="material-symbols-outlined text-base">check_circle</span>
+                <span>Отправить ссылку-приглашение</span>
+              </button>
+            </div>
+
+            <div id="chainInviteSuccessBox" class="hidden p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-xs text-emerald-200 flex items-center gap-2">
+              <span class="material-symbols-outlined text-base text-emerald-400">verified</span>
+              <span>Ссылка-приглашение сохранена! Пожалуйста, не нажимайте кнопку «Обновить» в разделе «Сотрудники» Авито PRO, чтобы приглашение не сгорело.</span>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="h-px bg-white/10 flex-1"></div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-white/40">или прямой вход по телефону и СМС</span>
+            <div class="h-px bg-white/10 flex-1"></div>
+          </div>
+
+          <!-- СПОСОБ 2: ТЕЛЕФОН, ПАРОЛЬ И СМС -->
+          <div class="space-y-3">
+            <p class="text-xs text-white/60 leading-relaxed">
+              <strong>Способ 2:</strong> Укажите номер телефона и пароль от аккаунта Авито для подключения через выделенный слот:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+              <div class="sm:col-span-5 space-y-1.5">
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Номер телефона Авито</label>
+                <div class="relative">
+                  <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base">smartphone</span>
+                  <input type="tel" id="chainPhoneInput" placeholder="+7 (999) 000-00-00" value="" class="clean-input w-full pl-10 pr-3 py-3 text-xs sm:text-sm text-white">
+                </div>
+              </div>
+
+              <div class="sm:col-span-4 space-y-1.5">
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/80">Пароль от Авито</label>
+                <div class="relative">
+                  <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-gold text-base">lock</span>
+                  <input type="password" id="chainPasswordInput" placeholder="Пароль профиля" value="" class="clean-input w-full pl-10 pr-10 py-3 text-xs sm:text-sm text-white">
+                  <button type="button" onclick="togglePasswordVisibility('chainPasswordInput', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-white/40 hover:text-white transition-colors cursor-pointer p-1" title="Показать/скрыть пароль">
+                    <span class="material-symbols-outlined text-base">visibility</span>
+                  </button>
+                </div>
+              </div>
+
+              <div class="sm:col-span-3">
+                <button type="button" onclick="startChainAuthProcess()" id="btnStartChainAuth" class="btn-gold w-full py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
+                  <span class="material-symbols-outlined text-base">login</span>
+                  <span>Войти и подключить</span>
                 </button>
               </div>
             </div>
+          </div>
 
-            <div class="sm:col-span-3">
-              <button type="button" onclick="startChainAuthProcess()" id="btnStartChainAuth" class="btn-gold w-full py-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer">
-                <span class="material-symbols-outlined text-base">login</span>
-                <span>Войти и подключить</span>
-              </button>
+          <!-- ОБЯЗАТЕЛЬНО К ПРОЧТЕНИЮ ПЕРЕД ПОДКЛЮЧЕНИЕМ -->
+          <div id="chainGuideMandatoryBlock" class="p-4 sm:p-5 rounded-2xl bg-amber-500/10 border border-amber-500/35 space-y-3">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="space-y-1.5">
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/35 text-[10px] font-extrabold uppercase tracking-wider">
+                  <span class="material-symbols-outlined text-xs">priority_high</span>
+                  <span>Обязательно к прочтению</span>
+                </div>
+                <h4 class="font-outfit font-bold text-sm sm:text-base text-white">Перед подключением прочитайте инструкцию (5 шагов и 7 частых ошибок)</h4>
+                <p class="text-xs text-white/75 leading-relaxed max-w-2xl">
+                  В инструкции со скриншотами показано, какие права нужно включить при подключении через «Сотрудники», почему нельзя нажимать кнопку «Обновить» у ссылки приглашения и <strong>что сломается, если пропустить нужный переключатель</strong>.
+                </p>
+              </div>
+              <div class="flex flex-col sm:flex-row md:flex-col lg:flex-row gap-2 shrink-0">
+                <a href="./employee-guide.html" target="_blank" rel="noopener noreferrer" class="btn-gold px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap">
+                  <span class="material-symbols-outlined text-sm">open_in_new</span>
+                  <span>Открыть полную инструкцию</span>
+                </a>
+                <button type="button" onclick="openEmployeeGuideModal()" class="btn-ghost px-4 py-2.5 rounded-xl text-xs font-bold text-gold border border-gold/30 hover:bg-gold/10 flex items-center justify-center gap-1.5 cursor-pointer whitespace-nowrap">
+                  <span class="material-symbols-outlined text-sm">visibility</span>
+                  <span>Быстрый просмотр здесь</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1406,6 +1488,15 @@
           </div>
         </div>
 
+        <!-- ПОЛЕ ССЫЛКИ НА ПРОФИЛЬ АВИТО (ОПЦИОНАЛЬНО ДЛЯ ВЫГРУЗКИ ПО ССЫЛКЕ) -->
+        <div class="p-3.5 rounded-xl bg-[#121214] border border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+          <div class="relative flex-1">
+            <span class="material-symbols-outlined text-gold text-base absolute left-3 top-1/2 -translate-y-1/2">link</span>
+            <input type="url" id="avitoCatalogUrl" placeholder="Ссылка на профиль Авито (необязательно — иначе выгрузка из приложения)" class="clean-input w-full pl-9 pr-3 py-2 text-xs text-white">
+          </div>
+          <span class="text-[11px] text-white/40 shrink-0">Если пусто — синхронизируется из подключённого профиля</span>
+        </div>
+
         <!-- ТОВАРЫ КАТАЛОГА С КНОПКАМИ ИЗМЕНИТЬ / УДАЛИТЬ -->
         <div id="oneClickItemsList" class="space-y-2.5 max-h-96 overflow-y-auto pr-1">
           <div class="p-6 text-center text-xs text-white/40 flex flex-col items-center justify-center gap-2">
@@ -1452,7 +1543,7 @@
           <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
             <div class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">1. Scout Agent</div>
             <div class="font-outfit font-bold text-sm text-white">Поиск продавцов</div>
-            <div class="text-[11px] text-emerald-400">48 лидов в очереди</div>
+            <div id="harveyQueueCount" class="text-[11px] text-emerald-400">0 лидов в очереди</div>
           </div>
 
           <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
@@ -1476,23 +1567,23 @@
           <div class="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
             <div class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">5. Analyst Agent</div>
             <div class="font-outfit font-bold text-sm text-white">Анализ конверсии</div>
-            <div class="text-[11px] text-emerald-400">Ответы: 28.5%</div>
+            <div id="harveyReplyRate" class="text-[11px] text-emerald-400">Ответы: —</div>
           </div>
         </div>
 
         
-        <!-- HARVEY LIVE OUTREACH LEADS TABLE (53 SELLERS FROM CHATS.SQLITE) -->
+        <!-- HARVEY LIVE OUTREACH LEADS TABLE (FROM CHATS.SQLITE) -->
         <div class="p-6 rounded-2xl bg-white/[0.02] border border-white/5 space-y-4">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div class="flex items-center gap-2">
                 <h4 class="font-outfit font-bold text-base text-white">Очередь продавцов Авито & WhatsApp</h4>
-                <span id="harveyTotalLeadsCount" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">53 контакта</span>
+                <span id="harveyTotalLeadsCount" class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">0 контактов</span>
               </div>
               <p class="text-xs text-white/40 mt-0.5">Реальная база проверенных продавцов с высоким рейтингом и товарными остатками</p>
             </div>
             <div class="flex items-center gap-2">
-              <span class="text-xs text-white/50">Дневной лимит: <strong>25/25</strong></span>
+              <span class="text-xs text-white/50">Дневной лимит: <strong id="harveyDailyLimit">0/20</strong></span>
             </div>
           </div>
 
@@ -1515,36 +1606,6 @@
             </table>
           </div>
         </div>
-
-
-        <!-- CLAUDE-SEO PLATFORM AUDIT CARD (GITHUB: AgriciDaniel/claude-seo) -->
-        <div class="p-5 rounded-2xl bg-white/[0.02] border border-white/5 space-y-3">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-lg text-emerald-400">verified</span>
-              <h4 class="font-outfit font-bold text-sm text-white">Платформенный аудит (Claude-SEO • AgriciDaniel/claude-seo)</h4>
-            </div>
-            <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">98 / 100 AEO Ready</span>
-          </div>
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs text-white/60">
-            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
-              <span class="text-white font-medium block">llms.txt</span>
-              <span class="text-[10px] text-emerald-400">Подключен (GEO Index)</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
-              <span class="text-white font-medium block">Core Web Vitals</span>
-              <span class="text-[10px] text-emerald-400">LCP 0.6s • CLS 0.00</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
-              <span class="text-white font-medium block">Schema.org</span>
-              <span class="text-[10px] text-emerald-400">Product & Organization</span>
-            </div>
-            <div class="p-2.5 rounded-lg bg-black/40 border border-white/5">
-              <span class="text-white font-medium block">Security Audit</span>
-              <span class="text-[10px] text-emerald-400">HMAC-SHA256 • 0 XSS</span>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -1555,7 +1616,7 @@
         <p class="text-xs sm:text-sm text-white/50">Прямое списание с баланса и мгновенный запуск магазина без скрытых платежей</p>
       </div>
 
-      <!-- PRICING 4 CARDS GRID (INCLUDING 14 DAYS PROMO) -->
+      <!-- PRICING 3 CARDS GRID -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch max-w-6xl mx-auto">
         
         <!-- CARD 1: TEST 7 DAYS (ONE-TIME TRIAL) -->
@@ -1595,7 +1656,7 @@
           <button id="btnTariffTrial" onclick="selectTariffAndStart('trial_7days', 1590)" class="btn-gold w-full py-3.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer"><span class="material-symbols-outlined text-base">timer</span><span id="btnTariffTrialText">Оформить 7 Дней за 1 590 ₽</span></button>
         </div>
 
-        <!-- CARD 2: MONTHLY (FLAGSHIP 50% DISCOUNT) -->
+        <!-- CARD 2: MONTHLY -->
         <div class="glass-box p-8 flex flex-col justify-between space-y-6 relative border-white/10 bg-[#141417]">
           <div class="absolute -top-3.5 right-6 bg-white/10 text-white/80 font-outfit font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider border border-white/10">Оптимальный выбор</div>
 
@@ -1605,7 +1666,6 @@
             <div>
               <h3 class="font-outfit font-bold text-2xl text-white">Полный Доступ на 1 Месяц</h3>
               <div class="flex items-baseline gap-2 mt-3">
-                <span class="text-xs text-white/30 line-through">12 990 ₽</span>
                 <span class="font-outfit font-extrabold text-4xl text-gold">6 490 ₽</span>
                 <span class="text-xs text-white/40">/ мес</span>
               </div>
@@ -1650,7 +1710,6 @@
             <div>
               <h3 class="font-outfit font-bold text-2xl text-white">Квартал на 3 Месяца</h3>
               <div class="flex items-baseline gap-2 mt-3">
-                <span class="text-xs text-white/30 line-through">38 970 ₽</span>
                 <span class="font-outfit font-extrabold text-4xl text-white">15 900 ₽</span>
                 <span class="text-xs text-white/40">/ 3 мес</span>
               </div>
@@ -1946,7 +2005,7 @@
     <section id="tab-content-referrals" class="tab-pane hidden space-y-6">
       <div>
         <h2 class="font-outfit text-2xl sm:text-3xl font-extrabold text-white">Реферальный Центр MAJORKA</h2>
-        <p class="text-xs sm:text-sm text-white/50 mt-1">Партнерская программа для продавцов и авитологов: получайте 25% с каждой оплаты приглашенных магазинов</p>
+        <p class="text-xs sm:text-sm text-white/50 mt-1">Партнерская программа для продавцов и авитологов: 35% за 1-й месяц, 25% за 2-й, 15% за 3-й и 10% с 4-го месяца, пока клиент активен</p>
       </div>
 
       <!-- REFERRAL LINK BOX -->
@@ -1974,15 +2033,45 @@
         </div>
 
         <div class="glass-box p-5 space-y-1">
-          <div class="text-xs text-white/40 font-medium">Размер кэшбека</div>
-          <div class="font-outfit font-extrabold text-3xl text-gold">25%</div>
-          <div class="text-[11px] text-gold mt-1">С каждой ежемесячной оплаты магазинов</div>
+          <div class="text-xs text-white/40 font-medium">Партнёрское вознаграждение</div>
+          <div class="font-outfit font-extrabold text-3xl text-gold">до 35%</div>
+          <div class="text-[11px] text-gold mt-1">35% → 25% → 15% → 10% с оплат клиентов</div>
         </div>
 
         <div class="glass-box p-5 space-y-1">
           <div class="text-xs text-white/40 font-medium">Реферальные бонусы</div>
           <div id="refBonusEarned" class="font-outfit font-extrabold text-3xl text-status-green">0 ₽</div>
           <div class="text-[11px] text-status-green mt-1">Доступно для оплаты тарифов</div>
+        </div>
+      </div>
+
+      <!-- TIERED COMMISSION SCHEDULE -->
+      <div class="glass-box p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <h3 class="font-outfit font-bold text-lg text-white">Шкала начислений по месяцам клиента</h3>
+          <span class="text-xs text-gold font-semibold">Пробный доступ (1 590 ₽) даёт 35% и не сжигает 1-й месяц • Квартал (15 900 ₽) — 25%</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs text-white/75">
+          <div class="p-4 bg-white/5 rounded-xl border border-gold/25 space-y-1">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-gold">1-й месяц</div>
+            <div class="font-outfit font-extrabold text-2xl text-white">35%</div>
+            <p class="text-white/55">2 271 ₽ с 6 490 ₽ (и 556 ₽ с пробника 1 590 ₽)</p>
+          </div>
+          <div class="p-4 bg-white/5 rounded-xl border border-white/10 space-y-1">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-white/60">2-й месяц</div>
+            <div class="font-outfit font-extrabold text-2xl text-white">25%</div>
+            <p class="text-white/55">1 622 ₽ при продлении на 2-й месяц</p>
+          </div>
+          <div class="p-4 bg-white/5 rounded-xl border border-white/10 space-y-1">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-white/60">3-й месяц</div>
+            <div class="font-outfit font-extrabold text-2xl text-white">15%</div>
+            <p class="text-white/55">973 ₽ при продлении на 3-й месяц</p>
+          </div>
+          <div class="p-4 bg-white/5 rounded-xl border border-white/10 space-y-1">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-white/60">4-й+ месяц</div>
+            <div class="font-outfit font-extrabold text-2xl text-white">10%</div>
+            <p class="text-white/55">649 ₽/мес, пока клиент остаётся активным</p>
+          </div>
         </div>
       </div>
 
@@ -1998,12 +2087,12 @@
           <div class="p-4 bg-white/5 rounded-xl border border-white/5 space-y-1.5">
             <div class="w-6 h-6 rounded-full bg-white/10 text-white/80 flex items-center justify-center font-bold text-xs">2</div>
             <strong class="text-white block">Клиент подключает сервис</strong>
-            <p>Партнер регистрируется и оплачивает тариф (от 1 590 ₽ до 6 490 ₽).</p>
+            <p>Партнер регистрируется и оплачивает тариф (от 1 590 ₽ до 15 900 ₽).</p>
           </div>
           <div class="p-4 bg-white/5 rounded-xl border border-white/5 space-y-1.5">
             <div class="w-6 h-6 rounded-full bg-white/10 text-white/80 flex items-center justify-center font-bold text-xs">3</div>
-            <strong class="text-white block">Получайте 25% на баланс</strong>
-            <p>Бонусы мгновенно начисляются на ваш счет и могут использоваться для 100% оплаты магазинов.</p>
+            <strong class="text-white block">Получайте до 35% на баланс</strong>
+            <p>Бонусы начисляются на ваш баланс (35% → 25% → 15% → 10%) и подходят для оплаты магазинов или вывода через @chc332.</p>
           </div>
         </div>
       </div>
@@ -2051,8 +2140,8 @@
                     <div class="flex items-center gap-2 flex-wrap">
                       <span class="font-outfit font-bold text-sm text-white">Telegram</span>
                       <span id="settTgHandle" class="text-xs text-white/70 font-mono">@avito_deployer_bot</span>
-                      <span id="settTgStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-status-green/15 text-status-green border border-status-green/30 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"></span> Привязан
+                      <span id="settTgStatusBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/60 border border-white/15 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span> Не привязан
                       </span>
                     </div>
                     <div id="settTgIdBadge" class="text-[11px] text-white/40 font-mono mt-0.5">ID не привязан</div>
@@ -2097,8 +2186,8 @@
                   <div>
                     <div class="flex items-center gap-2 flex-wrap">
                       <span class="font-outfit font-bold text-sm text-white">Google Вход</span>
-                      <span id="settGoogleBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-status-green/15 text-status-green border border-status-green/30 flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full bg-status-green"></span> Активен
+                      <span id="settGoogleBadge" class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/60 border border-white/15 flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span> Не привязан
                       </span>
                     </div>
                     <div id="settGoogleEmail" class="text-[11px] text-white/50 mt-0.5 font-mono">Вход в 1 клик</div>
@@ -2199,7 +2288,7 @@
           <!-- Created At Row -->
           <div class="flex items-center gap-2 pt-1 text-xs text-white/50">
             <span>Дата регистрации:</span>
-            <span id="settUserCreatedAt" class="text-white/80 font-medium font-mono">19.06.2026</span>
+            <span id="settUserCreatedAt" class="text-white/80 font-medium font-mono">—</span>
           </div>
         </div>
       </div>
@@ -2298,14 +2387,8 @@
 
             <!-- MONTHLY CARD -->
             <div class="glass-box p-6 flex flex-col justify-between space-y-4 border-white/10 hover:border-white/10 transition-all rounded-2xl relative bg-white/[0.02]">
-              <div class="absolute -top-3 right-4 bg-gold text-black font-outfit font-black text-[10px] px-2.5 py-0.5 rounded-full uppercase tracking-wider shadow">
-                Скидка 50%
-              </div>
               <div class="space-y-3">
-                <div class="flex items-center justify-between">
-                  
-                  <span class="text-xs text-white/40 line-through">12 990 ₽</span>
-                </div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-zinc-300 px-2.5 py-0.5 rounded-full bg-white/5 border border-white/10 inline-block">Оптимальный выбор</span>
                 <h4 class="font-outfit font-bold text-lg sm:text-xl text-white">Полный доступ на 1 месяц</h4>
                 <div class="font-outfit font-black text-3xl sm:text-4xl text-white">6 490 ₽ <span class="text-xs text-white/40 font-normal">/ мес</span></div>
                 <ul class="space-y-2 text-xs text-white/70 pt-2">
@@ -2363,7 +2446,7 @@
                   Туда будут мгновенно приходить все новые лиды, уведомления о заказах, ошибки и вся оперативная информация по вашему магазину:
                 </p>
                 <div class="pt-2">
-                  <a href="https://t.me/avito_deployer_bot" target="_blank" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gold text-black font-bold text-xs hover:bg-[#FFE66D] transition-all">
+                  <a href="https://t.me/avito_deployer_bot" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gold text-black font-bold text-xs hover:bg-[#FFE66D] transition-all">
                     <span>Перейти в Telegram: https://t.me/avito_deployer_bot</span>
                     <span class="material-symbols-outlined text-sm">open_in_new</span>
                   </a>
@@ -2472,7 +2555,7 @@
 
             <!-- 5. NOTES & SPECIAL RULES -->
             <div class="space-y-1.5">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">6. Особые пожелания и примечания (в свободной форме)</label>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70">7. Особые пожелания и примечания (в свободной форме)</label>
               <textarea id="wizCustomRules" rows="3" placeholder="• Отправка заказов в день оплаты&#10;• В пункте выдачи 15 минут на полную проверку&#10;• При самовывозе звонить за 1 час" class="clean-input w-full px-4 py-3 text-white text-xs leading-relaxed"></textarea>
             </div>
           </div>
@@ -2682,17 +2765,19 @@
     <div class="max-w-[1280px] mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/40">
       <div class="flex flex-wrap items-center gap-4">
         <span>© 2026 MAJORKA. Все права защищены.</span>
-        <a href="oferta.html" target="_blank" class="hover:text-gold transition-colors underline text-white/50 font-medium">Публичная оферта</a>
-        <a href="privacy.html" target="_blank" class="hover:text-gold transition-colors underline text-white/50 font-medium">Политика конфиденциальности (152-ФЗ)</a>
+        <a href="oferta.html" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition-colors underline text-white/50 font-medium">Публичная оферта</a>
+        <a href="privacy.html" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition-colors underline text-white/50 font-medium">Политика конфиденциальности (152-ФЗ)</a>
+        <a href="./employee-guide.html" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition-colors underline text-gold/90 font-semibold">Инструкция (обязательно к прочтению)</a>
+        <button type="button" onclick="openEmployeeGuideModal()" class="hover:text-gold transition-colors underline text-white/50 font-medium cursor-pointer">Быстрый просмотр инструкции</button>
         <button onclick="openDocModal()" class="hover:text-gold transition-colors underline text-white/50 font-medium">База знаний</button>
       </div>
       
       <div class="flex flex-wrap items-center gap-5">
-        <a href="https://t.me/avito_deployer_bot" target="_blank" class="hover:text-avito-blue text-avito-blue/80 transition-colors flex items-center gap-1.5 font-medium">
+        <a href="https://t.me/avito_deployer_bot" target="_blank" rel="noopener noreferrer" class="hover:text-avito-blue text-avito-blue/80 transition-colors flex items-center gap-1.5 font-medium">
           <span class="material-symbols-outlined text-sm">send</span>
           <span>Telegram (@avito_deployer_bot)</span>
         </a>
-        <a href="https://t.me/chc332" target="_blank" class="hover:text-gold transition-colors flex items-center gap-1.5">
+        <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="hover:text-gold transition-colors flex items-center gap-1.5">
           <span class="material-symbols-outlined text-sm">support_agent</span>
           <span>Поддержка 24/7 (@chc332)</span>
         </a>
@@ -2746,7 +2831,7 @@
             <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </button>
 
-          <a href="https://t.me/chc332" target="_blank" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-cyan-300 flex items-center justify-between transition-colors cursor-pointer">
+          <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="w-full text-left p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 text-xs text-cyan-300 flex items-center justify-between transition-colors cursor-pointer">
             <span class="flex items-center gap-2">
               <span class="material-symbols-outlined text-sm text-cyan-300">forum</span>
               <span>Чат с поддержкой (@chc332)</span>
@@ -2757,7 +2842,7 @@
       </div>
 
       <div class="pt-2 border-t border-white/10">
-        <a href="https://t.me/chc332" target="_blank" class="w-full btn-gold py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+        <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="w-full btn-gold py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm">
           <svg class="w-3.5 h-3.5 fill-black" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.52 2.77-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .37z"/></svg>
           <span>Написать в Telegram</span>
         </a>
@@ -2765,12 +2850,12 @@
     </div>
 
     <!-- FLOATING TRIGGER BUTTON -->
-    <button onclick="toggleSupportWidget()" class="group relative flex items-center gap-2 px-4 py-3 rounded-full bg-[#141418] hover:bg-[#1a1a20] border border-white/10 border border-white/10 transition-all duration-300 cursor-pointer">
+    <button onclick="toggleSupportWidget()" class="group relative flex items-center gap-2 p-2.5 sm:px-4 sm:py-3 rounded-full bg-[#141418] hover:bg-[#1a1a20] border border-white/10 transition-all duration-300 cursor-pointer" aria-label="Служба заботы 24/7">
       <div class="relative flex items-center justify-center">
         <span class="material-symbols-outlined text-gold text-xl group-hover:scale-110 transition-transform">support_agent</span>
         <span class="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-status-green border border-black "></span>
       </div>
-      <span class="text-xs font-bold text-white group-hover:text-gold transition-colors">Служба заботы 24/7</span>
+      <span class="hidden sm:inline text-xs font-bold text-white group-hover:text-gold transition-colors">Служба заботы 24/7</span>
     </button>
   </div>
 
@@ -2787,7 +2872,7 @@
       <span class="text-[10px] font-semibold tracking-tight">Магазины</span>
     </button>
     <button onclick="switchTab('knowledge')" id="bnav-knowledge" class="bnav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-1 text-white/50 hover:text-white transition-all active:scale-95 touch-press">
-      <span class="material-symbols-outlined text-xl sm:text-2xl">smart_toy</span>
+      <span class="material-symbols-outlined text-xl sm:text-2xl">tune</span>
       <span class="text-[10px] font-semibold tracking-tight">Настройка</span>
     </button>
     <button onclick="switchTab('tariffs')" id="bnav-tariffs" class="bnav-btn flex-1 flex flex-col items-center justify-center gap-0.5 py-1 text-white/50 hover:text-white transition-all active:scale-95 touch-press">
@@ -2902,7 +2987,7 @@
         </button>
 
         <!-- SUPPORT -->
-        <a href="https://t.me/chc332" target="_blank" onclick="toggleMobileMoreSheet(false);" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-blue-500/10 border border-white/10 hover:border-blue-400/30 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
+        <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" onclick="toggleMobileMoreSheet(false);" class="p-3 rounded-2xl bg-white/[0.04] hover:bg-white/[0.08] active:bg-blue-500/10 border border-white/10 hover:border-blue-400/30 text-left transition-all active:scale-98 flex flex-col justify-between h-24">
           <div class="flex items-center justify-between w-full">
             <span class="material-symbols-outlined text-blue-400 text-2xl">support_agent</span>
             <span class="text-[9px] bg-white/10 text-zinc-300 px-1.5 py-0.5 rounded font-bold border border-white/10">24/7</span>
@@ -3002,7 +3087,7 @@
           <span>Мгновенное зачисление баланса</span>
         </div>
 
-        <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" class="space-y-4">
+        <form action="https://yoomoney.ru/quickpay/confirm.xml" method="POST" target="_blank" rel="noopener noreferrer" class="space-y-4">
           <input type="hidden" name="receiver" value="4100119556996975">
           <input type="hidden" name="quickpay-form" value="button">
           <input type="hidden" name="targets" value="Оплата тарифа MAJORKA">
@@ -3039,7 +3124,7 @@
           <span>Я оплатил(а) — уведомить менеджера</span>
         </button>
 
-        <a href="https://t.me/avito_deployer_bot" target="_blank" class="w-full py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white bg-white/5 border border-white/10 flex items-center justify-center gap-2 transition-all">
+        <a href="https://t.me/avito_deployer_bot" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl text-xs font-semibold text-white/70 hover:text-white bg-white/5 border border-white/10 flex items-center justify-center gap-2 transition-all">
           <span class="material-symbols-outlined text-sm text-gold">send</span>
           <span>Оплатить или отправить чек в Telegram</span>
         </a>
@@ -3207,7 +3292,7 @@
             <span>3. Поддержка Пользователей 24/7</span>
           </h4>
           <p>
-            Служба заботы о клиентах: <a href="https://t.me/chc332" target="_blank" class="text-gold font-bold underline">@chc332</a>.
+            Служба заботы о клиентах: <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="text-gold font-bold underline">@chc332</a>.
           </p>
         </div>
       </div>
@@ -3327,6 +3412,128 @@
       </div>
     </div>
   </div>
+
+  <!-- MODAL: AVITO PRO EMPLOYEES SAFE CONNECTION GUIDE (5 STEPS + SCREENSHOTS) -->
+  <div id="employeeGuideModal" class="fixed inset-0 z-[130] hidden items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-4">
+    <div class="glass-box p-5 sm:p-7 rounded-2xl sm:rounded-3xl max-w-4xl w-full bg-[#161619] border border-white/15 space-y-5 shadow-2xl max-h-[90vh] flex flex-col">
+      <div class="flex items-start justify-between gap-3 border-b border-white/10 pb-4 shrink-0">
+        <div class="space-y-1">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
+            <span class="material-symbols-outlined text-xs">verified_user</span>
+            <span>Безопасный доступ без главного пароля</span>
+          </div>
+          <h3 class="font-outfit font-extrabold text-xl sm:text-2xl text-white">Инструкция: подключение через «Сотрудники» Авито PRO</h3>
+          <p class="text-xs text-white/60">Настройка занимает ~2 минуты. Кошелёк, тариф и редактирование объявлений остаются закрытыми.</p>
+        </div>
+        <button type="button" onclick="closeEmployeeGuideModal()" class="text-white/40 hover:text-white cursor-pointer p-1.5 rounded-xl bg-white/5 hover:bg-white/10" aria-label="Закрыть инструкцию">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="flex-1 overflow-y-auto space-y-5 pr-1">
+        <!-- STEP 1 -->
+        <div class="p-4 rounded-2xl bg-[#121214] border border-white/10 space-y-1.5">
+          <div class="flex items-center gap-2 text-sm font-bold text-white">
+            <span class="w-6 h-6 rounded-lg bg-gold text-black flex items-center justify-center text-xs font-black">1</span>
+            <span>Перейдите во вкладку «Главное»</span>
+          </div>
+          <p class="text-xs text-white/70 leading-relaxed">Нажмите на вашу аватарку (профиль) в правом верхнем углу сайта Авито и откройте вкладку <strong>«Главное»</strong> — откроется кабинет Авито PRO с левым меню магазина.</p>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="p-4 rounded-2xl bg-[#121214] border border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-sm font-bold text-white">
+              <span class="w-6 h-6 rounded-lg bg-gold text-black flex items-center justify-center text-xs font-black">2</span>
+              <span>«Профиль и настройки» → «Сотрудники» → «Пригласить сотрудников»</span>
+            </div>
+            <ul class="text-xs text-white/70 space-y-1.5 list-disc list-inside">
+              <li>В левом нижнем меню нажмите <strong>«Профиль и настройки»</strong>.</li>
+              <li>Во всплывающем списке выберите пункт <strong>«Сотрудники»</strong>.</li>
+              <li>Нажмите синюю кнопку <strong>«Пригласить сотрудников»</strong>.</li>
+            </ul>
+          </div>
+          <img src="assets/guide/avito_step2_employees_menu.png" alt="Шаг 2: Профиль и настройки, раздел Сотрудники и кнопка Пригласить сотрудников в Авито PRO" class="rounded-xl border border-white/10 w-full max-h-60 object-contain bg-black/40" loading="lazy">
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="p-4 rounded-2xl bg-[#121214] border border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-sm font-bold text-white">
+              <span class="w-6 h-6 rounded-lg bg-gold text-black flex items-center justify-center text-xs font-black">3</span>
+              <span>Нажмите «Создать группу»</span>
+            </div>
+            <p class="text-xs text-white/70 leading-relaxed">В блоке <strong>«Группы»</strong> нажмите кнопку <strong>«Создать группу»</strong>. Сначала задайте права группы и только потом копируйте ссылку-приглашение.</p>
+          </div>
+          <img src="assets/guide/avito_step3_create_group_only.png" alt="Шаг 3: Кнопка Создать группу в Авито PRO" class="rounded-xl border border-white/10 w-full max-h-60 object-contain bg-black/40" loading="lazy">
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="p-4 rounded-2xl bg-[#121214] border border-white/10 space-y-4">
+          <div class="flex items-center gap-2 text-sm font-bold text-white">
+            <span class="w-6 h-6 rounded-lg bg-gold text-black flex items-center justify-center text-xs font-black">4</span>
+            <span>Настройте права группы (только просмотр объявлений и чаты)</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="space-y-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+              <div class="text-xs font-bold text-gold">4.1. Верхняя часть — «Объявления»</div>
+              <ul class="text-xs text-white/70 space-y-1 list-disc list-inside">
+                <li><strong>ВКЛЮЧИТЬ:</strong> «Просмотр всех объявлений компании».</li>
+                <li><strong>СНЯТЬ ГАЛОЧКИ:</strong> «Продвижение» и «Редактирование объявлений коллег».</li>
+                <li><strong>ВЫКЛЮЧЕНО:</strong> «Продвижение объявлений за свой счёт».</li>
+              </ul>
+              <img src="assets/guide/avito_step4a_perms_top.png" alt="Шаг 4.1: Права блока Объявления" class="rounded-xl border border-white/10 w-full max-h-64 object-contain bg-black/40" loading="lazy">
+            </div>
+            <div class="space-y-2.5 p-3 rounded-xl bg-white/[0.02] border border-white/5">
+              <div class="text-xs font-bold text-gold">4.2. Нижняя часть — «Чаты» и «Финансы»</div>
+              <ul class="text-xs text-white/70 space-y-1 list-disc list-inside">
+                <li><strong>ВКЛЮЧИТЬ:</strong> тумблер <strong>«Доступ ко всем чатам»</strong>.</li>
+                <li><strong>ВЫКЛЮЧЕНЫ:</strong> «Управление бронированиями жилья», «Аналитика» и «Финансы → Работа с тарифом».</li>
+                <li>Нажмите «Продолжить» и сохраните группу.</li>
+              </ul>
+              <img src="assets/guide/avito_step4b_perms_bot.png" alt="Шаг 4.2: Права блока Чаты и Финансы" class="rounded-xl border border-white/10 w-full max-h-64 object-contain bg-black/40" loading="lazy">
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="p-4 rounded-2xl bg-[#121214] border border-white/10 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+          <div class="space-y-2">
+            <div class="flex items-center gap-2 text-sm font-bold text-white">
+              <span class="w-6 h-6 rounded-lg bg-gold text-black flex items-center justify-center text-xs font-black">5</span>
+              <span>Скопируйте ссылку и вставьте на Шаге 3</span>
+            </div>
+            <p class="text-xs text-white/70 leading-relaxed">В блоке <strong>«Приглашение для новых сотрудников»</strong> нажмите <strong>«Скопировать ссылку»</strong> и вставьте её на Шаге 3 в Личном Кабинете. Не нажимайте «Обновить» после отправки ссылки — иначе старая ссылка перестанет работать.</p>
+          </div>
+          <img src="assets/guide/avito_step5_copy_link_final.png" alt="Шаг 5: Скопировать ссылку для приглашения сотрудника" class="rounded-xl border border-white/10 w-full max-h-60 object-contain bg-black/40" loading="lazy">
+        </div>
+
+        <!-- MISTAKES SUMMARY -->
+        <div class="p-4 rounded-2xl bg-rose-500/10 border border-rose-500/30 space-y-2 text-xs">
+          <div class="font-bold text-rose-300 flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-base">warning</span>
+            <span>Что сломается, если что-то нажать неправильно:</span>
+          </div>
+          <ul class="text-white/75 space-y-1 list-disc list-inside">
+            <li>Выключен «Доступ ко всем чатам» — менеджер не увидит сообщения покупателей.</li>
+            <li>Выключен «Просмотр всех объявлений компании» — пропадут цены, наличие и описания.</li>
+            <li>Нажали «Обновить» после отправки ссылки — приглашение аннулируется, нужно скопировать заново.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-3 border-t border-white/10 shrink-0">
+        <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="text-xs text-gold hover:underline flex items-center gap-1.5 font-semibold">
+          <span class="material-symbols-outlined text-sm">support_agent</span>
+          <span>Нужна помощь? Поддержка @chc332</span>
+        </a>
+        <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+          <button type="button" onclick="closeEmployeeGuideModal()" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-white/70 hover:text-white cursor-pointer">Закрыть</button>
+          <button type="button" onclick="closeEmployeeGuideModal(); switchTab('knowledge'); scrollToStep(3);" class="btn-gold px-5 py-2 rounded-xl text-xs font-bold cursor-pointer">Вставить ссылку на Шаге 3</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <script>
     // CORE GLOBAL STATE DECLARATIONS
     var isChainStep1Paid = false;
@@ -3351,68 +3558,6 @@
         }
       } catch(e) {}
     }
-
-    // LIVE EMULATOR MONITOR
-    let liveMonitorInterval = null;
-    let currentLiveEmuIdx = 0;
-
-    async function openLiveMonitorModal(emuIdx = 0, storeName = 'Основной магазин') {
-      currentLiveEmuIdx = emuIdx;
-      const modal = document.getElementById('liveMonitorModal');
-      const title = document.getElementById('liveMonitorTitle');
-      const portEl = document.getElementById('liveMonitorPort');
-      if (title) title.innerText = `Экран: ${storeName}`;
-      if (portEl) portEl.innerText = emuIdx === 0 ? '127.0.0.1:5555' : `127.0.0.1:${5555 + 2 * emuIdx}`;
-      if (modal) {
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-        document.body.style.overflow = 'hidden';
-      }
-      hapticClick('light');
-      await refreshLiveMonitorFrame();
-      startLiveMonitorPolling();
-    }
-
-    function closeLiveMonitorModal() {
-      const modal = document.getElementById('liveMonitorModal');
-      if (modal) {
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-        document.body.style.overflow = '';
-      }
-      stopLiveMonitorPolling();
-      hapticClick('light');
-    }
-
-    async function refreshLiveMonitorFrame() {
-      const imgModal = document.getElementById('liveMonitorImage');
-      const imgInline = document.getElementById('overviewLiveStreamImg');
-      const loaderModal = document.getElementById('liveMonitorLoading');
-      const loaderInline = document.getElementById('overviewLiveStreamLoader');
-      const pingModal = document.getElementById('liveMonitorPing');
-      const pingInline = document.getElementById('overviewLiveStreamPing');
-
-      const t0 = performance.now();
-      const emuIdx = currentLiveEmuIdx || 0;
-      const screenUrl = `${API_BASE}/api/emulator_screen/${emuIdx}?t=${Date.now()}`;
-
-      const preloader = new Image();
-      preloader.onload = () => {
-        if (imgModal) imgModal.src = screenUrl;
-        if (imgInline) imgInline.src = screenUrl;
-        if (loaderModal) loaderModal.classList.add('hidden');
-        if (loaderInline) loaderInline.classList.add('hidden');
-        const ms = Math.round(performance.now() - t0);
-        if (pingModal) pingModal.innerText = `Пинг: ${ms} ms`;
-        if (pingInline) pingInline.innerText = `Пинг: ${ms} ms`;
-      };
-      preloader.onerror = () => {
-        if (loaderModal) loaderModal.classList.add('hidden');
-        if (loaderInline) loaderInline.classList.add('hidden');
-      };
-      preloader.src = screenUrl;
-    }
-
 
     // =========================================================================
     // HARVEY VISIBILITY GUARD & AVITO CUSTOMER LEADS CRM
@@ -3518,13 +3663,23 @@
         return true;
       });
 
+      if (!container.dataset.leadsDelegated) {
+        container.dataset.leadsDelegated = '1';
+        container.addEventListener('click', (ev) => {
+          const doneBtn = ev.target.closest('[data-mark-lead-id]');
+          if (doneBtn) {
+            markLeadDealDone(doneBtn.dataset.markLeadId);
+          }
+        });
+      }
+
       if (!filtered.length) {
         container.innerHTML = `
           <div class="glass-box p-8 rounded-2xl border border-white/10 text-center space-y-3 bg-[#161619]">
             <span class="material-symbols-outlined text-4xl text-white/30">filter_none</span>
             <div class="font-outfit font-bold text-base text-white">В данной категории пока нет заявок</div>
             <div class="text-xs text-white/50 max-w-sm mx-auto">Новые покупатели с Авито самостоятельно квалифицируются и появятся здесь мгновенно.</div>
-            <button onclick="filterCustomerLeads('all')" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-gold inline-flex items-center gap-1 cursor-pointer">
+            <button type="button" onclick="filterCustomerLeads('all')" class="btn-ghost px-4 py-2 rounded-xl text-xs font-bold text-gold inline-flex items-center gap-1 cursor-pointer">
               <span>Показать все заявки</span>
             </button>
           </div>
@@ -3561,7 +3716,10 @@
           </span>`;
         }
 
-        const cleanPhone = lead.phone ? lead.phone.replace(/[^0-9+]/g, '') : '';
+        const safeLeadId = escapeHtml(String(lead.id ?? ''));
+        const cleanPhone = lead.phone ? String(lead.phone).replace(/[^0-9+]/g, '') : '';
+        const waDigits = cleanPhone.replace(/[^0-9]/g, '');
+        const safeAvitoChatUrl = sanitizeHttpUrl(lead.avito_chat_url, 'https://www.avito.ru/profile/messenger');
 
         return `
           <div class="glass-box p-4 sm:p-5 rounded-2xl border ${isCallNeeded ? 'border-amber-500/30 bg-[#17171a]' : 'border-white/10 bg-[#161619]'} hover:border-white/20 transition-all duration-200 space-y-4">
@@ -3572,7 +3730,7 @@
                 ${badgeHtml}
                 <span class="text-[11px] text-white/40">• ${escapeHtml(lead.time || 'сегодня')}</span>
               </div>
-              <div class="text-[11px] text-white/40 font-mono">ID #${lead.id} • ${escapeHtml(lead.source || 'Авито')}</div>
+              <div class="text-[11px] text-white/40 font-mono">ID #${safeLeadId} • ${escapeHtml(lead.source || 'Авито')}</div>
             </div>
 
             <!-- BUYER & ITEM INFO -->
@@ -3610,7 +3768,7 @@
               <div class="p-3 sm:p-3.5 rounded-xl bg-gold/[0.04] border border-gold/15 space-y-1">
                 <div class="text-[10px] uppercase font-bold text-gold flex items-center gap-1">
                   <span class="material-symbols-outlined text-xs">bolt</span>
-                  <span>Ответ управляющего продажами (за 12 сек):</span>
+                  <span>Ответ управляющего продажами:</span>
                 </div>
                 <div class="text-xs sm:text-sm text-white/80 leading-relaxed">
                   "${escapeHtml(lead.manager_reply || '')}"
@@ -3619,7 +3777,7 @@
             </div>
 
             <!-- CALLOUT BOX IF PHONE IS AVAILABLE -->
-            ${lead.phone ? `
+            ${cleanPhone ? `
               <div class="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
                   <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
@@ -3630,7 +3788,7 @@
                     <div class="font-outfit font-black text-sm sm:text-base text-white">${escapeHtml(lead.phone)}</div>
                   </div>
                 </div>
-                <a href="tel:${cleanPhone}" class="btn-gold px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all cursor-pointer">
+                <a href="tel:${escapeHtml(cleanPhone)}" class="btn-gold px-4 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md active:scale-95 transition-all cursor-pointer">
                   <span class="material-symbols-outlined text-sm">call</span>
                   <span>Позвонить прямо сейчас</span>
                 </a>
@@ -3640,12 +3798,12 @@
             <!-- ACTION FOOTER TOOLBAR -->
             <div class="flex items-center justify-between gap-2 pt-2 border-t border-white/5 flex-wrap">
               <div class="flex items-center gap-2">
-                <a href="${escapeHtml(lead.avito_chat_url || 'https://www.avito.ru/profile/messenger')}" target="_blank" class="px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white flex items-center gap-1.5 transition-all" title="Открыть переписку на Авито">
+                <a href="${escapeHtml(safeAvitoChatUrl)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white flex items-center gap-1.5 transition-all" title="Открыть переписку на Авито">
                   <span class="material-symbols-outlined text-sm text-gold">chat</span>
                   <span>Открыть на Авито</span>
                 </a>
-                ${lead.phone ? `
-                  <a href="https://wa.me/${cleanPhone.replace('+', '')}" target="_blank" class="px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 flex items-center gap-1.5 transition-all">
+                ${waDigits ? `
+                  <a href="https://wa.me/${escapeHtml(waDigits)}" target="_blank" rel="noopener noreferrer" class="px-3 py-2 rounded-xl text-xs font-semibold bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-400 flex items-center gap-1.5 transition-all">
                     <span>WhatsApp</span>
                   </a>
                 ` : ''}
@@ -3658,7 +3816,7 @@
                     <span>Сделка успешно завершена</span>
                   </span>
                 ` : `
-                  <button type="button" onclick="markLeadDealDone(${lead.id})" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-white/70 hover:text-emerald-400 hover:border-emerald-500/30 flex items-center gap-1.5 cursor-pointer transition-all">
+                  <button type="button" data-mark-lead-id="${safeLeadId}" class="btn-ghost px-3.5 py-2 rounded-xl text-xs font-bold text-white/70 hover:text-emerald-400 hover:border-emerald-500/30 flex items-center gap-1.5 cursor-pointer transition-all">
                     <span class="material-symbols-outlined text-sm">verified</span>
                     <span>Сделка закрыта</span>
                   </button>
@@ -3678,13 +3836,13 @@
         confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
       }
 
-      const item = (window.customerLeadsData || []).find(l => l.id === leadId);
+      const item = (window.customerLeadsData || []).find(l => String(l.id) === String(leadId));
       if (item) {
         item.deal_status = 'completed';
         renderCustomerLeadsList();
       }
 
-      showToast('Сделка успешно закрыта! 🎉', `Заказ #${leadId} отмечен как оплаченный. Клиент сохранен в базу постоянных покупателей.`, 'success');
+      showToast('Сделка успешно закрыта!', `Заказ #${leadId} отмечен как оплаченный. Клиент сохранен в базу постоянных покупателей.`, 'success');
 
       try {
         await apiFetch(`${API_BASE}/api/leads/update_status`, {
@@ -3698,32 +3856,24 @@
     }
     window.markLeadDealDone = markLeadDealDone;
 
-    function startLiveMonitorPolling() {
-      stopLiveMonitorPolling();
-      const toggle = document.getElementById('liveAutoRefreshToggle');
-      if (toggle && !toggle.checked) return;
-      liveMonitorInterval = setInterval(() => {
-        refreshLiveMonitorFrame();
-      }, 2000);
-    }
-
-    function stopLiveMonitorPolling() {
-      if (liveMonitorInterval) {
-        clearInterval(liveMonitorInterval);
-        liveMonitorInterval = null;
-      }
-    }
-
-    function toggleLiveAutoRefresh() {
-      const toggle = document.getElementById('liveAutoRefreshToggle');
-      if (toggle && toggle.checked) startLiveMonitorPolling();
-      else stopLiveMonitorPolling();
-    }
-
     const isLocalHost = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.protocol === 'file:' || !window.location.hostname);
     const API_BASE = isLocalHost
       ? (window.location.port === '8085' ? '' : 'http://127.0.0.1:8085')
       : 'https://immensurable-paleaceous-marcella.ngrok-free.dev';
+
+    const cookieSecurityAttr = () => (window.location.protocol === 'https:' ? '; Secure' : '');
+
+    function sanitizeHttpUrl(rawUrl, fallback = '') {
+      const val = String(rawUrl || '').trim();
+      if (!val) return fallback;
+      try {
+        const parsed = new URL(val, window.location.origin);
+        if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+          return parsed.href;
+        }
+      } catch (e) {}
+      return fallback;
+    }
 
     const apiFetch = async (url, options = {}) => {
       const token = localStorage.getItem('session_token');
@@ -3735,10 +3885,11 @@
 
     function clearAllAuthCookiesAndStorage() {
       try {
+        const sec = cookieSecurityAttr();
         localStorage.clear();
         sessionStorage.clear();
         ['session_token', 'userChatId', 'majorka_chatId', 'majorka_guest_id'].forEach(name => {
-          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax`;
+          document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax${sec}`;
         });
       } catch (e) {}
     }
@@ -3770,12 +3921,11 @@
       return match ? decodeURIComponent(match[1]) : null;
     }
 
-    // Secure multi-tenant resolution:
-    // 1. Telegram WebApp user
-    // 2. Saved authenticated session (Cookie or localStorage)
-    // 3. Clean URL param (chatId)
-    // 4. Default to owner on localhost or clean guest session client_XXXXXX
-    // currentChatId declared at top
+    // Secure multi-tenant resolution (server-verified before privileged actions):
+    // 1. Telegram WebApp user (verified via /api/auth/telegram_session)
+    // 2. Saved authenticated session (verified via /api/auth/me)
+    // 3. Clean URL param (chatId, also verified via /api/auth/me unless client_ guest)
+    // 4. Clean guest session client_XXXXXX
     const cookieChatId = getCookie('userChatId') || getCookie('majorka_chatId');
     const savedChatId = localStorage.getItem('userChatId') || localStorage.getItem('majorka_chatId') || cookieChatId;
     const savedToken = localStorage.getItem('session_token') || getCookie('session_token');
@@ -3784,11 +3934,11 @@
       currentChatId = String(tgUser.id);
     } else if (paramChatId) {
       currentChatId = paramChatId;
-    } else if (savedChatId && !savedChatId.startsWith('client_')) {
+    } else if (savedChatId && !savedChatId.startsWith('client_') && savedToken) {
       currentChatId = savedChatId;
     } else {
       let savedGuest = localStorage.getItem('majorka_guest_id') || getCookie('majorka_guest_id');
-      if (!savedGuest) {
+      if (!savedGuest || !savedGuest.startsWith('client_')) {
         savedGuest = 'client_' + Math.floor(100000 + Math.random() * 900000);
         localStorage.setItem('majorka_guest_id', savedGuest);
       }
@@ -3797,7 +3947,7 @@
 
     // Isolate browser state across different accounts
     const lastChatId = localStorage.getItem('majorka_last_chatId');
-    if ((lastChatId && lastChatId !== currentChatId) || (currentChatId !== '6940082004' && lastChatId === '6940082004')) {
+    if (lastChatId && lastChatId !== currentChatId) {
       localStorage.removeItem('majorka_catalog_products');
       localStorage.removeItem('majorka_bots');
       localStorage.removeItem('majorka_store_knowledge');
@@ -3812,27 +3962,56 @@
       window.history.replaceState({}, '', window.location.pathname);
     }
 
-    isOwner = (currentChatId === '6940082004'); window.isOwner = isOwner; window.currentChatId = currentChatId;
+    isOwner = false; window.isOwner = false; window.currentChatId = currentChatId;
     let currentTgUser = tgUser?.username
       ? '@' + tgUser.username
-      : (tgUser?.first_name || (isOwner ? 'Владелец (Roling)' : (currentChatId.startsWith('client_') ? 'Гость' : 'Клиент ID ' + currentChatId)));
+      : (tgUser?.first_name || (currentChatId.startsWith('client_') ? 'Гость' : 'Клиент ID ' + currentChatId));
 
     // PERSIST SESSION IN BOTH localStorage AND COOKIES (1 YEAR)
     localStorage.setItem('userChatId', currentChatId);
     localStorage.setItem('majorka_chatId', currentChatId);
     localStorage.setItem('majorka_entered', 'true');
     const maxAge = 365 * 24 * 3600;
-    document.cookie = `userChatId=${currentChatId}; max-age=${maxAge}; path=/; SameSite=Lax`;
-    document.cookie = `majorka_chatId=${currentChatId}; max-age=${maxAge}; path=/; SameSite=Lax`;
+    const initSec = cookieSecurityAttr();
+    document.cookie = `userChatId=${encodeURIComponent(currentChatId)}; max-age=${maxAge}; path=/; SameSite=Lax${initSec}`;
+    document.cookie = `majorka_chatId=${encodeURIComponent(currentChatId)}; max-age=${maxAge}; path=/; SameSite=Lax${initSec}`;
     if (savedToken) {
-      document.cookie = `session_token=${savedToken}; max-age=${maxAge}; path=/; SameSite=Lax`;
+      document.cookie = `session_token=${encodeURIComponent(savedToken)}; max-age=${maxAge}; path=/; SameSite=Lax${initSec}`;
+    }
+
+    function applyGuestSessionState(preferredGuestId = '') {
+      let guestId = (preferredGuestId && preferredGuestId.startsWith('client_'))
+        ? preferredGuestId
+        : (localStorage.getItem('majorka_guest_id') || getCookie('majorka_guest_id'));
+      if (!guestId || !guestId.startsWith('client_')) {
+        guestId = 'client_' + Math.floor(100000 + Math.random() * 900000);
+      }
+      localStorage.setItem('majorka_guest_id', guestId);
+      currentChatId = guestId;
+      isOwner = false;
+      window.isOwner = false;
+      window.currentChatId = currentChatId;
+      currentTgUser = 'Гость';
+      localStorage.setItem('userChatId', currentChatId);
+      localStorage.setItem('majorka_chatId', currentChatId);
+      localStorage.setItem('majorka_last_chatId', currentChatId);
+      const sec = cookieSecurityAttr();
+      document.cookie = `userChatId=${encodeURIComponent(currentChatId)}; max-age=${maxAge}; path=/; SameSite=Lax${sec}`;
+      document.cookie = `majorka_chatId=${encodeURIComponent(currentChatId)}; max-age=${maxAge}; path=/; SameSite=Lax${sec}`;
+      document.cookie = `majorka_guest_id=${encodeURIComponent(currentChatId)}; max-age=${maxAge}; path=/; SameSite=Lax${sec}`;
+      const headerUserEl = document.getElementById('headerUserLabel');
+      if (headerUserEl) headerUserEl.textContent = 'Демо-гость';
+      const banner = document.getElementById('guestDemoBanner');
+      if (banner) banner.classList.remove('hidden');
+      const guestBtn = document.getElementById('headerGuestSignupBtn');
+      if (guestBtn) guestBtn.classList.remove('hidden');
     }
 
     // Update Header active user label and guest indicators
     const isGuest = currentChatId.startsWith('client_');
     const headerUserEl = document.getElementById('headerUserLabel');
     if (headerUserEl) {
-      headerUserEl.innerText = tgUser?.username ? ('@' + tgUser.username) : (tgUser?.first_name || (isOwner ? 'Владелец' : (isGuest ? 'Демо-гость' : 'Клиент')));
+      headerUserEl.textContent = tgUser?.username ? ('@' + tgUser.username) : (tgUser?.first_name || (isGuest ? 'Демо-гость' : 'Клиент'));
     }
     if (isGuest) {
       const banner = document.getElementById('guestDemoBanner');
@@ -3848,33 +4027,94 @@
       }, 500);
     }
 
-    // Non-blocking background handshake
-    (async function checkAuthGuard() {
-      const initData = window.Telegram?.WebApp?.initData || '';
-      if (tgUser?.id && initData) {
+    // Verify token/Telegram WebApp session server-side before trusting privileges
+    let authVerificationPromise = null;
+    async function verifySessionAndBootstrap() {
+      if (authVerificationPromise) return authVerificationPromise;
+      authVerificationPromise = (async () => {
+        const sec = cookieSecurityAttr();
+        const initData = window.Telegram?.WebApp?.initData || '';
+        if (tgUser?.id && initData) {
+          try {
+            const tRes = await apiFetch(`${API_BASE}/api/auth/telegram_session`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                initData,
+                chatId: String(tgUser.id),
+                first_name: tgUser.first_name || '',
+                username: tgUser.username || ''
+              })
+            });
+            const tData = await tRes.json().catch(() => ({}));
+            if (tRes.ok && tData.success && tData.session_token) {
+              localStorage.setItem('session_token', tData.session_token);
+              document.cookie = `session_token=${encodeURIComponent(tData.session_token)}; max-age=${maxAge}; path=/; SameSite=Lax${sec}`;
+            }
+          } catch (e) {}
+        }
+
+        const hasToken = !!(localStorage.getItem('session_token') || getCookie('session_token'));
+        const needsServerCheck = hasToken || !String(currentChatId || '').startsWith('client_');
+        if (!needsServerCheck) return;
+
         try {
-          const tRes = await apiFetch(`${API_BASE}/api/auth/telegram_session`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              initData,
-              chatId: String(tgUser.id),
-              first_name: tgUser.first_name || '',
-              username: tgUser.username || ''
-            })
-          });
-          const tData = await tRes.json().catch(() => ({}));
-          if (tRes.ok && tData.success && tData.session_token) {
-            localStorage.setItem('session_token', tData.session_token);
+          const meRes = await apiFetch(`${API_BASE}/api/auth/me`);
+          const meData = await meRes.json().catch(() => ({}));
+          if (meRes.ok && meData.success && meData.user && meData.user.chatId) {
+            const verifiedId = String(meData.user.chatId);
+            if (currentChatId !== verifiedId) {
+              localStorage.removeItem('majorka_catalog_products');
+              localStorage.removeItem('majorka_bots');
+              localStorage.removeItem('majorka_store_knowledge');
+              localStorage.removeItem('majorka_slots_count');
+              localStorage.removeItem('majorka_trial_used');
+              localStorage.removeItem('majorka_balance');
+            }
+            currentChatId = verifiedId;
+            window.currentChatId = verifiedId;
+            isOwner = (meData.user.level === 'Владелец');
+            window.isOwner = isOwner;
+            localStorage.setItem('userChatId', verifiedId);
+            localStorage.setItem('majorka_chatId', verifiedId);
+            localStorage.setItem('majorka_last_chatId', verifiedId);
+            document.cookie = `userChatId=${encodeURIComponent(verifiedId)}; max-age=${maxAge}; path=/; SameSite=Lax${sec}`;
+            document.cookie = `majorka_chatId=${encodeURIComponent(verifiedId)}; max-age=${maxAge}; path=/; SameSite=Lax${sec}`;
+            currentTgUser = tgUser?.username
+              ? '@' + tgUser.username
+              : (meData.user.first_name || tgUser?.first_name || (isOwner ? 'Владелец' : 'Клиент ID ' + verifiedId));
+            const hdrEl = document.getElementById('headerUserLabel');
+            if (hdrEl) {
+              hdrEl.textContent = tgUser?.username
+                ? ('@' + tgUser.username)
+                : (meData.user.first_name || tgUser?.first_name || (isOwner ? 'Владелец' : 'Клиент'));
+            }
+            const gBanner = document.getElementById('guestDemoBanner');
+            if (gBanner) gBanner.classList.add('hidden');
+            const gBtn = document.getElementById('headerGuestSignupBtn');
+            if (gBtn) gBtn.classList.add('hidden');
+          } else if (meRes.status === 401 || meRes.status === 403) {
+            localStorage.removeItem('session_token');
+            document.cookie = `session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; SameSite=Lax${sec}`;
+            if (!String(currentChatId || '').startsWith('client_')) {
+              localStorage.removeItem('majorka_catalog_products');
+              localStorage.removeItem('majorka_bots');
+              localStorage.removeItem('majorka_store_knowledge');
+              applyGuestSessionState('');
+            }
           }
-        } catch (e) {}
-      }
-    })();
+        } catch (e) {
+          isOwner = false;
+          window.isOwner = false;
+        }
+      })();
+      return authVerificationPromise;
+    }
 
     // USER & SUBSCRIPTION STATE
     let userBalanceVal = 0;
-    let userTrialUsed = isOwner ? 1 : 0;
-    let userSlotsCount = isOwner ? 2 : 0;
+    let userTrialUsed = 0;
+    let userSlotsCount = 0;
     userBotsList = [];
 
     // TOAST NOTIFICATION ENGINE
@@ -3904,13 +4144,26 @@
       }
 
       toast.className += ' ' + borderClass;
-      toast.innerHTML = `
-        <span class="material-symbols-outlined text-2xl ${iconColor} shrink-0">${icon}</span>
-        <div class="flex-1 space-y-0.5">
-          <div class="font-outfit font-bold text-sm text-white">${title}</div>
-          <div class="text-xs text-white/70 leading-relaxed">${message}</div>
-        </div>
-      `;
+
+      const iconEl = document.createElement('span');
+      iconEl.className = `material-symbols-outlined text-2xl ${iconColor} shrink-0`;
+      iconEl.textContent = icon;
+
+      const bodyEl = document.createElement('div');
+      bodyEl.className = 'flex-1 space-y-0.5';
+
+      const titleEl = document.createElement('div');
+      titleEl.className = 'font-outfit font-bold text-sm text-white';
+      titleEl.textContent = String(title ?? '');
+
+      const msgEl = document.createElement('div');
+      msgEl.className = 'text-xs text-white/70 leading-relaxed';
+      msgEl.textContent = String(message ?? '');
+
+      bodyEl.appendChild(titleEl);
+      bodyEl.appendChild(msgEl);
+      toast.appendChild(iconEl);
+      toast.appendChild(bodyEl);
 
       container.appendChild(toast);
 
@@ -4022,20 +4275,24 @@
               </div>
             `;
           } else {
-            catTable.innerHTML = data.demand_matrix.map((item, idx) => `
+            catTable.innerHTML = data.demand_matrix.map((item, idx) => {
+              const cnt = Number(item.count) || 0;
+              const pct = Math.max(0, Math.min(100, Number(item.pct) || 0));
+              return `
               <div class="p-3.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-2">
                 <div class="flex items-center justify-between text-xs">
                   <span class="text-white font-medium flex items-center gap-2 truncate">
-                    <span class="w-5 h-5 rounded bg-white/5 flex items-center justify-center text-[10px] text-gold font-bold">#${idx+1}</span>
+                    <span class="w-5 h-5 rounded bg-white/5 flex items-center justify-center text-[10px] text-gold font-bold">#${idx + 1}</span>
                     <span class="truncate">${escapeHtml(item.title)}</span>
                   </span>
-                  <span class="font-bold text-white shrink-0">${item.count} обр. (${item.pct}%)</span>
+                  <span class="font-bold text-white shrink-0">${cnt} обр. (${pct}%)</span>
                 </div>
                 <div class="h-1.5 rounded-full bg-white/5 overflow-hidden">
-                  <div class="h-full bg-gold rounded-full" style="width: ${item.pct}%"></div>
+                  <div class="h-full bg-gold rounded-full" style="width: ${pct}%"></div>
                 </div>
               </div>
-            `).join('');
+              `;
+            }).join('');
           }
         }
 
@@ -4377,41 +4634,86 @@
     async function loadHarveyLeads() {
       const container = document.getElementById('harveyLeadsTableBody');
       const countBadge = document.getElementById('harveyTotalLeadsCount');
+      const queueBadge = document.getElementById('harveyQueueCount');
+      const replyBadge = document.getElementById('harveyReplyRate');
+      const limitBadge = document.getElementById('harveyDailyLimit');
       if (!container) return;
 
       try {
         const res = await apiFetch(`${API_BASE}/api/harvey/leads?limit=30`);
         const data = await res.json();
-        if (!data.success || !data.leads) throw new Error(data.error || 'Failed to load leads');
+        if (!data.success || !Array.isArray(data.leads)) throw new Error(data.error || 'Failed to load leads');
 
-        if (countBadge && data.total) {
-          countBadge.innerText = `${data.total} контактов в базе`;
-        }
+        const leads = data.leads;
+        const total = Number(data.total ?? leads.length) || 0;
+        const repliedCount = leads.filter(l => l.status === 'replied').length;
+        const sentCount = leads.filter(l => l.status === 'sent' || l.status === 'replied').length;
+        const queuedCount = leads.filter(l => !l.status || l.status === 'queued' || l.status === 'new').length;
+        const replyPct = sentCount > 0 ? Math.round((repliedCount / sentCount) * 100) : 0;
 
-        container.innerHTML = data.leads.map(lead => {
-          let statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-white/50 border border-white/10">В очереди</span>';
+        if (countBadge) countBadge.textContent = `${total} контактов в базе`;
+        if (queueBadge) queueBadge.textContent = `${queuedCount} лидов в очереди`;
+        if (replyBadge) replyBadge.textContent = sentCount > 0 ? `Ответы: ${replyPct}%` : 'Ответы: —';
+        if (limitBadge) limitBadge.textContent = `${Math.min(sentCount, 20)}/20`;
+
+        const frag = document.createDocumentFragment();
+        leads.forEach(lead => {
+          const tr = document.createElement('tr');
+          tr.className = 'border-b border-white/5 hover:bg-white/[0.02] transition-colors';
+
+          const tdPhone = document.createElement('td');
+          tdPhone.className = 'py-3 px-4 font-mono text-xs text-white';
+          tdPhone.textContent = lead.phone ? ('+' + String(lead.phone).replace(/^\+/, '')) : '—';
+
+          const tdName = document.createElement('td');
+          tdName.className = 'py-3 px-4 text-xs font-medium text-white/90 truncate max-w-[220px]';
+          tdName.textContent = lead.seller_name || 'Продавец Авито';
+
+          const tdTime = document.createElement('td');
+          tdTime.className = 'py-3 px-4 text-xs text-white/60';
+          tdTime.textContent = lead.response_time || 'Быстро';
+
+          const tdStatus = document.createElement('td');
+          tdStatus.className = 'py-3 px-4';
+          const statusSpan = document.createElement('span');
           if (lead.status === 'replied') {
-            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Ответил • Заинтересован</span>';
+            statusSpan.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+            statusSpan.textContent = 'Ответил • Заинтересован';
           } else if (lead.status === 'sent') {
-            statusBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-white/80 border border-white/10">Доставлено</span>';
+            statusSpan.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-white/10 text-white/80 border border-white/10';
+            statusSpan.textContent = 'Доставлено';
+          } else {
+            statusSpan.className = 'px-2 py-0.5 rounded text-[10px] font-bold bg-white/5 text-white/50 border border-white/10';
+            statusSpan.textContent = 'В очереди';
+          }
+          tdStatus.appendChild(statusSpan);
+
+          const tdLink = document.createElement('td');
+          tdLink.className = 'py-3 px-4 text-right';
+          const safeLink = sanitizeHttpUrl(lead.avito_link, '');
+          if (safeLink) {
+            const a = document.createElement('a');
+            a.href = safeLink;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            a.className = 'text-xs text-gold hover:underline';
+            a.textContent = 'Открыть';
+            tdLink.appendChild(a);
+          } else {
+            const noLink = document.createElement('span');
+            noLink.className = 'text-xs text-white/30';
+            noLink.textContent = '—';
+            tdLink.appendChild(noLink);
           }
 
-          const phoneClean = lead.phone ? ('+' + lead.phone) : '—';
-          const nameClean = lead.seller_name || 'Продавец Авито';
-          const link = lead.avito_link || '#';
-
-          return `
-            <tr class="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-              <td class="py-3 px-4 font-mono text-xs text-white">${phoneClean}</td>
-              <td class="py-3 px-4 text-xs font-medium text-white/90 truncate max-w-[220px]">${nameClean}</td>
-              <td class="py-3 px-4 text-xs text-white/60">${lead.response_time || 'Быстро'}</td>
-              <td class="py-3 px-4">${statusBadge}</td>
-              <td class="py-3 px-4 text-right">
-                <a href="${link}" target="_blank" class="text-xs text-gold hover:underline">Открыть</a>
-              </td>
-            </tr>
-          `;
-        }).join('');
+          tr.appendChild(tdPhone);
+          tr.appendChild(tdName);
+          tr.appendChild(tdTime);
+          tr.appendChild(tdStatus);
+          tr.appendChild(tdLink);
+          frag.appendChild(tr);
+        });
+        container.replaceChildren(frag);
       } catch (err) {
         console.warn('Harvey leads fetch fallback:', err);
       }
@@ -4443,28 +4745,31 @@
     }
     window.togglePasswordVisibility = togglePasswordVisibility;
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       initOverviewChart();
+      const initialTab = urlParams.get('tab') || window.location.hash.replace('#', '') || 'overview';
+      if (initialTab && initialTab !== 'overview') {
+        switchTab(initialTab);
+      }
+
+      await verifySessionAndBootstrap();
+
       updateHarveyVisibility();
       if (window.isOwner) {
         loadHarveyLeads();
       }
-      
+
       initTelegramSession();
       renderTrialStatusUI();
       loadUserStats();
       loadAnalyticsData();
       loadMyBots();
-      
+
       loadStoreKnowledge();
       loadCatalogProducts();
+      if (typeof loadUserSettings === 'function') loadUserSettings();
       setTimeout(initChainLocksState, 500);
       initPushNotificationPrompt();
-
-      const initialTab = urlParams.get('tab') || window.location.hash.replace('#', '') || 'overview';
-      if (initialTab && initialTab !== 'overview') {
-        switchTab(initialTab);
-      }
     });
 
     function initTelegramSession() {
@@ -4653,13 +4958,16 @@
         if (heroDesc) heroDesc.innerText = 'Отвечает за считанные секунды и удерживает покупателей, пока они не ушли к другим продавцам. Работает круглосуточно — хоть в 2 часа ночи, хоть в 6 утра, в любое время без пауз и выходных. Экспертно ведёт клиента к закрытию сделки, кратно увеличивает конверсию и экономит вам время на личную жизнь и сон.';
         if (heroActions) {
           heroActions.innerHTML = `
-            <button onclick="openPaymentModal('1590', 'Пробный период на 7 дней')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press"><span class="material-symbols-outlined text-sm">payments</span><span>Пробный период за 1 590 ₽</span></button>
+            <button type="button" onclick="switchTab('knowledge')" class="w-full sm:w-auto btn-gold px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 cursor-pointer touch-press"><span class="material-symbols-outlined text-sm">tune</span><span>Управление и регламент</span></button>
             <div class="grid grid-cols-2 gap-2 sm:flex sm:gap-3 w-full sm:w-auto">
-              <button onclick="switchTab('shops')" class="btn-ghost px-3 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
+              <button type="button" onclick="switchTab('shops')" class="btn-ghost px-3 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
                 <span class="material-symbols-outlined text-base">storefront</span>
                 <span>Магазины</span>
               </button>
-              
+              <button type="button" onclick="openEmployeeGuideModal()" class="btn-ghost px-3 sm:px-6 py-3 sm:py-4 rounded-xl sm:rounded-2xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 cursor-pointer touch-press">
+                <span class="material-symbols-outlined text-base text-gold">menu_book</span>
+                <span>Сотрудники PRO</span>
+              </button>
             </div>
           `;
         }
@@ -4676,11 +4984,12 @@
         const data = await res.json();
         if (!res.ok || !data.success) throw new Error(data.error || 'Не удалось загрузить статистику');
         
-        if (data.promo_14d_remaining !== undefined) {
-          // promo UI updated
-        }
         if (data.user) {
           window.currentUserData = data.user;
+          isOwner = (data.user.level === 'Владелец');
+          window.isOwner = isOwner;
+          updateHarveyVisibility();
+
           userBalanceVal = Number(data.user.balance || 0);
           localStorage.setItem('majorka_balance', userBalanceVal);
           const totalPurchases = Number(data.user.total_purchases || 0);
@@ -4689,12 +4998,11 @@
             localStorage.setItem('majorka_trial_used', '1');
           } else {
             userTrialUsed = 0;
+            localStorage.removeItem('majorka_trial_used');
           }
-          const defaultSlots = isOwner ? 2 : 0;
-          userSlotsCount = (data.user.slots_count !== undefined && data.user.slots_count !== null) ? Number(data.user.slots_count) : defaultSlots;
+          userSlotsCount = (data.user.slots_count !== undefined && data.user.slots_count !== null) ? Number(data.user.slots_count) : 0;
           localStorage.setItem('majorka_slots_count', userSlotsCount);
           
-          const bal = userBalanceVal.toLocaleString('ru-RU') + ' ₽';
           const balEl = document.getElementById('userBalanceText');
           if (balEl) renderUserBalance(userBalanceVal);
 
@@ -4703,7 +5011,8 @@
           const overPill = document.getElementById('overviewSubPill');
 
           if (data.user.is_paid && data.user.paid_until) {
-            const dateStr = new Date(data.user.paid_until).toLocaleDateString('ru-RU');
+            const parsedPaidUntil = new Date(data.user.paid_until);
+            const dateStr = !isNaN(parsedPaidUntil.getTime()) ? parsedPaidUntil.toLocaleDateString('ru-RU') : 'активен';
             if (overDetails) overDetails.innerText = `Автономная работа 24/7 • Оплачен до ${dateStr}`;
             if (overPill) {
               overPill.innerText = 'Активен 24/7';
@@ -4735,38 +5044,25 @@
         }
       } catch (err) {
         console.log('Stats sync fallback:', err);
-        if (isOwner) {
-          userBalanceVal = Number(localStorage.getItem('majorka_balance') ?? 16922);
-          userTrialUsed = 1;
-          localStorage.setItem('majorka_trial_used', '1');
-          userSlotsCount = Math.max(2, Number(localStorage.getItem('majorka_slots_count') || 2));
-          const balEl = document.getElementById('userBalanceText');
-          if (balEl) renderUserBalance(userBalanceVal);
-          const overDetails = document.getElementById('overviewSubDetails');
-          const overPill = document.getElementById('overviewSubPill');
-          if (overDetails) overDetails.innerText = 'Автономная работа 24/7 • Оплачен до 31.12.2099';
-          if (overPill) {
-            overPill.innerText = 'Активен 24/7';
-            overPill.className = 'text-xs font-semibold px-3 py-1 bg-white/5 text-zinc-200 rounded-full border border-white/10';
-          }
-        } else {
-          userBalanceVal = Number(localStorage.getItem('majorka_balance') || 0);
-          userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
-          userSlotsCount = Math.max(0, Number(localStorage.getItem('majorka_slots_count') || 0));
-          const balEl = document.getElementById('userBalanceText');
-          if (balEl) renderUserBalance(userBalanceVal);
-          const overDetails = document.getElementById('overviewSubDetails');
-          const overPill = document.getElementById('overviewSubPill');
-          if (overDetails) overDetails.innerText = 'Тариф не активен • Выберите тариф для старта';
-          if (overPill) {
-            overPill.innerText = 'Ожидает активации';
-            overPill.className = 'text-xs font-semibold px-3 py-1 bg-gold/10 text-gold rounded-full border border-white/10';
-          }
+        isOwner = false;
+        window.isOwner = false;
+        updateHarveyVisibility();
+        userBalanceVal = Number(localStorage.getItem('majorka_balance') || 0);
+        userTrialUsed = Number(localStorage.getItem('majorka_trial_used') || 0);
+        userSlotsCount = Math.max(0, Number(localStorage.getItem('majorka_slots_count') || 0));
+        const balEl = document.getElementById('userBalanceText');
+        if (balEl) renderUserBalance(userBalanceVal);
+        const overDetails = document.getElementById('overviewSubDetails');
+        const overPill = document.getElementById('overviewSubPill');
+        if (overDetails) overDetails.innerText = 'Тариф не активен • Выберите тариф для старта';
+        if (overPill) {
+          overPill.innerText = 'Ожидает активации';
+          overPill.className = 'text-xs font-semibold px-3 py-1 bg-gold/10 text-gold rounded-full border border-white/10';
         }
       }
       renderTrialStatusUI();
       updateQuotaBannerUI();
-      const hasBot = (userBotsList && userBotsList.length > 0 && userBotsList.some(b => b.is_paid == 1));
+      const hasBot = (userBotsList && userBotsList.length > 0 && userBotsList.some(b => Number(b.is_paid) === 1));
       const isPaidUser = userSlotsCount > 0;
       updateOverviewUI(hasBot, isPaidUser);
       updateKbUI(hasBot, isPaidUser);
@@ -4811,7 +5107,7 @@
 
         showToast('Тариф успешно активирован', `Списано ${amount.toLocaleString('ru-RU')} ₽. Переходим к мастеру настройки магазина...`, 'success');
         await loadUserStats();
-      loadAnalyticsData();
+        loadAnalyticsData();
         await loadMyBots();
         
         // Open shop configuration wizard
@@ -4833,26 +5129,8 @@
         renderShopsList(userBotsList);
       } catch (err) {
         console.log('My bots sync fallback:', err);
-        if (isOwner) {
-          userBotsList = [{
-            id: 100016,
-            session_name: 'MAJORKA',
-            is_paid: 1,
-            paid_until: '2026-11-17T12:42:49.192467',
-            emulator_index: 0,
-            niche: 'Премиальная брендовая одежда и обувь',
-            city_address: 'Москва, складской комплекс (быстрая отправка по всей РФ)',
-            working_hours: 'Ежедневно 10:00 - 22:00'
-          }];
-          renderShopsList(userBotsList);
-        } else {
-          const cached = localStorage.getItem('majorka_bots');
-          if (cached) {
-            try { userBotsList = JSON.parse(cached); renderShopsList(userBotsList); } catch(e){}
-          } else {
-            renderShopsList([]);
-          }
-        }
+        userBotsList = [];
+        renderShopsList([]);
       }
     }
 
@@ -4861,36 +5139,56 @@
     }
 
     function bindShopActions() {
-      const container = document.getElementById('shopsListContainer');
-      if (!container || container.dataset.bound === 'true') return;
-      container.dataset.bound = 'true';
-      container.addEventListener('click', (event) => {
-        const button = event.target.closest('[data-action]');
-        if (!button) return;
-        const bot = userBotsList.find(item => String(item.id) === button.dataset.sessionId);
-        if (!bot) return;
-        const action = button.dataset.action;
-        if (action === 'settings') openShopSettingsModal(bot.session_name || bot.name, bot.niche, bot.city_address, bot.working_hours);
-        if (action === 'delete') confirmDeleteShop(bot.session_name || bot.name, bot.id);
+      ['shopsListContainer', 'overviewShopsContainer'].forEach((containerId) => {
+        const container = document.getElementById(containerId);
+        if (!container || container.dataset.bound === 'true') return;
+        container.dataset.bound = 'true';
+        container.addEventListener('click', (event) => {
+          const button = event.target.closest('[data-action]');
+          if (!button) return;
+          const sid = button.dataset.sessionId;
+          const bot = (userBotsList || []).find(item => String(item.id) === String(sid));
+          if (!bot) return;
+          const action = button.dataset.action;
+          const botTitle = (bot.session_name || bot.name || 'Магазин').replace(/\s+Store\b/gi, '').trim();
+          let dateStr = '30 дней';
+          if (bot.paid_until) {
+            const parsedDate = new Date(bot.paid_until);
+            if (!isNaN(parsedDate.getTime())) dateStr = parsedDate.toLocaleDateString('ru-RU');
+          }
+          if (action === 'reauth') {
+            openReauthModal(bot.id, bot.phone || '', botTitle);
+          } else if (action === 'catalog') {
+            openShopCatalogModal(bot.id, botTitle);
+          } else if (action === 'rules') {
+            focusRulesSection();
+          } else if (action === 'sync') {
+            focusCatalogUpdate();
+          } else if (action === 'analytics') {
+            switchTab('analytics');
+          } else if (action === 'toggle') {
+            toggleStoreActiveState(bot.id);
+          } else if (action === 'settings') {
+            openShopSettingsModal(botTitle, bot.niche || '', bot.city_address || bot.city || '', bot.working_hours || '');
+          } else if (action === 'delete') {
+            openDeleteShopModal(bot.id, botTitle, dateStr, bot.paid_until || '');
+          }
+        });
       });
     }
 
-        let storePausedState = false;
-
-    function scrollToDialogs() {
-      const el = document.getElementById('recentDialogsWidget');
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } else {
-        switchTab('overview');
-        setTimeout(() => {
-          document.getElementById('recentDialogsWidget')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 250);
-      }
-    }
+    let storePausedState = false;
 
     async function toggleStoreActiveState(sessionId) {
-      storePausedState = !storePausedState;
+      const targetBot = sessionId
+        ? (userBotsList || []).find(b => String(b.id) === String(sessionId))
+        : (userBotsList || [])[0];
+      const nextPaused = targetBot ? !Boolean(Number(targetBot.is_paused)) : !storePausedState;
+      if (targetBot) {
+        targetBot.is_paused = nextPaused ? 1 : 0;
+      }
+      storePausedState = nextPaused;
+
       const btnText = document.getElementById('quickStatusBtnText');
       const btn = document.getElementById('quickToggleStatusBtn');
       const heroBadge = document.getElementById('heroStoreBadge');
@@ -4918,10 +5216,13 @@
       renderShopsList(userBotsList);
 
       try {
+        const payload = { chatId: currentChatId, is_paused: nextPaused ? 1 : 0 };
+        if (targetBot?.id !== undefined) payload.bot_id = targetBot.id;
+        else if (sessionId) payload.bot_id = sessionId;
         await apiFetch(`${API_BASE}/api/toggle_pause`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, is_paused: storePausedState ? 1 : 0 })
+          body: JSON.stringify(payload)
         });
       } catch (e) {}
     }
@@ -4938,7 +5239,7 @@
           <span class="material-symbols-outlined text-gold text-4xl">storefront</span>
           <h3 class="font-outfit font-bold text-lg text-white">У вас пока нет активных магазинов</h3>
           <p class="text-xs text-white/50">Перейдите в мастер создания магазина, чтобы подключить ваш магазин.</p>
-          <button onclick="switchTab('knowledge')" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-2 mx-auto cursor-pointer">
+          <button type="button" onclick="switchTab('knowledge')" class="btn-gold px-6 py-3 rounded-xl text-xs font-bold flex items-center gap-2 mx-auto cursor-pointer">
             <span class="material-symbols-outlined text-sm">tune</span>
             <span>Настроить первый магазин</span>
           </button>
@@ -4946,6 +5247,127 @@
       `;
 
       const safeBots = Array.isArray(bots) ? bots : [];
+
+      const buildCardsHtml = () => safeBots.map((bot, idx) => {
+        const rawName = (bot.session_name || bot.name || `Магазин #${idx + 1}`).replace(/\s+Store\b/gi, '').trim();
+        const safeName = escapeHtml(rawName);
+        const safeId = escapeHtml(String(bot.id ?? idx));
+        const safeNiche = escapeHtml(bot.niche || 'Магазин на Авито');
+        const safeCity = escapeHtml(bot.city_address || bot.city || 'Россия');
+        const safeHours = escapeHtml(bot.working_hours || 'Круглосуточно 24/7');
+        const safePhone = escapeHtml(bot.phone || 'Через Авито PRO / Сотрудники');
+        const safeStep = String(bot.step || 'active');
+        const isReauth = ['reauth_needed', 'reauth_awaiting_sms', 'auth_awaiting_sms', 'auth_awaiting_password'].includes(safeStep);
+        const botPaused = (bot.is_paused !== undefined && bot.is_paused !== null) ? Boolean(Number(bot.is_paused)) : Boolean(storePausedState);
+
+        let dateStr = 'Активен';
+        if (bot.paid_until) {
+          const parsedDate = new Date(bot.paid_until);
+          if (!isNaN(parsedDate.getTime())) dateStr = `до ${parsedDate.toLocaleDateString('ru-RU')}`;
+        }
+
+        let statusBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Активен 24/7
+        </span>`;
+        if (isReauth) {
+          statusBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-xs">warning</span> Требуется подтверждение сессии
+          </span>`;
+        } else if (botPaused) {
+          statusBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-xs">pause_circle</span> На паузе
+          </span>`;
+        }
+
+        return `
+          <div class="glass-box p-4 sm:p-5 space-y-4 border ${isReauth ? 'border-amber-500/40' : 'border-white/10'} bg-[#151518] rounded-2xl transition-all hover:border-white/20">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/5">
+              <div class="flex items-start gap-3">
+                <div class="w-11 h-11 rounded-xl ${isReauth ? 'bg-amber-500/15 text-amber-400 border-amber-500/30' : 'bg-gold/10 text-gold border-gold/20'} border flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-xl">storefront</span>
+                </div>
+                <div class="space-y-0.5 min-w-0">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h4 class="font-outfit font-bold text-base sm:text-lg text-white truncate">${safeName}</h4>
+                    <span class="text-[10px] font-mono text-white/40 px-2 py-0.5 rounded bg-white/5 border border-white/10">${escapeHtml(dateStr)}</span>
+                  </div>
+                  <p class="text-xs text-white/60 truncate">${safeNiche}</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2 flex-wrap">
+                ${statusBadge}
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 text-xs">
+              <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center gap-2 text-white/75">
+                <span class="material-symbols-outlined text-sm text-gold shrink-0">location_on</span>
+                <span class="truncate">${safeCity}</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center gap-2 text-white/75">
+                <span class="material-symbols-outlined text-sm text-gold shrink-0">schedule</span>
+                <span class="truncate">${safeHours}</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center gap-2 text-white/75">
+                <span class="material-symbols-outlined text-sm text-gold shrink-0">call</span>
+                <span class="truncate font-mono">${safePhone}</span>
+              </div>
+            </div>
+
+            ${isReauth ? `
+              <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="text-xs text-amber-200 leading-relaxed">
+                  Авито запросил плановое подтверждение входа. Нажмите кнопку справа, чтобы ввести код из СМС — регламент и товары сохранены.
+                </div>
+                <button type="button" data-action="reauth" data-session-id="${safeId}" class="btn-gold px-4 py-2 rounded-xl text-xs font-bold shrink-0 flex items-center gap-1.5 cursor-pointer">
+                  <span class="material-symbols-outlined text-sm">sms</span>
+                  <span>Подтвердить вход</span>
+                </button>
+              </div>
+            ` : ''}
+
+            <div class="flex items-center justify-between gap-2 pt-2 border-t border-white/5 flex-wrap">
+              <div class="flex items-center gap-2 flex-wrap">
+                <button type="button" data-action="catalog" data-session-id="${safeId}" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold text-white/85 flex items-center gap-1.5 cursor-pointer">
+                  <span class="material-symbols-outlined text-sm text-gold">inventory_2</span>
+                  <span>Товары (${escapeHtml(prodsCountText)})</span>
+                </button>
+                <button type="button" data-action="rules" data-session-id="${safeId}" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold text-white/80 flex items-center gap-1.5 cursor-pointer">
+                  <span class="material-symbols-outlined text-sm text-gold">tune</span>
+                  <span>Регламент</span>
+                </button>
+                <button type="button" data-action="sync" data-session-id="${safeId}" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold text-white/80 flex items-center gap-1.5 cursor-pointer">
+                  <span class="material-symbols-outlined text-sm text-gold">sync</span>
+                  <span>Синхронизация</span>
+                </button>
+                <button type="button" data-action="analytics" data-session-id="${safeId}" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold text-white/80 flex items-center gap-1.5 cursor-pointer">
+                  <span class="material-symbols-outlined text-sm text-gold">monitoring</span>
+                  <span>Аналитика</span>
+                </button>
+              </div>
+
+              <div class="flex items-center gap-2 flex-wrap">
+                <button type="button" data-action="toggle" data-session-id="${safeId}" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold ${botPaused ? 'text-emerald-400 border-emerald-500/30' : 'text-amber-300 border-amber-500/20'} flex items-center gap-1.5 cursor-pointer">
+                  <span class="material-symbols-outlined text-sm">${botPaused ? 'play_arrow' : 'pause'}</span>
+                  <span>${botPaused ? 'Возобновить 24/7' : 'Пауза'}</span>
+                </button>
+                <button type="button" data-action="settings" data-session-id="${safeId}" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold text-white/75 flex items-center gap-1.5 cursor-pointer">
+                  <span class="material-symbols-outlined text-sm">edit</span>
+                  <span>Профиль</span>
+                </button>
+                <a href="https://t.me/chc332" target="_blank" rel="noopener noreferrer" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold text-white/70 hover:text-white flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-sm">support_agent</span>
+                  <span>Поддержка</span>
+                </a>
+                <button type="button" data-action="delete" data-session-id="${safeId}" class="btn-ghost px-3 py-2 rounded-xl text-xs font-semibold text-red-400/80 hover:text-red-400 hover:border-red-500/30 flex items-center gap-1.5 cursor-pointer" title="Удалить магазин">
+                  <span class="material-symbols-outlined text-sm">delete</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
       if (safeBots.length === 0) {
         if (containerTab) containerTab.innerHTML = renderEmptyHtml();
         if (containerOverview) containerOverview.innerHTML = renderEmptyHtml();
@@ -4953,7 +5375,11 @@
         const renderedHtml = buildCardsHtml();
         if (containerTab) containerTab.innerHTML = renderedHtml;
         if (containerOverview) containerOverview.innerHTML = renderedHtml;
+        bindShopActions();
       }
+
+      const ovShopsCountEl = document.getElementById('ovStatShopsCount');
+      if (ovShopsCountEl) ovShopsCountEl.innerText = String(safeBots.length);
 
       const countTag = document.getElementById('headerBotsCountTag');
       const navBadge = document.getElementById('tabShopsCountBadge');
@@ -4981,47 +5407,52 @@
       }
 
       updateQuotaBannerUI();
-      const hasBot = (safeBots.length > 0 && safeBots.some(b => b.is_paid == 1));
+      const hasBot = (safeBots.length > 0 && safeBots.some(b => Number(b.is_paid) === 1));
       const isPaidUser = userSlotsCount > 0;
       updateOverviewUI(hasBot, isPaidUser);
       updateKbUI(hasBot, isPaidUser);
       checkAndRenderSessionStatus(safeBots);
     }
 
-    
-    // --- DEMO / FORCED REAUTH BANNER STATE ---
     // --- REAUTH BANNER STATE: ТОЛЬКО ПРИ СЛЁТЕ СЕССИИ (ИЛИ ?test_drop=1 ДЛЯ ПРОВЕРКИ) ---
     let isReauthDemoForced = (typeof urlParams !== 'undefined' ? urlParams : new URLSearchParams(window.location.search)).get('test_drop') === '1' || (typeof urlParams !== 'undefined' ? urlParams : new URLSearchParams(window.location.search)).get('reauth') === '1';
+    let isReauthBannerDismissed = false;
+    let lastAutoReauthBotId = null;
+
+    function dismissReauthBanner() {
+      isReauthBannerDismissed = true;
+      isReauthDemoForced = false;
+      const banner = document.getElementById('sessionDropAlertBanner');
+      if (banner) banner.classList.add('hidden');
+      const btnText = document.getElementById('bannerDemoToggleText');
+      if (btnText) btnText.innerText = 'Закрыть';
+    }
+    window.dismissReauthBanner = dismissReauthBanner;
 
     function toggleReauthBannerDemo() {
-      isReauthDemoForced = !isReauthDemoForced;
       const banner = document.getElementById('sessionDropAlertBanner');
-      const btnText = document.getElementById('bannerDemoToggleText');
-      if (banner) {
-        if (isReauthDemoForced) {
-          banner.classList.remove('hidden');
-          if (btnText) btnText.innerText = '👁️ Скрыть тест';
-          if (typeof showToast === 'function') showToast('Тест слёта сессии', 'Красный блок слёта сессии отображён в самом начале обзора', 'info');
-        } else {
-          banner.classList.add('hidden');
-          if (btnText) btnText.innerText = '👁️ Показать слёт';
-          if (typeof showToast === 'function') showToast('Обычный режим', 'Блок слёта скрыт (сессия активна 24/7)', 'success');
-        }
+      if (banner && !banner.classList.contains('hidden')) {
+        dismissReauthBanner();
+        return;
       }
+      isReauthDemoForced = true;
+      isReauthBannerDismissed = false;
+      checkAndRenderSessionStatus(userBotsList);
     }
 
     function handleGoogleAccountClick() {
-      const currentEmail = localStorage.getItem('majorka_user_email');
-      if (currentEmail) {
-        if (typeof showToast === 'function') showToast('Google Аккаунт', `Ваш Google-аккаунт (${currentEmail}) привязан для входа в 1 клик`, 'success');
-      } else {
-        const email = prompt('Введите ваш Google Email для привязки быстрого входа в 1 клик:');
-        if (email && email.includes('@')) {
-          localStorage.setItem('majorka_user_email', email);
-          const emailEl = document.getElementById('settGoogleEmail');
-          if (emailEl) emailEl.innerText = email;
-          if (typeof showToast === 'function') showToast('Google Аккаунт', 'Google аккаунт успешно привязан к Личному Кабинету', 'success');
-        }
+      const currentEmail = localStorage.getItem('majorka_userEmail') || document.getElementById('settEmailInput')?.value?.trim() || '';
+      if (currentEmail && currentEmail.includes('@')) {
+        if (typeof showToast === 'function') showToast('Google / Email Аккаунт', `Ваш аккаунт (${currentEmail}) привязан к Личному Кабинету`, 'success');
+        return;
+      }
+      const emailInput = document.getElementById('settEmailInput');
+      if (emailInput) {
+        emailInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        setTimeout(() => emailInput.focus(), 250);
+      }
+      if (typeof showToast === 'function') {
+        showToast('Укажите Email для уведомлений', 'Введите ваш Google / рабочий Email в поле ниже и нажмите «Сохранить настройки»', 'info');
       }
     }
 
@@ -5043,7 +5474,14 @@
       const reauthBot = safeBots.find(b => ['reauth_needed', 'reauth_awaiting_sms', 'auth_awaiting_sms', 'auth_awaiting_password'].includes(b.step));
       const banner = document.getElementById('sessionDropAlertBanner');
 
-      if (reauthBot || isReauthDemoForced) {
+      if (reauthBot && String(reauthBot.id ?? '') !== String(lastAutoReauthBotId ?? '')) {
+        isReauthBannerDismissed = false;
+        lastAutoReauthBotId = reauthBot.id ?? null;
+      } else if (!reauthBot) {
+        lastAutoReauthBotId = null;
+      }
+
+      if ((reauthBot && !isReauthBannerDismissed) || isReauthDemoForced) {
         const targetBot = reauthBot || safeBots[0] || null;
         activeReauthBotId = targetBot?.id ?? null;
         if (banner) banner.classList.remove('hidden');
@@ -5075,6 +5513,7 @@
     }
 
     function openReauthModal(botId, phone, name) {
+      isReauthBannerDismissed = false;
       if (botId) activeReauthBotId = botId;
       if (phone) {
         const p1 = document.getElementById('bannerPhoneInput');
@@ -5709,44 +6148,8 @@
       }
     }
 
-    // 3-STEP KNOWLEDGE BASE SUBTAB SWITCHER
-    function switchKbSubTab(stepNum) {
-      document.querySelectorAll('.kb-pane').forEach((p, idx) => {
-        if (idx + 1 === stepNum) {
-          p.classList.remove('hidden');
-        } else {
-          p.classList.add('hidden');
-        }
-      });
-
-      const activeBtnClass = 'flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 bg-gold text-black cursor-pointer';
-      const inactiveBtnClass = 'flex-1 py-3 px-3 sm:px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 text-white/60 hover:text-white cursor-pointer';
-
-      for (let i = 1; i <= 3; i++) {
-        const btn = document.getElementById('kbTabBtn-' + i);
-        if (btn) btn.className = (i === stepNum) ? activeBtnClass : inactiveBtnClass;
-      }
-    }
-
-    // 1-CLICK INSTANT AUTOFILL OF PROVEN AVITO SALES REGULATION
-        // 1-CLICK INSTANT AUTOFILL OF PROVEN AVITO SALES REGULATION
-        // 1-CLICK INSTANT AUTOFILL OF PROVEN AVITO SALES REGULATION
-        // ==================== ONE-CLICK AVITO BOT CREATOR JS ====================
+    // ==================== STORE KNOWLEDGE BASE & CATALOG ====================
     currentCatalogProducts = [];
-
-    function toggleAdvancedSettingsAccordion() {
-      const pane = document.getElementById('advancedSettingsPane');
-      const arrow = document.getElementById('accArrow');
-      if (!pane) return;
-      const isHidden = pane.classList.contains('hidden');
-      if (isHidden) {
-        pane.classList.remove('hidden');
-        if (arrow) arrow.innerText = 'expand_less';
-      } else {
-        pane.classList.add('hidden');
-        if (arrow) arrow.innerText = 'expand_more';
-      }
-    }
 
     function renderOneClickCatalogList() {
       const container = document.getElementById('oneClickItemsList');
@@ -5819,7 +6222,7 @@
           await apiFetch(`${API_BASE}/api/delete_product`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id: pId })
+            body: JSON.stringify({ id: pId, chatId: currentChatId })
           });
         } catch (e) {}
       }
@@ -5833,11 +6236,11 @@
       showToast('Каталог очищен', 'Все синхронизированные позиции удалены', 'info');
     }
 
-        // ==================== SETTINGS: UPDATE CATALOG WITH PARSER & ADD RULES ====================
+    // ==================== SETTINGS: UPDATE CATALOG & ADD RULES ====================
     function focusCatalogUpdate() {
       switchTab('knowledge');
       setTimeout(() => {
-        const el = document.getElementById('avitoOneClickUrl') || document.getElementById('catalogUpdaterCard');
+        const el = document.getElementById('avitoCatalogUrl') || document.getElementById('chainCatalogCard') || document.getElementById('catalogUpdaterCard');
         if (el) {
           el.scrollIntoView({ behavior: 'smooth', block: 'center' });
           if (el.focus) el.focus();
@@ -5874,382 +6277,11 @@
       textarea.focus();
     }
 
-    async function refreshCatalogFromAvitoAction(triggerBtn) {
-      const urlInput = document.getElementById('avitoOneClickUrl');
-      const btn = triggerBtn || document.getElementById('btnRefreshCatalog') || document.getElementById('btnOneClickParse');
-      const statusContainer = document.getElementById('oneClickParserStatus');
-      let url = urlInput ? urlInput.value.trim() : '';
-
-      if (!url) {
-        url = localStorage.getItem('majorka_avito_url') || '';
-        if (url && urlInput) urlInput.value = url;
-      }
-
-      if (!url) {
-        // removed old link toast
-        if (urlInput) {
-          urlInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          urlInput.focus();
-        }
-        return;
-      }
-
-      const origHtml = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Загрузка товаров с Авито...</span>';
-      }
-
-      if (statusContainer) {
-        statusContainer.classList.remove('hidden');
-        statusContainer.innerHTML = `
-          <div class="p-3.5 rounded-xl bg-blue-950/40 border border-blue-500/30 text-blue-300 flex items-center gap-2.5 text-xs">
-            <span class="material-symbols-outlined text-base animate-spin text-blue-400">sync</span>
-            <span>Подключение к профилю Авито. Загрузка активных объявлений...</span>
-          </div>
-        `;
-      }
-
-      try {
-        const res = await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, profile_url: url })
-        });
-        const data = await res.json().catch(() => ({}));
-
-        if (res.ok && data.success && Array.isArray(data.items) && data.items.length > 0) {
-          currentCatalogProducts = data.items.map((it, idx) => ({
-            id: Date.now() + idx,
-            title: it.title || 'Товар с Авито',
-            price: it.price ? (String(it.price).includes('₽') ? String(it.price) : `${it.price} ₽`) : 'Цена в объявлении',
-            url: it.url || url,
-            image: it.image || ''
-          }));
-
-          localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
-          localStorage.setItem('majorka_avito_url', url);
-          renderOneClickCatalogList();
-
-          if (statusContainer) {
-            statusContainer.innerHTML = `
-              <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center justify-between text-xs">
-                <span class="flex items-center gap-2 font-bold">
-                  <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
-                  <span>Товары успешно обновлены с Авито! Загружено ${data.items.length} активных объявлений.</span>
-                </span>
-                <span class="text-white/60 text-[11px]">Каталог готов</span>
-              </div>
-            `;
-          }
-
-          if (btn) {
-            btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
-            btn.innerHTML = `<span class="material-symbols-outlined text-base">check_circle</span><span>✓ Обновлено (${data.items.length} товаров)</span>`;
-            setTimeout(() => {
-              btn.disabled = false;
-              btn.className = btn.className.replace(/bg-emerald-600 text-white font-bold/g, '').trim() + ' btn-gold';
-              btn.innerHTML = origHtml;
-            }, 3500);
-          }
-
-          showToast('Товары обновлены!', `Синхронизировано ${data.items.length} объявлений с Авито`, 'success');
-        } else if (res.ok && data.success) {
-          localStorage.setItem('majorka_avito_url', url);
-          showToast('Синхронизировано', 'Ссылка на магазин сохранена в каталоге магазина', 'success');
-          if (statusContainer) {
-            statusContainer.innerHTML = `
-              <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center gap-2 text-xs">
-                <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
-                <span>Ссылка на магазин сохранена. Каталог синхронизирован с менеджером.</span>
-              </div>
-            `;
-          }
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = origHtml;
-          }
-        } else {
-          const errMsg = data?.error || `Не удалось синхронизировать каталог (HTTP ${res.status})`;
-          showToast('Ошибка синхронизации', errMsg, 'error');
-          if (statusContainer) {
-            statusContainer.innerHTML = `
-              <div class="p-3.5 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 flex items-center gap-2 text-xs">
-                <span class="material-symbols-outlined text-base text-red-400">error</span>
-                <span>${escapeHtml(errMsg)}</span>
-              </div>
-            `;
-          }
-          if (btn) {
-            btn.disabled = false;
-            btn.innerHTML = origHtml;
-          }
-        }
-      } catch (err) {
-        console.warn('refreshCatalog error:', err);
-        showToast('Ошибка соединения', 'Не удалось синхронизировать каталог. Проверьте подключение и попробуйте снова.', 'error');
-        if (statusContainer) {
-          statusContainer.innerHTML = `
-            <div class="p-3.5 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 flex items-center gap-2 text-xs">
-              <span class="material-symbols-outlined text-base text-red-400">error</span>
-              <span>Ошибка соединения с сервисом. Попробуйте позже.</span>
-            </div>
-          `;
-        }
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = origHtml;
-        }
-      }
-    }
-
-    async function startOneClickBotCreation() {
-      const urlInput = document.getElementById('avitoOneClickUrl');
-      const btn = document.getElementById('btnOneClickParse');
-      const statusContainer = document.getElementById('oneClickParserStatus');
-      const url = urlInput ? urlInput.value.trim() : '';
-
-      if (!url) {
-        // removed old link toast
-        if (urlInput) urlInput.focus();
-        return;
-      }
-
-      const origHtml = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Подключение к Авито...</span>';
-      }
-
-      if (statusContainer) {
-        statusContainer.classList.remove('hidden');
-        statusContainer.innerHTML = `
-          <div class="p-3.5 rounded-xl bg-blue-950/40 border border-blue-500/30 text-blue-300 flex items-center gap-2.5 text-xs">
-            <span class="material-symbols-outlined text-base animate-spin text-blue-400">sync</span>
-            <span>Подключение к профилю Авито. Выгружаем активные объявления...</span>
-          </div>
-        `;
-      }
-
-      try {
-        const res = await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, profile_url: url })
-        });
-        const data = await res.json().catch(() => ({}));
-
-        if (res.ok && data.success && Array.isArray(data.items) && data.items.length > 0) {
-          currentCatalogProducts = data.items.map((it, idx) => ({
-            id: Date.now() + idx,
-            title: it.title || 'Товар с Авито',
-            price: it.price ? (String(it.price).includes('₽') ? String(it.price) : `${it.price} ₽`) : 'Цена в объявлении',
-            url: it.url || url,
-            image: it.image || ''
-          }));
-
-          localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
-          renderOneClickCatalogList();
-
-          if (statusContainer) {
-            statusContainer.innerHTML = `
-              <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center justify-between text-xs">
-                <span class="flex items-center gap-2 font-bold">
-                  <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
-                  <span>Успешно загружено ${data.items.length} объявлений с Авито! Каталог загружен в систему продаж.</span>
-                </span>
-                <span class="text-white/60 text-[11px]">Готов к продажам</span>
-              </div>
-            `;
-          }
-          localStorage.setItem('majorka_avito_url', url);
-          showToast('Каталог загружен!', `Загружено ${data.items.length} объявлений с Авито`, 'success');
-        } else if (res.ok && data.success) {
-          localStorage.setItem('majorka_avito_url', url);
-          showToast('Магазин подключен', 'Ссылка на профиль Авито сохранена. Объявления синхронизируются.', 'success');
-          if (statusContainer) {
-            statusContainer.innerHTML = `
-              <div class="p-3.5 rounded-xl bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 flex items-center gap-2 text-xs">
-                <span class="material-symbols-outlined text-base text-emerald-400">check_circle</span>
-                <span>Ссылка на магазин Авито успешно сохранена и подключена к менеджеру.</span>
-              </div>
-            `;
-          }
-        } else {
-          const errMsg = data?.error || `Не удалось загрузить каталог (HTTP ${res.status})`;
-          showToast('Ошибка синхронизации', errMsg, 'error');
-          if (statusContainer) {
-            statusContainer.innerHTML = `
-              <div class="p-3.5 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 flex items-center gap-2 text-xs">
-                <span class="material-symbols-outlined text-base text-red-400">error</span>
-                <span>${escapeHtml(errMsg)}</span>
-              </div>
-            `;
-          }
-        }
-      } catch (err) {
-        console.log('Catalog sync request error:', err);
-        showToast('Ошибка соединения', 'Не удалось синхронизировать профиль Авито. Проверьте подключение и попробуйте снова.', 'error');
-        if (statusContainer) {
-          statusContainer.innerHTML = `
-            <div class="p-3.5 rounded-xl bg-red-950/50 border border-red-500/40 text-red-300 flex items-center gap-2 text-xs">
-              <span class="material-symbols-outlined text-base text-red-400">error</span>
-              <span>Не удалось подключиться к сервису синхронизации.</span>
-            </div>
-          `;
-        }
-      } finally {
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = origHtml;
-        }
-      }
-    }
-
-        // ==================== AVITO PHONE & SMS VERIFICATION ACTIONS ====================
-    let smsTimerInterval = null;
-
-    async function sendPhoneForSmsAction() {
-      const phoneInput = document.getElementById('avitoOneClickPhone');
-      const urlInput = document.getElementById('avitoOneClickUrl');
-      const btn = document.getElementById('btnSendPhoneToAvito');
-      const smsBlock = document.getElementById('smsVerificationBlock');
-      const timerNotice = document.getElementById('smsTimerNotice');
-      const phone = phoneInput ? phoneInput.value.trim() : '';
-      const pwdInput = document.getElementById('avitoOneClickPassword');
-      const password = pwdInput ? pwdInput.value.trim() : '';
-      const url = urlInput ? urlInput.value.trim() : '';
-
-      if (!phone || phone.replace(/\D/g, '').length < 10) {
-        showToast('Укажите номер', 'Введите корректный номер телефона профиля Авито (от 10 цифр)', 'error');
-        if (phoneInput) phoneInput.focus();
-        return;
-      }
-
-      const origHtml = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Подключение и авторизация...</span>';
-      }
-
-      localStorage.setItem('majorka_bot_phone', phone);
-      if (url) localStorage.setItem('majorka_avito_url', url);
-
-      try {
-        const res = await apiFetch(`${API_BASE}/api/avito_auth_phone`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chatId: currentChatId,
-            phone: phone,
-            password: password,
-            profile_url: url
-          })
-        });
-        const data = await res.json();
-
-        if (smsBlock) {
-          smsBlock.classList.remove('hidden');
-          smsBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        const smsInput = document.getElementById('avitoSmsCodeInput');
-        if (smsInput) {
-          smsInput.value = '';
-          smsInput.focus();
-        }
-
-        showToast('Номер передан!', 'Система выполняет вход. При наличии 2FA введите полученный проверочный код ниже.', 'success');
-
-        // 60-second cooldown timer
-        let timeLeft = 60;
-        if (smsTimerInterval) clearInterval(smsTimerInterval);
-        if (timerNotice) timerNotice.innerText = `Повтор через ${timeLeft}с`;
-
-        smsTimerInterval = setInterval(() => {
-          timeLeft--;
-          if (timeLeft <= 0) {
-            clearInterval(smsTimerInterval);
-            if (timerNotice) timerNotice.innerText = 'Можно запросить код повторно';
-            if (btn) {
-              btn.disabled = false;
-              btn.innerHTML = '<span class="material-symbols-outlined text-base">refresh</span><span>Запросить код повторно</span>';
-            }
-          } else {
-            if (timerNotice) timerNotice.innerText = `Повтор через ${timeLeft}с`;
-          }
-        }, 1000);
-
-      } catch (err) {
-        console.warn('sendPhoneForSmsAction err:', err);
-        if (smsBlock) {
-          smsBlock.classList.remove('hidden');
-          smsBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        showToast('Ожидание кода', 'Введите СМС-код подтверждения от Авито', 'info');
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = origHtml;
-        }
-      }
-    }
-
-    async function submitSmsCodeAction() {
-      const codeInput = document.getElementById('avitoSmsCodeInput');
-      const phoneInput = document.getElementById('avitoOneClickPhone');
-      const btn = document.getElementById('btnSubmitSmsCode');
-      const code = codeInput ? codeInput.value.trim() : '';
-      const phone = phoneInput ? phoneInput.value.trim() : '';
-
-      if (!code || code.length < 4) {
-        showToast('Введите СМС-код', 'Укажите 4–6 значный проверочный код от Авито', 'error');
-        if (codeInput) codeInput.focus();
-        return;
-      }
-
-      const origHtml = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Проверка кода и запуск менеджера...</span>';
-      }
-
-      try {
-        const res = await apiFetch(`${API_BASE}/api/avito_auth_sms`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            chatId: currentChatId,
-            phone: phone,
-            code: code
-          })
-        });
-        const data = await res.json();
-
-        if (btn) {
-          btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
-          btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Магазин на Авито успешно подключен и активен 24/7!</span>';
-        }
-
-        showToast('Менеджер продаж активен 24/7!', 'Вход в аккаунт Авито подтвержден. Менеджер продаж активен и отвечает круглосуточно.', 'success');
-
-        if (typeof loadMyBots === 'function') loadMyBots();
-
-      } catch (err) {
-        console.warn('submitSmsCodeAction err:', err);
-        if (btn) {
-          btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
-          btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Магазин на Авито успешно подключен и активен 24/7!</span>';
-        }
-        showToast('Менеджер продаж активен 24/7!', 'СМС-код принят. Менеджер продаж работает 24/7.', 'success');
-        if (typeof loadMyBots === 'function') loadMyBots();
-      }
-    }
-
     async function loadCatalogProducts() {
       try {
         const savedUrl = localStorage.getItem('majorka_avito_url');
-        const ovUrlInput = document.getElementById('overviewAvitoUrlInput');
-        if (savedUrl && ovUrlInput && !ovUrlInput.value) ovUrlInput.value = savedUrl;
+        const catUrlInput = document.getElementById('avitoCatalogUrl');
+        if (savedUrl && catUrlInput && !catUrlInput.value) catUrlInput.value = savedUrl;
 
         const queryChatId = encodeURIComponent(currentChatId || '');
         const res = await apiFetch(`${API_BASE}/api/get_catalog?chatId=${queryChatId}`);
@@ -6267,7 +6299,8 @@
               title: it.title || 'Товар с Авито',
               price: it.price ? (String(it.price).includes('₽') ? String(it.price) : `${it.price} ₽`) : 'Цена в объявлении',
               url: it.url || '',
-              image: it.image || ''
+              image: it.image || '',
+              description: it.description || ''
             }));
             localStorage.setItem('majorka_catalog_products', JSON.stringify(currentCatalogProducts));
             renderOneClickCatalogList();
@@ -6277,81 +6310,8 @@
       } catch (e) {
         console.log('loadCatalogProducts sync:', e);
       }
-      if (isOwner) {
-        const cachedProds = localStorage.getItem('majorka_catalog_products');
-        if (cachedProds) {
-          try {
-            const parsed = JSON.parse(cachedProds);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              currentCatalogProducts = parsed;
-            }
-          } catch (e) {}
-        }
-      } else {
-        currentCatalogProducts = [];
-      }
+      currentCatalogProducts = [];
       renderOneClickCatalogList();
-    }
-
-    async function launchBotOneClickAction(btn) {
-      const phoneInput = document.getElementById('avitoOneClickPhone');
-      const urlInput = document.getElementById('avitoOneClickUrl');
-      const phone = phoneInput ? phoneInput.value.trim() : '';
-      const url = urlInput ? urlInput.value.trim() : '';
-
-      // Auto sync from app if needed
-      if (currentCatalogProducts.length === 0) {
-        console.log('Catalog empty, will auto-sync from app');
-      }
-
-      if (!phone) {
-        showToast('Укажите номер', 'Введите номер телефона профиля Авито для подключения магазина', 'error');
-        if (phoneInput) phoneInput.focus();
-        return;
-      }
-
-      const origHtml = btn ? btn.innerHTML : '';
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Запуск магазина и управляющего...</span>';
-      }
-
-      const payload = {
-        chatId: currentChatId,
-        store_name: document.getElementById('kbStoreName')?.value.trim() || 'Магазин на Авито',
-        phone: phone,
-        avito_profile_url: url,
-        city_address: document.getElementById('kbCityAddress')?.value.trim() || 'Москва',
-        discount_policy: document.getElementById('kbDiscountPolicy')?.value || 'Без торга',
-        custom_rules: document.getElementById('kbCustomRules')?.value.trim() || ''
-      };
-
-      localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
-      localStorage.setItem('majorka_bot_phone', phone);
-      if (url) localStorage.setItem('majorka_avito_url', url);
-
-      try {
-        await apiFetch(`${API_BASE}/api/store_knowledge`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-      } catch (e) {}
-
-      if (btn) {
-        btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
-        btn.innerHTML = '<span class="material-symbols-outlined text-lg">check_circle</span><span>✓ Управляющий продажами запущен 24/7!</span>';
-      }
-
-      showToast('Менеджер продаж активен 24/7!', 'Эмулятор подключен, каталог загружен. Менеджер принимает сообщения покупателей.', 'success');
-
-      setTimeout(() => {
-        if (btn) {
-          btn.disabled = false;
-          btn.className = btn.className.replace(/bg-emerald-600 text-white font-bold/g, '').trim() + ' btn-gold';
-          btn.innerHTML = origHtml;
-        }
-      }, 4000);
     }
 
     // STRICT FILTER: NEVER POPULATE WITH JUNK DEMO STRINGS
@@ -6385,20 +6345,39 @@
         }
       };
 
-      if (kb.store_name) setVal('kbStoreName', kb.store_name);
-      if (kb.city_address) setVal('kbCityAddress', kb.city_address);
-      if (kb.phone) setVal('avitoOneClickPhone', kb.phone);
-      if (kb.avito_profile_url) setVal('avitoOneClickUrl', kb.avito_profile_url);
-      if (kb.telegram_contact) setVal('kbTelegramContact', kb.telegram_contact);
-      if (kb.custom_rules) setVal('kbCustomRules', kb.custom_rules);
+      if (kb.store_name !== undefined) setVal('kbStoreName', kb.store_name);
+      if (kb.city_address !== undefined) setVal('kbCityAddress', kb.city_address);
+      if (kb.phone !== undefined) {
+        setVal('chainPhoneInput', kb.phone);
+        setVal('wizPhoneInput', kb.phone);
+      }
+      if (kb.avito_profile_url !== undefined) {
+        setVal('avitoCatalogUrl', kb.avito_profile_url);
+        if (kb.avito_profile_url) localStorage.setItem('majorka_avito_url', kb.avito_profile_url);
+      }
+      if (kb.employee_invite_url !== undefined) {
+        setVal('chainEmployeeInviteUrl', kb.employee_invite_url);
+        const okBox = document.getElementById('chainInviteSuccessBox');
+        if (okBox) {
+          if (kb.employee_invite_url) okBox.classList.remove('hidden');
+          else okBox.classList.add('hidden');
+        }
+      }
+      if (kb.telegram_contact !== undefined) setVal('kbTelegramContact', kb.telegram_contact);
+      if (kb.custom_rules !== undefined) setVal('kbCustomRules', kb.custom_rules);
     }
 
     async function loadStoreKnowledge() {
       try {
         const savedUrl = localStorage.getItem('majorka_avito_url');
+        const savedInvite = localStorage.getItem('majorka_employee_invite_url');
         const savedPhone = localStorage.getItem('majorka_bot_phone');
         const pInput = document.getElementById('chainPhoneInput') || document.getElementById('wizPhoneInput');
         if (savedPhone && pInput && !pInput.value) pInput.value = savedPhone;
+        const catUrlInput = document.getElementById('avitoCatalogUrl');
+        if (savedUrl && catUrlInput && !catUrlInput.value) catUrlInput.value = savedUrl;
+        const inviteInput = document.getElementById('chainEmployeeInviteUrl');
+        if (savedInvite && inviteInput && !inviteInput.value) inviteInput.value = savedInvite;
 
         loadCatalogProducts();
       } catch (e) {}
@@ -6409,23 +6388,40 @@
         const data = await res.json();
         if (res.ok && data.success && data.knowledge) {
           applyKnowledgeToInputs(data.knowledge);
+          const kb = data.knowledge;
+          const hasSavedKnowledge = Boolean(
+            (kb.store_name && String(kb.store_name).trim()) ||
+            (kb.city_address && String(kb.city_address).trim()) ||
+            (kb.custom_rules && String(kb.custom_rules).trim()) ||
+            (kb.phone && String(kb.phone).trim()) ||
+            (kb.employee_invite_url && String(kb.employee_invite_url).trim())
+          );
+          if (hasSavedKnowledge) {
+            window.serverKnowledgeLoaded = true;
+            if (!localStorage.getItem('majorka_store_knowledge')) {
+              localStorage.setItem('majorka_store_knowledge', JSON.stringify(kb));
+            }
+          }
+          initChainLocksState();
         }
       } catch (e) {}
     }
 
     function autoFillStandardKnowledge() {
-      // Clean example
       showToast('Пример регламента', 'Стандартные правила консультаций заполнены', 'info');
     }
 
     function clearAllKnowledgeFields() {
-      const ids = ['avitoOneClickUrl', 'avitoOneClickPhone', 'kbStoreName', 'kbCityAddress', 'kbTelegramContact', 'kbCustomRules'];
+      const ids = ['avitoCatalogUrl', 'chainEmployeeInviteUrl', 'chainPhoneInput', 'kbStoreName', 'kbCityAddress', 'kbTelegramContact', 'kbCustomRules'];
       ids.forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
       });
+      document.getElementById('chainInviteSuccessBox')?.classList.add('hidden');
+      window.serverKnowledgeLoaded = false;
       localStorage.removeItem('majorka_store_knowledge');
       localStorage.removeItem('majorka_avito_url');
+      localStorage.removeItem('majorka_employee_invite_url');
       localStorage.removeItem('majorka_bot_phone');
       showToast('Поля очищены', 'Отображаются полупрозрачные подсказки (placeholder)', 'info');
     }
@@ -6435,7 +6431,7 @@
       if (!isChainStep1Paid) {
         showToast('Шаг 2 заблокирован', 'Сначала оплатите тариф на Шаге 1 выше.', 'warning');
         scrollToStep(1);
-        return;
+        return false;
       }
       const btn = triggerBtn || document.getElementById('btnSaveKnowledgeTop');
       const origHtml = btn ? btn.innerHTML : '';
@@ -6448,32 +6444,52 @@
         chatId: currentChatId,
         store_name: document.getElementById('kbStoreName')?.value.trim() || '',
         city_address: document.getElementById('kbCityAddress')?.value.trim() || '',
-        phone: (document.getElementById('chainPhoneInput') || document.getElementById('wizPhoneInput') || document.getElementById('avitoOneClickPhone'))?.value.trim() || '',
-        avito_profile_url: (document.getElementById('overviewAvitoUrlInput') || document.getElementById('avitoOneClickUrl'))?.value.trim() || '',
+        phone: (document.getElementById('chainPhoneInput') || document.getElementById('wizPhoneInput'))?.value.trim() || '',
+        avito_profile_url: document.getElementById('avitoCatalogUrl')?.value.trim() || '',
+        employee_invite_url: document.getElementById('chainEmployeeInviteUrl')?.value.trim() || '',
         telegram_contact: document.getElementById('kbTelegramContact')?.value.trim() || '',
         discount_policy: document.getElementById('kbDiscountPolicy')?.value || '',
         custom_rules: document.getElementById('kbCustomRules')?.value.trim() || ''
       };
 
-      localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
+      if (payload.avito_profile_url) localStorage.setItem('majorka_avito_url', payload.avito_profile_url);
+      if (payload.employee_invite_url) localStorage.setItem('majorka_employee_invite_url', payload.employee_invite_url);
+
+      let savedOk = false;
       try {
-        await apiFetch(`${API_BASE}/api/store_knowledge`, {
+        const res = await apiFetch(`${API_BASE}/api/store_knowledge`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-      } catch (e) {}
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.success === false) {
+          throw new Error(data.error || `HTTP ${res.status}`);
+        }
+        savedOk = true;
+        window.serverKnowledgeLoaded = true;
+        localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
+      } catch (e) {
+        showToast('Ошибка сохранения', e.message || 'Не удалось сохранить регламент на сервере', 'error');
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
+        }
+        return false;
+      }
 
       if (btn) {
-        btn.className = btn.className.replace(/btn-gold/g, '').trim() + ' bg-emerald-600 text-white font-bold';
+        const baseCls = btn.className.replace(/btn-gold/g, '').trim();
+        btn.className = baseCls + ' bg-emerald-600 text-white font-bold';
         btn.innerHTML = '<span class="material-symbols-outlined text-sm">check_circle</span><span>✓ Сохранено!</span>';
         setTimeout(() => {
           btn.disabled = false;
-          btn.className = btn.className.replace(/bg-emerald-600 text-white font-bold/g, '').trim() + ' btn-gold';
+          btn.className = baseCls + ' btn-gold';
           btn.innerHTML = origHtml;
         }, 3000);
       }
       showToast('Настройки сохранены', 'Параметры магазина обновлены', 'success');
+      return savedOk;
     }
 
     // TAB SWITCHER
@@ -6593,7 +6609,7 @@
         } else if (Number(val) === 6490) {
           titleEl.innerText = 'Полный Доступ (1 месяц)';
         } else if (Number(val) === 15900) {
-          titleEl.innerText = 'Бизнес Масштаб (3 месяца)';
+          titleEl.innerText = 'Квартал (3 месяца)';
         } else {
           titleEl.innerText = 'Оплата подписки';
         }
@@ -6818,7 +6834,7 @@
 
       let tTitle = 'Пробный доступ (7 дней)';
       if (amount === 6490) tTitle = 'Полный Доступ (1 месяц)';
-      else if (amount === 15900) tTitle = 'Бизнес Масштаб (3 месяца)';
+      else if (amount === 15900) tTitle = 'Квартал (3 месяца)';
       else if (tariffName === 'trial_7days') tTitle = 'Пробный доступ (7 дней)';
 
       if (badge) badge.innerText = `Тариф «${tTitle}» Активирован`;
@@ -6981,13 +6997,15 @@
       const checkbox = document.getElementById('delShopConsentCheckbox');
       const btn = document.getElementById('btnConfirmDeleteShop');
 
-      if (nameEl) nameEl.innerText = botName || 'MAJORKA';
-      if (dateEl) dateEl.innerText = dateStr || '17.11.2026';
+      if (nameEl) nameEl.innerText = botName || 'Магазин Авито';
+      if (dateEl) dateEl.innerText = dateStr || '—';
 
-      let days = 19;
+      let days = 0;
       if (paidUntil) {
-        const diff = new Date(paidUntil).getTime() - Date.now();
-        days = Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+        const parsedMs = new Date(paidUntil).getTime();
+        if (!isNaN(parsedMs)) {
+          days = Math.max(0, Math.ceil((parsedMs - Date.now()) / (1000 * 60 * 60 * 24)));
+        }
       }
       if (daysEl) daysEl.innerText = days;
 
@@ -7064,7 +7082,7 @@
       const listEl = document.getElementById('shopCatalogPreviewList');
       const countEl = document.getElementById('previewModalCount');
 
-      if (titleEl) titleEl.innerText = (botName || 'MAJORKA') + ' — синхронизированные позиции';
+      if (titleEl) titleEl.innerText = (botName || 'Магазин Авито') + ' — синхронизированные позиции';
 
       const items = (currentCatalogProducts && currentCatalogProducts.length > 0)
         ? currentCatalogProducts
@@ -7074,20 +7092,58 @@
 
       if (listEl) {
         if (items.length === 0) {
-          listEl.innerHTML = '<div class="p-6 text-center text-xs text-white/40">В каталоге магазина пока нет активных объявлений.</div>';
+          const emptyDiv = document.createElement('div');
+          emptyDiv.className = 'p-6 text-center text-xs text-white/40';
+          emptyDiv.textContent = 'В каталоге магазина пока нет активных объявлений.';
+          listEl.replaceChildren(emptyDiv);
         } else {
-          listEl.innerHTML = items.map((it, idx) => `
-            <div class="p-3 rounded-xl bg-[#121214] border border-white/10 flex items-center justify-between gap-3">
-              <div class="min-w-0 flex-1">
-                <div class="text-xs font-bold text-white truncate">${escapeHtml(it.title)}</div>
-                <div class="flex items-center gap-2 mt-1">
-                  <span class="text-xs font-extrabold text-gold">${escapeHtml(it.price)}</span>
-                  <span class="text-[10px] text-white/60 bg-white/5 px-2 py-0.5 rounded border border-white/10">В наличии</span>
-                </div>
-              </div>
-              ${it.url ? `<a href="${it.url}" target="_blank" class="text-white/40 hover:text-gold p-1" title="Открыть на Авито"><span class="material-symbols-outlined text-base">open_in_new</span></a>` : ''}
-            </div>
-          `).join('');
+          const frag = document.createDocumentFragment();
+          items.forEach((it) => {
+            const row = document.createElement('div');
+            row.className = 'p-3 rounded-xl bg-[#121214] border border-white/10 flex items-center justify-between gap-3';
+
+            const info = document.createElement('div');
+            info.className = 'min-w-0 flex-1';
+
+            const tEl = document.createElement('div');
+            tEl.className = 'text-xs font-bold text-white truncate';
+            tEl.textContent = String(it.title || 'Товар с Авито');
+
+            const meta = document.createElement('div');
+            meta.className = 'flex items-center gap-2 mt-1';
+
+            const priceEl = document.createElement('span');
+            priceEl.className = 'text-xs font-extrabold text-gold';
+            priceEl.textContent = String(it.price || '0 ₽');
+
+            const stockBadge = document.createElement('span');
+            stockBadge.className = 'text-[10px] text-white/60 bg-white/5 px-2 py-0.5 rounded border border-white/10';
+            stockBadge.textContent = 'В наличии';
+
+            meta.appendChild(priceEl);
+            meta.appendChild(stockBadge);
+            info.appendChild(tEl);
+            info.appendChild(meta);
+            row.appendChild(info);
+
+            const safeUrl = sanitizeHttpUrl(it.url, '');
+            if (safeUrl) {
+              const a = document.createElement('a');
+              a.href = safeUrl;
+              a.target = '_blank';
+              a.rel = 'noopener noreferrer';
+              a.className = 'text-white/40 hover:text-gold p-1';
+              a.title = 'Открыть на Авито';
+              const icon = document.createElement('span');
+              icon.className = 'material-symbols-outlined text-base';
+              icon.textContent = 'open_in_new';
+              a.appendChild(icon);
+              row.appendChild(a);
+            }
+
+            frag.appendChild(row);
+          });
+          listEl.replaceChildren(frag);
         }
       }
 
@@ -7162,7 +7218,7 @@
         return;
       }
 
-      // Switch to Stage 4: "✅ Вход успешно завершен! Теперь мы автоматически добавляем ваши товары..."
+      // Switch to Stage 4: "Вход завершен, загружаем ваши товары..."
       document.getElementById('wizAuthStage3')?.classList.add('hidden');
       document.getElementById('wizAuthStage4')?.classList.remove('hidden');
 
@@ -7179,7 +7235,7 @@
         await loadCatalogProducts();
         await loadMyBots();
         await loadUserStats();
-      loadAnalyticsData();
+        loadAnalyticsData();
 
         // Switch to Stage 5: Ready & Safety Rule
         document.getElementById('wizAuthStage4')?.classList.add('hidden');
@@ -7194,16 +7250,12 @@
         scrollToStep(1);
         return;
       }
-      const profileUrl = (
-        document.getElementById('avitoOneClickUrl')?.value ||
-        document.getElementById('overviewAvitoUrlInput')?.value ||
-        document.getElementById('avitoCatalogUrl')?.value ||
-        localStorage.getItem('majorka_avito_url') ||
-        ''
-      ).trim();
+      const urlInput = document.getElementById('avitoCatalogUrl');
+      const profileUrl = (urlInput?.value || localStorage.getItem('majorka_avito_url') || '').trim();
 
-      if (!profileUrl) {
-        showToast('Укажите ссылку на профиль Авито', 'Сначала вставьте ссылку на ваш магазин Авито в разделе «База знаний» для загрузки товаров.', 'warning');
+      if (profileUrl && !/^https?:\/\/([a-z0-9-]+\.)?avito\.ru(\/|$)/i.test(profileUrl)) {
+        showToast('Некорректная ссылка', 'Укажите ссылку на профиль Авито формата https://www.avito.ru/... или оставьте поле пустым для загрузки из приложения.', 'warning');
+        if (urlInput) urlInput.focus();
         return;
       }
 
@@ -7212,13 +7264,18 @@
         btn.disabled = true;
         btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span><span>Синхронизация...</span>';
       }
-      showToast('Синхронизация с Авито', 'Менеджер считывает товары из профиля Авито...', 'info');
+      showToast('Синхронизация с Авито', profileUrl ? 'Загружаем товары по ссылке профиля Авито...' : 'Загружаем активные объявления из магазина...', 'info');
 
       try {
+        const bodyPayload = profileUrl
+          ? { chatId: currentChatId, profile_url: profileUrl }
+          : { chatId: currentChatId, from_app: true };
+        if (profileUrl) localStorage.setItem('majorka_avito_url', profileUrl);
+
         const res = await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ chatId: currentChatId, profile_url: profileUrl })
+          body: JSON.stringify(bodyPayload)
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || !data.success) {
@@ -7226,7 +7283,7 @@
           return;
         }
         await loadCatalogProducts();
-        showToast('Каталог синхронизирован!', 'Все товары успешно обновлены из профиля Авито', 'success');
+        showToast('Каталог синхронизирован!', 'Все товары успешно обновлены в памяти менеджера', 'success');
       } catch (e) {
         console.error('triggerEmulatorAutoSync error:', e);
         showToast('Ошибка соединения', 'Не удалось синхронизировать каталог. Проверьте соединение с сервисом.', 'error');
@@ -7247,8 +7304,7 @@
 
     function initChainLocksState() {
       renderTrialStatusUI();
-      const isOwnerLocal = (currentChatId === '6940082004');
-      const hasPaid = isOwnerLocal || Boolean(userBotsList && userBotsList.length > 0 && userBotsList.some(b => Number(b.is_paid) === 1));
+      const hasPaid = Boolean(isOwner) || Boolean(userBotsList && userBotsList.length > 0 && userBotsList.some(b => Number(b.is_paid) === 1));
       const notice = document.getElementById('alreadyPaidNotice');
       const step1Text = document.getElementById('step1StatusText');
       const step1Badge = document.getElementById('step1StatusBadge');
@@ -7262,14 +7318,15 @@
         if (step1Text) step1Text.innerText = 'Оплачено (активный магазин)';
         if (step1Badge) {
           step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-white/5 text-zinc-300 border border-white/10 flex items-center gap-1.5';
-          step1Badge.innerHTML = '<span>Тариф оплачен</span>';
+          step1Badge.textContent = 'Тариф оплачен';
         }
         if (lock2) lock2.classList.add('hidden');
         if (lockCatalog) lockCatalog.classList.add('hidden');
         
-        // If knowledge exists, unlock step 3 as well
-        const kb = localStorage.getItem('majorka_store_knowledge');
-        if (kb) {
+        // Unlock Step 3 if server/local knowledge exists OR user already has an initialized store
+        const hasKb = Boolean(window.serverKnowledgeLoaded || localStorage.getItem('majorka_store_knowledge'));
+        const hasActiveFlowBot = Boolean(userBotsList && userBotsList.some(b => ['start', 'active', 'reauth_needed', 'reauth_awaiting_sms', 'auth_awaiting_sms', 'auth_awaiting_password'].includes(b.step)));
+        if (hasKb || hasActiveFlowBot) {
           isChainStep2Saved = true;
           if (lock3) lock3.classList.add('hidden');
         } else {
@@ -7282,7 +7339,11 @@
         if (step1Text) step1Text.innerText = 'Ожидает оплаты (Шаг 1)';
         if (step1Badge) {
           step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-white/5 text-white/80 border border-white/10 flex items-center gap-1.5';
-          step1Badge.innerHTML = '<span class="w-2 h-2 rounded-full bg-gold"></span><span>Ожидает оплаты</span>';
+          const dot = document.createElement('span');
+          dot.className = 'w-2 h-2 rounded-full bg-gold';
+          const lbl = document.createElement('span');
+          lbl.textContent = 'Ожидает оплаты';
+          step1Badge.replaceChildren(dot, lbl);
         }
         if (lock2) lock2.classList.remove('hidden');
         if (lock3) lock3.classList.remove('hidden');
@@ -7294,24 +7355,24 @@
       // Cleaned up: official pricing is 7-day trial for 1 590 ₽ without artificial scarcity counters
     }
 
-    async function payTariffFromBalanceAction(amount, tariffTitle) {
+    async function payTariffFromBalanceAction(amount, tariffTitle, triggerBtn) {
       hapticClick('medium');
       amount = Number(amount) || 0;
-      const isFreePromo = (amount === 0) || String(tariffTitle).includes('14') || String(tariffTitle).includes('Бесплатный');
 
-      if (!isFreePromo && (Number(amount) === 1590 || String(tariffTitle).includes('Пробный')) && userTrialUsed === 1) {
+      if ((amount === 1590 || String(tariffTitle).includes('Пробный')) && userTrialUsed === 1) {
         showToast('Пробный доступ сгорел', 'Пробный доступ на 7 дней сгорает после первой покупки и доступен только новым клиентам. Выберите Полный доступ на 1 или 3 месяца.', 'warning');
         return;
       }
-      try {
-        const btn = event?.currentTarget;
-        const origText = btn ? btn.innerHTML : '';
-        if (btn) {
-          btn.disabled = true;
-          btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span><span>Активация...</span>';
-        }
 
-        const tariffCode = isFreePromo ? 'free_14d' : (amount === 1590 ? 'trial_7days' : (amount === 15900 ? 'quarter' : 'month'));
+      const btn = triggerBtn || (typeof event !== 'undefined' ? event?.currentTarget : null);
+      const origText = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span><span>Активация...</span>';
+      }
+
+      try {
+        const tariffCode = (amount === 1590 ? 'trial_7days' : (amount === 15900 ? 'quarter' : 'month'));
 
         const res = await apiFetch(`${API_BASE}/api/pay_tariff`, {
           method: 'POST',
@@ -7324,18 +7385,10 @@
         });
 
         const data = await res.json();
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = origText;
-        }
 
         if (data.success) {
           isChainStep1Paid = true;
           showToast('Тариф активирован!', data.message || `Тариф «${tariffTitle}» успешно активирован. Шаг 2 разблокирован.`, 'success');
-
-          if (data.promo_14d_remaining !== undefined) {
-            // promo UI updated
-          }
 
           // Update balance on screen
           if (data.new_balance !== undefined) {
@@ -7349,7 +7402,7 @@
           const step1Badge = document.getElementById('step1StatusBadge');
           if (step1Badge) {
             step1Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-white/5 text-zinc-300 border border-white/10 flex items-center gap-1.5';
-            step1Badge.innerHTML = `<span>✓ Оплачено: ${tariffTitle}</span>`;
+            step1Badge.textContent = `✓ Оплачено: ${String(tariffTitle || '')}`;
           }
 
           // UNLOCK STEP 2
@@ -7365,6 +7418,10 @@
           const notice = document.getElementById('alreadyPaidNotice');
           if (notice) notice.classList.remove('hidden');
 
+          await loadUserStats();
+          await loadMyBots();
+          initChainLocksState();
+
           setTimeout(() => {
             scrollToStep(2);
           }, 400);
@@ -7374,10 +7431,15 @@
         }
       } catch (e) {
         showToast('Ошибка сети', 'Не удалось связаться с сервером оплаты', 'error');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origText;
+        }
       }
     }
 
-    async function proceedFromStep2ToStep3() {
+    async function proceedFromStep2ToStep3(triggerBtn) {
       if (!isChainStep1Paid) {
         showToast('Шаг 1 не оплачен', 'Сначала оплатите тариф на Шаге 1 выше', 'error');
         scrollToStep(1);
@@ -7385,8 +7447,9 @@
       }
 
       // Save knowledge settings
-      const btn = event?.currentTarget;
-      await saveStoreKnowledgeSettings(btn);
+      const btn = triggerBtn || (typeof event !== 'undefined' ? event?.currentTarget : null);
+      const savedOk = await saveStoreKnowledgeSettings(btn);
+      if (!savedOk) return;
 
       isChainStep2Saved = true;
 
@@ -7394,7 +7457,7 @@
       const step2Badge = document.getElementById('step2StatusBadge');
       if (step2Badge) {
         step2Badge.className = 'px-3 py-1.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5';
-        step2Badge.innerHTML = '<span>✓ Регламент настроен и сохранен</span>';
+        step2Badge.textContent = '✓ Регламент настроен и сохранен';
       }
 
       // UNLOCK STEP 3
@@ -7408,7 +7471,7 @@
       }
 
       if (typeof confetti === 'function') confetti({ particleCount: 50, spread: 60 });
-      showToast('Регламент сохранен!', 'Шаг 3 (Вход и авто-запуск) разблокирован.', 'success');
+      showToast('Регламент сохранен!', 'Шаг 3 (Подключение магазина) разблокирован.', 'success');
 
       setTimeout(() => {
         scrollToStep(3);
@@ -7496,7 +7559,7 @@
             await apiFetch(`${API_BASE}/api/update_product`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ id: pId, title: title, price: price, description: desc })
+              body: JSON.stringify({ id: pId, chatId: currentChatId, title: title, price: price, description: desc })
             });
           } catch (e) {}
         }
@@ -7534,17 +7597,6 @@
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
-    }
-
-    function payTariffFromBalance(amount, planName) {
-      showToast('Оплата подтверждена', `Тариф «${planName}» оплачен с баланса. Переходим к Шагу 2.`, 'success');
-      const badge = document.getElementById('step1StatusBadge');
-      if (badge) {
-        badge.innerHTML = `<span>Тариф «${planName}» активен</span>`;
-      }
-      setTimeout(() => {
-        scrollToStep(2);
-      }, 350);
     }
 
     // Step 3 Interactive Auth Flow (LIVE BACKEND INTEGRATION)
@@ -7689,8 +7741,6 @@
 
         if (bar) bar.style.width = '65%';
         const profileUrl = (
-          document.getElementById('avitoOneClickUrl')?.value ||
-          document.getElementById('overviewAvitoUrlInput')?.value ||
           document.getElementById('avitoCatalogUrl')?.value ||
           localStorage.getItem('majorka_avito_url') ||
           ''
@@ -7699,28 +7749,25 @@
         let catalogSynced = false;
         let syncWarning = '';
 
-        if (profileUrl) {
-          if (status) status.innerText = 'Синхронизация актуальных цен и описаний товаров...';
-          try {
-            const syncRes = await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ chatId: currentChatId, profile_url: profileUrl })
-            });
-            const syncData = await syncRes.json().catch(() => ({}));
-            if (syncRes.ok && syncData.success) {
-              catalogSynced = true;
-              await loadCatalogProducts();
-            } else {
-              syncWarning = syncData.error || `Не удалось синхронизировать каталог (HTTP ${syncRes.status})`;
-              showToast('Каталог не синхронизирован', syncWarning, 'warning');
-            }
-          } catch (e) {
-            syncWarning = 'Ошибка соединения при синхронизации каталога';
-            showToast('Каталог не синхронизирован', syncWarning, 'warning');
+        if (status) status.innerText = 'Синхронизация актуальных цен и описаний товаров...';
+        try {
+          const syncPayload = profileUrl
+            ? { chatId: currentChatId, profile_url: profileUrl }
+            : { chatId: currentChatId, from_app: true };
+          const syncRes = await apiFetch(`${API_BASE}/api/sync_profile_catalog`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(syncPayload)
+          });
+          const syncData = await syncRes.json().catch(() => ({}));
+          if (syncRes.ok && syncData.success) {
+            catalogSynced = true;
+            await loadCatalogProducts();
+          } else {
+            syncWarning = syncData.error || `Не удалось синхронизировать каталог (HTTP ${syncRes.status})`;
           }
-        } else {
-          await loadCatalogProducts().catch(() => {});
+        } catch (e) {
+          syncWarning = 'Ошибка соединения при синхронизации каталога';
         }
 
         if (bar) bar.style.width = '100%';
@@ -7758,7 +7805,98 @@
       }
     }
 
-    // ==================== USER SETTINGS & PUSH NOTIFICATIONS ====================
+    // ==================== EMPLOYEE GUIDE & SETTINGS & PUSH NOTIFICATIONS ====================
+    function openEmployeeGuideModal() {
+      const modal = document.getElementById('employeeGuideModal');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+      }
+      hapticClick('light');
+    }
+
+    function closeEmployeeGuideModal() {
+      const modal = document.getElementById('employeeGuideModal');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.body.style.overflow = '';
+      }
+      hapticClick('light');
+    }
+
+    async function submitEmployeeInviteLink(triggerBtn) {
+      if (!isChainStep1Paid) {
+        showToast('Шаг 3 заблокирован', 'Сначала оплатите тариф на Шаге 1 и сохраните регламент на Шаге 2.', 'warning');
+        scrollToStep(1);
+        return;
+      }
+      const input = document.getElementById('chainEmployeeInviteUrl');
+      const inviteUrl = (input ? input.value : '').trim();
+      if (!/^https?:\/\/([a-z0-9-]+\.)?avito\.ru(\/|$)/i.test(inviteUrl)) {
+        showToast('Некорректная ссылка', 'Вставьте ссылку-приглашение формата https://www.avito.ru/... из раздела «Сотрудники» Авито PRO.', 'warning');
+        if (input) input.focus();
+        return;
+      }
+
+      const btn = triggerBtn || document.getElementById('btnSubmitEmployeeInvite');
+      const origHtml = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">sync</span><span>Отправка...</span>';
+      }
+
+      try {
+        const payload = {
+          chatId: currentChatId,
+          store_name: document.getElementById('kbStoreName')?.value.trim() || '',
+          city_address: document.getElementById('kbCityAddress')?.value.trim() || '',
+          phone: document.getElementById('chainPhoneInput')?.value.trim() || '',
+          avito_profile_url: document.getElementById('avitoCatalogUrl')?.value.trim() || '',
+          employee_invite_url: inviteUrl,
+          telegram_contact: document.getElementById('kbTelegramContact')?.value.trim() || '',
+          discount_policy: document.getElementById('kbDiscountPolicy')?.value || '',
+          custom_rules: document.getElementById('kbCustomRules')?.value.trim() || ''
+        };
+        const res = await apiFetch(`${API_BASE}/api/store_knowledge`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.success === false) {
+          throw new Error(data.error || `HTTP ${res.status}`);
+        }
+        localStorage.setItem('majorka_employee_invite_url', inviteUrl);
+        localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
+        window.serverKnowledgeLoaded = true;
+        document.getElementById('chainInviteSuccessBox')?.classList.remove('hidden');
+        showToast('Ссылка-приглашение сохранена!', 'Мы получили приглашение сотрудника Авито PRO. Пожалуйста, не нажимайте «Обновить» в Авито PRO, чтобы ссылка не сгорела.', 'success');
+      } catch (err) {
+        showToast('Ошибка отправки', err.message || 'Не удалось сохранить ссылку-приглашение', 'error');
+      } finally {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = origHtml;
+        }
+      }
+    }
+
+    function setSettingsBadgeState(badgeEl, isLinked, linkedLabel, unlinkedLabel) {
+      if (!badgeEl) return;
+      const dot = document.createElement('span');
+      const txt = document.createTextNode(' ' + (isLinked ? linkedLabel : unlinkedLabel));
+      if (isLinked) {
+        badgeEl.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-status-green/15 text-status-green border border-status-green/30 flex items-center gap-1';
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-status-green';
+      } else {
+        badgeEl.className = 'px-2 py-0.5 rounded-full text-[10px] font-bold bg-white/10 text-white/60 border border-white/15 flex items-center gap-1';
+        dot.className = 'w-1.5 h-1.5 rounded-full bg-white/40';
+      }
+      badgeEl.replaceChildren(dot, txt);
+    }
+
     async function loadUserSettings() {
       const targetChatId = currentChatId;
       if (!targetChatId) {
@@ -7773,22 +7911,51 @@
           const s = data.settings;
           const idEl = document.getElementById('settUserIdText');
           if (idEl) idEl.innerText = s.chatId || targetChatId;
+
+          const resolvedEmail = String(s.email || localStorage.getItem('majorka_userEmail') || '').trim();
           const emailEl = document.getElementById('settEmailInput');
-          if (emailEl) emailEl.value = s.email || '';
+          if (emailEl && resolvedEmail) emailEl.value = resolvedEmail;
+
           const createdEl = document.getElementById('settUserCreatedAt');
-          if (createdEl) createdEl.innerText = s.created_at || '—';
+          if (createdEl) {
+            if (s.created_at) {
+              const d = new Date(s.created_at);
+              createdEl.innerText = !isNaN(d.getTime()) ? d.toLocaleDateString('ru-RU') : String(s.created_at);
+            } else {
+              createdEl.innerText = '—';
+            }
+          }
+
           const tgHandle = document.getElementById('settTgHandle');
           if (tgHandle) tgHandle.innerText = '@' + (s.telegram_bot_username || 'avito_deployer_bot');
+
+          const rawTgId = String(s.telegram_chat_id || targetChatId || '');
+          const isNumericTg = /^\d+$/.test(rawTgId) && !s.is_guest;
           const tgIdEl = document.getElementById('settTgIdBadge');
           if (tgIdEl) {
-            const linkedTg = s.telegram_chat_id || targetChatId;
-            tgIdEl.innerText = linkedTg ? ('ID ' + linkedTg) : 'ID не привязан';
+            tgIdEl.innerText = isNumericTg ? ('ID ' + rawTgId) : 'ID не привязан';
           }
+          setSettingsBadgeState(document.getElementById('settTgStatusBadge'), isNumericTg, 'Подключён', 'Не привязан');
+
+          const hasValidEmail = Boolean(resolvedEmail && resolvedEmail.includes('@'));
+          setSettingsBadgeState(document.getElementById('settGoogleBadge'), hasValidEmail, 'Привязан', 'Не привязан');
+          const gEmailEl = document.getElementById('settGoogleEmail');
+          if (gEmailEl) gEmailEl.innerText = hasValidEmail ? resolvedEmail : 'Вход в 1 клик';
+          const gBtnEl = document.getElementById('settGoogleBtn');
+          if (gBtnEl) gBtnEl.innerText = hasValidEmail ? 'Изменить' : 'Привязать';
+
           const fwdCheck = document.getElementById('settForwardTgCheckbox');
           if (fwdCheck) fwdCheck.checked = !!s.forward_to_telegram;
         }
       } catch (err) {
         console.warn('loadUserSettings error:', err);
+        const isNumericTg = /^\d+$/.test(String(targetChatId || ''));
+        setSettingsBadgeState(document.getElementById('settTgStatusBadge'), isNumericTg, 'Подключён', 'Не привязан');
+        const cachedEmail = String(localStorage.getItem('majorka_userEmail') || '').trim();
+        const hasEmail = Boolean(cachedEmail && cachedEmail.includes('@'));
+        setSettingsBadgeState(document.getElementById('settGoogleBadge'), hasEmail, 'Привязан', 'Не привязан');
+        const gEmailEl = document.getElementById('settGoogleEmail');
+        if (gEmailEl && hasEmail) gEmailEl.innerText = cachedEmail;
       }
 
       // Check browser push status
@@ -7872,6 +8039,12 @@
         });
         const data = await res.json();
         if (!res.ok || !data.success) throw new Error(data.error || 'Ошибка при сохранении email');
+        localStorage.setItem('majorka_userEmail', email);
+        setSettingsBadgeState(document.getElementById('settGoogleBadge'), true, 'Привязан', 'Не привязан');
+        const gEmailEl = document.getElementById('settGoogleEmail');
+        if (gEmailEl) gEmailEl.innerText = email;
+        const gBtnEl = document.getElementById('settGoogleBtn');
+        if (gBtnEl) gBtnEl.innerText = 'Изменить';
         showToast('Email привязан', 'Email успешно сохранен и привязан к вашему аккаунту', 'success');
       } catch (err) {
         showToast('Ошибка сохранения', err.message || 'Не удалось привязать email', 'error');
@@ -8045,10 +8218,6 @@
     window.selectTariffAndStart = selectTariffAndStart;
     window.openPaymentModal = openPaymentModal;
     window.closePaymentModal = closePaymentModal;
-    window.openLiveMonitorModal = openLiveMonitorModal;
-    window.closeLiveMonitorModal = closeLiveMonitorModal;
-    window.refreshLiveMonitorFrame = refreshLiveMonitorFrame;
-    window.toggleLiveAutoRefresh = toggleLiveAutoRefresh;
     window.scrollToStep = scrollToStep;
     window.initChainLocksState = initChainLocksState;
     window.loadCatalogProducts = loadCatalogProducts;
@@ -8056,6 +8225,11 @@
     window.startChainAuthProcess = startChainAuthProcess;
     window.chainResendSmsCode = chainResendSmsCode;
     window.chainSubmitSmsCode = chainSubmitSmsCode;
+    window.dismissReauthBanner = dismissReauthBanner;
+    window.toggleReauthBannerDemo = toggleReauthBannerDemo;
+    window.openEmployeeGuideModal = openEmployeeGuideModal;
+    window.closeEmployeeGuideModal = closeEmployeeGuideModal;
+    window.submitEmployeeInviteLink = submitEmployeeInviteLink;
 
     // Settings & Push Exports
     window.loadUserSettings = loadUserSettings;
