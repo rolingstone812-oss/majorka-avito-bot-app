@@ -938,7 +938,7 @@ section[id] {
   white-space: nowrap;
 }
 
-/* 6. Полоса партнёрской программы для авитологов (#partners: 35% -> 25% -> 15% -> 10%) */
+/* 6. Полоса партнёрской программы для авитологов (#partners: 30% -> 20% -> 15% -> 10%, 4 месяца) */
 .partner-panel {
   background-color: var(--surface);
   border: 1.5px solid var(--text);
