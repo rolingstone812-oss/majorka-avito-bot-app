@@ -5427,15 +5427,44 @@
           `;
         }
       } else {
-        if (overDetails) overDetails.innerText = 'В автономном режиме • Магазин #1 (Основной)';
+        const primaryBot = (userBotsList && userBotsList.length > 0) ? userBotsList[0] : null;
+        const primaryStep = String(primaryBot?.step || 'active');
+        const primaryReauth = ['reauth_needed', 'reauth_awaiting_sms', 'reauth_step_phone', 'reauth_step_password', 'auth_awaiting_sms', 'auth_awaiting_password', 'auth_phone_pending'].includes(primaryStep);
+        const primaryPaused = Boolean(primaryBot && Number(primaryBot.is_paused || 0) === 1);
+        const primaryInvite = (primaryStep === 'invite_pending');
+        const primaryNeedsSetup = (!isOwner && primaryBot && (primaryStep === 'paid_needs_setup' || primaryStep === 'draft'));
+
+        if (overDetails) {
+          if (primaryReauth) overDetails.innerText = 'Требуется подтверждение сессии • Нажмите для входа';
+          else if (primaryInvite) overDetails.innerText = 'Ссылка «Сотрудники» Авито PRO получена • Подключение';
+          else if (primaryPaused) overDetails.innerText = 'Работа магазина поставлена на паузу';
+          else if (primaryNeedsSetup) overDetails.innerText = 'Завершите подключение Авито на Шаге 3';
+          else overDetails.innerText = 'В автономном режиме • Магазин #1 (Основной)';
+        }
         if (overPill) {
-          overPill.innerText = 'Активен 24/7';
-          overPill.className = 'text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-white/5 text-zinc-200 rounded-full border border-white/10 self-start sm:self-auto shrink-0';
+          if (primaryReauth) {
+            overPill.innerText = 'Требуется вход Авито';
+            overPill.className = 'text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-amber-500/15 text-amber-300 rounded-full border border-amber-500/35 self-start sm:self-auto shrink-0';
+          } else if (primaryInvite) {
+            overPill.innerText = 'Ссылка PRO в обработке';
+            overPill.className = 'text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-amber-500/15 text-amber-300 rounded-full border border-amber-500/35 self-start sm:self-auto shrink-0';
+          } else if (primaryPaused) {
+            overPill.innerText = 'На паузе';
+            overPill.className = 'text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-amber-500/15 text-amber-300 rounded-full border border-amber-500/30 self-start sm:self-auto shrink-0';
+          } else if (primaryNeedsSetup) {
+            overPill.innerText = 'Ожидает подключения';
+            overPill.className = 'text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-white/10 text-amber-200 rounded-full border border-amber-500/25 self-start sm:self-auto shrink-0';
+          } else {
+            overPill.innerText = 'Активен 24/7';
+            overPill.className = 'text-[10px] sm:text-xs font-semibold px-2.5 py-1 bg-white/5 text-zinc-200 rounded-full border border-white/10 self-start sm:self-auto shrink-0';
+          }
         }
         if (heroDot) {
           heroDot.className = 'hidden';
         }
-        if (heroBadge) heroBadge.innerText = 'Управляющий в сети 24/7';
+        if (heroBadge) {
+          heroBadge.innerText = primaryInvite ? 'ПОДКЛЮЧЕНИЕ АВИТО PRO' : (primaryNeedsSetup ? 'ОЖИДАЕТ ШАГА 3' : (primaryPaused ? 'МЕНЕДЖЕР НА ПАУЗЕ' : 'Управляющий в сети 24/7'));
+        }
         if (heroTitle) {
           const bName = (userBotsList && userBotsList.length > 0 && userBotsList[0].session_name) ? userBotsList[0].session_name : 'MAJORKA';
           heroTitle.innerText = `«${bName}» — Твой Менеджер Продаж`;
@@ -5742,26 +5771,47 @@
         const safeCity = escapeHtml(bot.city_address || bot.city || 'Россия');
         const safeHours = escapeHtml(bot.working_hours || 'Круглосуточно 24/7');
         const safePhone = escapeHtml(bot.phone || 'Через Авито PRO / Сотрудники');
-        const safeStep = String(bot.step || 'active');
-        const isReauth = ['reauth_needed', 'reauth_awaiting_sms', 'auth_awaiting_sms', 'auth_awaiting_password'].includes(safeStep);
+        const safeStep = String(bot.step || 'draft');
+        const REAUTH_STEPS_ARR = ['reauth_needed', 'reauth_awaiting_sms', 'reauth_step_phone', 'reauth_step_password', 'auth_awaiting_sms', 'auth_awaiting_password', 'auth_phone_pending'];
+        const isPaidBot = Number(bot.is_paid || 0) === 1 || isOwner;
+        const isReauth = REAUTH_STEPS_ARR.includes(safeStep);
+        const isInvitePending = (safeStep === 'invite_pending');
+        const isNeedsSetup = (safeStep === 'paid_needs_setup' || safeStep === 'draft');
+        const isBotActive = (isPaidBot && (safeStep === 'active' || safeStep === 'start'));
         const botPaused = (bot.is_paused !== undefined && bot.is_paused !== null) ? Boolean(Number(bot.is_paused)) : Boolean(storePausedState);
 
-        let dateStr = 'Активен';
+        let dateStr = isBotActive ? 'Активен' : 'Настройка';
         if (bot.paid_until) {
           const parsedDate = new Date(bot.paid_until);
           if (!isNaN(parsedDate.getTime())) dateStr = `до ${parsedDate.toLocaleDateString('ru-RU')}`;
         }
 
-        let statusBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Активен 24/7
+        let statusBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/10 text-zinc-300 border border-white/15 flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-xs" aria-hidden="true">schedule</span> Ожидает оплаты
         </span>`;
         if (isReauth) {
           statusBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/40 flex items-center gap-1.5">
             <span class="material-symbols-outlined text-xs" aria-hidden="true">warning</span> Требуется подтверждение сессии
           </span>`;
+        } else if (isInvitePending) {
+          statusBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/35 flex items-center gap-1.5">
+            <span class="material-symbols-outlined text-xs" aria-hidden="true">hourglass_top</span> Ссылка PRO в обработке
+          </span>`;
         } else if (botPaused) {
           statusBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-amber-500/15 text-amber-300 border border-amber-500/30 flex items-center gap-1.5">
             <span class="material-symbols-outlined text-xs" aria-hidden="true">pause_circle</span> На паузе
+          </span>`;
+        } else if (isNeedsSetup) {
+          statusBadge = isPaidBot
+            ? `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/10 text-amber-200 border border-amber-500/25 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-xs" aria-hidden="true">tune</span> Ожидает настройки шага 3
+              </span>`
+            : `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-white/10 text-zinc-300 border border-white/15 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-xs" aria-hidden="true">schedule</span> Ожидает оплаты
+              </span>`;
+        } else if (isBotActive) {
+          statusBadge = `<span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 flex items-center gap-1.5">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> Активен 24/7
           </span>`;
         }
 
@@ -5957,7 +6007,7 @@
 
     function checkAndRenderSessionStatus(bots) {
       const safeBots = Array.isArray(bots) ? bots : [];
-      const reauthBot = safeBots.find(b => ['reauth_needed', 'reauth_awaiting_sms', 'auth_awaiting_sms', 'auth_awaiting_password'].includes(b.step));
+      const reauthBot = safeBots.find(b => ['reauth_needed', 'reauth_awaiting_sms', 'reauth_step_phone', 'reauth_step_password', 'auth_awaiting_sms', 'auth_awaiting_password', 'auth_phone_pending'].includes(b.step));
       const banner = document.getElementById('sessionDropAlertBanner');
 
       if (reauthBot && String(reauthBot.id ?? '') !== String(lastAutoReauthBotId ?? '')) {
@@ -6943,9 +6993,6 @@
         custom_rules: document.getElementById('kbCustomRules')?.value.trim() || ''
       };
 
-      if (payload.avito_profile_url) localStorage.setItem('majorka_avito_url', payload.avito_profile_url);
-      if (payload.employee_invite_url) localStorage.setItem('majorka_employee_invite_url', payload.employee_invite_url);
-
       let savedOk = false;
       try {
         const res = await apiFetch(`${API_BASE}/api/store_knowledge`, {
@@ -6959,6 +7006,8 @@
         }
         savedOk = true;
         window.serverKnowledgeLoaded = true;
+        if (payload.avito_profile_url) localStorage.setItem('majorka_avito_url', payload.avito_profile_url);
+        if (payload.employee_invite_url) localStorage.setItem('majorka_employee_invite_url', payload.employee_invite_url);
         localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
       } catch (e) {
         showToast('Ошибка сохранения', e.message || 'Не удалось сохранить регламент на сервере', 'error');
@@ -7925,7 +7974,7 @@
         
         // Unlock Step 3 if server/local knowledge exists OR user already has an initialized store
         const hasKb = Boolean(window.serverKnowledgeLoaded || localStorage.getItem('majorka_store_knowledge'));
-        const hasActiveFlowBot = Boolean(userBotsList && userBotsList.some(b => ['start', 'active', 'reauth_needed', 'reauth_awaiting_sms', 'auth_awaiting_sms', 'auth_awaiting_password'].includes(b.step)));
+        const hasActiveFlowBot = Boolean(userBotsList && userBotsList.some(b => ['start', 'active', 'invite_pending', 'reauth_needed', 'reauth_awaiting_sms', 'reauth_step_phone', 'reauth_step_password', 'auth_awaiting_sms', 'auth_awaiting_password', 'auth_phone_pending'].includes(b.step)));
         if (hasKb || hasActiveFlowBot) {
           isChainStep2Saved = true;
           if (lock3) lock3.classList.add('hidden');
@@ -8444,8 +8493,12 @@
       }
       const input = document.getElementById('chainEmployeeInviteUrl');
       const inviteUrl = (input ? input.value : '').trim();
-      if (!/^https?:\/\/([a-z0-9-]+\.)?avito\.ru(\/|$)/i.test(inviteUrl)) {
-        showToast('Некорректная ссылка', 'Вставьте ссылку-приглашение формата https://www.avito.ru/... из раздела «Сотрудники» Авито PRO.', 'warning');
+      if (
+        inviteUrl.length < 20 ||
+        /\s/.test(inviteUrl) ||
+        !/^https?:\/\/([a-z0-9-]+\.)?avito\.ru\/.+/i.test(inviteUrl)
+      ) {
+        showToast('Некорректная ссылка', 'Вставьте полную ссылку-приглашение формата https://www.avito.ru/... из раздела «Сотрудники» Авито PRO.', 'warning');
         if (input) input.focus();
         return;
       }
@@ -8458,6 +8511,9 @@
       }
 
       try {
+        const targetBot = Array.isArray(userBotsList) && userBotsList.length > 0
+          ? (userBotsList.find(b => b.step !== 'active' && b.step !== 'start') || userBotsList[0])
+          : null;
         const payload = {
           chatId: currentChatId,
           store_name: document.getElementById('kbStoreName')?.value.trim() || '',
@@ -8469,6 +8525,9 @@
           discount_policy: document.getElementById('kbDiscountPolicy')?.value || '',
           custom_rules: document.getElementById('kbCustomRules')?.value.trim() || ''
         };
+        if (targetBot && targetBot.id !== undefined && targetBot.id !== null) {
+          payload.bot_id = targetBot.id;
+        }
         const res = await apiFetch(`${API_BASE}/api/store_knowledge`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -8482,6 +8541,7 @@
         localStorage.setItem('majorka_store_knowledge', JSON.stringify(payload));
         window.serverKnowledgeLoaded = true;
         document.getElementById('chainInviteSuccessBox')?.classList.remove('hidden');
+        try { await loadMyBots(); } catch (e) {}
         showToast('Ссылка-приглашение сохранена!', 'Мы получили приглашение сотрудника Авито PRO. Пожалуйста, не нажимайте «Обновить» в Авито PRO, чтобы ссылка не сгорела.', 'success');
       } catch (err) {
         showToast('Ошибка отправки', err.message || 'Не удалось сохранить ссылку-приглашение', 'error');
@@ -8857,7 +8917,8 @@
       const tgBtn = document.getElementById('settTgActionBtn');
       const state = tgBtn?.dataset?.tgState || 'unlinked';
       if (state === 'unlinked') {
-        window.open('https://t.me/avito_deployer_bot', '_blank', 'noopener,noreferrer');
+        const bindUrl = `https://t.me/avito_deployer_bot?start=bind_${encodeURIComponent(currentChatId)}`;
+        window.open(bindUrl, '_blank', 'noopener,noreferrer');
         showToast('Привязка Telegram', 'Откройте @avito_deployer_bot и нажмите Start — уведомления о заявках подключатся автоматически.', 'info');
         return;
       }
