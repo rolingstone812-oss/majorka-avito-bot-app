@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /dashboard.html
+Disallow: /dashboard_backup_gh.html
+Disallow: /preview_welcome.html
+
+Sitemap: https://majorka.online/sitemap.xml
+Host: https://majorka.online
