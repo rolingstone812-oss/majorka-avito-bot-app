@@ -16,4 +16,5 @@
 
 ## Поддержка и контакты
 - Telegram-поддержка 24/7: @chc332
-- Официальный сайт: https://rolingstone812-oss.github.io/majorka-avito-bot-app/
+- Официальный сайт: https://majorka.online/info.html
+- Личный кабинет: https://majorka.online/
